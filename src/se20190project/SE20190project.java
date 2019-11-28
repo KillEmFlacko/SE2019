@@ -17,6 +17,7 @@ public class SE20190project {
     public static void main(String[] args) {
         // TODO code application logic here
         // we we
+        System.out.println("ciao");
     }
     
 }
