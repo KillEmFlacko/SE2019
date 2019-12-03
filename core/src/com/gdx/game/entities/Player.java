@@ -16,11 +16,13 @@ public class Player extends Entity {
 
     public Player(World world, float width, float height, Vector2 position) {
         super(world, width, height, position);
+        initPhysics();
+        initGraphics();
     }
 
     @Override
     protected void initPhysics() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
