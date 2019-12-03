@@ -28,4 +28,10 @@ public class Player extends Entity {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    //ci servono i metodi ACT e DRAW
+    //richiama nel costruttore i metodi initPhysics initGraphics
+    
+    
+    
+    
 }
