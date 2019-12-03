@@ -21,10 +21,6 @@ import sun.net.www.http.KeepAliveCache;
  * @author Giovanni
  */
 public class Player extends Entity {
-    
-    
-    Vector2 velocity = new Vector2(0, 0);
-
 
     public Player(World world, float width, float height, Vector2 position) {
         super(world, width, height, position);
@@ -60,7 +56,7 @@ public class Player extends Entity {
     public void act(float delta) {
         super.act(delta); //To change body of generated methods, choose Tools | Templates.
 
-        
+        Vector2 velocity = new Vector2(0, 0);
         if (Gdx.input.isKeyPressed(Keys.W)) {
             velocity.add(0, 100);
         }
