@@ -45,7 +45,7 @@ public class TitleScreen implements Screen {
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
 
-        label1 = new Label("Hello world!", lblStyle);
+        label1 = new Label("Welcome to Tramutola", lblStyle);
         label1.setSize(Gdx.graphics.getWidth(), 30);
         label1.setAlignment(Align.center);
         label1.setPosition(0, Gdx.graphics.getHeight() / 2 - 15 + 30);
