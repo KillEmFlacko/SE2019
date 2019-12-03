@@ -7,6 +7,7 @@ package com.gdx.game.score;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class HighScoreTable implements Iterable {
         if (file.exists()){
             ArrayList<HighScoreEntry> tmp = loadFromFile();
             Collections.sort(tmp);
-            for(int i=0; i<TOP; i++){
+            for(int i=0; i<tmp.size(); i++){
                 this.table.add(tmp.get(i));
             }
         }
@@ -39,18 +40,18 @@ public class HighScoreTable implements Iterable {
     
     
     public boolean isInTop(long score){
-        return (table.get(TOP-1).getScore() < score);
+        return ((table.size()>0) && table.get(table.size()).getScore() < score);
     }
     
     
     public void insertHighScore(String nickname, long score) throws IOException{
-        if (!isInTop(score))
-            return;
+       // if (!isInTop(score))
+         //   return;
         
         HighScoreEntry entry = new HighScoreEntry(nickname, score);
         table.add(entry);
         Collections.sort(table);
-        table.remove(TOP);
+       // table.remove(TOP);
         saveOnFile();
     }
     
@@ -79,12 +80,11 @@ public class HighScoreTable implements Iterable {
         if (!this.file.exists()){
             this.file.createNewFile();
         }
-        
         PrintWriter writer = new PrintWriter(file);
-        
         for (HighScoreEntry x : this.table){
-            writer.println(x.getNickname() + " " + x.getScore());
+           writer.print(x.getNickname() + " " + x.getScore()+"\n");
         }
+        writer.close();
     }
     
 }
