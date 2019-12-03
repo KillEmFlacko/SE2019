@@ -54,6 +54,7 @@ com_crashlytics_export_strings.xml
 ## NetBeans
 
 /.nb-gradle/private
+.nb-gradle/
 /android/nbproject/private/
 /core/nbproject/private/
 /desktop/nbproject/private/
