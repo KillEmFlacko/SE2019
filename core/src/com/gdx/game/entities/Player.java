@@ -10,8 +10,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.gdx.game.GdxGame;
-import com.gdx.game.screens.GameScreen;
 
 /**
  *
@@ -19,9 +17,7 @@ import com.gdx.game.screens.GameScreen;
  */
 public class Player extends Entity {
 
-    TextureAtlas atlas;
-    GameScreen screen;
-    GdxGame game;
+    private TextureAtlas atlas;
 
     public Player(World world, float width, float height, Vector2 position) {
         super(world, width, height, position);
