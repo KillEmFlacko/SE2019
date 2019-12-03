@@ -21,30 +21,30 @@ import sun.net.www.http.KeepAliveCache;
  * @author Giovanni
  */
 public class Player extends Entity {
-
+    
     public Player(World world, float width, float height, Vector2 position) {
         super(world, width, height, position);
         initPhysics();
     }
-
+    
     @Override
     protected void initPhysics() {
         BodyDef bdDef = new BodyDef();
         bdDef.type = BodyDef.BodyType.DynamicBody;
         bdDef.position.set(300, 400);
         body = world.createBody(bdDef);
-
+        
         CircleShape shape = new CircleShape();
         shape.setRadius(60f);
-
+        
         FixtureDef fixDef = new FixtureDef();
         fixDef.shape = shape;
         fixDef.density = 0.5f;
-
+        
         body.createFixture(fixDef);
         shape.dispose();
     }
-
+    
     @Override
     protected void initGraphics() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -69,7 +69,10 @@ public class Player extends Entity {
         if (Gdx.input.isKeyPressed(Keys.D)) {
             velocity.add(100, 0);
         }
-
+        if (!body.getLinearVelocity().equals(velocity)) {
+            body.setLinearVelocity(velocity);
+        }
+        
     }
-
+    
 }
