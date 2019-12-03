@@ -19,13 +19,12 @@ public abstract class Entity extends Actor {
     protected Vector2 position;
 
     public Entity(World world, float width, float height, Vector2 position) {
-        this.world = world;
-        this.width = width;
-        this.height = height;
-        this.position = position;
+        this.world=world;
+        this.width=width;
+        this.height=height;
+        this.position=position;
     }
 
     protected abstract void initPhysics();
-
     protected abstract void initGraphics();
 }

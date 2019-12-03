@@ -6,10 +6,13 @@ import com.badlogic.gdx.InputEventQueue;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.gdx.game.entities.Player;
 
 /**
  *
@@ -20,7 +23,7 @@ public class GameScreen implements Screen {
     private Stage stage;
     private Game game;
     private World world;
-    private Player player;
+    private Body bdPlayer;
     private Box2DDebugRenderer debugRenderer;
     private InputEventQueue inputEQ;
 
@@ -30,8 +33,25 @@ public class GameScreen implements Screen {
         world = new World(Vector2.Zero, true);
         debugRenderer = new Box2DDebugRenderer();
         inputEQ = new InputEventQueue(stage);
-        Player player = new Player(world, 50, 50, new Vector2(300, 400));
-        stage.addActor(player);
+
+        initPhy();
+    }
+
+    private void initPhy() {
+        BodyDef bdDef = new BodyDef();
+        bdDef.type = BodyDef.BodyType.DynamicBody;
+        bdDef.position.set(300, 400);
+        bdPlayer = world.createBody(bdDef);
+
+        CircleShape shape = new CircleShape();
+        shape.setRadius(60f);
+
+        FixtureDef fixDef = new FixtureDef();
+        fixDef.shape = shape;
+        fixDef.density = 0.5f;
+
+        bdPlayer.createFixture(fixDef);
+        shape.dispose();
     }
 
     @Override
