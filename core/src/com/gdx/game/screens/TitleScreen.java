@@ -45,7 +45,7 @@ public class TitleScreen implements Screen {
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
 
-        label1 = new Label("MOVIMENTO!", lblStyle);
+        label1 = new Label("Welcome to Tramutola", lblStyle);
         label1.setSize(Gdx.graphics.getWidth(), 30);
         label1.setAlignment(Align.center);
         label1.setPosition(0, Gdx.graphics.getHeight() / 2 - 15 + 30);
@@ -76,7 +76,7 @@ public class TitleScreen implements Screen {
 
     @Override
     public void render(float f) {
-        Gdx.gl.glClearColor(0, 1, 0, 1);
+        Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
