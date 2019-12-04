@@ -18,9 +18,10 @@ import java.util.Scanner;
  */
 public class HighScoreFile{
     public final File file; //should be private
+    private static final String PATH = new File("").getAbsolutePath().concat("/assets/highscore.txt");
     
-    public HighScoreFile(String path){
-        this.file= new File (path);
+    public HighScoreFile(){
+        this.file= new File(PATH);
     }
     
     public void saveOnFile(ArrayList<HighScoreEntry> table) throws FileNotFoundException, IOException{

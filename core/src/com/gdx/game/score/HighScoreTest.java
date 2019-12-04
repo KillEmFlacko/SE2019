@@ -16,15 +16,12 @@ public class HighScoreTest {
     private final HighScoreTable table;
 
     public HighScoreTest() throws FileNotFoundException {
-        this.table = new HighScoreTable("/home/salvatore/Documenti/highscore.txt");
+        this.table = new HighScoreTable();
     }
     
     public static void main(String args[]) throws FileNotFoundException, IOException{
         HighScoreTest test = new HighScoreTest();
-        test.table.insertHighScore("sei", 1000);
-        for(HighScoreEntry x : test.table){
-            System.out.println(x);
-        }
+        test.table.insertHighScore("zzz", 5000);
         
     }
     

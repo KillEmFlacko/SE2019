@@ -22,10 +22,10 @@ public class HighScoreTable implements Iterable<HighScoreEntry> {
     private final HighScoreFile savemanager;
     
     
-    public HighScoreTable(String path) throws FileNotFoundException{
+    public HighScoreTable() throws FileNotFoundException{
       //  this.file = new File(path);
         this.table = new ArrayList();
-        this.savemanager = new HighScoreFile(path);
+        this.savemanager = new HighScoreFile();
         
         if (savemanager.file.exists()){
             ArrayList<HighScoreEntry> tmp = savemanager.loadFromFile();
