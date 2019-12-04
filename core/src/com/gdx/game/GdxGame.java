@@ -24,3 +24,4 @@ public class GdxGame extends Game {
     public void dispose() {
     }
 }
+
