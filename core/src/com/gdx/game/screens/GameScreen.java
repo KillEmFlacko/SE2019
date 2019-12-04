@@ -36,7 +36,7 @@ public class GameScreen implements Screen {
         inputEQ = new InputEventQueue(stage);
 
         initPhy();
-        DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 1, 1, new Vector2(0, 0));
+        DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 100, 100, new Vector2(0, 0));
         stage.addActor(db);
         
         

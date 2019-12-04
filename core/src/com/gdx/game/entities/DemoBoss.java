@@ -6,6 +6,9 @@
 package com.gdx.game.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -38,6 +41,7 @@ import com.gdx.game.movements.*;
 public final class DemoBoss extends Boss {
 
     private Float timeAcc = 0f;
+    private Texture regions;
 
     //private Queue<Vector2> animationQ;
     private MovementSet animationQ;
@@ -46,7 +50,7 @@ public final class DemoBoss extends Boss {
         super(name, life, world, width, height, position);
 
         initPhysics();
-
+        initGraphics();
     }
 
     /**
@@ -79,6 +83,7 @@ public final class DemoBoss extends Boss {
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         System.out.println(this.getX());
         animationQ = mvsf.build("Fast", "Triangle", true, false, this.body.getPosition());
+        
         DemoBoss.this.body.setLinearVelocity(animationQ.frontToBack());
 
     }
@@ -94,7 +99,9 @@ public final class DemoBoss extends Boss {
         timeAcc += delta;
         if (timeAcc >= 2.0f) {
             //life = 0;
+            
             Vector2 animation = animationQ.frontToBack();
+            changeTextureRegion(animation);
             Gdx.app.log("V", animation.toString());
             DemoBoss.this.body.setLinearVelocity(animation);
             timeAcc = 0f;
@@ -109,7 +116,8 @@ public final class DemoBoss extends Boss {
 
     @Override
     protected void initGraphics() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        regions = new Texture(Gdx.files.internal("texture/enemy/bosses/test_pack_regions.png"));
+        textureRegion = new TextureRegion(regions, 0.5f, 0.5f, 1f, 1f);
     }
 
     public void kill() {
@@ -179,6 +187,29 @@ public final class DemoBoss extends Boss {
 
     public Object getUserData() {
         return this.body.getUserData();
+    }
+    
+    public void changeTextureRegion(Vector2 animation){
+        
+        if(animation.x > 0){
+            textureRegion = new TextureRegion(regions, 0.5f, 0.5f, 1f, 1f);
+        }else if(animation.x < 0){
+            textureRegion = new TextureRegion(regions, 0f, 0f, 0.5f, 0.5f);
+            
+        }else{
+            if (animation.y < 0){
+                textureRegion = new TextureRegion(regions, 0.5f, 0f, 1f, 0.5f);
+            }else if (animation.y > 0){
+                textureRegion = new TextureRegion(regions, 0f, 0.5f, 0.5f, 1f);
+            }else{
+                textureRegion = new TextureRegion(regions, 0.5f, 0f, 1f, 0.5f);
+            }
+        }
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        batch.draw(textureRegion, body.getPosition().x - width/2, body.getPosition().y - height/2, width, height);
     }
 
     public String getName() {
