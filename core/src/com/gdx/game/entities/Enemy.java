@@ -12,14 +12,13 @@ import com.badlogic.gdx.physics.box2d.World;
  *
  * @author ammanas
  */
-public abstract class Boss extends Enemy {
-    protected String name;
-    protected Integer life;
+public abstract class Enemy extends MortalEntity {
+    protected int life;
 
-    public Boss(String name, Integer life, World world, float width, float height, Vector2 position) {
+    public Enemy(World world, float width, float height, Vector2 position) {
         super(world, width, height, position);
-        this.name = name;
-        this.life = life;
     }
+    
 
+    
 }

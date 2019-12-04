@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.gdx.game.entities.DemoBoss;
 
 /**
  *
@@ -35,6 +36,12 @@ public class GameScreen implements Screen {
         inputEQ = new InputEventQueue(stage);
 
         initPhy();
+        DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 1, 1, new Vector2(0, 0));
+        stage.addActor(db);
+        
+        
+        
+        
     }
 
     private void initPhy() {
@@ -45,10 +52,10 @@ public class GameScreen implements Screen {
 
         CircleShape shape = new CircleShape();
         shape.setRadius(60f);
-
+        
         FixtureDef fixDef = new FixtureDef();
         fixDef.shape = shape;
-        fixDef.density = 0.5f;
+        fixDef.density = 4f;
 
         bdPlayer.createFixture(fixDef);
         shape.dispose();
