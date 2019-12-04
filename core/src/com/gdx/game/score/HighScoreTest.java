@@ -19,10 +19,7 @@ public class HighScoreTest {
         this.table = new HighScoreTable();
     }
     
-    public static void main(String args[]) throws FileNotFoundException, IOException{
-        HighScoreTest test = new HighScoreTest();
-        test.table.insertHighScore("zzz", 5000);
-        
+    public static void main(String args[]) throws FileNotFoundException, IOException{        
     }
     
 }

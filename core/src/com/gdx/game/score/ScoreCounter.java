@@ -11,10 +11,10 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * @author salvatore
  */
-public class CurrentAtomicScore {
+public class ScoreCounter {
     private final AtomicLong score;
     
-    public CurrentAtomicScore(){
+    public ScoreCounter(){
         this.score = new AtomicLong(0);
     }
 
@@ -22,7 +22,7 @@ public class CurrentAtomicScore {
         return this.score.get();
     }
     
-    public void IncreaseScore(long dscore){
+    public void increaseScore(long dscore){
         this.score.addAndGet(dscore);
     }
     
