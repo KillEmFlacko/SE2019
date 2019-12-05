@@ -37,7 +37,7 @@ public class Player extends Entity {
     protected void initPhysics() {
         BodyDef bdDef = new BodyDef();
         bdDef.type = BodyDef.BodyType.DynamicBody;
-        bdDef.position.set(300, 400);
+        bdDef.position.set(300, 100);
         body = world.createBody(bdDef);
 
         PolygonShape shape = new PolygonShape();
