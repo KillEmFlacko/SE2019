@@ -23,6 +23,7 @@ public abstract class MortalEntity extends Entity {
         this.life = life;
     }
 
-    
-
+    public Integer getLife() {
+        return life;
+    }
 }

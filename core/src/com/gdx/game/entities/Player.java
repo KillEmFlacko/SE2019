@@ -17,7 +17,7 @@ import com.gdx.game.factories.Weapon;
  *
  * @author Giovanni
  */
-public final class Player extends Entity {
+public final class Player extends MortalEntity {
 
     private TextureAtlas atlas;
     private final Weapon weapon;
@@ -25,8 +25,8 @@ public final class Player extends Entity {
     private Animation<TextureAtlas.AtlasRegion> idleAnimation;
     private float stateTime = 0f;
 
-    public Player(World world, float width, float height, Vector2 position) {
-        super(world, width, height, position);
+    public Player(String name,int lifepoints,World world, float width, float height, Vector2 position) {
+        super(name,lifepoints,world, width, height, position);
         weapon = new Weapon(this, new BasicBullet(world, 2, position, 10, 100), 5);
         initPhysics();
         initGraphics();

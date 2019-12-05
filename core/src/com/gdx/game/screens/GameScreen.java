@@ -25,14 +25,13 @@ public class GameScreen implements Screen {
     private World world;
     private Player player;
     private Box2DDebugRenderer debugRenderer;
-    private InputEventQueue inputEQ;
 
     public GameScreen(Game aGame) {
         this.game = aGame;
         stage = new Stage(GdxGame.vp);
         world = new World(Vector2.Zero, true);
         debugRenderer = new Box2DDebugRenderer();
-        player = new Player(world, 50, 50, new Vector2(300, 400));
+        player = new Player("uajono",100,world, 50, 50, new Vector2(300, 400));
         stage.addActor(player);
 
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();

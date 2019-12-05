@@ -65,8 +65,8 @@ public final class DemoBoss extends Boss {
 
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(this.position);
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(this.initalPosition);
 
         this.body = this.world.createBody(bodyDef);
         this.body.setUserData("DemoBoss-v1");
@@ -263,18 +263,7 @@ public final class DemoBoss extends Boss {
         }
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-
-        batch.draw(textureRegion, body.getPosition().x - width / 2, body.getPosition().y - height / 2, width, height);
-    }
-
     public String getName() {
         return name;
     }
-
-    public Integer getLife() {
-        return life;
-    }
-
 }
