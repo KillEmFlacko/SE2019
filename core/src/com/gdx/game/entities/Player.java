@@ -2,6 +2,7 @@ package com.gdx.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -20,6 +21,9 @@ public final class Player extends Entity {
 
     private TextureAtlas atlas;
     private Weapon weapon;
+    private Animation<TextureAtlas.AtlasRegion> runAnimation;
+    private Animation<TextureAtlas.AtlasRegion> idleAnimation;
+    private float stateTime = 0f;
 
     public Player(World world, float width, float height, Vector2 position) {
         super(world, width, height, position);
@@ -32,7 +36,7 @@ public final class Player extends Entity {
     protected void initPhysics() {
         BodyDef bdDef = new BodyDef();
         bdDef.type = BodyDef.BodyType.DynamicBody;
-        bdDef.position.set(300, 400);
+        bdDef.position.set(300, 100);
         body = world.createBody(bdDef);
         body.setUserData(this);
 
@@ -51,43 +55,51 @@ public final class Player extends Entity {
 
     @Override
     protected void initGraphics() {
-        atlas = new TextureAtlas(Gdx.files.internal("texture/player/test_pack.atlas"));
-        textureRegion = atlas.findRegion("down");
+        atlas = new TextureAtlas(Gdx.files.internal("texture/player/knight.atlas"));
+        idleAnimation = new Animation(0.15f, atlas.findRegions("m_idle"), Animation.PlayMode.LOOP);
+        runAnimation = new Animation(0.10f, atlas.findRegions("m_run"), Animation.PlayMode.LOOP);
+
     }
 
-    //ci servono i metodi ACT e DRAW
-    //richiama nel costruttore i metodi initPhysics initGraphics
     @Override
     public void act(float delta) {
-        super.act(delta); //To change body of generated methods, choose Tools | Templates.
+        stateTime+= delta;
+        super.act(delta); 
 
         Vector2 velocity = new Vector2(0, 0);
         if (Gdx.input.isKeyPressed(Keys.W)) {
-            velocity.add(0, 20);
+            velocity.add(0, 50);
         }
         if (Gdx.input.isKeyPressed(Keys.S)) {
-            velocity.add(0, -20);
+            velocity.add(0, -50);
         }
         if (Gdx.input.isKeyPressed(Keys.A)) {
-            velocity.add(-20, 0);
+            velocity.add(-50, 0);
         }
         if (Gdx.input.isKeyPressed(Keys.D)) {
-            velocity.add(20, 0);
+            velocity.add(50, 0);
         }
         if (!body.getLinearVelocity().equals(velocity)) {
             body.setLinearVelocity(velocity);
         }
 
-        if (Gdx.input.isKeyJustPressed(Keys.W)) {
-            textureRegion = atlas.findRegion("up");
-        } else if (Gdx.input.isKeyJustPressed(Keys.S)) {
-            textureRegion = atlas.findRegion("down");
-        } else if (Gdx.input.isKeyJustPressed(Keys.A)) {
-            textureRegion = atlas.findRegion("left");
-        } else if (Gdx.input.isKeyJustPressed(Keys.D)) {
-            textureRegion = atlas.findRegion("right");
-        }
-        shouldShoot(delta);
+
+       
+       if(!body.getLinearVelocity().equals(new Vector2(0,0))){
+           textureRegion = runAnimation.getKeyFrame(stateTime);
+       }
+       else{
+           textureRegion = idleAnimation.getKeyFrame(stateTime);
+       }
+       
+       if (textureRegion.isFlipX()){
+            textureRegion.flip(true, false);
+       }
+       
+       if((Gdx.input.isKeyPressed(Keys.A) || Gdx.input.isKeyPressed(Keys.S)) && !(Gdx.input.isKeyPressed(Keys.D))){
+           textureRegion.flip(true, false);
+       }
+       shouldShoot(delta);
     }
 
     @Override
@@ -130,3 +142,4 @@ public final class Player extends Entity {
         }
     }
 }
+   
