@@ -1,0 +1,132 @@
+
+knight.png
+size: 128,128
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+f_hit
+  rotate: false
+  xy: 2, 2
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+f_idle
+  rotate: false
+  xy: 20, 2
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+f_idle
+  rotate: false
+  xy: 38, 2
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+f_idle
+  rotate: false
+  xy: 56, 2
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+f_idle
+  rotate: false
+  xy: 74, 2
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+f_run
+  rotate: false
+  xy: 92, 2
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+f_run
+  rotate: false
+  xy: 110, 2
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+f_run
+  rotate: false
+  xy: 2, 32
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+f_run
+  rotate: false
+  xy: 20, 32
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+m_hit
+  rotate: false
+  xy: 38, 32
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+m_idle
+  rotate: false
+  xy: 56, 32
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+m_idle
+  rotate: false
+  xy: 74, 32
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+m_idle
+  rotate: false
+  xy: 92, 32
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+m_idle
+  rotate: false
+  xy: 110, 32
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+m_run
+  rotate: false
+  xy: 2, 62
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+m_run
+  rotate: false
+  xy: 20, 62
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+m_run
+  rotate: false
+  xy: 38, 62
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+m_run
+  rotate: false
+  xy: 56, 62
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3

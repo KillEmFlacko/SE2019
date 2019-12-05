@@ -36,7 +36,7 @@ public class GameScreen implements Screen {
         inputEQ = new InputEventQueue(stage);
 
         initPhy();
-        DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 100, 100, new Vector2(0, 0));
+        DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 128, 128, new Vector2(Gdx.graphics.getWidth() * 2 / 3, Gdx.graphics.getHeight() * 2/3));
         stage.addActor(db);
         
         
@@ -68,7 +68,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float f) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();

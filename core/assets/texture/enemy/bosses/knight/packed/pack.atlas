@@ -1,0 +1,34 @@
+
+pack.png
+size: 1024,128
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+knight 3 block
+  rotate: false
+  xy: 720, 2
+  size: 294, 42
+  orig: 294, 42
+  offset: 0, 0
+  index: -1
+knight death animation
+  rotate: false
+  xy: 2, 2
+  size: 378, 42
+  orig: 378, 42
+  offset: 0, 0
+  index: -1
+knight walk animation
+  rotate: false
+  xy: 382, 2
+  size: 336, 42
+  orig: 336, 42
+  offset: 0, 0
+  index: -1
+knight_slash
+  rotate: false
+  xy: 2, 46
+  size: 800, 80
+  orig: 800, 80
+  offset: 0, 0
+  index: -1

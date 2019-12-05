@@ -13,9 +13,6 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class YMovement extends Movement{
 
-    private float ySpeed;
-    private Vector2 v;
-
     public YMovement(float ySpeed) {
         super(0, ySpeed);
         this.ySpeed = ySpeed;

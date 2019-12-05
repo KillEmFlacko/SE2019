@@ -18,13 +18,14 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class MovementSetFactory {
 
-    private static int nInstances = 0;
-    private static MovementSetFactory msf;
+    private static int nInstances = 1;
+    private final static MovementSetFactory msf = new MovementSetFactory();
 
     private MovementSetFactory() {
     }
 
     public static MovementSetFactory instanceOf() {
+        /*
         if (nInstances == 0) {
             nInstances = 1;
             msf = new MovementSetFactory();
@@ -32,13 +33,13 @@ public class MovementSetFactory {
         } else {
             return msf;
         }
+        */
+        return msf;
     }
 
     /**
      * @param speed Slow Medium Fast
-     * @param shape Square : Staring from upper right vertex Triangle : (not
-     * accurate) base is parallel to x-axis Circle : not implemented yet just
-     * use Square for now
+     * @param shape Square : Staring from upper right vertex 
      * @param clockwise
      * @param random if you want to make random moves do not use for now
      * @param v position of the body
@@ -49,16 +50,19 @@ public class MovementSetFactory {
 
         speedModes.put("Slow", 20f);
         speedModes.put("Medium", 40f);
-        speedModes.put("Fast", 100f);
+        speedModes.put("Fast", 80f);
 
         Gdx.app.log("Speed", speedModes.get(speed).toString());
-        Gdx.app.log("shape", shape);
+        Gdx.app.log("Shape", shape);
+        
         return selectMoves(speedModes.get(speed), shape, clockwise, random, v);
 
     }
 
     protected MovementSet selectMoves(float selectedSpeed, String shape, boolean clockwise, boolean random, Vector2 v) {
+        
         MovementSet mv = new MovementSet();
+        
         System.out.println(selectedSpeed);
         if (!random) {
 
@@ -82,6 +86,7 @@ public class MovementSetFactory {
                     break;
 
                 }
+                /*
                 case ("Triangle"): {
 
                     Gdx.app.log("shape", shape);
@@ -90,8 +95,9 @@ public class MovementSetFactory {
 
                         XMovement x = new XMovement(selectedSpeed);
                         mv.add(x);
+                        //first movement is on x axis so abs is x or selected speed
                         float abs = x.x;
-                        Float newSpeed =  ((float)((abs)/(Math.cos(60*Math.PI/180)))) - 0.000000000006f;
+                        Float newSpeed =  (((abs)/(float)(Math.cos(60*Math.PI/180))));
                         //we are trying to adjust loss from double to float conversion
                         Movement y = new Movement(-selectedSpeed, -newSpeed);
                         
@@ -104,6 +110,13 @@ public class MovementSetFactory {
                         
                         mv.add(new Movement(-selectedSpeed, newSpeed));
                     }
+                    break;
+                }
+                */
+                case("StraightLine"):{
+                    mv.add(new XMovement(-selectedSpeed));
+                    mv.add(new XMovement(selectedSpeed));
+                    
                     break;
                 }
                 case ("Circle"): {

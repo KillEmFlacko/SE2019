@@ -16,20 +16,28 @@ import java.util.Queue;
  *
  * @author ammanas
  */
-public class MovementSet {
+public class MovementSet extends LinkedList{
     
     
-    private Queue<Movement> moveSet = new LinkedList<>();
+    private Queue<Movement> moveSet;
 
+    public Queue<Movement> getMoveSet() {
+        return moveSet;
+    }
+    
+    
     public MovementSet() {
+        this.moveSet = new LinkedList<>();
     }
     
     
     
     public void add(Movement m){
-        moveSet.add(m);
+        //moveSet.add(m);
+        moveSet.offer(m);
     }
     
+    @Override
     public Movement remove(){
         return moveSet.remove();
     }
@@ -40,7 +48,7 @@ public class MovementSet {
         Gdx.app.log("Movement", m.toString());
         return m;
     }
-
     
+   
     
 }

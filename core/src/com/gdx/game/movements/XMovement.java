@@ -13,13 +13,11 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class XMovement extends Movement{
 
-    private float xSpeed;
-    private Vector2 v;
-
+    
     public XMovement(float xSpeed) {
         super(xSpeed, 0);        
         this.xSpeed = xSpeed;
-        v = new Vector2(xSpeed,0);
+        super.v = new Vector2(xSpeed,0);
         
     }
 

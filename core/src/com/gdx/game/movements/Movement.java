@@ -10,12 +10,14 @@ import com.badlogic.gdx.math.Vector2;
 /**
  *
  * @author ammanas
+ * 
  */
+//Decorator pattern
 public class Movement extends Vector2{
     
-    private float xSpeed;
-    private float ySpeed;
-    private Vector2 v;
+    protected float xSpeed;
+    protected float ySpeed;
+    protected Vector2 v;
     
 
     public Movement(float xSpeed, float ySpeed) {
