@@ -13,7 +13,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.gdx.game.entities.DemoBoss;
+import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.movements.MovementSetFactory;
 
 /**
@@ -39,7 +39,8 @@ public class GameScreen implements Screen {
         initPhy();
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         Vector2 v = new Vector2(Gdx.graphics.getWidth() * 2 / 3, Gdx.graphics.getHeight() * 2/3);
-        DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 128, 128, v,mvsf.build("Fast", "StraightLine", false, false, v));
+        //v is the player position to substitute when merge is complete
+        DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 128, 128, v, mvsf.build("Fast", "Square" ,false, v, 3));
         stage.addActor(db);
         
         

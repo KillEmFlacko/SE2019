@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.gdx.game.entities;
+package com.gdx.game.entities.bosses;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.gdx.game.entities.MortalEntity;
 
 /**
  *

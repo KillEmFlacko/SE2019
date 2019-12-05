@@ -3,15 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.gdx.game.entities;
+package com.gdx.game.entities.bosses;
 
 /**
  *
  * @author ammanas
  */
-public class Bullet {
-    public int getDamage(){
-        return 0;
-    }
-    
+public enum State {
+
+    Idle,
+    Moving,
+    Attacking,
+    Blocking,
+    Dying,
+    Dead,
+    AttackMoving
+
 }

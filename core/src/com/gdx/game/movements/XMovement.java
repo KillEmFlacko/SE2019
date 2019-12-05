@@ -15,11 +15,15 @@ public class XMovement extends Movement{
 
     
     public XMovement(float xSpeed) {
-        super(xSpeed, 0);        
-        this.xSpeed = xSpeed;
-        super.v = new Vector2(xSpeed,0);
+        super(xSpeed, 0);
         
     }
+
+    public XMovement(float xSpeed, String label) {
+        super(xSpeed, 0, label);
+    }
+    
+    
 
     public Vector2 getV() {
         

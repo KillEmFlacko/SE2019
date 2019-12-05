@@ -15,10 +15,13 @@ public class YMovement extends Movement{
 
     public YMovement(float ySpeed) {
         super(0, ySpeed);
-        this.ySpeed = ySpeed;
-        v = new Vector2(0, ySpeed);
     }
 
+    public YMovement(float ySpeed, String label) {
+        super(0, ySpeed, label);
+    }
+
+    
 
 
     public Vector2 getV() {

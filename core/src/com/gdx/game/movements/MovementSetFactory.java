@@ -8,9 +8,7 @@ package com.gdx.game.movements;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 
 /**
  *
@@ -25,27 +23,20 @@ public class MovementSetFactory {
     }
 
     public static MovementSetFactory instanceOf() {
-        /*
-        if (nInstances == 0) {
-            nInstances = 1;
-            msf = new MovementSetFactory();
-            return msf;
-        } else {
-            return msf;
-        }
-        */
         return msf;
     }
 
     /**
      * @param speed Slow Medium Fast
-     * @param shape Square : Staring from upper right vertex 
+     * @param shape Square : Staring from upper right vertex, 4 movements
+     * StraightLine : goes in a straight line, 2 movements
      * @param clockwise
-     * @param random if you want to make random moves do not use for now
-     * @param v position of the body
+     * @param playerPosition the player position
+     * @param towardsPlayer tells after how many times the boss goes towards the
+     * Player
      * @return
      */
-    public MovementSet build(String speed, String shape, boolean clockwise, boolean random, Vector2 v) {
+    public MovementSet build(String speed, String shape, boolean clockwise, Vector2 playerPosition, int towardsPlayer) {
         HashMap<String, Float> speedModes = new HashMap<>();
 
         speedModes.put("Slow", 20f);
@@ -53,80 +44,44 @@ public class MovementSetFactory {
         speedModes.put("Fast", 80f);
 
         Gdx.app.log("Speed", speedModes.get(speed).toString());
-        Gdx.app.log("Shape", shape);
-        
-        return selectMoves(speedModes.get(speed), shape, clockwise, random, v);
+        //Gdx.app.log("Shape", shape);
+
+        return selectMoves(speedModes.get(speed),shape, clockwise, playerPosition,towardsPlayer);
 
     }
 
-    protected MovementSet selectMoves(float selectedSpeed, String shape, boolean clockwise, boolean random, Vector2 v) {
-        
+    protected MovementSet selectMoves(float selectedSpeed, String shape, boolean clockwise, Vector2 playerVector,int times) {
+
         MovementSet mv = new MovementSet();
-        
+
         System.out.println(selectedSpeed);
-        if (!random) {
+        
+        switch (shape) {
+            case ("Square"): {
 
-            switch (shape) {
-                case ("Square"): {
-
-                    if (clockwise) {
-                        mv.add(new YMovement(-selectedSpeed));
-                        mv.add(new XMovement(-selectedSpeed));
-                        mv.add(new YMovement(selectedSpeed));
-                        mv.add(new XMovement(selectedSpeed));
-
-                    } else {
-
-                        mv.add(new XMovement(-selectedSpeed));
-                        mv.add(new YMovement(-selectedSpeed));
-                        mv.add(new XMovement(selectedSpeed));
-                        mv.add(new YMovement(selectedSpeed));
-
-                    }
-                    break;
-
-                }
-                /*
-                case ("Triangle"): {
-
-                    Gdx.app.log("shape", shape);
-                    float straightLine = v.y / v.x;
-                    if (clockwise) {
-
-                        XMovement x = new XMovement(selectedSpeed);
-                        mv.add(x);
-                        //first movement is on x axis so abs is x or selected speed
-                        float abs = x.x;
-                        Float newSpeed =  (((abs)/(float)(Math.cos(60*Math.PI/180))));
-                        //we are trying to adjust loss from double to float conversion
-                        Movement y = new Movement(-selectedSpeed, -newSpeed);
-                        
-                        mv.add(y);
-                        
-
-                        //System.out.println("ciao" + first.getV().len() * 2 * (float) (Math.cos(180 - first.getV().angle())));
-                        //float newVel = (float) Math.sqrt(Math.pow(first.getV().x, 2) + Math.pow(first.getV().y, 2)) * 2 * (float) Math.cos(180 - first.getV().angle());
-                        //XMovement x = new XMovement(newVel + 13)
-                        
-                        mv.add(new Movement(-selectedSpeed, newSpeed));
-                    }
-                    break;
-                }
-                */
-                case("StraightLine"):{
+                if (clockwise) {
+                    mv.add(new YMovement(-selectedSpeed));
                     mv.add(new XMovement(-selectedSpeed));
+                    mv.add(new YMovement(selectedSpeed));
                     mv.add(new XMovement(selectedSpeed));
-                    
-                    break;
-                }
-                case ("Circle"): {
-                    throw new NotImplementedException();
+
+                } else {
+
+                    mv.add(new XMovement(-selectedSpeed));
+                    mv.add(new YMovement(-selectedSpeed));
+                    mv.add(new XMovement(selectedSpeed));
+                    mv.add(new YMovement(selectedSpeed));
 
                 }
+                break;
+
             }
+            case ("StraightLine"): {
+                mv.add(new XMovement(-selectedSpeed));
+                mv.add(new XMovement(selectedSpeed));
 
-        } else {
-
+                break;
+            }
         }
         return mv;
     }
