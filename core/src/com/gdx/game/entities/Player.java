@@ -59,12 +59,10 @@ public class Player extends Entity {
 
     }
 
-    //ci servono i metodi ACT e DRAW
-    //richiama nel costruttore i metodi initPhysics initGraphics
     @Override
     public void act(float delta) {
         stateTime+= delta;
-        super.act(delta); //To change body of generated methods, choose Tools | Templates.
+        super.act(delta); 
 
         Vector2 velocity = new Vector2(0, 0);
         if (Gdx.input.isKeyPressed(Keys.W)) {
