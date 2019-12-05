@@ -56,9 +56,9 @@ public final class DemoBoss extends Boss {
     private MovementSet movementQ;
 
     //THIS CLASS ASSUMES SPRITES ARE FACING RIGHT WHEN GIVEN TO IT
-    public DemoBoss(String name, Integer life, World world, float width, float height, Vector2 position) {
+    public DemoBoss(String name, Integer life, World world, float width, float height, Vector2 position,MovementSet movementQ) {
         super(name, life, world, width, height, position);
-
+        this.movementQ = movementQ;
         initPhysics();
         initGraphics();
         //Movement first = movementQ.frontToBack();
@@ -93,6 +93,7 @@ public final class DemoBoss extends Boss {
 
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         System.out.println(this.getX());
+        
         movementQ = mvsf.build("Fast", "StraightLine", false, false, this.body.getPosition());
 
     }
