@@ -29,14 +29,13 @@ public class GameScreen implements Screen {
         stage = new Stage();
         world = new World(Vector2.Zero, true);
         debugRenderer = new Box2DDebugRenderer();
-        inputEQ = new InputEventQueue(stage);
         Player player = new Player(world, 50, 50, new Vector2(300, 400));
         stage.addActor(player);
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(inputEQ);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

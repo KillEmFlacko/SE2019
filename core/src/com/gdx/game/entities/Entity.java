@@ -16,16 +16,29 @@ public abstract class Entity extends Actor {
     protected Body body;
     protected TextureRegion textureRegion;
     protected float width, height;
-    protected Vector2 position;
+    protected Vector2 initalPosition;
 
-    public Entity(World world, float width, float height, Vector2 position) {
+    public Entity(World world, float width, float height, Vector2 initialPosition) {
         this.world = world;
         this.width = width;
         this.height = height;
-        this.position = position;
+        this.initalPosition = initialPosition;
     }
 
     protected abstract void initPhysics();
 
     protected abstract void initGraphics();
+
+    // --------------------- Physics:Velocity
+    protected abstract void setLinearVelocity(Vector2 velocity);
+
+    protected abstract void setLinearVelocity(float x, float y);
+
+    protected abstract Vector2 getLinearVelocity();
+    
+    /**
+     * Returns the actual entity position.
+     * @return the actual entity position
+     */
+    public abstract Vector2 getPosition();
 }
