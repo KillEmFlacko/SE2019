@@ -69,7 +69,7 @@ public final class DemoBoss extends Boss {
         bodyDef.position.set(this.initalPosition);
 
         this.body = this.world.createBody(bodyDef);
-        this.body.setUserData("DemoBoss-v1");
+        this.body.setUserData(this);
         CircleShape shape = new CircleShape();
         //PolygonShape p = new PolygonShape();        
         //p.setAsBox(width/2, height/2);
@@ -78,10 +78,11 @@ public final class DemoBoss extends Boss {
         
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
+        fixtureDef.isSensor = true;
         fixtureDef.density = 5f;
 
         Fixture fixture = body.createFixture(fixtureDef);
-        fixture.setUserData(this);
+        fixture.setUserData(body);
         shape.dispose();
 
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();

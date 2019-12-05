@@ -22,7 +22,7 @@ public class FilterFactory {
     public Filter getPlayerFilter() {
         Filter f = new Filter();
         f.categoryBits = PLAYER_CATEGORY;
-        f.maskBits = ENEMY_BULLET_CATEGORY;
+        f.maskBits = (short) (ENEMY_BULLET_CATEGORY | ENEMY_CATEGORY);
         return f;
     }
 
@@ -36,7 +36,7 @@ public class FilterFactory {
     public Filter getEnemyFilter() {
         Filter f = new Filter();
         f.categoryBits = ENEMY_CATEGORY;
-        f.maskBits = PLAYER_BULLET_CATEGORY;
+        f.maskBits = (short) (PLAYER_CATEGORY | PLAYER_BULLET_CATEGORY);
         return f;
     }
 

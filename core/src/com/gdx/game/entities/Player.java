@@ -25,8 +25,8 @@ public final class Player extends MortalEntity {
     private Animation<TextureAtlas.AtlasRegion> idleAnimation;
     private float stateTime = 0f;
 
-    public Player(String name,int lifepoints,World world, float width, float height, Vector2 position) {
-        super(name,lifepoints,world, width, height, position);
+    public Player(String name, int lifepoints, World world, float width, float height, Vector2 position) {
+        super(name, lifepoints, world, width, height, position);
         weapon = new Weapon(this, new BasicBullet(world, 2, position, 10, 100), 5);
         initPhysics();
         initGraphics();
@@ -47,6 +47,7 @@ public final class Player extends MortalEntity {
         FixtureDef fixDef = new FixtureDef();
         fixDef.shape = shape;
         ff.copyFilter(fixDef.filter, ff.getPlayerFilter());
+        fixDef.isSensor = true;
         fixDef.density = 0.5f;
 
         Fixture fixt = body.createFixture(fixDef);

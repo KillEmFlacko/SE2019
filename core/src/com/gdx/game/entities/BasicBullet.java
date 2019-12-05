@@ -28,7 +28,7 @@ public final class BasicBullet extends Bullet {
     public void init() {
         initPhysics();
     }
-    
+
     @Override
     protected void initPhysics() {
         BodyDef bdDef = new BodyDef();
