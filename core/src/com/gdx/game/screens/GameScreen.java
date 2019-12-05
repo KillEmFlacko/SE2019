@@ -30,7 +30,7 @@ public class GameScreen implements Screen {
         world = new World(Vector2.Zero, true);
         debugRenderer = new Box2DDebugRenderer();
         inputEQ = new InputEventQueue(stage);
-        Player player = new Player(world, 50, 50, new Vector2(300, 400));
+        player = new Player(world, 50, 50, new Vector2(300, 400));
         stage.addActor(player);
     }
 

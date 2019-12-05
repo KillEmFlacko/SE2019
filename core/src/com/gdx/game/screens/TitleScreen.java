@@ -54,7 +54,8 @@ public class TitleScreen implements Screen {
         TextButton btnButton = new TextButton("Play!", GdxGame.skin, "default");
         btnButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
         btnButton.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - btnButton.getHeight() / 2 - padding);
-        btnButton.addListener(new InputListener() {
+        
+          btnButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 TitleScreen.this.dispose();
@@ -65,9 +66,6 @@ public class TitleScreen implements Screen {
         stage.addActor(btnButton);
     }
 
-    private void initPhy() {
-
-    }
 
     @Override
     public void show() {
@@ -101,5 +99,6 @@ public class TitleScreen implements Screen {
 
     @Override
     public void hide() {
+        
     }
 }

@@ -31,8 +31,12 @@ public class Player extends Entity {
         initPhysics();
         initGraphics();
 
+    }       
+    
+    public Vector2 getPosition(){
+       return body.getPosition();
     }
-
+   
     @Override
     protected void initPhysics() {
         BodyDef bdDef = new BodyDef();
@@ -49,6 +53,7 @@ public class Player extends Entity {
 
         body.createFixture(fixDef);
         shape.dispose();
+      
     }
 
     @Override
@@ -102,6 +107,7 @@ public class Player extends Entity {
     public void draw(Batch batch, float parentAlpha) { //Draw dice al batch cosa deve disegnare. Lo stage ogni volta che fai stage.draw chiama tutti i draw degli actors passandogli il batch in modo che possono contribire al batch e disegna tutto insieme
 
         batch.draw(textureRegion, body.getPosition().x - width / 2, body.getPosition().y - height / 2, width, height);
+        
 
     }
 

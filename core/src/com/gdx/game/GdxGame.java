@@ -13,11 +13,13 @@ public class GdxGame extends Game {
     public void create() {
         skin = new Skin(Gdx.files.internal("skin/expee-ui.json"));
         this.setScreen(new TitleScreen(this));
+        
     }
 
     @Override
     public void render() {
-        super.render();
+          super.render();
+        
     }
 
     @Override
