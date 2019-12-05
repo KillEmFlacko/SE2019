@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.gdx.game.entities;
+package com.gdx.game.factories;
 
 import com.badlogic.gdx.physics.box2d.Filter;
 
 /**
- *
+ * RIVEDERE, NON E' UNA VERA E PROPRIA FACTORY
  * @author Armando
  */
 public class FilterFactory {

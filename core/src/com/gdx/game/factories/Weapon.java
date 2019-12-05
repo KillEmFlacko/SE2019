@@ -9,7 +9,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.gdx.game.entities.Entity;
 import com.gdx.game.entities.Bullet;
-import com.gdx.game.entities.FilterFactory;
 import com.gdx.game.entities.Player;
 import java.util.Date;
 
