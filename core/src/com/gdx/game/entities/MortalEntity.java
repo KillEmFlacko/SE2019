@@ -12,10 +12,17 @@ import com.badlogic.gdx.physics.box2d.World;
  *
  * @author ammanas
  */
-public abstract class MortalEntity extends Entity{
-    
-    public MortalEntity(World world, float width, float height, Vector2 position) {
+public abstract class MortalEntity extends Entity {
+
+    protected String name;
+    protected Integer life;
+
+    public MortalEntity(String name, Integer life, World world, float width, float height, Vector2 position) {
         super(world, width, height, position);
+        this.name = name;
+        this.life = life;
     }
+
     
+
 }

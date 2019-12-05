@@ -26,7 +26,6 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.gdx.game.entities.Boss;
 import com.gdx.game.entities.Bullet;
 import com.gdx.game.movements.MovementSetFactory;
 

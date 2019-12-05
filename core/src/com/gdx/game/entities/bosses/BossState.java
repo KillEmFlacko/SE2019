@@ -7,7 +7,6 @@ package com.gdx.game.entities.bosses;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.gdx.game.entities.Boss;
 /**
  *
  * @author ammanas
