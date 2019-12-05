@@ -1,5 +1,6 @@
 package com.gdx.game.entities;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -24,21 +25,34 @@ public abstract class Entity extends Actor {
         this.height = height;
         this.initalPosition = initialPosition;
     }
+    @Override
+    public void draw(Batch batch, float parentAlpha) { //Draw dice al batch cosa deve disegnare. Lo stage ogni volta che fai stage.draw chiama tutti i draw degli actors passandogli il batch in modo che possono contribire al batch e disegna tutto insieme
+        batch.draw(textureRegion, body.getPosition().x - width / 2, body.getPosition().y - height / 2, width, height);
+    }
+    
 
     protected abstract void initPhysics();
 
     protected abstract void initGraphics();
 
     // --------------------- Physics:Velocity
-    protected abstract void setLinearVelocity(Vector2 velocity);
+    protected void setLinearVelocity(Vector2 velocity){
+        body.setLinearVelocity(velocity);
+    }
 
-    protected abstract void setLinearVelocity(float x, float y);
+    protected void setLinearVelocity(float x, float y){
+        body.setLinearVelocity(x, y);
+    }
 
-    protected abstract Vector2 getLinearVelocity();
+    protected Vector2 getLinearVelocity(){
+        return body.getLinearVelocity();
+    }
     
     /**
      * Returns the actual entity position.
      * @return the actual entity position
      */
-    public abstract Vector2 getPosition();
+    public Vector2 getPosition(){
+        return body.getPosition();
+    }
 }

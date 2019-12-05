@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.gdx.game.GdxGame;
 import com.gdx.game.entities.Player;
 
 /**
@@ -26,7 +27,7 @@ public class GameScreen implements Screen {
 
     public GameScreen(Game aGame) {
         this.game = aGame;
-        stage = new Stage();
+        stage = new Stage(GdxGame.vp);
         world = new World(Vector2.Zero, true);
         debugRenderer = new Box2DDebugRenderer();
         Player player = new Player(world, 50, 50, new Vector2(300, 400));

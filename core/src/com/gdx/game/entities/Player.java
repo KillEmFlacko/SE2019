@@ -4,7 +4,6 @@ import com.gdx.game.factories.FilterFactory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -21,7 +20,7 @@ import com.gdx.game.factories.Weapon;
 public final class Player extends Entity {
 
     private TextureAtlas atlas;
-    private Weapon weapon;
+    private final Weapon weapon;
     private Animation<TextureAtlas.AtlasRegion> runAnimation;
     private Animation<TextureAtlas.AtlasRegion> idleAnimation;
     private float stateTime = 0f;
@@ -44,9 +43,10 @@ public final class Player extends Entity {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width / 2, height / 2);
 
+        FilterFactory ff = new FilterFactory();
         FixtureDef fixDef = new FixtureDef();
         fixDef.shape = shape;
-        FilterFactory.copyFilter(fixDef.filter, FilterFactory.getPlayerFilter());
+        ff.copyFilter(fixDef.filter, ff.getPlayerFilter());
         fixDef.density = 0.5f;
 
         Fixture fixt = body.createFixture(fixDef);
@@ -64,8 +64,8 @@ public final class Player extends Entity {
 
     @Override
     public void act(float delta) {
-        stateTime+= delta;
-        super.act(delta); 
+        stateTime += delta;
+        super.act(delta);
 
         Vector2 velocity = new Vector2(0, 0);
         if (Gdx.input.isKeyPressed(Keys.W)) {
@@ -81,51 +81,23 @@ public final class Player extends Entity {
             velocity.add(50, 0);
         }
         if (!body.getLinearVelocity().equals(velocity)) {
-            body.setLinearVelocity(velocity);
+            setLinearVelocity(velocity);
         }
 
+        if (!body.getLinearVelocity().equals(new Vector2(0, 0))) {
+            textureRegion = runAnimation.getKeyFrame(stateTime);
+        } else {
+            textureRegion = idleAnimation.getKeyFrame(stateTime);
+        }
 
-       
-       if(!body.getLinearVelocity().equals(new Vector2(0,0))){
-           textureRegion = runAnimation.getKeyFrame(stateTime);
-       }
-       else{
-           textureRegion = idleAnimation.getKeyFrame(stateTime);
-       }
-       
-       if (textureRegion.isFlipX()){
+        if (textureRegion.isFlipX()) {
             textureRegion.flip(true, false);
-       }
-       
-       if((Gdx.input.isKeyPressed(Keys.A) || Gdx.input.isKeyPressed(Keys.S)) && !(Gdx.input.isKeyPressed(Keys.D))){
-           textureRegion.flip(true, false);
-       }
-       shouldShoot(delta);
-    }
+        }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) { //Draw dice al batch cosa deve disegnare. Lo stage ogni volta che fai stage.draw chiama tutti i draw degli actors passandogli il batch in modo che possono contribire al batch e disegna tutto insieme
-        batch.draw(textureRegion, body.getPosition().x - width / 2, body.getPosition().y - height / 2, width, height);
-    }
-
-    @Override
-    protected void setLinearVelocity(Vector2 velocity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void setLinearVelocity(float x, float y) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected Vector2 getLinearVelocity() {
-        return body.getLinearVelocity();
-    }
-
-    @Override
-    public Vector2 getPosition() {
-        return body.getPosition();
+        if ((Gdx.input.isKeyPressed(Keys.A) || Gdx.input.isKeyPressed(Keys.S)) && !(Gdx.input.isKeyPressed(Keys.D))) {
+            textureRegion.flip(true, false);
+        }
+        shouldShoot(delta);
     }
 
     public void shouldShoot(float delta) {
@@ -143,4 +115,3 @@ public final class Player extends Entity {
         }
     }
 }
-   
