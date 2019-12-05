@@ -26,14 +26,14 @@ import net.dermetfan.gdx.physics.box2d.ContactMultiplexer;
 public class GameScreen implements Screen {
 
     private Stage stage;
-    private Game game;
+    private GdxGame game;
     private World world;
     private Player player;
     private Box2DDebugRenderer debugRenderer;
 
-    public GameScreen(Game aGame) {
+    public GameScreen(GdxGame aGame) {
         this.game = aGame;
-        stage = new Stage(GdxGame.vp);
+        stage = new Stage(aGame.vp);
         world = new World(Vector2.Zero, true);
         ContactListener listener = new ContactListener() {
             @Override

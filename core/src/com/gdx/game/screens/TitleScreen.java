@@ -22,13 +22,13 @@ import com.gdx.game.GdxGame;
 public class TitleScreen implements Screen {
 
     private Stage stage;
-    private Game game;
+    private GdxGame game;
     private Label label1;
     private int padding = 15;
 
-    public TitleScreen(Game aGame) {
+    public TitleScreen(GdxGame aGame) {
         this.game = aGame;
-        this.stage = new Stage(GdxGame.vp);
+        this.stage = new Stage(aGame.vp);
         initUI();
     }
 
@@ -51,7 +51,7 @@ public class TitleScreen implements Screen {
         label1.setPosition(0, Gdx.graphics.getHeight() / 2 - 15 + 30);
         stage.addActor(label1);
 
-        TextButton btnButton = new TextButton("Play!", GdxGame.skin, "default");
+        TextButton btnButton = new TextButton("Play!", game.skin, "default");
         btnButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
         btnButton.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - btnButton.getHeight() / 2 - padding);
         btnButton.addListener(new InputListener() {
