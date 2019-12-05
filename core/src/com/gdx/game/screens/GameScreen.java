@@ -11,6 +11,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.gdx.game.GdxGame;
 import com.gdx.game.entities.Player;
+import com.gdx.game.entities.bosses.DemoBoss;
+import com.gdx.game.movements.MovementSetFactory;
 
 /**
  *
@@ -32,6 +34,12 @@ public class GameScreen implements Screen {
         debugRenderer = new Box2DDebugRenderer();
         player = new Player(world, 50, 50, new Vector2(300, 400));
         stage.addActor(player);
+
+        MovementSetFactory mvsf = MovementSetFactory.instanceOf();
+        Vector2 v = new Vector2(Gdx.graphics.getWidth() * 2 / 3, Gdx.graphics.getHeight() * 2/3);
+        //v is the player position to substitute when merge is complete
+        DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 100, 100, v, mvsf.build("Fast", "Square" ,false, v, 3));
+        stage.addActor(db);
     }
 
     @Override
@@ -41,7 +49,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float f) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
