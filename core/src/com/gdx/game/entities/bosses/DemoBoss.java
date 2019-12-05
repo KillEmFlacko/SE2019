@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -21,6 +23,8 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.entities.Boss;
 import com.gdx.game.entities.Bullet;
@@ -40,10 +44,14 @@ public final class DemoBoss extends Boss {
     private Animation<TextureRegion> movementAnimation;
     private TextureAtlas atlas;
     private MovementSet movementQ;
+    private BossState bossState;
 
     public DemoBoss(String name, Integer life, World world, float width, float height, Vector2 position,MovementSet movementQ) {
         super(name, life, world, width, height, position);
         this.movementQ = movementQ;
+        
+        //bossState = new IdleState(); TO ADD
+        //this.movementQ = bossState.onIdle() TO ADD
         initPhysics();
         initGraphics();
 
@@ -64,8 +72,11 @@ public final class DemoBoss extends Boss {
         this.body = this.world.createBody(bodyDef);
         this.body.setUserData("DemoBoss-v1");
         CircleShape shape = new CircleShape();
-        shape.setRadius(40f);
-
+        //PolygonShape p = new PolygonShape();        
+        //p.setAsBox(width/2, height/2);
+        shape.setRadius(35f);
+        
+        
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 5f;
@@ -105,6 +116,15 @@ public final class DemoBoss extends Boss {
 
     }
 
+    public BossState getBossState() {
+        return bossState;
+    }
+
+    public void setBossState(BossState bossState) {
+        this.bossState = bossState;
+    }
+    
+    
     /**
      * Method instantiates the graphics of the Actor. Do not call directly.
      */
@@ -114,7 +134,7 @@ public final class DemoBoss extends Boss {
         //atlas = new TextureAtlas(Gdx.files.internal("texture/enemy/bosses/knight/knight_run/knight.atlas"));
         atlas = new TextureAtlas(Gdx.files.internal("texture/enemy/bosses/monster_run/monster_run.atlas"));
 
-        System.out.println(atlas.findRegions("run").size);
+        //System.out.println(atlas.findRegions("run").size);
         movementAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("big_demon"), PlayMode.LOOP);
         //movementAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("f_run"), PlayMode.LOOP);
     }

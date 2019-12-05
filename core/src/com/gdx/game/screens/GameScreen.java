@@ -40,7 +40,7 @@ public class GameScreen implements Screen {
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         Vector2 v = new Vector2(Gdx.graphics.getWidth() * 2 / 3, Gdx.graphics.getHeight() * 2/3);
         //v is the player position to substitute when merge is complete
-        DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 128, 128, v, mvsf.build("Fast", "Square" ,false, v, 3));
+        DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 100, 100, v, mvsf.build("Fast", "Square" ,false, v, 3));
         stage.addActor(db);
         
         
