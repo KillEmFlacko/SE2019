@@ -69,7 +69,7 @@ public class TitleScreen implements Screen {
         });
         stage.addActor(btnButton);
  
-        TextButton btnButton2 = new TextButton("Score", GdxGame.skin, "default");
+        TextButton btnButton2 = new TextButton("Score", GdxGame.game.skin, "default");
         btnButton2.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
         btnButton2.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - btnButton.getHeight() / 2 - padding*BUTTON_SPACE);
         btnButton2.addListener(new InputListener() {

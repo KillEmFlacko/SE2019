@@ -24,15 +24,17 @@ import java.util.ArrayList;
 
 public class ScoreScreen implements Screen{
     
-    private final Game game;
+    private final GdxGame game;
     private final Stage stage;
     private final ArrayList<Label> labelArray;
     private Label labelTitle;
     private final int padding = 15;
     private final HighScoreTable hst;
+    private float colWidth;
+    private float rowHeight;
 
     
-    public ScoreScreen(Game game) throws FileNotFoundException, IOException {
+    public ScoreScreen(GdxGame game) throws FileNotFoundException, IOException {
         this.hst = new HighScoreTable();
         this.game = game;
         this.stage = new Stage();    
@@ -61,9 +63,11 @@ public class ScoreScreen implements Screen{
         labelTitle.setPosition(0, Gdx.graphics.getHeight()/2 + 300);
         stage.addActor(labelTitle);
 
-        TextButton btnButton = new TextButton("Back", GdxGame.skin, "default");
-        btnButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
-        btnButton.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2 - padding*32, Gdx.graphics.getHeight() / 2 - btnButton.getHeight() / 2 - padding*20);
+        colWidth = Gdx.graphics.getWidth() / 5f;
+        rowHeight = Gdx.graphics.getHeight() / 15f;
+        TextButton btnButton = new TextButton("Back", GdxGame.game.skin, "default");
+        btnButton.setSize(colWidth, rowHeight);
+        btnButton.setPosition(padding, padding);
         btnButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -73,9 +77,6 @@ public class ScoreScreen implements Screen{
             }
         });
         stage.addActor(btnButton);
-                
-        hst.insertHighScore("Tramutola", padding);
-        
         createLabel(lblStyle, hst);
         
     }
