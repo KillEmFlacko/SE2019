@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.gdx.game.GdxGame;
+import com.gdx.game.entities.MapLimits;
 import com.gdx.game.entities.Player;
 import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.movements.MovementSetFactory;
@@ -40,7 +41,7 @@ public class GameScreen implements Screen {
             public void beginContact(Contact contact) {
                 Body bdA = (Body) contact.getFixtureA().getUserData();
                 Body bdB = (Body) contact.getFixtureA().getUserData();
-                
+                System.out.println("Is there Collision?");
                 if((bdA.getUserData() instanceof DemoBoss) || (bdB.getUserData() instanceof DemoBoss)){
                     Gdx.app.log("Hit", "Ueue hai colpito il bosso!");
                 }
@@ -65,9 +66,17 @@ public class GameScreen implements Screen {
 
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         Vector2 v = new Vector2(Gdx.graphics.getWidth() * 2 / 3, Gdx.graphics.getHeight() * 2/3);
-        //v is the player position to substitute when merge is complete
+        //v is the player position to substitute when merge is complete or when everything is completed
         DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 100, 100, v, mvsf.build("Fast", "Square" ,false, v, 3));
         stage.addActor(db);
+        
+        
+        MapLimits left = new MapLimits(world, 16, Gdx.graphics.getHeight(), new Vector2(0, 0));
+        MapLimits right = new MapLimits(world, 16, Gdx.graphics.getHeight(), new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getWidth()));
+        MapLimits up = new MapLimits(world, Gdx.graphics.getWidth(), 16, new Vector2(0, Gdx.graphics.getHeight()));
+        MapLimits down = new MapLimits(world, Gdx.graphics.getWidth(), 0 ,new Vector2(Gdx.graphics.getHeight(), 0));
+        
+        stage.addActor(left);
     }
 
     @Override
