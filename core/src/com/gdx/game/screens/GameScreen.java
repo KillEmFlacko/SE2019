@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.gdx.game.GdxGame;
 import com.gdx.game.entities.Player;
 import com.gdx.game.entities.bosses.DemoBoss;
+import com.gdx.game.improvedcontact.ImprovedContactListener;
 import com.gdx.game.movements.MovementSetFactory;
 import net.dermetfan.gdx.physics.box2d.ContactMultiplexer;
 
@@ -40,30 +41,7 @@ public class GameScreen implements Screen {
         this.game = aGame;
         stage = new Stage(aGame.vp);
         world = new World(Vector2.Zero, true);
-        ContactListener listener = new ContactListener() {
-            @Override
-            public void beginContact(Contact contact) {
-                Body bdA = (Body) contact.getFixtureA().getUserData();
-                Body bdB = (Body) contact.getFixtureA().getUserData();
-
-                if ((bdA.getUserData() instanceof DemoBoss) || (bdB.getUserData() instanceof DemoBoss)) {
-                    Gdx.app.log("Hit", "Ueue hai colpito il bosso!");
-                }
-            }
-
-            @Override
-            public void endContact(Contact contact) {
-            }
-
-            @Override
-            public void preSolve(Contact arg0, Manifold arg1) {
-            }
-
-            @Override
-            public void postSolve(Contact arg0, ContactImpulse arg1) {
-            }
-        };
-        world.setContactListener(new ContactMultiplexer(listener));
+        world.setContactListener(new ContactMultiplexer(new ImprovedContactListener()));
         debugRenderer = new Box2DDebugRenderer();
         player = new Player("uajono", 100, world, 16 / GdxGame.SCALE, 28 / GdxGame.SCALE, new Vector2(10, 10));
         stage.addActor(player);
@@ -96,7 +74,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
-//        debugRenderer.render(world, stage.getCamera().combined);
+        debugRenderer.render(world, stage.getCamera().combined);
         world.step(1 / 60f, 6, 2);
     }
 

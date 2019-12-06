@@ -5,35 +5,40 @@
  */
 package com.gdx.game.improvedcontact;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.gdx.game.entities.bosses.DemoBoss;
 
 /**
  *
  * @author Armando
  */
-public class ImprovedContactListener implements ContactListener{
+public class ImprovedContactListener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Body bdA = (Body) contact.getFixtureA().getUserData();
+        Body bdB = (Body) contact.getFixtureA().getUserData();
+
+        if ((bdA.getUserData() instanceof DemoBoss) || (bdB.getUserData() instanceof DemoBoss)) {
+            Gdx.app.log("Hit", "Ueue hai colpito il bosso!");
+        }
     }
 
     @Override
     public void endContact(Contact contact) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void preSolve(Contact arg0, Manifold arg1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void postSolve(Contact arg0, ContactImpulse arg1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

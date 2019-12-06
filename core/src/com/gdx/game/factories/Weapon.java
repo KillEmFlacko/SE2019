@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.gdx.game.factories;
 
 import com.badlogic.gdx.math.Vector2;
@@ -17,9 +12,9 @@ import java.util.Date;
  */
 public class Weapon {
 
-    private Bullet bullet;
-    private Entity shooter;
-    private int shootingRate;
+    private final Bullet bullet;
+    private final Entity shooter;
+    private final int shootingRate;
     private Date lastFireDate = null;
 
     public Weapon(Entity shooterEntity, Bullet bullet, int shootingRate) {
