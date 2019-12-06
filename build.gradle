@@ -66,6 +66,6 @@ project(":core") {
         api "net.dermetfan.libgdx-utils:libgdx-utils:0.13.4"
         api "com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:0.1.0"
         api "com.esotericsoftware.spine:spine-libgdx:3.6.53.1"
-        
+        testCompile "junit:junit:4.12"
     }
 }
