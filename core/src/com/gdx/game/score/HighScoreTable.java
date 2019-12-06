@@ -38,7 +38,7 @@ public class HighScoreTable implements Iterable<HighScoreEntry> {
     
     
     public boolean isInTop(long score){ //broken method
-        return ((table.isEmpty()) || table.get(table.size()-1).getScore() < score);
+        return ((table.isEmpty()) || table.size()<10 || table.get(table.size()-1).getScore() < score);
     }
     
     

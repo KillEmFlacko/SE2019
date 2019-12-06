@@ -18,7 +18,7 @@ import java.util.Scanner;
  */
 public class HighScoreFile{
     public final File file; //should be private
-    private static final String PATH = new File("").getAbsolutePath().concat("/assets/highscore.txt");
+    private static final String PATH = new File("").getAbsolutePath().concat("/highscore.txt");
     
     public HighScoreFile(){
         this.file= new File(PATH);
