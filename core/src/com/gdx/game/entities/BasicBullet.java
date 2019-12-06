@@ -1,7 +1,9 @@
 package com.gdx.game.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.gdx.game.factories.FilterFactory;
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -16,6 +18,9 @@ public final class BasicBullet extends Bullet {
 
     private final int damage;
     private final float initialSpeed;
+    private TextureAtlas atlas;
+    private Animation<TextureAtlas.AtlasRegion> movingAnimation;
+    private float stateTime = 0f;
 
     // ASTRAI
     public BasicBullet(World world, float radius, Vector2 position, int damage, float initSpeed) {
@@ -27,6 +32,7 @@ public final class BasicBullet extends Bullet {
     @Override
     public void init() {
         initPhysics();
+        initGraphics();
     }
 
     @Override
@@ -38,7 +44,7 @@ public final class BasicBullet extends Bullet {
         body = world.createBody(bdDef);
 
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(width);
+        circleShape.setRadius(width/2);
 
         FilterFactory ff = new FilterFactory();
         FixtureDef fixtureDef = new FixtureDef();
@@ -53,9 +59,17 @@ public final class BasicBullet extends Bullet {
 
     @Override
     protected void initGraphics() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        atlas = new TextureAtlas(Gdx.files.internal("texture/fireball/fireball.atlas"));
+        movingAnimation = new Animation(0.10f, atlas.findRegions("moving"), Animation.PlayMode.LOOP);
+        textureRegion = movingAnimation.getKeyFrame(0f);
     }
 
+    @Override
+    public void act(float delta) {
+        stateTime += delta;
+        textureRegion = movingAnimation.getKeyFrame(stateTime,true);
+    }
+    
     @Override
     public int getDamage() {
         return damage;
@@ -71,10 +85,5 @@ public final class BasicBullet extends Bullet {
         BasicBullet clone = new BasicBullet(world, width, initalPosition, damage, initialSpeed);
         clone.setFilter(filter);
         return clone;
-    }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        //batch.draw(textureRegion, body.getPosition().x - width/2, body.getPosition().y - height/2, width, height);
     }
 }

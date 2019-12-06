@@ -28,7 +28,7 @@ public final class Player extends MortalEntity {
 
     public Player(String name, int lifepoints, World world, float width, float height, Vector2 position) {
         super(name, lifepoints, world, width, height, position);
-        weapon = new Weapon(this, new BasicBullet(world, 0.5f, position, 10, speed*10), 5);
+        weapon = new Weapon(this, new BasicBullet(world, 1f, position, 10, speed*1.5f), 5);
         initPhysics();
         initGraphics();
     }
@@ -62,7 +62,7 @@ public final class Player extends MortalEntity {
         atlas = new TextureAtlas(Gdx.files.internal("texture/player/wizzard/wizzard.atlas"));
         idleAnimation = new Animation(0.15f, atlas.findRegions("m_idle"), Animation.PlayMode.LOOP);
         runAnimation = new Animation(0.10f, atlas.findRegions("m_run"), Animation.PlayMode.LOOP);
-
+        textureRegion = idleAnimation.getKeyFrame(0f);
     }
 
     @Override

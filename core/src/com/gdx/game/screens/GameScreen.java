@@ -86,19 +86,17 @@ public class GameScreen implements Screen {
         // Height is multiplied by aspect ratio.
         OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
         game.vp.setWorldSize(30, 30 * (h / w));
-
-        cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
         cam.position.set(player.getPosition(), stage.getCamera().position.z);
         cam.update();
     }
 
     @Override
     public void render(float f) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
-        debugRenderer.render(world, stage.getCamera().combined);
+//        debugRenderer.render(world, stage.getCamera().combined);
         world.step(1 / 60f, 6, 2);
     }
 
