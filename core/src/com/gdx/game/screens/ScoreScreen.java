@@ -15,23 +15,34 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
+import com.gdx.game.score.HighScoreEntry;
+import com.gdx.game.score.HighScoreTable;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class ScoreScreen implements Screen{
     
     private final Game game;
     private final Stage stage;
-    private Label label1;
+    private final ArrayList<Label> labelArray;
+    private Label labelTitle;
     private final int padding = 15;
+    private final HighScoreTable hst;
 
     
-    public ScoreScreen(Game game) {
+    public ScoreScreen(Game game) throws FileNotFoundException, IOException {
+        this.hst = new HighScoreTable();
         this.game = game;
-        this.stage = new Stage();
+        this.stage = new Stage();    
+        this.labelArray = new ArrayList();
         initUI();
     }
     
-    private void initUI() {
+// a family of related product objects is designed to be used together, and you need to enforce this constraint.   
+    
+    private void initUI() throws IOException {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameters.size = 30;
@@ -44,25 +55,32 @@ public class ScoreScreen implements Screen{
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
 
-        label1 = new Label("Gianni!", lblStyle);
-        label1.setSize(Gdx.graphics.getWidth(), 30);
-        label1.setAlignment(Align.center);
-        label1.setPosition(0, Gdx.graphics.getHeight() / 2 - 15 + 30);
-        stage.addActor(label1);
+        labelTitle = new Label("Score:", lblStyle);
+        labelTitle.setSize(Gdx.graphics.getWidth(), 30);
+        labelTitle.setAlignment(Align.center);
+        labelTitle.setPosition(0, Gdx.graphics.getHeight()/2 + 300);
+        stage.addActor(labelTitle);
 
-        TextButton btnButton = new TextButton("Play!", GdxGame.skin, "default");
+        TextButton btnButton = new TextButton("Back", GdxGame.skin, "default");
         btnButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
-        btnButton.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - btnButton.getHeight() / 2 - padding);
+        btnButton.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2 - padding*32, Gdx.graphics.getHeight() / 2 - btnButton.getHeight() / 2 - padding*20);
         btnButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 ScoreScreen.this.dispose();
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new TitleScreen(game));
                 return true;
             }
         });
         stage.addActor(btnButton);
+                
+        hst.insertHighScore("Tramutola", padding);
+        
+        createLabel(lblStyle, hst);
+        
     }
+    
+    
 
     @Override
     public void show() {
@@ -98,4 +116,16 @@ public class ScoreScreen implements Screen{
         stage.dispose();
     }
 
+    private void createLabel(Label.LabelStyle lblStyle, HighScoreTable hst) {
+        int i=0;
+        for (HighScoreEntry x: hst) {
+            labelArray.add(new Label(x.getNickname() + "..." + x.getScore(), lblStyle));
+            labelArray.get(i).setSize(Gdx.graphics.getWidth(), 30);
+            labelArray.get(i).setAlignment(Align.center);
+            labelArray.get(i).setPosition(0, Gdx.graphics.getHeight() / 2 + 300 - (i+1)*50);
+            stage.addActor(labelArray.get(i));
+            i++;
+        }
+    }
+    
 }
