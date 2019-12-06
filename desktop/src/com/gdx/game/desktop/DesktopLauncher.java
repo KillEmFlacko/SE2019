@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.gdx.game.GdxGame;
 
 public class DesktopLauncher {
-
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 //        config.width = 1024;

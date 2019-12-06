@@ -14,10 +14,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
- * @author Armando
+ * @author Ciccio
  */
 public class TitleScreen implements Screen {
 
@@ -25,6 +29,7 @@ public class TitleScreen implements Screen {
     private GdxGame game;
     private Label label1;
     private int padding = 15;
+    private final int BUTTON_SPACE = 5;
 
     public TitleScreen(GdxGame aGame) {
         this.game = aGame;
@@ -63,6 +68,25 @@ public class TitleScreen implements Screen {
             }
         });
         stage.addActor(btnButton);
+ 
+        TextButton btnButton2 = new TextButton("Score", GdxGame.skin, "default");
+        btnButton2.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
+        btnButton2.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - btnButton.getHeight() / 2 - padding*BUTTON_SPACE);
+        btnButton2.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                TitleScreen.this.dispose();
+                try {
+                    game.setScreen(new ScoreScreen(game));
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return true;
+            }
+        });
+        stage.addActor(btnButton2);
     }
 
     private void initPhy() {
