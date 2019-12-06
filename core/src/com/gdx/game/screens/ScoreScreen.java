@@ -73,11 +73,8 @@ public class ScoreScreen implements Screen{
             }
         });
         stage.addActor(btnButton);
-                
-        hst.insertHighScore("Tramutola", padding);
         
         createLabel(lblStyle, hst);
-        
     }
     
     
