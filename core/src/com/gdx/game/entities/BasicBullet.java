@@ -44,6 +44,7 @@ public final class BasicBullet extends Bullet {
         FixtureDef fixtureDef = new FixtureDef();
         ff.copyFilter(fixtureDef.filter, filter);
         fixtureDef.shape = circleShape;
+        fixtureDef.isSensor = true;
         fixtureDef.density = 0.1f;
 
         body.createFixture(fixtureDef);

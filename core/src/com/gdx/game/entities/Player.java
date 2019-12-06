@@ -24,10 +24,11 @@ public final class Player extends MortalEntity {
     private Animation<TextureAtlas.AtlasRegion> runAnimation;
     private Animation<TextureAtlas.AtlasRegion> idleAnimation;
     private float stateTime = 0f;
+    private final float speed = 9f;
 
     public Player(String name, int lifepoints, World world, float width, float height, Vector2 position) {
         super(name, lifepoints, world, width, height, position);
-        weapon = new Weapon(this, new BasicBullet(world, 2, position, 10, 100), 5);
+        weapon = new Weapon(this, new BasicBullet(world, 0.5f, position, 10, speed*10), 5);
         initPhysics();
         initGraphics();
     }
@@ -36,7 +37,7 @@ public final class Player extends MortalEntity {
     protected void initPhysics() {
         BodyDef bdDef = new BodyDef();
         bdDef.type = BodyDef.BodyType.DynamicBody;
-        bdDef.position.set(300, 100);
+        bdDef.position.set(initalPosition);
         body = world.createBody(bdDef);
         body.setUserData(this);
 
@@ -71,16 +72,16 @@ public final class Player extends MortalEntity {
 
         Vector2 velocity = new Vector2(0, 0);
         if (Gdx.input.isKeyPressed(Keys.W)) {
-            velocity.add(0, 50);
+            velocity.add(0, speed);
         }
         if (Gdx.input.isKeyPressed(Keys.S)) {
-            velocity.add(0, -50);
+            velocity.add(0, -speed);
         }
         if (Gdx.input.isKeyPressed(Keys.A)) {
-            velocity.add(-50, 0);
+            velocity.add(-speed, 0);
         }
         if (Gdx.input.isKeyPressed(Keys.D)) {
-            velocity.add(50, 0);
+            velocity.add(speed, 0);
         }
         if (!body.getLinearVelocity().equals(velocity)) {
             setLinearVelocity(velocity);

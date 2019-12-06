@@ -13,6 +13,7 @@ public class GdxGame extends Game {
     public Viewport vp;
     public AssetManager assetManager;
     public static GdxGame game;
+    public static final float SCALE = 6.0f;
 
     public GdxGame(Viewport vp) {
         this.vp = vp;

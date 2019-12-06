@@ -73,7 +73,7 @@ public final class DemoBoss extends Boss {
         CircleShape shape = new CircleShape();
         //PolygonShape p = new PolygonShape();        
         //p.setAsBox(width/2, height/2);
-        shape.setRadius(35f);
+        shape.setRadius(width/2);
         
         
         FixtureDef fixtureDef = new FixtureDef();
