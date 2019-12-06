@@ -60,7 +60,7 @@ public class GameScreen implements Screen {
         };
         world.setContactListener(new ContactMultiplexer(listener));
         debugRenderer = new Box2DDebugRenderer();
-        player = new Player("uajono",100,world, 50, 50, new Vector2(300, 400));
+        player = new Player("uajono",100,world, 16*3, 28*3, new Vector2(300, 400));
         stage.addActor(player);
 
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();

@@ -27,7 +27,7 @@ public abstract class Entity extends Actor {
     }
     @Override
     public void draw(Batch batch, float parentAlpha) { //Draw dice al batch cosa deve disegnare. Lo stage ogni volta che fai stage.draw chiama tutti i draw degli actors passandogli il batch in modo che possono contribire al batch e disegna tutto insieme
-        batch.draw(textureRegion, body.getPosition().x - width / 2, body.getPosition().y - height / 2, width, height);
+        batch.draw(textureRegion, body.getPosition().x - width / 2, body.getPosition().y - width / 2, width, height);
     }
 
     protected abstract void initPhysics();

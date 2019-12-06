@@ -41,14 +41,15 @@ public final class Player extends MortalEntity {
         body.setUserData(this);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 2, height / 2);
+        shape.setAsBox(width / 2, width / 2);
 
         FilterFactory ff = new FilterFactory();
         FixtureDef fixDef = new FixtureDef();
         fixDef.shape = shape;
         ff.copyFilter(fixDef.filter, ff.getPlayerFilter());
-        fixDef.isSensor = true;
-        fixDef.density = 0.5f;
+        fixDef.isSensor = false;
+        fixDef.restitution = 0f;
+        fixDef.density = 0f;
 
         Fixture fixt = body.createFixture(fixDef);
         fixt.setUserData(body);
@@ -57,7 +58,7 @@ public final class Player extends MortalEntity {
 
     @Override
     protected void initGraphics() {
-        atlas = new TextureAtlas(Gdx.files.internal("texture/player/knight.atlas"));
+        atlas = new TextureAtlas(Gdx.files.internal("texture/player/wizzard/wizzard.atlas"));
         idleAnimation = new Animation(0.15f, atlas.findRegions("m_idle"), Animation.PlayMode.LOOP);
         runAnimation = new Animation(0.10f, atlas.findRegions("m_run"), Animation.PlayMode.LOOP);
 

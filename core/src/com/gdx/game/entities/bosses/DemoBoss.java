@@ -78,8 +78,9 @@ public final class DemoBoss extends Boss {
         
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.isSensor = true;
-        fixtureDef.density = 5f;
+        fixtureDef.isSensor = false;
+        fixtureDef.restitution = 0f;
+        fixtureDef.density = 0f;
 
         Fixture fixture = body.createFixture(fixtureDef);
         fixture.setUserData(body);
