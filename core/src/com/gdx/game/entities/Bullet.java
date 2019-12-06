@@ -39,6 +39,7 @@ public abstract class Bullet extends Entity implements Cloneable{
         return super.getLinearVelocity();
     }
     
+    @Override
     public void setInitialPosition(Vector2 initialPos){
         this.initalPosition.set(initialPos);
     }

@@ -42,7 +42,7 @@ public final class Player extends MortalEntity {
         body.setUserData(this);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 2, width / 2);
+        shape.setAsBox(worldWidth / 2, worldWidth / 2);
 
         FilterFactory ff = new FilterFactory();
         FixtureDef fixDef = new FixtureDef();

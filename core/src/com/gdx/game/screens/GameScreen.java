@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -25,16 +24,13 @@ import net.dermetfan.gdx.physics.box2d.ContactMultiplexer;
  */
 public class GameScreen implements Screen {
 
-    private Stage stage;
-    private GdxGame game;
-    private World world;
-    private Player player;
-    private Box2DDebugRenderer debugRenderer;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer mapRenderer;
-
-    static final int WORLD_WIDTH = 100;
-    static final int WORLD_HEIGHT = 100;
+    private final Stage stage;
+    private final GdxGame game;
+    private final World world;
+    private final Player player;
+    private final Box2DDebugRenderer debugRenderer;
+    private final TiledMap map;
+    private final OrthogonalTiledMapRenderer mapRenderer;
 
     public GameScreen(GdxGame aGame) {
         this.game = aGame;
@@ -42,9 +38,21 @@ public class GameScreen implements Screen {
         world = new World(Vector2.Zero, true);
         world.setContactListener(new ContactMultiplexer(new ImprovedContactListener()));
         map = new TmxMapLoader().load("mappaTest/mappaTest.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(map, 25f / Gdx.graphics.getWidth());
+        float pixelsPerUnit = 32f;
+        float unitPerMeters = 5f;
+        mapRenderer = new OrthogonalTiledMapRenderer(map, GdxGame.SCALE / (pixelsPerUnit * unitPerMeters));
         debugRenderer = new Box2DDebugRenderer();
-        player = new Player("uajono", 100, world, 16 / GdxGame.SCALE, 28 / GdxGame.SCALE, new Vector2(10, 10));
+        float playerWorldWidth = 16 / GdxGame.SCALE;
+        float playerWorldHeight = 28 / GdxGame.SCALE;
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+        player = new Player("uajono", 100, world, playerWorldWidth, playerWorldHeight, new Vector2(15, 15 * (h / w)));
+        // Constructs a new OrthographicCamera, using the given viewport width and height
+        // Height is multiplied by aspect ratio.
+        OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
+        game.vp.setWorldSize(30, 30 * (h / w));
+        cam.position.set(player.getPosition(), stage.getCamera().position.z);
+        cam.update();
         stage.addActor(player);
 
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
@@ -57,15 +65,6 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
-
-        // Constructs a new OrthographicCamera, using the given viewport width and height
-        // Height is multiplied by aspect ratio.
-        OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
-        game.vp.setWorldSize(30, 30 * (h / w));
-        cam.position.set(player.getPosition(), stage.getCamera().position.z);
-        cam.update();
     }
 
     @Override
@@ -75,6 +74,8 @@ public class GameScreen implements Screen {
         world.step(1 / 60f, 6, 2);
         stage.act();
         mapRenderer.setView((OrthographicCamera) stage.getCamera());
+//        decommentare per seguire il player
+//        stage.getCamera().position.set(player.getPosition(), stage.getCamera().position.z);
         stage.getCamera().update();
         mapRenderer.render();
         stage.draw();

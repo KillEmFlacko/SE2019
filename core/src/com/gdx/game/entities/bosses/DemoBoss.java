@@ -72,8 +72,8 @@ public final class DemoBoss extends Boss {
         this.body.setUserData(this);
         CircleShape shape = new CircleShape();
         //PolygonShape p = new PolygonShape();        
-        //p.setAsBox(width/2, height/2);
-        shape.setRadius(width/2);
+        //p.setAsBox(worldWidth/2, worldHeight/2);
+        shape.setRadius(worldWidth/2);
         
         
         FixtureDef fixtureDef = new FixtureDef();
