@@ -45,7 +45,7 @@ public final class DemoBoss extends Boss {
     private MovementSet movementQ;
     private BossState bossState;
 
-    public DemoBoss(String name, Integer life, World world, float width, float height, Vector2 position,MovementSet movementQ) {
+    public DemoBoss(String name, Integer life, World world, float width, float height, Vector2 position, MovementSet movementQ) {
         super(name, life, world, width, height, position);
         this.movementQ = movementQ;
         

@@ -3,6 +3,7 @@ package com.gdx.game.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.gdx.game.GdxGame;
+import com.gdx.game.entities.MapLimits;
 import com.gdx.game.entities.Player;
 import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.improvedcontact.ImprovedContactListener;
@@ -33,9 +35,7 @@ public class GameScreen implements Screen {
     private World world;
     private Player player;
     private Box2DDebugRenderer debugRenderer;
-
-    static final int WORLD_WIDTH = 100;
-    static final int WORLD_HEIGHT = 100;
+    
 
     public GameScreen(GdxGame aGame) {
         this.game = aGame;
@@ -47,11 +47,46 @@ public class GameScreen implements Screen {
         stage.addActor(player);
 
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
-//        Vector2 v = new Vector2(Gdx.graphics.getWidth() * 2 / 3, Gdx.graphics.getHeight() * 2 / 3);
+//      Vector2 v = new Vector2(Gdx.graphics.getWidth() * 2 / 3, Gdx.graphics.getHeight() * 2 / 3);
         Vector2 v = player.getPosition().add(5, 5);
-        //v is the player position to substitute when merge is complete
+//      v is the player position to substitute when merge is complete
         DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 20 / GdxGame.SCALE, 20 / GdxGame.SCALE, v, mvsf.build("Fast", "Square", false, v, 3));
         stage.addActor(db);
+        
+        System.out.println(Gdx.graphics.getWidth());
+        
+        MapLimits left = new MapLimits(
+                world, 
+                16 / GdxGame.SCALE, 
+                Gdx.graphics.getHeight(), 
+                new Vector2(0, 0)
+        );
+        
+        MapLimits right = new MapLimits(
+                world, 
+                16 / GdxGame.SCALE, 
+                Gdx.graphics.getHeight(), 
+                new Vector2(Gdx.graphics.getWidth()/20, 0)
+        );
+        
+        MapLimits up = new MapLimits(
+                world, 
+                Gdx.graphics.getWidth(), 
+                16 / GdxGame.SCALE, 
+                new Vector2(0, Gdx.graphics.getHeight()/20)
+        );
+        
+        MapLimits down = new MapLimits(
+                world, 
+                Gdx.graphics.getWidth(), 
+                16 / GdxGame.SCALE, 
+                new Vector2(Gdx.graphics.getHeight()/20, 0)
+        );
+        
+        stage.addActor(left);
+        stage.addActor(right);
+        stage.addActor(up);
+        stage.addActor(down);
     }
 
     @Override
