@@ -21,6 +21,8 @@ public class ImprovedContactListener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
+        if(contact.getFixtureA().getUserData() == null || contact.getFixtureB().getUserData() == null)
+            return;
         Body bdA = (Body) contact.getFixtureA().getUserData();
         Body bdB = (Body) contact.getFixtureA().getUserData();
 

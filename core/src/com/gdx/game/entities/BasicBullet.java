@@ -44,7 +44,7 @@ public final class BasicBullet extends Bullet {
         body = world.createBody(bdDef);
 
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(width/2);
+        circleShape.setRadius(worldWidth/2);
 
         FilterFactory ff = new FilterFactory();
         FixtureDef fixtureDef = new FixtureDef();
@@ -82,7 +82,7 @@ public final class BasicBullet extends Bullet {
 
     @Override
     public Bullet clone() {
-        BasicBullet clone = new BasicBullet(world, width, initalPosition, damage, initialSpeed);
+        BasicBullet clone = new BasicBullet(world, worldWidth, initalPosition, damage, initialSpeed);
         clone.setFilter(filter);
         return clone;
     }
