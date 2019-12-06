@@ -4,6 +4,7 @@ import com.gdx.game.factories.FilterFactory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -28,7 +29,7 @@ public final class Player extends MortalEntity {
 
     public Player(String name, int lifepoints, World world, float width, float height, Vector2 position) {
         super(name, lifepoints, world, width, height, position);
-        weapon = new Weapon(this, new BasicBullet(world, 1f, position, 10, speed*1.5f), 5);
+        weapon = new Weapon(this, new BasicBullet(world, 1f, position, 10, speed * 1.5f), 5);
         initPhysics();
         initGraphics();
     }
@@ -117,4 +118,13 @@ public final class Player extends MortalEntity {
             weapon.fire(new Vector2(-1, 0));
         }
     }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha); //To change body of generated methods, choose Tools | Templates.
+        this.getStage().getCamera().position.set(this.getPosition(), this.getStage().getCamera().position.z);
+        this.getStage().getCamera().update();
+        
+    }
+
 }
