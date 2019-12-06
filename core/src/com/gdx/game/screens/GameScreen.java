@@ -76,7 +76,6 @@ public class GameScreen implements Screen {
         mapRenderer.setView((OrthographicCamera) stage.getCamera());
 //        decommentare per seguire il player
 //        stage.getCamera().position.set(player.getPosition(), stage.getCamera().position.z);
-        stage.getCamera().update();
         mapRenderer.render();
         stage.draw();
         debugRenderer.render(world, stage.getCamera().combined);
