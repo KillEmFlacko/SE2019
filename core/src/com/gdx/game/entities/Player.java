@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -125,6 +126,6 @@ public final class Player extends MortalEntity {
         this.getStage().getCamera().position.set(this.getPosition(), this.getStage().getCamera().position.z);
         this.getStage().getCamera().update();
         
-    }
+    }    
 
 }

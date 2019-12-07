@@ -48,6 +48,7 @@ public class GameScreen implements Screen {
         float playerWorldHeight = 28 / GdxGame.SCALE;
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
+        
         player = new Player("uajono", 100, world, playerWorldWidth, playerWorldHeight, new Vector2(15, 15 * (h / w)));
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.
@@ -61,7 +62,7 @@ public class GameScreen implements Screen {
 //        Vector2 v = new Vector2(Gdx.graphics.getWidth() * 2 / 3, Gdx.graphics.getHeight() * 2 / 3);
         Vector2 v = player.getPosition().add(5, 5);
 //      v is the player position to substitute when merge is complete
-        DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 20 / GdxGame.SCALE, 20 / GdxGame.SCALE, v, mvsf.build("Fast", "Square", false, v, 3));
+        DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 20 / GdxGame.SCALE, 20 / GdxGame.SCALE, v, mvsf.build("Medium", "Square", false, v, 3),player);
         stage.addActor(db);
         
         System.out.println(Gdx.graphics.getWidth());

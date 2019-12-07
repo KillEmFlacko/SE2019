@@ -26,16 +26,20 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.gdx.game.entities.Bullet;
+import com.gdx.game.entities.Entity;
 import com.gdx.game.movements.MovementSetFactory;
-
+import com.gdx.game.entities.Player;
 import com.gdx.game.movements.*;
+import java.util.Random;
 
 /**
  *
  * @author ammanas
  */
 public final class DemoBoss extends Boss {
+
     private Float timeAcc = 2f;
     //per farlo muovere subito senza dover istanziare un movimento
     private float stateTime = 0f;
@@ -44,16 +48,17 @@ public final class DemoBoss extends Boss {
     private TextureAtlas atlas;
     private MovementSet movementQ;
     private BossState bossState;
+    private Player player;
 
-    public DemoBoss(String name, Integer life, World world, float width, float height, Vector2 position, MovementSet movementQ) {
+    public DemoBoss(String name, Integer life, World world, float width, float height, Vector2 position, MovementSet movementQ, Player player) {
         super(name, life, world, width, height, position);
         this.movementQ = movementQ;
-        
+        this.player = player;
+
         //bossState = new IdleState(); TO ADD
         //this.movementQ = bossState.onIdle() TO ADD
         initPhysics();
         initGraphics();
-
 
     }
 
@@ -62,7 +67,6 @@ public final class DemoBoss extends Boss {
      */
     @Override
     protected final void initPhysics() {
-
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -73,9 +77,8 @@ public final class DemoBoss extends Boss {
         CircleShape shape = new CircleShape();
         //PolygonShape p = new PolygonShape();        
         //p.setAsBox(worldWidth/2, worldHeight/2);
-        shape.setRadius(worldWidth/2);
-        
-        
+        shape.setRadius(worldWidth / 2);
+
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.isSensor = false;
@@ -85,9 +88,6 @@ public final class DemoBoss extends Boss {
         Fixture fixture = body.createFixture(fixtureDef);
         fixture.setUserData(body);
         shape.dispose();
-
-        MovementSetFactory mvsf = MovementSetFactory.instanceOf();
-
 
     }
     //private int i = 0;
@@ -101,17 +101,27 @@ public final class DemoBoss extends Boss {
         timeAcc += delta;
 
         textureRegion = movementAnimation.getKeyFrame(stateTime, true);
-        
+
         stateTime += delta;
 
         if (timeAcc >= 2.0f) {
-
-            Vector2 movement = movementQ.frontToBack();
-            Gdx.app.log("V", movement.toString());
-            DemoBoss.this.body.setLinearVelocity(movement);
-            checkDirection(movement);
-
-            timeAcc = 0f;
+            Random r = new Random();
+            if ((r.nextFloat() * 10) >= 5) {
+                
+                Vector2 playerPosition = player.getPosition();
+                System.out.println("Player position" + playerPosition);
+                
+                this.setLinearVelocity(playerPosition.sub(this.getPosition()).scl(1.5f));
+                checkDirection(playerPosition);
+                timeAcc = 1.5f;
+            } else {
+                Vector2 movement = movementQ.frontToBack();
+                Gdx.app.log("V", movement.toString());
+                DemoBoss.this.body.setLinearVelocity(movement);
+                checkDirection(movement);
+                timeAcc = 0f;
+            }
+            
 
         }
 
@@ -124,8 +134,7 @@ public final class DemoBoss extends Boss {
     public void setBossState(BossState bossState) {
         this.bossState = bossState;
     }
-    
-    
+
     /**
      * Method instantiates the graphics of the Actor. Do not call directly.
      */
@@ -211,16 +220,14 @@ public final class DemoBoss extends Boss {
             frame.flip(x, y);
         }
     }
-    /**
-     * @deprecated 
-     * @param animation 
-     */
 
+    /**
+     * @deprecated @param animation
+     */
     public void changeTextureRegion(Vector2 animation) {
 
         if (animation.x > 0) {
 
-            
             textureRegion = new TextureRegion(regions, 0.5f, 0.5f, 1f, 1f);
             //flipFrames(true, false);
 
@@ -255,13 +262,19 @@ public final class DemoBoss extends Boss {
             //textureRegion.flip(true, false);
             flipFrames(true, false);
 
-
         } else if (movement.x == 0 && movement.y > 0) {
             //change texture region to y one by moving on the atlas
         } else if (movement.x == 0 && movement.y < 0) {
             //change texture region by moving on the atlas
         } else {
-            System.out.println("WHat?!");
+            //System.out.println("WHat?!");
+            //since sprites are missing
+            if (movement.x > movement.y){
+                flipFrames(true,false);
+            }else{
+                //nothing
+            }
+            
         }
     }
 

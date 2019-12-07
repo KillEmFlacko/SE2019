@@ -40,7 +40,7 @@ public class MapLimits extends Entity {
         this.body.setUserData(this);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 2, height / 2);
+        shape.setAsBox(worldWidth / 2, worldHeight / 2);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
