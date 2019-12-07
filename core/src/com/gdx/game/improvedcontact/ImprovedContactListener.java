@@ -21,6 +21,7 @@ public class ImprovedContactListener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
+        System.out.println("Is there collision?");
         if(contact.getFixtureA().getUserData() == null || contact.getFixtureB().getUserData() == null)
             return;
         Body bdA = (Body) contact.getFixtureA().getUserData();

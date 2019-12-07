@@ -52,8 +52,8 @@ public final class BasicBullet extends Bullet {
         fixtureDef.shape = circleShape;
         fixtureDef.isSensor = true;
         fixtureDef.density = 0.1f;
-
-        body.createFixture(fixtureDef);
+        //Armando ma non manca la user data della Fixture del proiettile? Altrimenti non vede le collisioni
+        body.createFixture(fixtureDef);        
         circleShape.dispose();
     }
 
