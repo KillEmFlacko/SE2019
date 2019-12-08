@@ -42,6 +42,7 @@ public final class DemoBoss extends Boss {
     private BossState bossState;
     private Player player;
     private Weapon weapon;
+    private Vector2 actVelocity = new Vector2(0, 0);
 
     private Movement prevMovement;
 
@@ -110,7 +111,7 @@ public final class DemoBoss extends Boss {
 
                 System.out.println("Player position" + playerPosition);
 
-                this.setLinearVelocity(newMovePlayer.scl(1.3f));
+                actVelocity.set(newMovePlayer.scl(1.3f));
                 checkDirection(newMovePlayer);
                 
                 timeAcc = 1.5f;
@@ -118,7 +119,7 @@ public final class DemoBoss extends Boss {
             } else {
                 Movement movement = movementQ.frontToBack();
                 Gdx.app.log("V", movement.toString());
-                DemoBoss.this.body.setLinearVelocity(movement);
+                actVelocity.set(movement);
                 weapon.fire(newMovePlayer.scl(1f));
                 checkDirection(movement);
                 prevMovement = movement;
@@ -127,7 +128,9 @@ public final class DemoBoss extends Boss {
 
             
         }
-
+        if(!body.getLinearVelocity().equals(actVelocity)){
+            body.setLinearVelocity(actVelocity);
+        }
     }
 
     public BossState getBossState() {
