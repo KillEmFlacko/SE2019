@@ -122,9 +122,6 @@ public final class Player extends MortalEntity {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha); //To change body of generated methods, choose Tools | Templates.
-        this.getStage().getCamera().position.set(this.getPosition(), this.getStage().getCamera().position.z);
-        this.getStage().getCamera().update();
-        
     }
 
 }

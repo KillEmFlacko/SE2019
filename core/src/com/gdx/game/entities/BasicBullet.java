@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.gdx.game.GdxGame;
 
 /**
  *
@@ -42,6 +44,7 @@ public final class BasicBullet extends Bullet {
         bdDef.position.set(initalPosition);
 
         body = world.createBody(bdDef);
+        body.setUserData(this);
 
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(worldWidth/2);
@@ -53,7 +56,8 @@ public final class BasicBullet extends Bullet {
         fixtureDef.isSensor = true;
         fixtureDef.density = 0.1f;
 
-        body.createFixture(fixtureDef);
+        Fixture fxt = body.createFixture(fixtureDef);
+        fxt.setUserData(this);
         circleShape.dispose();
     }
 

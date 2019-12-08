@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.gdx.game.entities.Bullet;
 import com.gdx.game.entities.bosses.DemoBoss;
 
 /**
@@ -21,14 +22,21 @@ public class ImprovedContactListener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-        if(contact.getFixtureA().getUserData() == null || contact.getFixtureB().getUserData() == null)
-            return;
-        Body bdA = (Body) contact.getFixtureA().getUserData();
-        Body bdB = (Body) contact.getFixtureA().getUserData();
-
-        if ((bdA.getUserData() instanceof DemoBoss) || (bdB.getUserData() instanceof DemoBoss)) {
+        if(contact.getFixtureA().getUserData() instanceof Bullet){
             Gdx.app.log("Hit", "Ueue hai colpito il bosso!");
+            Bullet b = (Bullet) contact.getFixtureA().getUserData();
+            b.dispose();
         }
+        if(contact.getFixtureB().getUserData() instanceof Bullet){
+            Gdx.app.log("Hit", "Ueue hai colpito il bosso!");
+            Bullet b = (Bullet) contact.getFixtureB().getUserData();
+            b.dispose();
+        }
+//        Body bdA = (Body) contact.getFixtureA().getUserData();
+//        Body bdB = (Body) contact.getFixtureA().getUserData();
+//
+//        if ((bdA.getUserData() instanceof DemoBoss) || (bdB.getUserData() instanceof DemoBoss)) {
+//        }
     }
 
     @Override
