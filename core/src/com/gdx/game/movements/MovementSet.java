@@ -40,6 +40,13 @@ public class MovementSet extends LinkedList{
         Gdx.app.log("Movement", m.toString());
         return m;
     }
+
+    @Override
+    public Movement peek() {
+        return moveSet.peek();
+    }
+    
+    
     
    
     

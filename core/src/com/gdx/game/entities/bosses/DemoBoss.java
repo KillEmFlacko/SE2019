@@ -57,7 +57,7 @@ public final class DemoBoss extends Boss {
         //this.movementQ = bossState.onIdle() TO ADD
         initPhysics();
         initGraphics();
-        this.prevMovement = new Movement(player.getPosition());
+        this.prevMovement = movementQ.peek();
     }
 
     /**
@@ -112,21 +112,22 @@ public final class DemoBoss extends Boss {
                 System.out.println("Player position" + playerPosition);
 
                 actVelocity.set(newMovePlayer.scl(1.3f));
-                checkDirection(newMovePlayer);
+                //checkDirection(newMovePlayer);
                 
                 timeAcc = 1.5f;
-                prevMovement = new Movement(newMovePlayer);
+                //prevMovement = new Movement(newMovePlayer);
             } else {
                 Movement movement = movementQ.frontToBack();
                 Gdx.app.log("V", movement.toString());
                 actVelocity.set(movement);
                 weapon.fire(newMovePlayer.scl(1f));
-                checkDirection(movement);
-                prevMovement = movement;
+                //checkDirection(movement);
+                
                 timeAcc = 0f;
             }
+            checkDirection(this.getLinearVelocity());
 
-            
+            prevMovement = new Movement(this.getLinearVelocity());
         }
         if(!body.getLinearVelocity().equals(actVelocity)){
             body.setLinearVelocity(actVelocity);
@@ -260,6 +261,16 @@ public final class DemoBoss extends Boss {
     }
 
     public void checkDirection(Vector2 movement) {
+        if ((movement.x >= 0 && prevMovement.x >= 0) || (movement.x <= 0 && prevMovement.x <= 0)){
+            return;
+            
+        }else{
+            
+            
+            flipFrames(true, false);
+        }
+        
+        /*
         if (movement.x > 0 && prevMovement.x < 0) {
 
             //textureRegion.flip(true, false);
@@ -284,9 +295,10 @@ public final class DemoBoss extends Boss {
             } else {
                 //nothing
             }
-             */
+            }
+        */
 
-        }
+        
     }
 
     public String getName() {
