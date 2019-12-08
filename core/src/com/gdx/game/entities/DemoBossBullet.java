@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.gdx.game.factories.FilterFactory;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -18,17 +19,18 @@ import com.badlogic.gdx.utils.Array;
  *
  * @author Armando
  */
-public final class BasicBullet extends Bullet {
+public final class DemoBossBullet extends Bullet {
 
+   
     private final int damage;
     private final float initialSpeed;
-    private Texture texture;
+    //private Texture texture;
     private Animation<TextureRegion> movingAnimation;
     private Animation<TextureRegion> explosionAnimation;
     private float stateTime = 0f;
 
     // ASTRAI
-    public BasicBullet(World world, float radius, Vector2 position, int damage, float initSpeed) {
+    public DemoBossBullet(World world, float radius, Vector2 position, int damage, float initSpeed) {
         super(world, radius, position);
         this.damage = damage;
         this.initialSpeed = initSpeed;
@@ -66,10 +68,12 @@ public final class BasicBullet extends Bullet {
 
     @Override
     protected void initGraphics() {
-        texture = new Texture(Gdx.files.internal("texture/fireballV2/Small_Iceball_24x9.png"));
-        TextureRegion[][] animation = TextureRegion.split(texture, 24,9);
-        Array<TextureRegion> array = new Array<>(animation[0]);
-        movingAnimation = new Animation<>(0.05f, array, Animation.PlayMode.LOOP);
+        TextureAtlas atlas = new TextureAtlas("texture/fireball/fireball.atlas");
+        //texture = new Texture(Gdx.files.internal("texture/fireball/fireball.png"));
+        //TextureRegion[][] animation = TextureRegion.split(texture, 24,9);
+        //Array<TextureRegion> array = new Array<>(animation[0]);
+        movingAnimation = new Animation<TextureRegion>(0.05f,atlas.findRegions("moving"),Animation.PlayMode.LOOP);
+        //movingAnimation = new Animation<>(0.05f, array, Animation.PlayMode.LOOP);
         textureRegion = movingAnimation.getKeyFrame(0f);
     }
 
@@ -91,7 +95,7 @@ public final class BasicBullet extends Bullet {
 
     @Override
     public Bullet clone() {
-        BasicBullet clone = new BasicBullet(world, worldWidth, initalPosition, damage, initialSpeed);
+        DemoBossBullet clone = new DemoBossBullet(world, worldWidth, initalPosition, damage, initialSpeed);
         clone.setFilter(filter);
         return clone;
     }
@@ -99,12 +103,12 @@ public final class BasicBullet extends Bullet {
     @Override
     public void draw(Batch batch, float parentAlpha) { 
         float textureH = worldHeight;
-        float textureW = worldHeight * (24/9f); 
+        float textureW = worldWidth; 
         batch.draw(textureRegion, 
                 body.getPosition().x - worldWidth / 2, body.getPosition().y - worldWidth / 2, 
                 worldWidth/2, worldHeight/2, 
                 textureW, textureH, 
-                1, 1, 
+                2, 2, 
                 body.getLinearVelocity().angle()+180f);
-    }  
+    } 
 }

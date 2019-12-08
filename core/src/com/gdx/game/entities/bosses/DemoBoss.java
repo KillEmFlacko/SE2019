@@ -21,6 +21,10 @@ import com.gdx.game.entities.Bullet;
 import com.gdx.game.entities.Player;
 import com.gdx.game.movements.MovementSet;
 import java.util.Random;
+import com.gdx.game.entities.*;
+import com.gdx.game.factories.Weapon;
+import com.gdx.game.movements.Movement;
+import com.gdx.game.movements.XMovement;
 
 /**
  *
@@ -37,17 +41,22 @@ public final class DemoBoss extends Boss {
     private MovementSet movementQ;
     private BossState bossState;
     private Player player;
+    private Weapon weapon;
+
+    private Movement prevMovement;
 
     public DemoBoss(String name, Integer life, World world, float width, float height, Vector2 position, MovementSet movementQ, Player player) {
         super(name, life, world, width, height, position);
         this.movementQ = movementQ;
         this.player = player;
+        DemoBossBullet b = new DemoBossBullet(world, 1f, this.player.getPosition(), 1, 10f);
+        this.weapon = new Weapon(this, b, 1);
 
         //bossState = new IdleState(); TO ADD
         //this.movementQ = bossState.onIdle() TO ADD
         initPhysics();
         initGraphics();
-
+        this.prevMovement = new Movement(player.getPosition());
     }
 
     /**
@@ -63,8 +72,8 @@ public final class DemoBoss extends Boss {
         this.body = this.world.createBody(bodyDef);
         this.body.setUserData(this);
 
-        PolygonShape shape = new PolygonShape();        
-        shape.setAsBox(worldWidth*0.6f/2, worldWidth/2);
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(worldWidth * 0.6f / 2, worldWidth / 2);
 //        CircleShape shape = new CircleShape();
 //        shape.setRadius(worldWidth/2);
         FixtureDef fixtureDef = new FixtureDef();
@@ -87,30 +96,36 @@ public final class DemoBoss extends Boss {
             return;
         }
         timeAcc += delta;
+        stateTime += delta;
 
         textureRegion = movementAnimation.getKeyFrame(stateTime, true);
 
-        stateTime += delta;
+        Vector2 playerPosition = player.getPosition();
+        Vector2 newMovePlayer = new Vector2(playerPosition.sub(this.getPosition()));
 
         if (timeAcc >= 2.0f) {
             Random r = new Random();
-            if ((r.nextFloat() * 10) >= 5) {
-                
-                Vector2 playerPosition = player.getPosition();
+
+            if ((r.nextFloat() * 10) >= 6) {
+
                 System.out.println("Player position" + playerPosition);
+
+                this.setLinearVelocity(newMovePlayer.scl(1.3f));
+                checkDirection(newMovePlayer);
                 
-                this.setLinearVelocity(playerPosition.sub(this.getPosition()).scl(1.5f));
-                checkDirection(playerPosition);
                 timeAcc = 1.5f;
+                prevMovement = new Movement(newMovePlayer);
             } else {
-                Vector2 movement = movementQ.frontToBack();
+                Movement movement = movementQ.frontToBack();
                 Gdx.app.log("V", movement.toString());
                 DemoBoss.this.body.setLinearVelocity(movement);
+                weapon.fire(newMovePlayer.scl(1f));
                 checkDirection(movement);
+                prevMovement = movement;
                 timeAcc = 0f;
             }
-            
 
+            
         }
 
     }
@@ -211,7 +226,7 @@ public final class DemoBoss extends Boss {
             frame.flip(x, y);
         }
     }
-    
+
     /**
      * @deprecated @param animation
      */
@@ -242,12 +257,12 @@ public final class DemoBoss extends Boss {
     }
 
     public void checkDirection(Vector2 movement) {
-        if (movement.x > 0 && movement.y == 0) {
+        if (movement.x > 0 && prevMovement.x < 0) {
 
             //textureRegion.flip(true, false);
             flipFrames(true, false);
 
-        } else if (movement.x < 0 && movement.y == 0) {
+        } else if (movement.x < 0 && prevMovement.x > 0) {
 
             //System.out.println("jee");
             //textureRegion.flip(true, false);
@@ -260,12 +275,14 @@ public final class DemoBoss extends Boss {
         } else {
             //System.out.println("WHat?!");
             //since sprites are missing
-            if (movement.x > movement.y){
-                flipFrames(true,false);
-            }else{
+            /*
+            if (movement.x > movement.y) {
+                flipFrames(true, false);
+            } else {
                 //nothing
             }
-            
+             */
+
         }
     }
 

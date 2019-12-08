@@ -50,8 +50,9 @@ public class GameScreen implements Screen {
         float playerWorldHeight = 28 / GdxGame.SCALE;
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
+        //(14.623319,19.27667)  (15, 15 * (h / w))
         
-        player = new Player("uajono", 100, world, playerWorldWidth, playerWorldHeight, new Vector2(15, 15 * (h / w)));
+        player = new Player("uajono", 100, world, playerWorldWidth, playerWorldHeight, new Vector2(15,15 *(h/w)));
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.
         OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
@@ -62,7 +63,7 @@ public class GameScreen implements Screen {
 
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         Vector2 v = player.getPosition().add(5, 5);
-        DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Medium", "Square", false, v, 3),player);
+        DemoBoss db = new DemoBoss("Wandering Demon", 30, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3),player);
         stage.addActor(db);
         
         System.out.println(Gdx.graphics.getWidth());
@@ -120,10 +121,10 @@ public class GameScreen implements Screen {
         stage.act();
         mapRenderer.setView((OrthographicCamera) stage.getCamera());
 //        decommentare per seguire il player
-//        stage.getCamera().position.set(player.getPosition(), stage.getCamera().position.z);
+        //stage.getCamera().position.set(player.getPosition(), stage.getCamera().position.z);
         mapRenderer.render();
         stage.draw();
-//        debugRenderer.render(world, stage.getCamera().combined);
+        debugRenderer.render(world, stage.getCamera().combined);
     }
 
     @Override
