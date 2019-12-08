@@ -4,10 +4,8 @@ import com.gdx.game.factories.FilterFactory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -30,7 +28,7 @@ public final class Player extends MortalEntity {
 
     public Player(String name, int lifepoints, World world, float width, float height, Vector2 position) {
         super(name, lifepoints, world, width, height, position);
-        weapon = new Weapon(this, new BasicBullet(world, 1f, position, 10, speed * 1.5f), 5);
+        weapon = new Weapon(this, new BasicBullet(world, 1f, position, 10, speed * 1.5f), 3);
         initPhysics();
         initGraphics();
     }
@@ -62,8 +60,8 @@ public final class Player extends MortalEntity {
     @Override
     protected void initGraphics() {
         atlas = new TextureAtlas(Gdx.files.internal("texture/player/wizzard/wizzard.atlas"));
-        idleAnimation = new Animation(0.15f, atlas.findRegions("m_idle"), Animation.PlayMode.LOOP);
-        runAnimation = new Animation(0.10f, atlas.findRegions("m_run"), Animation.PlayMode.LOOP);
+        idleAnimation = new Animation(0.2f, atlas.findRegions("m_idle"), Animation.PlayMode.LOOP);
+        runAnimation = new Animation(0.09f, atlas.findRegions("m_run"), Animation.PlayMode.LOOP);
         textureRegion = idleAnimation.getKeyFrame(0f);
     }
 

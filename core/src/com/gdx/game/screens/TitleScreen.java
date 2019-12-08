@@ -1,6 +1,5 @@
 package com.gdx.game.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -21,10 +20,10 @@ import com.gdx.game.GdxGame;
  */
 public class TitleScreen implements Screen {
 
-    private Stage stage;
-    private GdxGame game;
+    private final Stage stage;
+    private final GdxGame game;
     private Label label1;
-    private int padding = 15;
+    private final int padding = 15;
 
     public TitleScreen(GdxGame aGame) {
         this.game = aGame;
