@@ -51,6 +51,7 @@ public class GameScreen implements Screen {
         float playerWorldHeight = 28 / GdxGame.SCALE;
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
+        
         player = new Player("uajono", 100, world, playerWorldWidth, playerWorldHeight, new Vector2(15, 15 * (h / w)));
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.
