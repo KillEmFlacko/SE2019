@@ -2,13 +2,13 @@ package com.gdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -39,10 +39,12 @@ public class GameScreen implements Screen {
         stage = new Stage(aGame.vp);
         world = new World(Vector2.Zero, true);
         world.setContactListener(new ContactMultiplexer(new ImprovedContactListener()));
-        map = new TmxMapLoader().load("mappaTest/mappaTest.tmx");
-        float pixelsPerUnit = 32f;
-        float unitPerMeters = 5f;
-        mapRenderer = new OrthogonalTiledMapRenderer(map, GdxGame.SCALE / (pixelsPerUnit * unitPerMeters));
+        ////////// MAPPA /////////////
+        map = new TmxMapLoader().load("mappa_text_low_res/mappa_low_res.tmx");
+        float pixelsPerUnit = 25f;
+        float unitPerMeters = 16f/30f; // 16 tiles in uno schermo di larghezza 30 metri
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / (pixelsPerUnit * unitPerMeters));
+        //////////////////////////////
         debugRenderer = new Box2DDebugRenderer();
         float playerWorldWidth = 16 / GdxGame.SCALE;
         float playerWorldHeight = 28 / GdxGame.SCALE;
@@ -53,46 +55,44 @@ public class GameScreen implements Screen {
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.
         OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
-        game.vp.setWorldSize(30, 30 * (h / w));
+        game.vp.setWorldSize(30, 30 * (h / w)); // 30 * aspectRatio
         cam.position.set(player.getPosition(), stage.getCamera().position.z);
         cam.update();
         stage.addActor(player);
 
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
-//        Vector2 v = new Vector2(Gdx.graphics.getWidth() * 2 / 3, Gdx.graphics.getHeight() * 2 / 3);
         Vector2 v = player.getPosition().add(5, 5);
-//      v is the player position to substitute when merge is complete
-        DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 20 / GdxGame.SCALE, 20 / GdxGame.SCALE, v, mvsf.build("Medium", "Square", false, v, 3),player);
+        DemoBoss db = new DemoBoss("Nameless King", 30, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Medium", "Square", false, v, 3),player);
         stage.addActor(db);
         
         System.out.println(Gdx.graphics.getWidth());
         
         MapLimits left = new MapLimits(
                 world, 
-                16 / GdxGame.SCALE, 
-                Gdx.graphics.getHeight(), 
-                new Vector2(0, 0)
+                2/unitPerMeters, 
+                30*(h/w), 
+                new Vector2(0, 15*(h/w))
         );
         
         MapLimits right = new MapLimits(
                 world, 
-                16 / GdxGame.SCALE, 
-                Gdx.graphics.getHeight(), 
-                new Vector2(Gdx.graphics.getWidth()/20, 0)
+                2/unitPerMeters, 
+                30*(h/w), 
+                new Vector2(30, 15*(h/w))
         );
         
         MapLimits up = new MapLimits(
                 world, 
-                Gdx.graphics.getWidth(), 
-                16 / GdxGame.SCALE, 
-                new Vector2(0, Gdx.graphics.getHeight()/20)
+                30, 
+                2/unitPerMeters, 
+                new Vector2(15, 30*(h/w))
         );
         
         MapLimits down = new MapLimits(
                 world, 
-                Gdx.graphics.getWidth(), 
-                16 / GdxGame.SCALE, 
-                new Vector2(Gdx.graphics.getHeight()/20, 0)
+                30, 
+                2/unitPerMeters, 
+                new Vector2(15, 0)
         );
         
         stage.addActor(left);
@@ -111,14 +111,19 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         world.step(1 / 60f, 6, 2);
+        ////////////////REMOVING BODIES//////////////
+        for(Body b : GdxGame.game.bodyToRemove){
+            world.destroyBody(b);
+        }
+        GdxGame.game.bodyToRemove.removeAll(GdxGame.game.bodyToRemove);
+        /////////////////////////////////////////////
         stage.act();
         mapRenderer.setView((OrthographicCamera) stage.getCamera());
 //        decommentare per seguire il player
 //        stage.getCamera().position.set(player.getPosition(), stage.getCamera().position.z);
-        stage.getCamera().update();
         mapRenderer.render();
         stage.draw();
-        debugRenderer.render(world, stage.getCamera().combined);
+//        debugRenderer.render(world, stage.getCamera().combined);
     }
 
     @Override

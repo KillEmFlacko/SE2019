@@ -1,22 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.gdx.game.entities.bosses;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -24,14 +15,11 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.gdx.game.GdxGame;
 import com.gdx.game.entities.Bullet;
-import com.gdx.game.entities.Entity;
-import com.gdx.game.movements.MovementSetFactory;
 import com.gdx.game.entities.Player;
-import com.gdx.game.movements.*;
+import com.gdx.game.movements.MovementSet;
 import java.util.Random;
 
 /**
@@ -74,11 +62,11 @@ public final class DemoBoss extends Boss {
 
         this.body = this.world.createBody(bodyDef);
         this.body.setUserData(this);
-        CircleShape shape = new CircleShape();
-        //PolygonShape p = new PolygonShape();        
-        //p.setAsBox(worldWidth/2, worldHeight/2);
-        shape.setRadius(worldWidth / 2);
 
+        PolygonShape shape = new PolygonShape();        
+        shape.setAsBox(worldWidth*0.6f/2, worldWidth/2);
+//        CircleShape shape = new CircleShape();
+//        shape.setRadius(worldWidth/2);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.isSensor = false;
@@ -142,19 +130,22 @@ public final class DemoBoss extends Boss {
     protected void initGraphics() {
 
         //atlas = new TextureAtlas(Gdx.files.internal("texture/enemy/bosses/knight/knight_run/knight.atlas"));
-        atlas = new TextureAtlas(Gdx.files.internal("texture/enemy/bosses/monster_run/monster_run.atlas"));
+        atlas = new TextureAtlas(Gdx.files.internal("texture/enemy/bosses/big_demon/big_demon.atlas"));
 
         //System.out.println(atlas.findRegions("run").size);
-        movementAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("big_demon"), PlayMode.LOOP);
+        movementAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("run"), PlayMode.LOOP);
         //movementAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("f_run"), PlayMode.LOOP);
     }
 
     public void kill() {
 
-        this.world.destroyBody(body);
-
-        body.setUserData(null);
-        body = null;
+//        Pe', non mi chiamare rompipalle, purtroppo i corpi 
+//        possono essere distutti soltanto dopo il world.step()
+        GdxGame.game.bodyToRemove.add(body);
+//        this.world.destroyBody(body);
+//
+//        body.setUserData(null);
+//        body = null;
         this.getStage().getRoot().removeActor(this);
 
         //stop animation and remove body
@@ -220,7 +211,7 @@ public final class DemoBoss extends Boss {
             frame.flip(x, y);
         }
     }
-
+    
     /**
      * @deprecated @param animation
      */

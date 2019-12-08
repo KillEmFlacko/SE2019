@@ -1,14 +1,18 @@
 package com.gdx.game.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.gdx.game.factories.FilterFactory;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 /**
  *
@@ -18,8 +22,9 @@ public final class BasicBullet extends Bullet {
 
     private final int damage;
     private final float initialSpeed;
-    private TextureAtlas atlas;
-    private Animation<TextureAtlas.AtlasRegion> movingAnimation;
+    private Texture texture;
+    private Animation<TextureRegion> movingAnimation;
+    private Animation<TextureRegion> explosionAnimation;
     private float stateTime = 0f;
 
     // ASTRAI
@@ -42,6 +47,7 @@ public final class BasicBullet extends Bullet {
         bdDef.position.set(initalPosition);
 
         body = world.createBody(bdDef);
+        body.setUserData(this);
 
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(worldWidth/2);
@@ -52,15 +58,18 @@ public final class BasicBullet extends Bullet {
         fixtureDef.shape = circleShape;
         fixtureDef.isSensor = true;
         fixtureDef.density = 0.1f;
-        //Armando ma non manca la user data della Fixture del proiettile? Altrimenti non vede le collisioni
-        body.createFixture(fixtureDef);        
+
+        Fixture fxt = body.createFixture(fixtureDef);
+        fxt.setUserData(this);
         circleShape.dispose();
     }
 
     @Override
     protected void initGraphics() {
-        atlas = new TextureAtlas(Gdx.files.internal("texture/fireball/fireball.atlas"));
-        movingAnimation = new Animation(0.10f, atlas.findRegions("moving"), Animation.PlayMode.LOOP);
+        texture = new Texture(Gdx.files.internal("texture/fireballV2/Small_Iceball_24x9.png"));
+        TextureRegion[][] animation = TextureRegion.split(texture, 24,9);
+        Array<TextureRegion> array = new Array<>(animation[0]);
+        movingAnimation = new Animation<>(0.05f, array, Animation.PlayMode.LOOP);
         textureRegion = movingAnimation.getKeyFrame(0f);
     }
 
@@ -85,5 +94,17 @@ public final class BasicBullet extends Bullet {
         BasicBullet clone = new BasicBullet(world, worldWidth, initalPosition, damage, initialSpeed);
         clone.setFilter(filter);
         return clone;
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) { 
+        float textureH = worldHeight;
+        float textureW = worldHeight * (24/9f); 
+        batch.draw(textureRegion, 
+                body.getPosition().x - worldWidth / 2, body.getPosition().y - worldWidth / 2, 
+                worldWidth/2, worldHeight/2, 
+                textureW, textureH, 
+                1, 1, 
+                body.getLinearVelocity().angle()+180f);
     }
 }

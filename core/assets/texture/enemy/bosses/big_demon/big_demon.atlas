@@ -1,0 +1,62 @@
+
+big_demon.png
+size: 128,128
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+idle
+  rotate: false
+  xy: 2, 78
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: 0
+idle
+  rotate: false
+  xy: 2, 40
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: 1
+idle
+  rotate: false
+  xy: 36, 78
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: 2
+idle
+  rotate: false
+  xy: 2, 2
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: 3
+run
+  rotate: false
+  xy: 36, 40
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: 0
+run
+  rotate: false
+  xy: 70, 78
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: 1
+run
+  rotate: false
+  xy: 36, 2
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: 2
+run
+  rotate: false
+  xy: 70, 40
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: 3

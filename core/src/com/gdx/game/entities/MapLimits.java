@@ -5,13 +5,9 @@
  */
 package com.gdx.game.entities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -35,10 +31,8 @@ public class MapLimits extends Entity {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.position.set(this.initalPosition);
-
         this.body = this.world.createBody(bodyDef);
-        this.body.setUserData(this);
-
+        
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(worldWidth / 2, worldHeight / 2);
 

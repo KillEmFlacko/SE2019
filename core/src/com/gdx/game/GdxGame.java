@@ -3,9 +3,11 @@ package com.gdx.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gdx.game.screens.TitleScreen;
+import java.util.LinkedList;
 
 public class GdxGame extends Game {
 
@@ -15,6 +17,8 @@ public class GdxGame extends Game {
     public static GdxGame game;
     public static final float SCALE = 6.0f;
     //prefferred width / width
+    
+    public LinkedList<Body> bodyToRemove = new LinkedList<Body>();
 
     public GdxGame(Viewport vp) {
         this.vp = vp;
