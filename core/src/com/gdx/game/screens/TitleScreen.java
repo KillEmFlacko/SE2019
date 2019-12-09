@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author Ciccio
  */
-public class TitleScreen implements Screen { //CICCIO
+public class TitleScreen implements Screen { 
 
     private final Stage stage;
     private final GdxGame game;
@@ -86,7 +86,40 @@ public class TitleScreen implements Screen { //CICCIO
             }
         });
         stage.addActor(btnButton2);
+        
+        TextButton btnSetting=new TextButton("Options",game.skin,"default");
+        btnSetting.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
+        btnSetting.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2-30 - btnButton.getHeight() / 2-30 - padding*BUTTON_SPACE);
+        btnSetting.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                TitleScreen.this.dispose();
+                try {
+                    game.setScreen(new SettingsScreen(game));
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return true;
+            }
+        });
+        stage.addActor(btnSetting);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     }
+    
+    
+    
 
     private void initPhy() {
 
