@@ -22,6 +22,18 @@ public abstract class MortalEntity extends Entity {
         this.name = name;
         this.life = life;
     }
+    
+    /**
+     * Correctly manage the damage due to a bullet
+     * @param bullet 
+     */
+    public abstract void isHitBy(Bullet bullet);
+    
+    /**
+     * Dispose all the involved bodies for deletion, that is adding their
+     * references to the GdxGame.game.bodiesToRemove structure
+     */
+    public abstract void kill();
 
     public Integer getLife() {
         return life;

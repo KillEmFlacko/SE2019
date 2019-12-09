@@ -1,22 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.gdx.game.entities.bosses;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -24,18 +15,23 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.gdx.game.GdxGame;
 import com.gdx.game.entities.Bullet;
-import com.gdx.game.movements.MovementSetFactory;
-
-import com.gdx.game.movements.*;
+import com.gdx.game.entities.Player;
+import com.gdx.game.movements.MovementSet;
+import java.util.Random;
+import com.gdx.game.entities.*;
+import com.gdx.game.factories.Weapon;
+import com.gdx.game.movements.Movement;
+import com.gdx.game.movements.XMovement;
 
 /**
  *
  * @author ammanas
  */
 public final class DemoBoss extends Boss {
+
     private Float timeAcc = 2f;
     //per farlo muovere subito senza dover istanziare un movimento
     private float stateTime = 0f;
@@ -44,17 +40,24 @@ public final class DemoBoss extends Boss {
     private TextureAtlas atlas;
     private MovementSet movementQ;
     private BossState bossState;
+    private Player player;
+    private Weapon weapon;
+    private Vector2 actVelocity = new Vector2(0, 0);
 
-    public DemoBoss(String name, Integer life, World world, float width, float height, Vector2 position,MovementSet movementQ) {
+    private Movement prevMovement;
+
+    public DemoBoss(String name, Integer life, World world, float width, float height, Vector2 position, MovementSet movementQ, Player player) {
         super(name, life, world, width, height, position);
         this.movementQ = movementQ;
-        
+        this.player = player;
+        DemoBossBullet b = new DemoBossBullet(world, 1f, this.player.getPosition(), 25, 10f);
+        this.weapon = new Weapon(this, b, 1);
+
         //bossState = new IdleState(); TO ADD
         //this.movementQ = bossState.onIdle() TO ADD
         initPhysics();
         initGraphics();
-
-
+        this.prevMovement = movementQ.peek();
     }
 
     /**
@@ -63,19 +66,17 @@ public final class DemoBoss extends Boss {
     @Override
     protected final void initPhysics() {
 
-
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(this.initalPosition);
 
         this.body = this.world.createBody(bodyDef);
         this.body.setUserData(this);
-        CircleShape shape = new CircleShape();
-        //PolygonShape p = new PolygonShape();        
-        //p.setAsBox(width/2, height/2);
-        shape.setRadius(35f);
-        
-        
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(worldWidth * 0.6f / 2, worldWidth / 2);
+//        CircleShape shape = new CircleShape();
+//        shape.setRadius(worldWidth/2);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.isSensor = false;
@@ -86,35 +87,51 @@ public final class DemoBoss extends Boss {
         fixture.setUserData(body);
         shape.dispose();
 
-        MovementSetFactory mvsf = MovementSetFactory.instanceOf();
-
-
     }
     //private int i = 0;
 
     @Override
     public void act(float delta) {
-        if (super.life == 0) {
+        if (super.life <= 0) {
             kill();
             return;
         }
         timeAcc += delta;
-
-        textureRegion = movementAnimation.getKeyFrame(stateTime, true);
-        
         stateTime += delta;
 
+        textureRegion = movementAnimation.getKeyFrame(stateTime, true);
+
+        Vector2 playerPosition = player.getPosition();
+        Vector2 newMovePlayer = new Vector2(playerPosition.sub(this.getPosition()));
+
         if (timeAcc >= 2.0f) {
+            Random r = new Random();
 
-            Vector2 movement = movementQ.frontToBack();
-            Gdx.app.log("V", movement.toString());
-            DemoBoss.this.body.setLinearVelocity(movement);
-            checkDirection(movement);
+            if ((r.nextFloat() * 10) >= 6) {
 
-            timeAcc = 0f;
+                System.out.println("Player position" + playerPosition);
 
+                actVelocity.set(newMovePlayer.scl(1.3f));
+                //checkDirection(newMovePlayer);
+                
+                timeAcc = 1.5f;
+                //prevMovement = new Movement(newMovePlayer);
+            } else {
+                Movement movement = movementQ.frontToBack();
+                Gdx.app.log("V", movement.toString());
+                actVelocity.set(movement);
+                weapon.fire(newMovePlayer.scl(1f));
+                //checkDirection(movement);
+                
+                timeAcc = 0f;
+            }
+            checkDirection(this.getLinearVelocity());
+
+            prevMovement = new Movement(this.getLinearVelocity());
         }
-
+        if(!body.getLinearVelocity().equals(actVelocity)){
+            body.setLinearVelocity(actVelocity);
+        }
     }
 
     public BossState getBossState() {
@@ -124,8 +141,7 @@ public final class DemoBoss extends Boss {
     public void setBossState(BossState bossState) {
         this.bossState = bossState;
     }
-    
-    
+
     /**
      * Method instantiates the graphics of the Actor. Do not call directly.
      */
@@ -133,24 +149,29 @@ public final class DemoBoss extends Boss {
     protected void initGraphics() {
 
         //atlas = new TextureAtlas(Gdx.files.internal("texture/enemy/bosses/knight/knight_run/knight.atlas"));
-        atlas = new TextureAtlas(Gdx.files.internal("texture/enemy/bosses/monster_run/monster_run.atlas"));
+        atlas = new TextureAtlas(Gdx.files.internal("texture/enemy/bosses/big_demon/big_demon.atlas"));
 
         //System.out.println(atlas.findRegions("run").size);
-        movementAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("big_demon"), PlayMode.LOOP);
+        movementAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("run"), PlayMode.LOOP);
         //movementAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("f_run"), PlayMode.LOOP);
     }
 
+    @Override
     public void kill() {
 
-        this.world.destroyBody(body);
-
-        body.setUserData(null);
-        body = null;
+//        Pe', non mi chiamare rompipalle, purtroppo i corpi 
+//        possono essere distutti soltanto dopo il world.step()
+        GdxGame.game.bodyToRemove.add(body);
+//        this.world.destroyBody(body);
+//
+//        body.setUserData(null);
+//        body = null;
         this.getStage().getRoot().removeActor(this);
 
         //stop animation and remove body
     }
 
+    @Override
     public void isHitBy(Bullet bullet) {
         life -= bullet.getDamage();
     }
@@ -211,16 +232,14 @@ public final class DemoBoss extends Boss {
             frame.flip(x, y);
         }
     }
-    /**
-     * @deprecated 
-     * @param animation 
-     */
 
+    /**
+     * @deprecated @param animation
+     */
     public void changeTextureRegion(Vector2 animation) {
 
         if (animation.x > 0) {
 
-            
             textureRegion = new TextureRegion(regions, 0.5f, 0.5f, 1f, 1f);
             //flipFrames(true, false);
 
@@ -244,25 +263,44 @@ public final class DemoBoss extends Boss {
     }
 
     public void checkDirection(Vector2 movement) {
-        if (movement.x > 0 && movement.y == 0) {
+        if ((movement.x >= 0 && prevMovement.x >= 0) || (movement.x <= 0 && prevMovement.x <= 0)){
+            return;
+            
+        }else{
+            
+            
+            flipFrames(true, false);
+        }
+        
+        /*
+        if (movement.x > 0 && prevMovement.x < 0) {
 
             //textureRegion.flip(true, false);
             flipFrames(true, false);
 
-        } else if (movement.x < 0 && movement.y == 0) {
+        } else if (movement.x < 0 && prevMovement.x > 0) {
 
             //System.out.println("jee");
             //textureRegion.flip(true, false);
             flipFrames(true, false);
-
 
         } else if (movement.x == 0 && movement.y > 0) {
             //change texture region to y one by moving on the atlas
         } else if (movement.x == 0 && movement.y < 0) {
             //change texture region by moving on the atlas
         } else {
-            System.out.println("WHat?!");
-        }
+            //System.out.println("WHat?!");
+            //since sprites are missing
+            /*
+            if (movement.x > movement.y) {
+                flipFrames(true, false);
+            } else {
+                //nothing
+            }
+            }
+        */
+
+        
     }
 
     public String getName() {

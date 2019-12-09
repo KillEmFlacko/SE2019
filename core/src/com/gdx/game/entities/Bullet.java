@@ -3,13 +3,15 @@ package com.gdx.game.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Disposable;
+import com.gdx.game.GdxGame;
 
 
 /**
  * Uses prototype pattern, our prototype interface is bullet.
  * @author Armando
  */
-public abstract class Bullet extends Entity implements Cloneable{
+public abstract class Bullet extends Entity implements Cloneable,Disposable {
     protected Filter filter;
     public Bullet(World world, float radius, Vector2 initialPosition) {
         super(world, radius, radius, initialPosition);
@@ -39,7 +41,14 @@ public abstract class Bullet extends Entity implements Cloneable{
         return super.getLinearVelocity();
     }
     
+    @Override
     public void setInitialPosition(Vector2 initialPos){
         this.initalPosition.set(initialPos);
+    }
+    
+    @Override
+    public void dispose() {
+        getStage().getRoot().removeActor(this);
+        GdxGame.game.bodyToRemove.add(body);
     }
 }

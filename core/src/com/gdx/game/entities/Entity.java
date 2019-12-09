@@ -8,7 +8,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
- *
+ * DIVIDI L'ENTITY BODY IN 2 BODY, UN COLLIDING BODY CHE SI OCCUPA DEL LATO FISICO, ED UN SENSOR
+ * BODY CHE SI OCCUPA DEL LATO DI GESTIONE DELLE COLLISIONI, VEDI DI FARLI LAVORARE INSIEME.
+ * UTILIZZA TRASFORM SUL SENSORE, NON SUL CORPO DINAMICO!
  * @author Armando
  */
 public abstract class Entity extends Actor {
@@ -16,18 +18,18 @@ public abstract class Entity extends Actor {
     protected World world;
     protected Body body;
     protected TextureRegion textureRegion;
-    protected float width, height;
+    protected float worldWidth, worldHeight;
     protected Vector2 initalPosition;
 
     public Entity(World world, float width, float height, Vector2 initialPosition) {
         this.world = world;
-        this.width = width;
-        this.height = height;
+        this.worldWidth = width;
+        this.worldHeight = height;
         this.initalPosition = initialPosition;
     }
     @Override
     public void draw(Batch batch, float parentAlpha) { //Draw dice al batch cosa deve disegnare. Lo stage ogni volta che fai stage.draw chiama tutti i draw degli actors passandogli il batch in modo che possono contribire al batch e disegna tutto insieme
-        batch.draw(textureRegion, body.getPosition().x - width / 2, body.getPosition().y - width / 2, width, height);
+        batch.draw(textureRegion, body.getPosition().x - worldWidth / 2, body.getPosition().y - worldWidth / 2, worldWidth, worldHeight);
     }
 
     protected abstract void initPhysics();
@@ -53,5 +55,21 @@ public abstract class Entity extends Actor {
      */
     public Vector2 getPosition(){
         return body.getPosition();
+    }
+    
+    public void setInitialPosition(Vector2 initPos){
+        initalPosition.set(initPos);
+    }
+
+    public float getWorldWidth() {
+        return worldWidth;
+    }
+
+    public float getWorldHeight() {
+        return worldHeight;
+    }
+
+    public Vector2 getInitalPosition() {
+        return initalPosition;
     }
 }

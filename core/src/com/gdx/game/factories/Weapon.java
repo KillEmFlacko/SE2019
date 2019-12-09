@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.gdx.game.factories;
 
 import com.badlogic.gdx.math.Vector2;
@@ -17,9 +12,9 @@ import java.util.Date;
  */
 public class Weapon {
 
-    private Bullet bullet;
-    private Entity shooter;
-    private int shootingRate;
+    private final Bullet bullet;
+    private final Entity shooter;
+    private final int shootingRate;
     private Date lastFireDate = null;
 
     public Weapon(Entity shooterEntity, Bullet bullet, int shootingRate) {
@@ -33,7 +28,7 @@ public class Weapon {
         if (lastFireDate == null || ts.getTime() - lastFireDate.getTime() > (1f / shootingRate * 1000)) {
             Vector2 normDir = direction.nor();
             Vector2 bulletVelocity = new Vector2(normDir.x * bullet.getInitalSpeed(), normDir.y * bullet.getInitalSpeed());
-            bullet.setInitialPosition(shooter.getPosition());
+            bullet.setInitialPosition(shooter.getPosition().add(normDir.x * shooter.getWorldWidth()/2,normDir.y*shooter.getWorldHeight()/2));
             FilterFactory ff = new FilterFactory();
             if (shooter instanceof Player) {
                 bullet.setFilter(ff.getPlayerBulletFilter());
@@ -42,8 +37,8 @@ public class Weapon {
             }
 
             Bullet clone = bullet.clone();
-            shooter.getStage().addActor(clone);
             clone.init();
+            shooter.getStage().addActor(clone);
             clone.setLinearVelocity(bulletVelocity);
 
             lastFireDate = new Date();

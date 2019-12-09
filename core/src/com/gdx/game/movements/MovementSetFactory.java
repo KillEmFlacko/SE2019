@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.gdx.game.movements;
 
 import com.badlogic.gdx.Gdx;
@@ -39,9 +34,9 @@ public class MovementSetFactory {
     public MovementSet build(String speed, String shape, boolean clockwise, Vector2 playerPosition, int towardsPlayer) {
         HashMap<String, Float> speedModes = new HashMap<>();
 
-        speedModes.put("Slow", 20f);
-        speedModes.put("Medium", 40f);
-        speedModes.put("Fast", 80f);
+        speedModes.put("Slow", 2f);
+        speedModes.put("Medium", 4f);
+        speedModes.put("Fast", 8f);
 
         Gdx.app.log("Speed", speedModes.get(speed).toString());
         //Gdx.app.log("Shape", shape);
