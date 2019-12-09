@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class Weapon {
 
-    private final Bullet bullet;
+    private  Bullet bullet;
     private final Entity shooter;
     private final float shootingRate;
     private Date lastFireDate = null;
@@ -20,6 +20,22 @@ public class Weapon {
     public Weapon(Entity shooterEntity, Bullet bullet, float shootingRate) {
         this.shooter = shooterEntity;
         this.bullet = bullet;
+        this.shootingRate = shootingRate;
+    }
+
+    public Bullet getBullet() {
+        return bullet;
+    }
+
+    public void setBullet(Bullet bullet) {
+        this.bullet = bullet;
+    }
+
+    public int getShootingRate() {
+        return shootingRate;
+    }
+
+    public void setShootingRate(int shootingRate) {
         this.shootingRate = shootingRate;
     }
 
