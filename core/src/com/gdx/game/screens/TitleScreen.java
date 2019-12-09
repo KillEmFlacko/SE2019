@@ -2,6 +2,7 @@ package com.gdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -29,12 +30,20 @@ public class TitleScreen implements Screen {
     private Label label1;
     private final int padding = 15;
     private final int BUTTON_SPACE = 5;
+    private Sound sound;
+ 
 
     public TitleScreen(GdxGame aGame) {
         this.game = aGame;
         this.stage = new Stage(aGame.vp);
         initUI();
+       
     }
+        
+    
+    
+ 
+  
 
     private void initUI() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
@@ -62,11 +71,13 @@ public class TitleScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 TitleScreen.this.dispose();
+                game.getSound().dispose();
                 game.setScreen(new GameScreen(game));
                 return true;
             }
         });
         stage.addActor(btnButton);
+        
  
         TextButton btnButton2 = new TextButton("Score", GdxGame.game.skin, "default");
         btnButton2.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
@@ -106,17 +117,9 @@ public class TitleScreen implements Screen {
         });
         stage.addActor(btnSetting);
     
+  }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    }
+   
     
     
     

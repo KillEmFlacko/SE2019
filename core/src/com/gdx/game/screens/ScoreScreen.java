@@ -4,6 +4,7 @@ package com.gdx.game.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -32,6 +33,7 @@ public class ScoreScreen implements Screen{
     private final HighScoreTable hst;
     private float colWidth;
     private float rowHeight;
+    private Sound sound;
 
     
     public ScoreScreen(GdxGame game) throws FileNotFoundException, IOException {

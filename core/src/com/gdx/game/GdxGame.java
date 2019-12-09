@@ -3,6 +3,7 @@ package com.gdx.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -16,21 +17,44 @@ public class GdxGame extends Game {
     public AssetManager assetManager;
     public static GdxGame game;
     public static final float SCALE = 6.0f;
+    private Sound sound;
+    
+    
     //prefferred width / width
     
     public LinkedList<Body> bodyToRemove = new LinkedList<Body>();
+    
 
+        
+    
     public GdxGame(Viewport vp) {
         this.vp = vp;
         assetManager = new AssetManager();
         game = this;
+      
+       
     }
+    public void initAudio(){
+        sound=Gdx.audio.newSound(Gdx.files.internal("audio/menu/wakawaka.mp3"));
+        sound.play(1.0f);  
+    }
+
+    public Sound getSound() {
+        return sound;
+    }
+    
+    
+       
+    
 
     @Override
     public void create() {
         skin = new Skin(Gdx.files.internal("skin/expee-ui.json"));
         this.setScreen(new TitleScreen(this));
+           initAudio();
+         
     }
+  
 
     @Override
     public void render() {
