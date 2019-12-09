@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.gdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
@@ -11,12 +6,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
 import java.io.FileNotFoundException;
@@ -24,7 +22,7 @@ import java.io.IOException;
 
 /**
  *
- * @author Giovanni
+ * @author Raffaele
  */
 public class SettingsScreen implements Screen {
 
@@ -81,101 +79,20 @@ public class SettingsScreen implements Screen {
         audio.setAlignment(Align.center);
         audio.setPosition(Gdx.graphics.getWidth() / 2 - 15 - 675, Gdx.graphics.getHeight() / 2 + 150);
         stage.addActor(audio);
-        
-        
-        final TextButton btna0 = new TextButton("0", GdxGame.game.skin, "default");
-        
-        final TextButton btna25 = new TextButton("25", GdxGame.game.skin, "default");
-        
-        final TextButton btna50 = new TextButton("50", GdxGame.game.skin, "default");
-         
-        final TextButton btna75 = new TextButton("75", GdxGame.game.skin, "default");
 
-        final TextButton btna100 = new TextButton("100", GdxGame.game.skin, "default");
+        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        final Slider volume = new Slider(0.0f, 1.0f, 0.1f, false, skin);
+        volume.setValue(0.5f);
+        volume.setPosition(Gdx.graphics.getWidth() / 2 - 140, Gdx.graphics.getHeight() / 2 + 155);
 
-        btna0.setSize(Gdx.graphics.getWidth() / 20, Gdx.graphics.getHeight() / 15);
-        btna0.setPosition(Gdx.graphics.getWidth() / 2 - 145, Gdx.graphics.getHeight() / 2 + 145);
-        btna0.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                 btna0.setColor(Color.RED);
-                btna25.setColor(Color.WHITE);
-                btna50.setColor(Color.WHITE);
-                btna75.setColor(Color.WHITE);
-                btna100.setColor(Color.WHITE);
-                game.getMusic().setVolume(0.0f);
-                return true;
+        stage.addActor(volume);
+
+        volume.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                game.getMusic().setVolume(volume.getValue());
             }
         });
-        stage.addActor(btna0);
-        
-        btna25.setSize(Gdx.graphics.getWidth() / 20, Gdx.graphics.getHeight() / 15);
-        btna25.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 + 145);
-        btna25.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                btna0.setColor(Color.WHITE);
-                btna25.setColor(Color.RED);
-                btna50.setColor(Color.WHITE);
-                btna75.setColor(Color.WHITE);
-                btna100.setColor(Color.WHITE);
-                game.getMusic().setVolume(0.25f);
-                return true;
-            }
-        });
-        stage.addActor(btna25);
-        
-        btna50.setSize(Gdx.graphics.getWidth() / 20, Gdx.graphics.getHeight() / 15);
-        btna50.setPosition(Gdx.graphics.getWidth() / 2 - 55, Gdx.graphics.getHeight() / 2 + 145);
-       
-        btna50.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                btna0.setColor(Color.WHITE);
-                btna25.setColor(Color.WHITE);
-                btna50.setColor(Color.RED);
-                btna75.setColor(Color.WHITE);
-                btna100.setColor(Color.WHITE);
-                game.getMusic().setVolume(0.50f);
-                return true;
-            }
-        });
-        stage.addActor(btna50);
-        
-        btna75.setSize(Gdx.graphics.getWidth() / 20, Gdx.graphics.getHeight() / 15);
-        btna75.setPosition(Gdx.graphics.getWidth() / 2 - 10, Gdx.graphics.getHeight() / 2 + 145);
-        btna75.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                
-               btna0.setColor(Color.WHITE);
-                btna25.setColor(Color.WHITE);
-                btna50.setColor(Color.WHITE);
-                btna75.setColor(Color.RED);
-                btna100.setColor(Color.WHITE);
-              
-                game.getMusic().setVolume(0.75f);
-                return true;
-            }
-        });
-        stage.addActor(btna75);
-        
-        btna100.setSize(Gdx.graphics.getWidth() / 20, Gdx.graphics.getHeight() / 15);
-        btna100.setPosition(Gdx.graphics.getWidth() / 2 + 35, Gdx.graphics.getHeight() / 2 + 145);
-        btna100.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                btna0.setColor(Color.WHITE);
-                btna25.setColor(Color.WHITE);
-                btna50.setColor(Color.WHITE);
-                btna75.setColor(Color.WHITE); 
-                btna100.setColor(Color.RED);
-                game.getMusic().setVolume(1.0f);
-                return true;
-            }
-        });
-        stage.addActor(btna100);
-        
+
     }
 
     @Override
