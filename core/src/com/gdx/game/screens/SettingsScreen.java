@@ -7,7 +7,6 @@ package com.gdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -34,14 +33,13 @@ public class SettingsScreen implements Screen {
     private float colWidth;
     private float rowHeight;
     private final int padding = 15;
-    private Sound sound;
+    private Label audio;
 
     SettingsScreen(GdxGame game) throws FileNotFoundException, IOException {
         this.game = game;
         this.stage = new Stage(game.vp);
         initUI();
     }
-    
 
     private void initUI() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
@@ -76,6 +74,13 @@ public class SettingsScreen implements Screen {
             }
         });
         stage.addActor(btnButton);
+
+        audio = new Label("AUDIO", lblStyle);
+        audio.setSize(Gdx.graphics.getWidth(), 30);
+        audio.setAlignment(Align.center);
+        audio.setPosition(Gdx.graphics.getWidth() / 2 - 15 - 675, Gdx.graphics.getHeight() / 2 + 150);
+        stage.addActor(audio);
+
     }
 
     @Override

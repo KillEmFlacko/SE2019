@@ -3,7 +3,7 @@ package com.gdx.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -17,8 +17,7 @@ public class GdxGame extends Game {
     public AssetManager assetManager;
     public static GdxGame game;
     public static final float SCALE = 6.0f;
-    private Sound sound;
-    
+    private Music music;
     
     //prefferred width / width
     
@@ -35,12 +34,13 @@ public class GdxGame extends Game {
        
     }
     public void initAudio(){
-        sound=Gdx.audio.newSound(Gdx.files.internal("audio/menu/wakawaka.mp3"));
-        sound.play(1.0f);  
+        music=Gdx.audio.newMusic(Gdx.files.internal("audio/menu/wakawaka.mp3"));
+        music.play();  
+        music.setLooping(true);
     }
 
-    public Sound getSound() {
-        return sound;
+    public Music getMusic() {
+        return music;
     }
     
     
