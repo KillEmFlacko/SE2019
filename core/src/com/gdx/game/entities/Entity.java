@@ -8,7 +8,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
- *
+ * DIVIDI L'ENTITY BODY IN 2 BODY, UN COLLIDING BODY CHE SI OCCUPA DEL LATO FISICO, ED UN SENSOR
+ * BODY CHE SI OCCUPA DEL LATO DI GESTIONE DELLE COLLISIONI, VEDI DI FARLI LAVORARE INSIEME.
+ * UTILIZZA TRASFORM SUL SENSORE, NON SUL CORPO DINAMICO!
  * @author Armando
  */
 public abstract class Entity extends Actor {

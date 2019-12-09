@@ -14,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.factories.Weapon;
 
 /**
- *
+ *  
  * @author Giovanni
  */
 public final class Player extends MortalEntity {
