@@ -24,7 +24,7 @@ public abstract class MortalEntity extends Entity {
     }
     
     /**
-     * Correctly damege the damage due to a bullet
+     * Correctly manage the damage due to a bullet
      * @param bullet 
      */
     public abstract void isHitBy(Bullet bullet);
