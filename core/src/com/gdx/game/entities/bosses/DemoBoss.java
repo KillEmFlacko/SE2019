@@ -50,7 +50,7 @@ public final class DemoBoss extends Boss {
         super(name, life, world, width, height, position);
         this.movementQ = movementQ;
         this.player = player;
-        DemoBossBullet b = new DemoBossBullet(world, 1f, this.player.getPosition(), 1, 10f);
+        DemoBossBullet b = new DemoBossBullet(world, 1f, this.player.getPosition(), 25, 10f);
         this.weapon = new Weapon(this, b, 1);
 
         //bossState = new IdleState(); TO ADD
@@ -92,7 +92,7 @@ public final class DemoBoss extends Boss {
 
     @Override
     public void act(float delta) {
-        if (super.life == 0) {
+        if (super.life <= 0) {
             kill();
             return;
         }

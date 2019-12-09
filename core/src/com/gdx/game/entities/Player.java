@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.gdx.game.GdxGame;
 import com.gdx.game.factories.Weapon;
 
 /**
@@ -67,6 +68,11 @@ public final class Player extends MortalEntity {
 
     @Override
     public void act(float delta) {
+        if(super.life <= 0){
+            kill();
+            return;
+        }
+        
         stateTime += delta;
         super.act(delta);
 
@@ -118,4 +124,12 @@ public final class Player extends MortalEntity {
         }
     }
 
+    public void isHitBy(Bullet bullet) {
+        life -= bullet.getDamage();
+    }
+    
+    public void kill(){
+        GdxGame.game.bodyToRemove.add(this.body);
+        this.getStage().getRoot().removeActor(this);
+    }
 }
