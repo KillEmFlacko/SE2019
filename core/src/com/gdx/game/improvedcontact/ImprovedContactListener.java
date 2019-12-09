@@ -57,11 +57,6 @@ public class ImprovedContactListener implements ContactListener {
 
             b.dispose();
         }
-//        Body bdA = (Body) contact.getFixtureA().getUserData();
-//        Body bdB = (Body) contact.getFixtureA().getUserData();
-//
-//        if ((bdA.getUserData() instanceof DemoBoss) || (bdB.getUserData() instanceof DemoBoss)) {
-//        }
     }
 
     @Override

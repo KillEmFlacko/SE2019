@@ -156,6 +156,7 @@ public final class DemoBoss extends Boss {
         //movementAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("f_run"), PlayMode.LOOP);
     }
 
+    @Override
     public void kill() {
 
 //        Pe', non mi chiamare rompipalle, purtroppo i corpi 
@@ -170,6 +171,7 @@ public final class DemoBoss extends Boss {
         //stop animation and remove body
     }
 
+    @Override
     public void isHitBy(Bullet bullet) {
         life -= bullet.getDamage();
     }

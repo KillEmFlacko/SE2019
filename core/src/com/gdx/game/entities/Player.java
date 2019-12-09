@@ -124,10 +124,12 @@ public final class Player extends MortalEntity {
         }
     }
 
+    @Override
     public void isHitBy(Bullet bullet) {
         life -= bullet.getDamage();
     }
     
+    @Override
     public void kill(){
         GdxGame.game.bodyToRemove.add(this.body);
         this.getStage().getRoot().removeActor(this);
