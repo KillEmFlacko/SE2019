@@ -1,4 +1,4 @@
-package com.gdx.game.improvedcontact;
+package com.gdx.game.contact_listeners;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -14,7 +14,7 @@ import com.gdx.game.entities.bosses.DemoBoss;
  *
  * @author Armando
  */
-public class ImprovedContactListener implements ContactListener {
+public class BulletDamageContactListener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {

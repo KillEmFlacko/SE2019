@@ -16,7 +16,7 @@ import com.gdx.game.GdxGame;
 import com.gdx.game.entities.MapLimits;
 import com.gdx.game.entities.Player;
 import com.gdx.game.entities.bosses.DemoBoss;
-import com.gdx.game.improvedcontact.ImprovedContactListener;
+import com.gdx.game.contact_listeners.BulletDamageContactListener;
 import com.gdx.game.movements.MovementSetFactory;
 import net.dermetfan.gdx.physics.box2d.ContactMultiplexer;
 
@@ -38,7 +38,7 @@ public class GameScreen implements Screen {
         this.game = aGame;
         stage = new Stage(aGame.vp);
         world = new World(Vector2.Zero, true);
-        world.setContactListener(new ContactMultiplexer(new ImprovedContactListener()));
+        world.setContactListener(new ContactMultiplexer(new BulletDamageContactListener()));
         ////////// MAPPA /////////////
         map = new TmxMapLoader().load("mappa_text_low_res/mappa_low_res.tmx");
         float pixelsPerUnit = 25f;
