@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.GdxGame;
+import com.gdx.game.contact_listeners.events.DeathEvent;
 import com.gdx.game.factories.Weapon;
 
 /**
@@ -131,6 +132,7 @@ public final class Player extends MortalEntity {
     
     @Override
     public void kill(){
+        fire(new DeathEvent());
         GdxGame.game.bodyToRemove.add(this.body);
         this.getStage().getRoot().removeActor(this);
     }

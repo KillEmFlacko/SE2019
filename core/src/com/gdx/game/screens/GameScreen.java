@@ -17,6 +17,7 @@ import com.gdx.game.entities.MapLimits;
 import com.gdx.game.entities.Player;
 import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.contact_listeners.BulletDamageContactListener;
+import com.gdx.game.contact_listeners.EndDemoGameListener;
 import com.gdx.game.movements.MovementSetFactory;
 import net.dermetfan.gdx.physics.box2d.ContactMultiplexer;
 
@@ -55,6 +56,8 @@ public class GameScreen implements Screen {
         player = new Player("uajono", 100, world, playerWorldWidth, playerWorldHeight, new Vector2(15,15 *(h/w)));
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.
+        player.addListener(new EndDemoGameListener());
+        
         OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
         game.vp.setWorldSize(30, 30 * (h / w)); // 30 * aspectRatio
         cam.position.set(player.getPosition(), stage.getCamera().position.z);
@@ -64,6 +67,7 @@ public class GameScreen implements Screen {
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         Vector2 v = player.getPosition().add(5, 5);
         DemoBoss db = new DemoBoss("Wandering Demon", 150, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3),player);
+        db.addListener(new EndDemoGameListener());
         stage.addActor(db);
         
         System.out.println(Gdx.graphics.getWidth());

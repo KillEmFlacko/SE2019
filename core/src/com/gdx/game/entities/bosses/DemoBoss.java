@@ -17,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.GdxGame;
+import com.gdx.game.contact_listeners.events.DeathEvent;
 import com.gdx.game.entities.Bullet;
 import com.gdx.game.entities.Player;
 import com.gdx.game.movements.MovementSet;
@@ -166,6 +167,7 @@ public final class DemoBoss extends Boss {
 //
 //        body.setUserData(null);
 //        body = null;
+        fire(new DeathEvent());
         this.getStage().getRoot().removeActor(this);
 
         //stop animation and remove body
