@@ -28,6 +28,7 @@ public class TitleScreen implements Screen {
     private final GdxGame game;
     private Label label1;
     private final int padding = 15;
+    private final int BUTTON_SPACE = 5;
 
     public TitleScreen(GdxGame aGame) {
         this.game = aGame;
