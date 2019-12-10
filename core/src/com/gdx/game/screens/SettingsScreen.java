@@ -19,9 +19,6 @@ import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author Raffaele
@@ -37,7 +34,7 @@ public class SettingsScreen implements Screen {
     private Label audio;
     private TitleScreen previousScreen;
 
-   public SettingsScreen(GdxGame game, TitleScreen previousS) throws FileNotFoundException, IOException {
+    public SettingsScreen(GdxGame game, TitleScreen previousS) throws FileNotFoundException, IOException {
         this.game = game;
         this.stage = new Stage(game.vp);
         previousScreen = previousS;
@@ -72,7 +69,7 @@ public class SettingsScreen implements Screen {
         btnButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-             //   SettingsScreen.this.dispose();
+                //   SettingsScreen.this.dispose();
                 game.setScreen(previousScreen);
                 return true;
             }
@@ -87,25 +84,24 @@ public class SettingsScreen implements Screen {
 
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         final Slider volume = new Slider(0.0f, 1.0f, 0.1f, false, skin);
-        
-        
+
         volume.setValue(GdxGame.getDEFAULT_VOLUME());
-        System.out.println("il volume è VolumeSetValue: " + volume.getValue());
         volume.setPosition(Gdx.graphics.getWidth() / 2 - 140, Gdx.graphics.getHeight() / 2 + 155);
 
         stage.addActor(volume);
-        
+
         volume.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.getMusic().setVolume(volume.getValue()); 
+                game.getMusic().setVolume(volume.getValue());
                 volume.setValue(volume.getValue());
-                
+                System.out.println("il volume è VolumeSetValue: " + volume.getValue());
 
-                
             }
         });
+          
 
     }
+    
 
     @Override
     public void show() {

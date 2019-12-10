@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author Ciccio
  */
-public class TitleScreen implements Screen { 
+public class TitleScreen implements Screen {
 
     private final Stage stage;
     private final GdxGame game;
@@ -30,20 +30,14 @@ public class TitleScreen implements Screen {
     private final int padding = 15;
     private final int BUTTON_SPACE = 5;
     private SettingsScreen ss;
- 
 
     public TitleScreen(GdxGame aGame) throws IOException {
         this.game = aGame;
-        this.stage = new Stage(aGame.vp);
+        this.stage = new Stage();
         ss = new SettingsScreen(game, this);
         initUI();
-       
+
     }
-        
-    
-    
- 
-  
 
     private void initUI() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
@@ -77,11 +71,10 @@ public class TitleScreen implements Screen {
             }
         });
         stage.addActor(btnButton);
-        
- 
+
         TextButton btnButton2 = new TextButton("Score", GdxGame.game.skin, "default");
         btnButton2.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
-        btnButton2.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - btnButton.getHeight() / 2 - padding*BUTTON_SPACE);
+        btnButton2.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - btnButton.getHeight() / 2 - padding * BUTTON_SPACE);
         btnButton2.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -97,10 +90,10 @@ public class TitleScreen implements Screen {
             }
         });
         stage.addActor(btnButton2);
-        
-        TextButton btnSetting=new TextButton("Options",game.skin,"default");
+
+        TextButton btnSetting = new TextButton("Options", game.skin, "default");
         btnSetting.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
-        btnSetting.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2-30 - btnButton.getHeight() / 2-30 - padding*BUTTON_SPACE);
+        btnSetting.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 30 - padding * BUTTON_SPACE);
         btnSetting.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -110,9 +103,9 @@ public class TitleScreen implements Screen {
             }
         });
         stage.addActor(btnSetting);
-    
-  }
-    
+
+    }
+
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
