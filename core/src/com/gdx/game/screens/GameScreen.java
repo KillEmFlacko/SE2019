@@ -2,8 +2,11 @@ package com.gdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -12,6 +15,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
 import com.gdx.game.entities.MapLimits;
 import com.gdx.game.entities.Player;
@@ -34,6 +39,7 @@ public class GameScreen implements Screen {
     private final World world;
     private final GdxGame game;
     private final Stage stage;
+    public Label label1;
 
     public GameScreen(GdxGame aGame) {
         this.game = aGame;
@@ -56,7 +62,7 @@ public class GameScreen implements Screen {
         player = new Player("uajono", 100, world, playerWorldWidth, playerWorldHeight, new Vector2(15,15 *(h/w)));
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.
-        player.addListener(new EndDemoGameListener());
+        player.addListener(new EndDemoGameListener(this));
         
         OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
         game.vp.setWorldSize(30, 30 * (h / w)); // 30 * aspectRatio
@@ -67,7 +73,7 @@ public class GameScreen implements Screen {
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         Vector2 v = player.getPosition().add(5, 5);
         DemoBoss db = new DemoBoss("Wandering Demon", 150, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3),player);
-        db.addListener(new EndDemoGameListener());
+        db.addListener(new EndDemoGameListener(this));
         stage.addActor(db);
         
         System.out.println(Gdx.graphics.getWidth());
@@ -99,13 +105,37 @@ public class GameScreen implements Screen {
                 2/unitPerMeters, 
                 new Vector2(15, 0)
         );
-        
+        initLabel();
         stage.addActor(left);
         stage.addActor(right);
         stage.addActor(up);
         stage.addActor(down);
+        
     }
+    
+    public final void initLabel(){
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameters.size = 16;
+        parameters.color = Color.RED;
+        parameters.borderWidth = 1;
+        parameters.borderColor = Color.BLACK;
+        BitmapFont font = generator.generateFont(parameters);
+        generator.dispose();
 
+        Label.LabelStyle lblStyle = new Label.LabelStyle();
+        lblStyle.font = font;
+        float a= 1f/(5/GdxGame.SCALE), b=1f/(16/GdxGame.SCALE);
+        label1 = new Label("GAME OVER", lblStyle);
+        label1.setFontScale(1f/GdxGame.SCALE);
+        //label1.setSize((0.9f*game.vp.getWorldWidth()), 0.2f);
+        label1.setPosition(0.08f*game.vp.getWorldWidth(),0.2f*game.vp.getWorldHeight()) ;
+        label1.setVisible(false);
+        
+        stage.addActor(label1);
+        System.out.println("seeh");
+    }
+    
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
@@ -129,6 +159,11 @@ public class GameScreen implements Screen {
         mapRenderer.render();
         stage.draw();
         debugRenderer.render(world, stage.getCamera().combined);
+    }
+    
+    public void end(){
+        System.out.println("seehh2");
+        label1.setVisible(true);
     }
 
     @Override
