@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
+import com.gdx.game.settings.Settings;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -67,7 +68,7 @@ public class TitleScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 TitleScreen.this.dispose();
-                game.getMusic().dispose();
+                Settings.getMusic().dispose();
                 game.setScreen(new GameScreen(game));
                 return true;
             }
@@ -118,10 +119,6 @@ public class TitleScreen implements Screen {
                 return true;
             }
         });
-    
-        
-        
-        
     }
 
     @Override

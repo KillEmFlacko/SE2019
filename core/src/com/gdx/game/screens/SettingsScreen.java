@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
+import com.gdx.game.settings.Settings;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 /**
@@ -85,14 +86,14 @@ public class SettingsScreen implements Screen {
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         final Slider volume = new Slider(0.0f, 1.0f, 0.1f, false, skin);
 
-        volume.setValue(GdxGame.getDEFAULT_VOLUME());
+        volume.setValue(Settings.getDEFAULT_VOLUME());
         volume.setPosition(Gdx.graphics.getWidth() / 2 - 140, Gdx.graphics.getHeight() / 2 + 155);
 
         stage.addActor(volume);
 
         volume.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.getMusic().setVolume(volume.getValue());
+                Settings.getMusic().setVolume(volume.getValue());
                 volume.setValue(volume.getValue());
                 System.out.println("il volume è VolumeSetValue: " + volume.getValue());
 
