@@ -14,15 +14,17 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public abstract class DamageSkill extends PlayerSkill{
 
-    public DamageSkill(float coolDown, World world, float width, float height, Vector2 initialPosition,Player caster) {
-        super(coolDown, world, width, height, initialPosition, caster);
+    public DamageSkill(float coolDown, MortalEntity caster) {
+        super(coolDown, caster);
     }
 
 
 
 
+
+
     public float getDamageSpellMultiplier(){
-        return caster.getDamageSpellMultiplier();
+        return getCaster().getDamageSpellMultiplier();
     }
     
 }

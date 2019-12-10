@@ -40,8 +40,8 @@ public final class Player extends MortalEntity {
 
         //player must take spells that he has at his disposition
         //BigFireballSkillBullet bigFireballSkillBullet = new BigFireballSkillBullet(world, 3f, initalPosition, 50, 10f);
-        dmgSkill = new BigFireballSkill(5f, world, 3, 3, this.getPosition(), 10f, this, 30);
-        skillWeapon = new Weapon(this, dmgSkill.getB(), 1/dmgSkill.getCoolDown());
+        dmgSkill = new BigFireballSkill(5f,this,30,10f,world,1f,this.getPosition());
+        //skillWeapon = new Weapon(this, dmgSkill.getB(), 1/dmgSkill.getCoolDown());
 
     }
 
@@ -125,7 +125,8 @@ public final class Player extends MortalEntity {
 
         if (Gdx.input.isKeyJustPressed(Keys.UP) && Gdx.input.isKeyPressed(Keys.Q)) {
             //skill is a Fireball for instance
-            skillWeapon.fire(new Vector2(0, 1));
+            //skillWeapon.fire(new Vector2(0, 1));
+            dmgSkill.cast(new Vector2(0,1));
 
         } else if (Gdx.input.isKeyPressed(Keys.UP) && !Gdx.input.isKeyPressed(Keys.Q)) {
             weapon.fire(new Vector2(0, 1));
@@ -138,7 +139,8 @@ public final class Player extends MortalEntity {
         if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
             if (Gdx.input.isKeyJustPressed(Keys.RIGHT) && Gdx.input.isKeyPressed(Keys.Q)) {
                 //skill is a Fireball for instance
-                skillWeapon.fire(new Vector2(1, 0));
+                //skillWeapon.fire(new Vector2(1, 0));
+                dmgSkill.cast(new Vector2(1,0));
 
             } else if (Gdx.input.isKeyPressed(Keys.RIGHT) && !Gdx.input.isKeyPressed(Keys.Q)) {
                 weapon.fire(new Vector2(1, 0));

@@ -32,20 +32,13 @@ public class BigFireballSkillBullet extends SkillBullet{
     private Animation<TextureRegion> explosionAnimation;
     private float stateTime = 0f;
 
-    public BigFireballSkillBullet(int damage, float initialSpeed, World world, float radius, Vector2 initialPosition) {
-        super(damage, initialSpeed, world, radius, initialPosition);
+    public BigFireballSkillBullet(int damage,float speed,World world, float radius,Vector2 position) {
+        super(damage, speed, world, radius, position);
     }
-
-
-
+    
     @Override
-    public void init() {
-        initPhysics();
-        initGraphics();
-    }
-
-    @Override
-    protected void initPhysics() {
+    public void initPhysics() {
+        
         BodyDef bdDef = new BodyDef();
         bdDef.type = BodyDef.BodyType.KinematicBody;
         bdDef.position.set(initalPosition);
@@ -54,7 +47,7 @@ public class BigFireballSkillBullet extends SkillBullet{
         body.setUserData(this);
 
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(worldWidth/2);
+        circleShape.setRadius(getWidth()/2);
 
         FilterFactory ff = new FilterFactory();
         FixtureDef fixtureDef = new FixtureDef();
@@ -69,7 +62,8 @@ public class BigFireballSkillBullet extends SkillBullet{
     }
 
     @Override
-    protected void initGraphics() {
+    public void initGraphics() {
+        
         atlas = new TextureAtlas(Gdx.files.internal("texture/player/skill/fireballSkill/pack.atlas"));
         movingAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("moving"),Animation.PlayMode.LOOP);
         textureRegion = movingAnimation.getKeyFrame(0f);
@@ -83,23 +77,21 @@ public class BigFireballSkillBullet extends SkillBullet{
     
 
     @Override
-    public Bullet clone() {
-        BigFireballSkillBullet clone = new BigFireballSkillBullet(this.getDamage(), worldWidth, world, worldWidth, initalPosition);
+    public SkillBullet clone() {
+        BigFireballSkillBullet clone = new BigFireballSkillBullet(this.getDamage(), getInitalSpeed(), world, getWidth()/2, initalPosition);
         clone.setFilter(filter);
         return clone;
     }
 
-    @Override
+     @Override
     public void draw(Batch batch, float parentAlpha) { 
-        float textureH = worldHeight;
-        float textureW = worldHeight * (24/9f); 
-        
+        float textureH = getHeight();
+        float textureW = getHeight() * ((float)textureRegion.getRegionWidth()/textureRegion.getRegionHeight()); 
         batch.draw(textureRegion, 
-                body.getPosition().x - worldWidth / 2, body.getPosition().y - worldWidth / 2, 
-                worldWidth/2, worldHeight/2, 
+                body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2, 
+                getWidth()/2, getHeight()/2, 
                 textureW, textureH, 
                 1, 1, 
                 body.getLinearVelocity().angle()+180f);
-    }  
-
+    } 
 }

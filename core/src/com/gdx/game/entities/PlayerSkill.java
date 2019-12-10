@@ -13,19 +13,8 @@ import com.badlogic.gdx.physics.box2d.World;
  * @author ammanas
  */
 public abstract class PlayerSkill extends Skill {
-    protected Player caster;
 
-    public PlayerSkill(float coolDown, World world, float width, float height, Vector2 initialPosition , Player caster ) {
-        super(coolDown, world, width, height, initialPosition, caster);
-        this.caster = caster;
-    }
-
-    public Player getCaster() {
-        return caster;
-    }
-
-    
-    
-
-    
+    public PlayerSkill(float coolDown, MortalEntity caster) {
+        super(coolDown, caster);
+    }   
 }

@@ -16,16 +16,17 @@ public abstract class DamageSkillAdapter extends PlayerSkill {
 
     private SkillBullet b;
 
-    public DamageSkillAdapter(float coolDown, World world, float width, float height, Vector2 initialPosition,Player caster,int damage) {
-        super(coolDown, world, width, height, initialPosition,caster);
-        //b is not initialized here, left to subclasses
+    public DamageSkillAdapter(float coolDown, MortalEntity caster) {
+        super(coolDown, caster);
     }
+
+
 
     public float getDamageSpellMultiplier() {
-        return caster.getDamageSpellMultiplier();
+        return getCaster().getDamageSpellMultiplier();
     }
 
-    public Bullet getB() {
+    public SkillBullet getB() {
         return b;
     }
 

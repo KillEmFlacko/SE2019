@@ -14,8 +14,8 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public abstract class DefenseSkill extends PlayerSkill{
 
-    public DefenseSkill(float coolDown, World world, float width, float height, Vector2 initialPosition,Player caster) {
-        super( coolDown, world, width, height, initialPosition,caster);
+    public DefenseSkill(float coolDown, MortalEntity caster) {
+        super(coolDown, caster);
     }
 
 
@@ -23,6 +23,6 @@ public abstract class DefenseSkill extends PlayerSkill{
 
 
     public float getDefenseSpellMultiplier(){
-        return caster.getDefenseSpelMultiplier();
+        return getCaster().getDefenseSpelMultiplier();
     }
 }

@@ -71,4 +71,10 @@ public abstract class Entity extends Actor {
     public Vector2 getInitalPosition() {
         return initalPosition;
     }
+
+    public World getWorld() {
+        return world;
+    }
+ 
+    
 }

@@ -14,12 +14,12 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public abstract class BoostSpell extends PlayerSkill{
 
-    public BoostSpell( float coolDown, World world, float width, float height, Vector2 initialPosition,Player caster) {
-        super( coolDown, world, width, height, initialPosition,caster);
+    public BoostSpell(float coolDown, MortalEntity caster) {
+        super(coolDown, caster);
     }
 
     
     public float getBoostSpellMultiplier(){
-        return caster.getBoostSpellMultiplier();
+        return getCaster().getBoostSpellMultiplier();
     }
 }

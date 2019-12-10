@@ -42,9 +42,8 @@ public abstract class SkillBullet extends Bullet {
     }
 
     @Override
-    public void init() {
-        initPhysics();
-        initGraphics();
-    }
+    public abstract SkillBullet clone();
 
+    
+    
 }

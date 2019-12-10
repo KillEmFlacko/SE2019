@@ -14,18 +14,22 @@ import com.badlogic.gdx.physics.box2d.World;
  *
  * @author natal
  */
-public abstract class Skill extends Entity{
+public abstract class Skill{
     
     private float coolDown;
     private TextureAtlas atlas;
     private TextureRegion region;
-    private Entity caster;
+    private MortalEntity caster;
 
-    public Skill(float coolDown, World world, float width, float height, Vector2 initialPosition, Entity caster) {
-        super(world, width, height, initialPosition);
+    public Skill(float coolDown,MortalEntity caster) {
+        
         this.coolDown = coolDown;
         this.caster = caster;
     }
+    
+    public abstract void cast(Vector2 direction);
+    public abstract void castOn(MortalEntity toCastOn);
+    
     
  
     public float getCoolDown() {
@@ -34,5 +38,11 @@ public abstract class Skill extends Entity{
 
     public void setCoolDown(float coolDown) {
         this.coolDown = coolDown;
-    }    
+    }
+
+    public MortalEntity getCaster() {
+        return caster;
+    }
+    
+    
 }
