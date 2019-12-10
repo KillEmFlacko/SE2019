@@ -132,8 +132,8 @@ public final class Player extends MortalEntity {
     
     @Override
     public void kill(){
-        fire(new DeathEvent());
         GdxGame.game.bodyToRemove.add(this.body);
         this.getStage().getRoot().removeActor(this);
+        fire(new DeathEvent());
     }
 }
