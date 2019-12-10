@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.entities.BasicBullet;
 import com.gdx.game.factories.Weapon;
 
-public class WesternWizard extends CharacterClass{
+public class WesternWizard implements CharacterClass{
     
     /*
     lifePoints = 100;
@@ -17,22 +17,67 @@ public class WesternWizard extends CharacterClass{
     strenght = 1;
     speed = 9f;
     */
-
-    public WesternWizard() {
-        super(0.8f, 9f, 10, 100, 9f);
-    }
+    
+    private final float STRENGHT = 0.8f;
+    private final float ATTACK_RATE = 10;
+    private final float SPEED = 9f;
+    private final int LIFE_POINTS = 100;
+    private final float BULLET_SPEED = 9f;
+    private TextureAtlas atlas;
+    private Animation<TextureAtlas.AtlasRegion> runAnimation;
+    private Animation<TextureAtlas.AtlasRegion> idleAnimation;
 
     @Override
     public void executeGraphics() {
-        atlas = new TextureAtlas(Gdx.files.internal("texture/player/wizzard/wizzard.atlas"));
+        atlas = new TextureAtlas(Gdx.files.internal("texture/player/wizzard/Wwizzard.atlas"));
         idleAnimation = new Animation(0.2f, atlas.findRegions("m_idle"), Animation.PlayMode.LOOP);
         runAnimation = new Animation(0.09f, atlas.findRegions("m_run"), Animation.PlayMode.LOOP);
-        textureRegion = idleAnimation.getKeyFrame(0f);
     }
-
+    
     @Override
-    public void executePhysics() {
+    public void executePhysics(World world, Vector2 position) {
         
     }
     
+    @Override
+    public float getStrenght() {
+        return STRENGHT;
+    }
+
+    @Override
+    public float getAttackRate() {
+        return ATTACK_RATE;
+    }
+
+    @Override
+    public float getSpeed() {
+        return SPEED;
+    }
+
+    @Override
+    public int getLifePoints() {
+        return LIFE_POINTS;
+    }
+
+    @Override
+    public float getBulletSpeed(){
+        return BULLET_SPEED;
+    }
+    
+    @Override
+    public TextureAtlas getAtlas() {
+        return atlas;
+    }
+
+    @Override
+    public Animation<TextureAtlas.AtlasRegion> getRunAnimation() {
+        return runAnimation;
+    }
+
+    @Override
+    public Animation<TextureAtlas.AtlasRegion> getIdleAnimation() {
+        return idleAnimation;
+    }
+    
 }
+    
