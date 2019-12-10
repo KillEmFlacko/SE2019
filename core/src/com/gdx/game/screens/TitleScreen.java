@@ -25,8 +25,8 @@ import java.util.logging.Logger;
  */
 public class TitleScreen implements Screen { 
 
-    private final Stage stage;
-    private final GdxGame game;
+    private  Stage stage;
+    private  GdxGame game;
     private Label label1;
     private final int padding = 15;
     private final int BUTTON_SPACE = 5;
@@ -37,6 +37,7 @@ public class TitleScreen implements Screen {
         this.game = aGame;
         this.stage = new Stage(aGame.vp);
         initUI();
+        
        
     }
         
@@ -105,8 +106,13 @@ public class TitleScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 TitleScreen.this.dispose();
+             
                 try {
-                    game.setScreen(new SettingsScreen(game));
+                 
+                    stage=SettingsScreen.getStage(game);
+                   game.setScreen(SettingsScreen.getInstance());
+                  
+                    
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {

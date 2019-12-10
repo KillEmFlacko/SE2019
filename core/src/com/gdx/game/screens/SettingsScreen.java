@@ -1,5 +1,6 @@
 package com.gdx.game.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -19,6 +20,8 @@ import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,21 +29,47 @@ import java.io.IOException;
  */
 public class SettingsScreen implements Screen {
 
-    private Stage stage;
-    private GdxGame game;
-    private Label label1;
-    private float colWidth;
-    private float rowHeight;
-    private final int padding = 15;
-    private Label audio;
+    private static Stage stage;
+    private static GdxGame game;
+    private static Label label1;
+    private static float colWidth;
+    private static float rowHeight;
+    private static final int padding = 15;
+    private static Label audio;
+    private static SettingsScreen single_instance=null;
+    private static Slider volume;
 
-    SettingsScreen(GdxGame game) throws FileNotFoundException, IOException {
-        this.game = game;
-        this.stage = new Stage(game.vp);
-        initUI();
+    private SettingsScreen(GdxGame game)  {
+        
+        game=getGame();
+       
+    
+        
+    }
+    public static SettingsScreen getInstance() throws IOException{
+        if(single_instance==null)
+            single_instance=new SettingsScreen(game);
+           
+        
+         return single_instance;
+    }
+    
+    public static GdxGame getGame(){
+        game=GdxGame.game;
+        return game;
     }
 
-    private void initUI() {
+    public static Stage getStage(GdxGame game){
+        stage=new Stage(game.vp);
+        
+        initUI();
+       
+        return stage;
+    }
+    
+ 
+
+    private static void initUI() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameters.size = 30;
@@ -67,8 +96,15 @@ public class SettingsScreen implements Screen {
         btnButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                SettingsScreen.this.dispose();
+                try {
+                    SettingsScreen.getInstance().dispose();
+                } catch (IOException ex) {
+                    Logger.getLogger(SettingsScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
+              
                 game.setScreen(new TitleScreen(game));
+               
+           
                 return true;
             }
         });
@@ -81,7 +117,7 @@ public class SettingsScreen implements Screen {
         stage.addActor(audio);
 
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        final Slider volume = new Slider(0.0f, 1.0f, 0.1f, false, skin);
+         final Slider volume = new Slider(0.0f, 1.0f, 0.1f, false, skin);
         volume.setValue(0.5f);
         volume.setPosition(Gdx.graphics.getWidth() / 2 - 140, Gdx.graphics.getHeight() / 2 + 155);
 
