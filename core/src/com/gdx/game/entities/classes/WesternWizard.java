@@ -11,13 +11,6 @@ import com.gdx.game.factories.Weapon;
 
 public class WesternWizard implements CharacterClass{
     
-    /*
-    lifePoints = 100;
-    attackRate = 3;
-    strenght = 1;
-    speed = 9f;
-    */
-    
     private final float STRENGHT = 0.8f;
     private final float ATTACK_RATE = 10;
     private final float SPEED = 9f;

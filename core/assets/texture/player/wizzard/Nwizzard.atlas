@@ -1,0 +1,132 @@
+
+northernwizard.png
+size: 64,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+f_idle
+  rotate: false
+  xy: 20, 182
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+f_idle
+  rotate: false
+  xy: 2, 122
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+f_idle
+  rotate: false
+  xy: 20, 152
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+f_idle
+  rotate: false
+  xy: 2, 92
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+m_idle
+  rotate: false
+  xy: 38, 152
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+m_idle
+  rotate: false
+  xy: 2, 62
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+m_idle
+  rotate: false
+  xy: 20, 92
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+m_idle
+  rotate: false
+  xy: 38, 122
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+f_hit
+  rotate: false
+  xy: 2, 152
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+f_run
+  rotate: false
+  xy: 2, 2
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+f_run
+  rotate: false
+  xy: 20, 32
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+f_run
+  rotate: false
+  xy: 38, 92
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+f_run
+  rotate: false
+  xy: 2, 182
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+m_hit
+  rotate: false
+  xy: 20, 122
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+m_run
+  rotate: false
+  xy: 38, 62
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+m_run
+  rotate: false
+  xy: 2, 32
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+m_run
+  rotate: false
+  xy: 20, 62
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+m_run
+  rotate: false
+  xy: 38, 182
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
