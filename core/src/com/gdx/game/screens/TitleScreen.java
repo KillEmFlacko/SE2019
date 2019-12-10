@@ -2,7 +2,6 @@ package com.gdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -25,24 +24,24 @@ import java.util.logging.Logger;
  */
 public class TitleScreen implements Screen { 
 
-    private  Stage stage;
-    private  GdxGame game;
+    private final Stage stage;
+    private final GdxGame game;
     private Label label1;
     private final int padding = 15;
     private final int BUTTON_SPACE = 5;
-    private Sound sound;
+    private SettingsScreen ss;
  
 
-    public TitleScreen(GdxGame aGame) {
+    public TitleScreen(GdxGame aGame) throws IOException {
         this.game = aGame;
         this.stage = new Stage(aGame.vp);
+        ss = new SettingsScreen(game, this);
         initUI();
-        
        
     }
         
     
-    //ciao
+    
  
   
 
@@ -105,19 +104,8 @@ public class TitleScreen implements Screen {
         btnSetting.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                TitleScreen.this.dispose();
-             
-                try {
-                 
-                    stage=SettingsScreen.getStage(game);
-                   game.setScreen(SettingsScreen.getInstance());
-                  
-                    
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                //TitleScreen.this.dispose();
+                game.setScreen(ss);
                 return true;
             }
         });
@@ -125,15 +113,6 @@ public class TitleScreen implements Screen {
     
   }
     
-   
-    
-    
-    
-
-    private void initPhy() {
-
-    }
-
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);

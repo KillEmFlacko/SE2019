@@ -4,12 +4,15 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gdx.game.screens.TitleScreen;
+import java.io.IOException;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GdxGame extends Game {
 
@@ -19,6 +22,9 @@ public class GdxGame extends Game {
     public static GdxGame game;
     public static final float SCALE = 6.0f;
     private Music music;
+    private static final float DEFAULT_VOLUME = 0.5f;
+    
+    
     
     
     public LinkedList<Body> bodyToRemove = new LinkedList<Body>();
@@ -33,26 +39,37 @@ public class GdxGame extends Game {
       
        
     }
+    
     public void initAudio(){
         music=Gdx.audio.newMusic(Gdx.files.internal("audio/menu/wakawaka.mp3"));
         music.play();  
         music.setLooping(true);
+        music.setVolume(DEFAULT_VOLUME); 
     }
 
+    public static float getDEFAULT_VOLUME() {
+        return DEFAULT_VOLUME;
+    }
+
+    
   
     public Music getMusic() {
         return music;
     }
     
-    
-       
-    
 
     @Override
     public void create() {
         skin = new Skin(Gdx.files.internal("skin/expee-ui.json"));
-        this.setScreen(new TitleScreen(this));
+       
+        try {
+            this.setScreen(new TitleScreen(this));
+        } catch (IOException ex) {
+            Logger.getLogger(GdxGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
            initAudio();
+           
          
     }
   

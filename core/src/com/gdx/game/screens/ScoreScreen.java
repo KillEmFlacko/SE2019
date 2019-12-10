@@ -33,7 +33,7 @@ public class ScoreScreen implements Screen{
     private final HighScoreTable hst;
     private float colWidth;
     private float rowHeight;
-    private Sound sound;
+       private TitleScreen ts;
 
     
     public ScoreScreen(GdxGame game) throws FileNotFoundException, IOException {
@@ -41,6 +41,7 @@ public class ScoreScreen implements Screen{
         this.game = game;
         this.stage = new Stage();    
         this.labelArray = new ArrayList();
+        ts = new  TitleScreen(game);
         initUI();
     }
     
@@ -74,7 +75,7 @@ public class ScoreScreen implements Screen{
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 ScoreScreen.this.dispose();
-                game.setScreen(new TitleScreen(game));
+                game.setScreen(ScoreScreen.this.ts);
                 return true;
             }
         });
