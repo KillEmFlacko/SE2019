@@ -167,9 +167,9 @@ public final class DemoBoss extends Boss {
 //
 //        body.setUserData(null);
 //        body = null;
-        fire(new DeathEvent());
+        
         this.getStage().getRoot().removeActor(this);
-
+        fire(new DeathEvent());
         //stop animation and remove body
     }
 
