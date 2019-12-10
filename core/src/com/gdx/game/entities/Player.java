@@ -14,6 +14,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.GdxGame;
 import com.gdx.game.contact_listeners.events.DeathEvent;
 import com.gdx.game.contact_listeners.events.HitEvent;
+import com.gdx.game.entities.classes.CharacterClass;
+import com.gdx.game.entities.classes.NorthernWizard;
 import com.gdx.game.factories.Weapon;
 
 /**
@@ -27,8 +29,8 @@ public final class Player extends MortalEntity {
     private Animation<TextureAtlas.AtlasRegion> runAnimation;
     private Animation<TextureAtlas.AtlasRegion> idleAnimation;
     private float stateTime = 0f;
-    private final float speed = 9f;
-
+    private float speed;
+    private CharacterClass characterClass;
     private boolean skillSelected = false;
     private DamageSkillAdapter dmgSkill;
     private DefenseSkill dSkill;

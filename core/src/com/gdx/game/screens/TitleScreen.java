@@ -62,7 +62,7 @@ public class TitleScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 TitleScreen.this.dispose();
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new PlayerSelectionScreen(game));
                 return true;
             }
         });
