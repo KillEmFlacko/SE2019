@@ -5,6 +5,8 @@
  */
 package com.gdx.game.entities;
 
+import com.gdx.game.exceptions.NotCastableException;
+import com.gdx.game.exceptions.NotSelfCastableException;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;

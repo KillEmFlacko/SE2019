@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.GdxGame;
 import com.gdx.game.contact_listeners.events.DeathEvent;
+import com.gdx.game.exceptions.NotCastableException;
 import com.gdx.game.factories.Weapon;
 
 /**

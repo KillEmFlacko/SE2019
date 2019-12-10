@@ -60,8 +60,7 @@ public final class BigFireballSkill extends DamageSkillAdapter {
     }
 
     @Override
-    public void castOn(MortalEntity caster) {
-
+    public void castOn(MortalEntity caster){
     }
 
 }
