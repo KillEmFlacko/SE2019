@@ -1,6 +1,5 @@
 package com.gdx.game.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -18,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,38 +34,35 @@ public class SettingsScreen implements Screen {
     private static float rowHeight;
     private static final int padding = 15;
     private static Label audio;
-    private static SettingsScreen single_instance=null;
+    private static SettingsScreen single_instance = null;
     private static Slider volume;
 
-    private SettingsScreen(GdxGame game)  {
-        
-        game=getGame();
-       
-    
-        
+    private SettingsScreen(GdxGame game) {
+
+        game = getGame();
+
     }
-    public static SettingsScreen getInstance() throws IOException{
-        if(single_instance==null)
-            single_instance=new SettingsScreen(game);
-           
-        
-         return single_instance;
+
+    public static SettingsScreen getInstance() throws IOException {
+        if (single_instance == null) {
+            single_instance = new SettingsScreen(game);
+        }
+
+        return single_instance;
     }
-    
-    public static GdxGame getGame(){
-        game=GdxGame.game;
+
+    public static GdxGame getGame() {
+        game = GdxGame.game;
         return game;
     }
 
-    public static Stage getStage(GdxGame game){
-        stage=new Stage(game.vp);
-        
+    public static Stage getStage(GdxGame game) {
+        stage = new Stage(game.vp);
+
         initUI();
-       
+
         return stage;
     }
-    
- 
 
     private static void initUI() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
@@ -101,10 +96,9 @@ public class SettingsScreen implements Screen {
                 } catch (IOException ex) {
                     Logger.getLogger(SettingsScreen.class.getName()).log(Level.SEVERE, null, ex);
                 }
-              
+
                 game.setScreen(new TitleScreen(game));
-               
-           
+
                 return true;
             }
         });
@@ -117,7 +111,7 @@ public class SettingsScreen implements Screen {
         stage.addActor(audio);
 
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-         final Slider volume = new Slider(0.0f, 1.0f, 0.1f, false, skin);
+        final Slider volume = new Slider(0.0f, 1.0f, 0.1f, false, skin);
         volume.setValue(0.5f);
         volume.setPosition(Gdx.graphics.getWidth() / 2 - 140, Gdx.graphics.getHeight() / 2 + 155);
 
