@@ -17,6 +17,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.gdx.game.GdxGame;
 import com.gdx.game.entities.MapLimits;
 import com.gdx.game.entities.Player;
@@ -173,56 +175,60 @@ public class GameScreen implements Screen {
     }
 
     public void end() {
-        try {
-            label1.setVisible(true);
-            final HighScoreTable hst = new HighScoreTable();
+        label1.setVisible(true);
+        Timer.schedule(new Task() {
+            @Override
+            public void run() {
+                try {
+                    final HighScoreTable hst = new HighScoreTable();
 
-            if (hst.isInTop(score.getScore())) {
+                    if (hst.isInTop(score.getScore())) {
 
-                GDXDialogs dialogs = game.getDialogMgr();
-                GDXTextPrompt textPrompt = dialogs.newDialog(GDXTextPrompt.class);
+                        GDXDialogs dialogs = game.getDialogMgr();
+                        GDXTextPrompt textPrompt = dialogs.newDialog(GDXTextPrompt.class);
 
-                textPrompt.setTitle("New High Score!");
-                textPrompt.setMessage("Please, insert your name.");
+                        textPrompt.setTitle("New High Score!");
+                        textPrompt.setMessage("Please, insert your name.");
 
-                textPrompt.setCancelButtonLabel("Cancel");
-                textPrompt.setConfirmButtonLabel("OK");
+                        textPrompt.setCancelButtonLabel("Cancel");
+                        textPrompt.setConfirmButtonLabel("OK");
 
-                textPrompt.setTextPromptListener(new TextPromptListener() {
+                        textPrompt.setTextPromptListener(new TextPromptListener() {
 
-                    @Override
-                    public void confirm(String text) {
-                        try {
-                            hst.insertHighScore(text, 0);
-                            game.setScreen(new ScoreScreen(game));
-                        } catch (IOException ex) {
-                            game.setScreen(new TitleScreen(game));
-                        } finally {
-                            GameScreen.this.dispose();
-                        }
+                            @Override
+                            public void confirm(String text) {
+                                try {
+                                    hst.insertHighScore(text, 0);
+                                    game.setScreen(new ScoreScreen(game));
+                                } catch (IOException ex) {
+                                    game.setScreen(new TitleScreen(game));
+                                } finally {
+                                    GameScreen.this.dispose();
+                                }
+                            }
+
+                            @Override
+                            public void cancel() {
+                                try {
+                                    game.setScreen(new ScoreScreen(game));
+                                } catch (IOException ex) {
+                                    game.setScreen(new TitleScreen(game));
+                                } finally {
+                                    GameScreen.this.dispose();
+                                }
+                            }
+                        });
+
+                        textPrompt.build().show();
+                    } else {
+                        game.setScreen(new ScoreScreen(game));
+                        GameScreen.this.dispose();
                     }
-
-                    @Override
-                    public void cancel() {
-                        try {
-                            game.setScreen(new ScoreScreen(game));
-                        } catch (IOException ex) {
-                            game.setScreen(new TitleScreen(game));
-                        } finally {
-                            GameScreen.this.dispose();
-                        }
-                    }
-                });
-
-                textPrompt.build().show();
-            } else {
-                game.setScreen(new ScoreScreen(game));
-                this.dispose();
-            } 
-        } catch (IOException ex) {
-            game.setScreen(new TitleScreen(game));
-        }
-
+                } catch (IOException ex) {
+                    game.setScreen(new TitleScreen(game));
+                }
+            }
+        }, 5);
     }
 
     @Override
