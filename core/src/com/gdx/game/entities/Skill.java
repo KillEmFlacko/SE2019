@@ -5,17 +5,34 @@
  */
 package com.gdx.game.entities;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+
 /**
  *
  * @author natal
  */
-public interface Skill {
-    final float BASE_COOLDOWN = 1f;
+public abstract class Skill extends Entity{
     
-    public void getBaseCooldown();
+    private float coolDown;
+    private TextureAtlas atlas;
+    private TextureRegion region;
+    private Entity caster;
+
+    public Skill(float coolDown, World world, float width, float height, Vector2 initialPosition, Entity caster) {
+        super(world, width, height, initialPosition);
+        this.coolDown = coolDown;
+        this.caster = caster;
+    }
     
-    public void setCooldown ();
-    
-    public void getCooldown();
-    
+ 
+    public float getCoolDown() {
+        return coolDown;
+    }
+
+    public void setCoolDown(float coolDown) {
+        this.coolDown = coolDown;
+    }    
 }

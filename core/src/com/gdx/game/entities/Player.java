@@ -16,7 +16,7 @@ import com.gdx.game.contact_listeners.events.DeathEvent;
 import com.gdx.game.factories.Weapon;
 
 /**
- *  
+ *
  * @author Giovanni
  */
 public final class Player extends MortalEntity {
@@ -28,11 +28,21 @@ public final class Player extends MortalEntity {
     private float stateTime = 0f;
     private final float speed = 9f;
 
+    private boolean skillSelected = false;
+    private DamageSkillAdapter dmgSkill;
+    private Weapon skillWeapon;
+
     public Player(String name, int lifepoints, World world, float width, float height, Vector2 position) {
         super(name, lifepoints, world, width, height, position);
         weapon = new Weapon(this, new BasicBullet(world, 4f/GdxGame.game.SCALE, position, 10, speed * 1.5f), 3);
         initPhysics();
         initGraphics();
+
+        //player must take spells that he has at his disposition
+        //BigFireballSkillBullet bigFireballSkillBullet = new BigFireballSkillBullet(world, 3f, initalPosition, 50, 10f);
+        dmgSkill = new BigFireballSkill(5f, world, 3, 3, this.getPosition(), 10f, this, 30);
+        skillWeapon = new Weapon(this, dmgSkill.getB(), 1/dmgSkill.getCoolDown());
+
     }
 
     @Override
@@ -69,11 +79,11 @@ public final class Player extends MortalEntity {
 
     @Override
     public void act(float delta) {
-        if(super.life <= 0){
+        if (super.life <= 0) {
             kill();
             return;
         }
-        
+
         stateTime += delta;
         super.act(delta);
 
@@ -107,33 +117,61 @@ public final class Player extends MortalEntity {
         if ((Gdx.input.isKeyPressed(Keys.A) || Gdx.input.isKeyPressed(Keys.S)) && !(Gdx.input.isKeyPressed(Keys.D))) {
             textureRegion.flip(true, false);
         }
+
         shouldShoot(delta);
     }
 
     public void shouldShoot(float delta) {
-        if (Gdx.input.isKeyPressed(Keys.UP)) {
+
+        if (Gdx.input.isKeyJustPressed(Keys.UP) && Gdx.input.isKeyPressed(Keys.Q)) {
+            //skill is a Fireball for instance
+            skillWeapon.fire(new Vector2(0, 1));
+
+        } else if (Gdx.input.isKeyPressed(Keys.UP) && !Gdx.input.isKeyPressed(Keys.Q)) {
             weapon.fire(new Vector2(0, 1));
         }
+
         if (Gdx.input.isKeyPressed(Keys.DOWN)) {
             weapon.fire(new Vector2(0, -1));
         }
+        
         if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-            weapon.fire(new Vector2(1, 0));
+            if (Gdx.input.isKeyJustPressed(Keys.RIGHT) && Gdx.input.isKeyPressed(Keys.Q)) {
+                //skill is a Fireball for instance
+                skillWeapon.fire(new Vector2(1, 0));
+
+            } else if (Gdx.input.isKeyPressed(Keys.RIGHT) && !Gdx.input.isKeyPressed(Keys.Q)) {
+                weapon.fire(new Vector2(1, 0));
+            }
+
         }
         if (Gdx.input.isKeyPressed(Keys.LEFT)) {
             weapon.fire(new Vector2(-1, 0));
         }
+
     }
 
     @Override
     public void isHitBy(Bullet bullet) {
         life -= bullet.getDamage();
     }
-    
+
     @Override
-    public void kill(){
+    public void kill() {
         fire(new DeathEvent());
         GdxGame.game.bodyToRemove.add(this.body);
         this.getStage().getRoot().removeActor(this);
+    }
+
+    float getBoostSpellMultiplier() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    float getDamageSpellMultiplier() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    float getDefenseSpelMultiplier() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
