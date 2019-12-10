@@ -7,7 +7,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.gdx.game.GdxGame;
 
 /**
  *
@@ -38,4 +41,19 @@ public class DemoBossBullet extends BasicBullet {
         clone.setFilter(filter);
         return clone;
     }
+
+    @Override
+    public void dispose() {
+        Stage stage = getStage();
+        //actor already removed i don't really know what it is
+        if (stage == null)
+            return;
+
+        Group g = stage.getRoot();
+        
+        g.removeActor(this);
+        
+        GdxGame.game.bodyToRemove.add(body);
+    }
+
 }

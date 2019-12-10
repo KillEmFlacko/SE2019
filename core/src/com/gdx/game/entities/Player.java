@@ -31,6 +31,7 @@ public final class Player extends MortalEntity {
 
     private boolean skillSelected = false;
     private DamageSkillAdapter dmgSkill;
+    private DefenseSkill dSkill;
     private Weapon skillWeapon;
 
     public Player(String name, int lifepoints, World world, float width, float height, Vector2 position) {
@@ -42,6 +43,7 @@ public final class Player extends MortalEntity {
         //player must take spells that he has at his disposition
         //BigFireballSkillBullet bigFireballSkillBullet = new BigFireballSkillBullet(world, 3f, initalPosition, 50, 10f);
         dmgSkill = new BigFireballSkill(5f,this,30,10f,world,1f,this.getPosition());
+        dSkill = new LightShieldSkill(2f, this);
         //skillWeapon = new Weapon(this, dmgSkill.getB(), 1/dmgSkill.getCoolDown());
 
     }
@@ -123,11 +125,17 @@ public final class Player extends MortalEntity {
     }
 
     public void shouldShoot(float delta) {
+        
+        if(Gdx.input.isKeyPressed(Keys.SPACE) && Gdx.input.isKeyPressed(Keys.E)){
+            dSkill.castOn(this);
+            
+        }
 
         if (Gdx.input.isKeyJustPressed(Keys.UP) && Gdx.input.isKeyPressed(Keys.Q)) {
             //skill is a Fireball for instance
             //skillWeapon.fire(new Vector2(0, 1));
             dmgSkill.cast(new Vector2(0,1));
+            
 
         } else if (Gdx.input.isKeyPressed(Keys.UP) && !Gdx.input.isKeyPressed(Keys.Q)) {
             weapon.fire(new Vector2(0, 1));

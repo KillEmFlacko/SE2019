@@ -29,6 +29,7 @@ public class Weapon {
             Vector2 normDir = direction.nor();
             Vector2 bulletVelocity = new Vector2(normDir.x * bullet.getInitalSpeed(), normDir.y * bullet.getInitalSpeed());
             bullet.setInitialPosition(shooter.getPosition().add(normDir.x * shooter.getWorldWidth()/2,normDir.y*shooter.getWorldHeight()/2));
+            
             FilterFactory ff = new FilterFactory();
             if (shooter instanceof Player) {
                 bullet.setFilter(ff.getPlayerBulletFilter());

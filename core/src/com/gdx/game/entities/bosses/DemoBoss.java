@@ -110,7 +110,7 @@ public final class DemoBoss extends Boss {
 
             if ((r.nextFloat() * 10) >= 6) {
 
-                System.out.println("Player position" + playerPosition);
+                //System.out.println("Player position" + playerPosition);
 
                 actVelocity.set(newMovePlayer.scl(1.3f));
                 //checkDirection(newMovePlayer);
@@ -119,7 +119,7 @@ public final class DemoBoss extends Boss {
                 //prevMovement = new Movement(newMovePlayer);
             } else {
                 Movement movement = movementQ.frontToBack();
-                Gdx.app.log("V", movement.toString());
+                //Gdx.app.log("V", movement.toString());
                 actVelocity.set(movement);
                 weapon.fire(newMovePlayer.scl(1f));
                 //checkDirection(movement);
@@ -130,6 +130,7 @@ public final class DemoBoss extends Boss {
 
             prevMovement = new Movement(this.getLinearVelocity());
         }
+        //robba di Armando nel mio codice
         if(!body.getLinearVelocity().equals(actVelocity)){
             body.setLinearVelocity(actVelocity);
         }
