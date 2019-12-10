@@ -1,6 +1,8 @@
 package com.gdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -104,6 +106,22 @@ public class TitleScreen implements Screen {
         });
         stage.addActor(btnSetting);
 
+        TextButton quitButton = new TextButton("Quit", game.skin, "default");
+        quitButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
+        quitButton.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 90 - padding * BUTTON_SPACE);
+        stage.addActor(quitButton);
+        quitButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                TitleScreen.this.dispose();
+                Gdx.app.exit();
+                return true;
+            }
+        });
+    
+        
+        
+        
     }
 
     @Override
