@@ -1,0 +1,50 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.gdx.game.entities;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+
+/**
+ *
+ * @author ammanas
+ */
+public abstract class SkillBullet extends Bullet {
+
+    private final int damage;
+    private final float initialSpeed;
+    private Texture texture;
+    private Animation<TextureRegion> movingAnimation;
+    private Animation<TextureRegion> explosionAnimation;
+    private float stateTime = 0f;
+
+    public SkillBullet(int damage, float initialSpeed, World world, float radius, Vector2 initialPosition) {
+        super(world, radius, initialPosition);
+        this.damage = damage;
+        this.initialSpeed = initialSpeed;
+        //do not call init here
+    }
+
+    @Override
+    public int getDamage() {
+        return this.damage;
+    }
+
+    @Override
+    public float getInitalSpeed() {
+        return this.initialSpeed;
+    }
+
+    @Override
+    public void init() {
+        initPhysics();
+        initGraphics();
+    }
+
+}
