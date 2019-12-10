@@ -18,18 +18,17 @@ public abstract class Entity extends Actor {
     protected World world;
     protected Body body;
     protected TextureRegion textureRegion;
-    protected float worldWidth, worldHeight;
     protected Vector2 initalPosition;
 
-    public Entity(World world, float width, float height, Vector2 initialPosition) {
+    public Entity(World world, float worldWidth, float worldHeight, Vector2 initialPosition) {
         this.world = world;
-        this.worldWidth = width;
-        this.worldHeight = height;
+        setWidth(worldWidth);
+        setHeight(worldHeight);
         this.initalPosition = initialPosition;
     }
     @Override
     public void draw(Batch batch, float parentAlpha) { //Draw dice al batch cosa deve disegnare. Lo stage ogni volta che fai stage.draw chiama tutti i draw degli actors passandogli il batch in modo che possono contribire al batch e disegna tutto insieme
-        batch.draw(textureRegion, body.getPosition().x - worldWidth / 2, body.getPosition().y - worldWidth / 2, worldWidth, worldHeight);
+        batch.draw(textureRegion, body.getPosition().x - getWidth() / 2, body.getPosition().y - getWidth() / 2, getWidth(), getHeight());
     }
 
     protected abstract void initPhysics();
@@ -62,11 +61,11 @@ public abstract class Entity extends Actor {
     }
 
     public float getWorldWidth() {
-        return worldWidth;
+        return getWidth();
     }
 
     public float getWorldHeight() {
-        return worldHeight;
+        return getHeight();
     }
 
     public Vector2 getInitalPosition() {

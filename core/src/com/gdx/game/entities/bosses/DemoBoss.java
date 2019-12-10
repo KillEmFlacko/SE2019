@@ -51,7 +51,7 @@ public final class DemoBoss extends Boss {
         super(name, life, world, width, height, position);
         this.movementQ = movementQ;
         this.player = player;
-        DemoBossBullet b = new DemoBossBullet(world, 1f, this.player.getPosition(), 25, 10f);
+        DemoBossBullet b = new DemoBossBullet(world, 4f/GdxGame.game.SCALE, this.player.getPosition(), 25, 10f);
         this.weapon = new Weapon(this, b, 1);
 
         //bossState = new IdleState(); TO ADD
@@ -75,7 +75,7 @@ public final class DemoBoss extends Boss {
         this.body.setUserData(this);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(worldWidth * 0.6f / 2, worldWidth / 2);
+        shape.setAsBox(getWidth() * 0.6f / 2, getWidth() / 2);
 //        CircleShape shape = new CircleShape();
 //        shape.setRadius(worldWidth/2);
         FixtureDef fixtureDef = new FixtureDef();

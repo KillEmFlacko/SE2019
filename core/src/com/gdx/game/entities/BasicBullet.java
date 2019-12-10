@@ -18,14 +18,14 @@ import com.badlogic.gdx.utils.Array;
  *
  * @author Armando
  */
-public final class BasicBullet extends Bullet {
+public class BasicBullet extends Bullet {
 
-    private final int damage;
-    private final float initialSpeed;
+    protected final int damage;
+    protected final float initialSpeed;
     private Texture texture;
-    private Animation<TextureRegion> movingAnimation;
-    private Animation<TextureRegion> explosionAnimation;
-    private float stateTime = 0f;
+    protected Animation<TextureRegion> movingAnimation;
+    protected Animation<TextureRegion> explosionAnimation;
+    protected float stateTime = 0f;
 
     // ASTRAI
     public BasicBullet(World world, float radius, Vector2 position, int damage, float initSpeed) {
@@ -35,13 +35,7 @@ public final class BasicBullet extends Bullet {
     }
 
     @Override
-    public void init() {
-        initPhysics();
-        initGraphics();
-    }
-
-    @Override
-    protected void initPhysics() {
+    public void initPhysics() {
         BodyDef bdDef = new BodyDef();
         bdDef.type = BodyDef.BodyType.KinematicBody;
         bdDef.position.set(initalPosition);
@@ -50,7 +44,7 @@ public final class BasicBullet extends Bullet {
         body.setUserData(this);
 
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(worldWidth/2);
+        circleShape.setRadius(getWidth()/2);
 
         FilterFactory ff = new FilterFactory();
         FixtureDef fixtureDef = new FixtureDef();
@@ -65,10 +59,13 @@ public final class BasicBullet extends Bullet {
     }
 
     @Override
-    protected void initGraphics() {
+    public void initGraphics() {
         texture = new Texture(Gdx.files.internal("texture/fireballV2/Small_Iceball_24x9.png"));
         TextureRegion[][] animation = TextureRegion.split(texture, 24,9);
-        Array<TextureRegion> array = new Array<>(animation[0]);
+        Array<TextureRegion> array = new Array<>(animation.length * animation[0].length);
+        for (TextureRegion[] textureRegions : animation) {
+            array.addAll(textureRegions);
+        }
         movingAnimation = new Animation<>(0.05f, array, Animation.PlayMode.LOOP);
         textureRegion = movingAnimation.getKeyFrame(0f);
     }
@@ -91,18 +88,18 @@ public final class BasicBullet extends Bullet {
 
     @Override
     public Bullet clone() {
-        BasicBullet clone = new BasicBullet(world, worldWidth, initalPosition, damage, initialSpeed);
+        BasicBullet clone = new BasicBullet(world, getWidth()/2, initalPosition, damage, initialSpeed);
         clone.setFilter(filter);
         return clone;
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) { 
-        float textureH = worldHeight;
-        float textureW = worldHeight * (24/9f); 
+        float textureH = getHeight();
+        float textureW = getHeight() * ((float)textureRegion.getRegionWidth()/textureRegion.getRegionHeight()); 
         batch.draw(textureRegion, 
-                body.getPosition().x - worldWidth / 2, body.getPosition().y - worldWidth / 2, 
-                worldWidth/2, worldHeight/2, 
+                body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2, 
+                getWidth()/2, getHeight()/2, 
                 textureW, textureH, 
                 1, 1, 
                 body.getLinearVelocity().angle()+180f);

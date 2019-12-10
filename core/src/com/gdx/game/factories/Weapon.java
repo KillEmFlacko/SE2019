@@ -14,10 +14,10 @@ public class Weapon {
 
     private final Bullet bullet;
     private final Entity shooter;
-    private final int shootingRate;
+    private final float shootingRate;
     private Date lastFireDate = null;
 
-    public Weapon(Entity shooterEntity, Bullet bullet, int shootingRate) {
+    public Weapon(Entity shooterEntity, Bullet bullet, float shootingRate) {
         this.shooter = shooterEntity;
         this.bullet = bullet;
         this.shootingRate = shootingRate;
@@ -37,7 +37,8 @@ public class Weapon {
             }
 
             Bullet clone = bullet.clone();
-            clone.init();
+            clone.initPhysics();
+            clone.initGraphics();
             shooter.getStage().addActor(clone);
             clone.setLinearVelocity(bulletVelocity);
 

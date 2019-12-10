@@ -30,7 +30,7 @@ public final class Player extends MortalEntity {
 
     public Player(String name, int lifepoints, World world, float width, float height, Vector2 position) {
         super(name, lifepoints, world, width, height, position);
-        weapon = new Weapon(this, new BasicBullet(world, 1f, position, 10, speed * 1.5f), 3);
+        weapon = new Weapon(this, new BasicBullet(world, 4f/GdxGame.game.SCALE, position, 10, speed * 1.5f), 3);
         initPhysics();
         initGraphics();
     }
@@ -44,7 +44,7 @@ public final class Player extends MortalEntity {
         body.setUserData(this);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(worldWidth / 2, worldWidth / 2);
+        shape.setAsBox(getWidth() / 2, getWidth() / 2);
 
         FilterFactory ff = new FilterFactory();
         FixtureDef fixDef = new FixtureDef();

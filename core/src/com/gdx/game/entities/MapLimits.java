@@ -35,7 +35,7 @@ public class MapLimits extends Entity {
         this.body = this.world.createBody(bodyDef);
         
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(worldWidth / 2, worldHeight / 2);
+        shape.setAsBox(getWidth() / 2, getHeight() / 2);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
