@@ -9,52 +9,38 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.entities.Player;
 import com.gdx.game.factories.Weapon;
 
-public abstract class CharacterClass{
+public interface CharacterClass{
     
+    /*
     protected float strenght;
     protected float speed;
     protected float attackRate;
     protected int lifePoints;
     protected float bulletSpeed;
     protected TextureAtlas atlas;
-    protected TextureRegion textureRegion;
     protected Weapon weapon;
     protected Animation<TextureAtlas.AtlasRegion> runAnimation;
     protected Animation<TextureAtlas.AtlasRegion> idleAnimation;
-
-    public CharacterClass(float strenght, float speed, float attackRate, int lifePoints, float bulletSpeed) {
-        this.strenght = strenght;
-        this.speed = speed;
-        this.attackRate = attackRate;
-        this.lifePoints = lifePoints;
-        this.bulletSpeed = bulletSpeed;
-    }
+    */
     
 
+    public float getAttackRate();
 
-    public float getAttackRate() {
-        return attackRate;
-    }
+    public int getLifePoints();
 
-    public int getLifePoints() {
-        return lifePoints;
-    }
+    public float getStrenght();
 
-    public float getStrenght() {
-        return strenght;
-    }
+    public float getSpeed();
 
-    public float getSpeed() {
-        return speed;
-    }
-
-    public float getBulletSpeed() {
-        return bulletSpeed;
-    }
+    public float getBulletSpeed();
+    
+    public TextureAtlas getAtlas();
+    
+    public Animation<TextureAtlas.AtlasRegion> getRunAnimation();
+    
+    public Animation<TextureAtlas.AtlasRegion> getIdleAnimation();
     
     
-    
-    public abstract void executePhysics();
-    public abstract void executeGraphics();
-    
+    public void executePhysics(World world, Vector2 position);
+    public void executeGraphics();
 }
