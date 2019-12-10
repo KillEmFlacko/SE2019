@@ -55,7 +55,7 @@ public class PlayerSelectionScreen implements Screen {
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
 
-        labelTitle = new Label("Chose Your Wizard", lblStyle);
+        labelTitle = new Label("Choose Your Wizard", lblStyle);
         labelTitle.setSize(Gdx.graphics.getWidth(), 30);
         labelTitle.setAlignment(Align.center);
         labelTitle.setPosition(0, Gdx.graphics.getHeight() - labelTitle.getHeight()*2);
