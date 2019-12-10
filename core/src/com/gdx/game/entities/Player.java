@@ -23,18 +23,14 @@ import com.gdx.game.factories.Weapon;
  */
 public final class Player extends MortalEntity {
 
-    private TextureAtlas atlas;
     private final Weapon weapon;
-    private Animation<TextureAtlas.AtlasRegion> runAnimation;
-    private Animation<TextureAtlas.AtlasRegion> idleAnimation;
     private float stateTime = 0f;
-    private float speed;
-    private CharacterClass characterClass;
+    private final CharacterClass characterClass;
 
     public Player(String name, World world, float width, float height, Vector2 position, CharacterClass characterClass) {
         super(name, characterClass.getLifePoints(), world, width, height, position);
         weapon = new Weapon(this, new BasicBullet(world, 1f, position, 10, characterClass.getSpeed() * 1.5f), 3);
-        speed = characterClass.getSpeed();
+        this.characterClass = characterClass;
         initPhysics();
         initGraphics();
     }
@@ -65,10 +61,8 @@ public final class Player extends MortalEntity {
 
     @Override
     protected void initGraphics() {
-        atlas = new TextureAtlas(Gdx.files.internal("texture/player/wizzard/wizzard.atlas"));
-        idleAnimation = new Animation(0.2f, atlas.findRegions("m_idle"), Animation.PlayMode.LOOP);
-        runAnimation = new Animation(0.09f, atlas.findRegions("m_run"), Animation.PlayMode.LOOP);
-        textureRegion = idleAnimation.getKeyFrame(0f);
+        characterClass.executeGraphics();
+        textureRegion = characterClass.getIdleAnimation().getKeyFrame(0f);
     }
 
     @Override
@@ -80,7 +74,7 @@ public final class Player extends MortalEntity {
         
         stateTime += delta;
         super.act(delta);
-
+        float speed = characterClass.getSpeed();
         Vector2 velocity = new Vector2(0, 0);
         if (Gdx.input.isKeyPressed(Keys.W)) {
             velocity.add(0, speed);
@@ -99,9 +93,9 @@ public final class Player extends MortalEntity {
         }
 
         if (!body.getLinearVelocity().equals(new Vector2(0, 0))) {
-            textureRegion = runAnimation.getKeyFrame(stateTime);
+            textureRegion = characterClass.getRunAnimation().getKeyFrame(stateTime);
         } else {
-            textureRegion = idleAnimation.getKeyFrame(stateTime);
+            textureRegion = characterClass.getIdleAnimation().getKeyFrame(stateTime);
         }
 
         if (textureRegion.isFlipX()) {
