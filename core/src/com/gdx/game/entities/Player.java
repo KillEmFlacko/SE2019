@@ -13,6 +13,8 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.GdxGame;
 import com.gdx.game.contact_listeners.events.DeathEvent;
+import com.gdx.game.entities.classes.CharacterClass;
+import com.gdx.game.entities.classes.NorthernWizard;
 import com.gdx.game.factories.Weapon;
 
 /**
@@ -26,11 +28,13 @@ public final class Player extends MortalEntity {
     private Animation<TextureAtlas.AtlasRegion> runAnimation;
     private Animation<TextureAtlas.AtlasRegion> idleAnimation;
     private float stateTime = 0f;
-    private final float speed = 9f;
+    private float speed;
+    private CharacterClass characterClass;
 
-    public Player(String name, int lifepoints, World world, float width, float height, Vector2 position) {
-        super(name, lifepoints, world, width, height, position);
-        weapon = new Weapon(this, new BasicBullet(world, 1f, position, 10, speed * 1.5f), 3);
+    public Player(String name, World world, float width, float height, Vector2 position, CharacterClass characterClass) {
+        super(name, characterClass.getLifePoints(), world, width, height, position);
+        weapon = new Weapon(this, new BasicBullet(world, 1f, position, 10, characterClass.getSpeed() * 1.5f), 3);
+        speed = characterClass.getSpeed();
         initPhysics();
         initGraphics();
     }
