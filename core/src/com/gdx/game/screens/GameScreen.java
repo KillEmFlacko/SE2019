@@ -16,7 +16,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.gdx.game.GdxGame;
@@ -32,7 +31,6 @@ import com.gdx.game.score.ScoreCounter;
 import de.tomgrill.gdxdialogs.core.GDXDialogs;
 import de.tomgrill.gdxdialogs.core.dialogs.GDXTextPrompt;
 import de.tomgrill.gdxdialogs.core.listener.TextPromptListener;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import net.dermetfan.gdx.physics.box2d.ContactMultiplexer;
 
@@ -51,7 +49,7 @@ public class GameScreen implements Screen {
     private final Stage stage;
     public Label label1;
 
-    public final ScoreCounter score = new ScoreCounter();
+    private final ScoreCounter scoreCounter;
 
     public GameScreen(GdxGame aGame) {
         this.game = aGame;
@@ -80,13 +78,20 @@ public class GameScreen implements Screen {
         game.vp.setWorldSize(30, 30 * (h / w)); // 30 * aspectRatio
         cam.position.set(player.getPosition(), stage.getCamera().position.z);
         cam.update();
-        stage.addActor(player);
-
+        
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         Vector2 v = player.getPosition().add(5, 5);
         DemoBoss db = new DemoBoss("Wandering Demon", 150, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
         db.addListener(new EndDemoGameListener(this));
-        db.addListener(new IncreaseScoreListener(score));
+        
+        // Gestione dello score IncreaseScoreListener
+        scoreCounter = new ScoreCounter();
+        IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
+        db.addListener(scoreListener);
+        player.addListener(scoreListener);
+        
+        
+        stage.addActor(player);
         stage.addActor(db);
 
         System.out.println(Gdx.graphics.getWidth());
@@ -182,7 +187,7 @@ public class GameScreen implements Screen {
                 try {
                     final HighScoreTable hst = new HighScoreTable();
 
-                    if (hst.isInTop(score.getScore())) {
+                    if (hst.isInTop(scoreCounter.getScore())) {
 
                         GDXDialogs dialogs = game.getDialogMgr();
                         GDXTextPrompt textPrompt = dialogs.newDialog(GDXTextPrompt.class);
@@ -198,8 +203,8 @@ public class GameScreen implements Screen {
                             @Override
                             public void confirm(String text) {
                                 try {
-                                    System.out.println("questo è lo score prima dell'inserimento"+GameScreen.this.score.getScore());
-                                    hst.insertHighScore(text,score.getScore());
+                                    System.out.println("questo è lo score prima dell'inserimento"+GameScreen.this.scoreCounter.getScore());
+                                    hst.insertHighScore(text,scoreCounter.getScore());
                                     game.setScreen(new ScoreScreen(game));
                                 } catch (IOException ex) {
                                     game.setScreen(new TitleScreen(game));

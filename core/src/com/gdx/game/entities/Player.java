@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.GdxGame;
 import com.gdx.game.contact_listeners.events.DeathEvent;
+import com.gdx.game.contact_listeners.events.HitEvent;
 import com.gdx.game.factories.Weapon;
 
 /**
@@ -128,6 +129,7 @@ public final class Player extends MortalEntity {
     @Override
     public void isHitBy(Bullet bullet) {
         life -= bullet.getDamage();
+        fire(new HitEvent(this));
     }
     
     @Override

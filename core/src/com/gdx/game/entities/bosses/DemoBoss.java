@@ -177,7 +177,7 @@ public final class DemoBoss extends Boss {
     @Override
     public void isHitBy(Bullet bullet) {
         life -= bullet.getDamage();
-        fire(new HitEvent());
+        fire(new HitEvent(this));
     }
 
     /**

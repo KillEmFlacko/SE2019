@@ -6,6 +6,7 @@
 package com.gdx.game.contact_listeners.events;
 
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.gdx.game.entities.MortalEntity;
 
 /**
  *
@@ -13,4 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
  */
 public class HitEvent extends ChangeListener.ChangeEvent{
     
+    public MortalEntity entity;
+    
+    public HitEvent(MortalEntity entity){
+        this.entity = entity;
+    }
 }
