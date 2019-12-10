@@ -25,6 +25,7 @@ import com.gdx.game.entities.Player;
 import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.contact_listeners.BulletDamageContactListener;
 import com.gdx.game.contact_listeners.EndDemoGameListener;
+import com.gdx.game.contact_listeners.IncreaseScoreListener;
 import com.gdx.game.movements.MovementSetFactory;
 import com.gdx.game.score.HighScoreTable;
 import com.gdx.game.score.ScoreCounter;
@@ -50,7 +51,7 @@ public class GameScreen implements Screen {
     private final Stage stage;
     public Label label1;
 
-    public ScoreCounter score;
+    public final ScoreCounter score = new ScoreCounter();
 
     public GameScreen(GdxGame aGame) {
         this.game = aGame;
@@ -85,9 +86,8 @@ public class GameScreen implements Screen {
         Vector2 v = player.getPosition().add(5, 5);
         DemoBoss db = new DemoBoss("Wandering Demon", 150, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
         db.addListener(new EndDemoGameListener(this));
+        db.addListener(new IncreaseScoreListener(score));
         stage.addActor(db);
-
-        score = new ScoreCounter();
 
         System.out.println(Gdx.graphics.getWidth());
 
@@ -198,7 +198,8 @@ public class GameScreen implements Screen {
                             @Override
                             public void confirm(String text) {
                                 try {
-                                    hst.insertHighScore(text, 0);
+                                    System.out.println("questo è lo score prima dell'inserimento"+GameScreen.this.score.getScore());
+                                    hst.insertHighScore(text,score.getScore());
                                     game.setScreen(new ScoreScreen(game));
                                 } catch (IOException ex) {
                                     game.setScreen(new TitleScreen(game));
