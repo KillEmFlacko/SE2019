@@ -31,32 +31,30 @@ public final class Player extends MortalEntity {
         super(name, characterClass.getLifePoints(), world, width, height, position);
         weapon = new Weapon(this, new BasicBullet(world, 1f, position, 10, characterClass.getSpeed() * 1.5f), 3);
         this.characterClass = characterClass;
-        initPhysics();
-        initGraphics();
     }
 
     @Override
     protected void initPhysics() {
-        BodyDef bdDef = new BodyDef();
-        bdDef.type = BodyDef.BodyType.DynamicBody;
-        bdDef.position.set(initalPosition);
-        body = world.createBody(bdDef);
-        body.setUserData(this);
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(worldWidth / 2, worldWidth / 2);
-
-        FilterFactory ff = new FilterFactory();
-        FixtureDef fixDef = new FixtureDef();
-        fixDef.shape = shape;
-        ff.copyFilter(fixDef.filter, ff.getPlayerFilter());
-        fixDef.isSensor = false;
-        fixDef.restitution = 0f;
-        fixDef.density = 0f;
-
-        Fixture fixt = body.createFixture(fixDef);
-        fixt.setUserData(body);
-        shape.dispose();
+//        BodyDef bdDef = new BodyDef();
+//        bdDef.type = BodyDef.BodyType.DynamicBody;
+//        bdDef.position.set(initalPosition);
+//        body = world.createBody(bdDef);
+//        body.setUserData(this);
+//
+//        PolygonShape shape = new PolygonShape();
+//        shape.setAsBox(worldWidth / 2, worldWidth / 2);
+//
+//        FilterFactory ff = new FilterFactory();
+//        FixtureDef fixDef = new FixtureDef();
+//        fixDef.shape = shape;
+//        ff.copyFilter(fixDef.filter, ff.getPlayerFilter());
+//        fixDef.isSensor = false;
+//        fixDef.restitution = 0f;
+//        fixDef.density = 0f;
+//
+//        Fixture fixt = body.createFixture(fixDef);
+//        fixt.setUserData(body);
+//        shape.dispose();
     }
 
     @Override
@@ -67,6 +65,10 @@ public final class Player extends MortalEntity {
 
     @Override
     public void act(float delta) {
+        if (characterClass.getBody() == null) {
+            characterClass.executeGraphics();
+            characterClass.executePhysics(world, initalPosition, worldWidth, worldHeight);
+        }
         if(super.life <= 0){
             kill();
             return;

@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.entities.BasicBullet;
 import com.gdx.game.factories.Weapon;
 
-public class SouthernWizard implements CharacterClass{
+public class SouthernWizard extends MovableCharacterClass{
     
     private final float STRENGHT = 1f;
     private final float ATTACK_RATE = 3;
@@ -25,11 +25,6 @@ public class SouthernWizard implements CharacterClass{
         atlas = new TextureAtlas(Gdx.files.internal("texture/player/wizzard/Swizzard.atlas"));
         idleAnimation = new Animation(0.2f, atlas.findRegions("m_idle"), Animation.PlayMode.LOOP);
         runAnimation = new Animation(0.09f, atlas.findRegions("m_run"), Animation.PlayMode.LOOP);
-    }
-    
-    @Override
-    public void executePhysics(World world, Vector2 position) {
-        
     }
     
     @Override
