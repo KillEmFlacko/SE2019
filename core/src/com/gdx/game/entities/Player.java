@@ -168,7 +168,7 @@ public final class Player extends MortalEntity {
     @Override
     public void isHitBy(Bullet bullet) {
         life -= bullet.getDamage();
-        fire(new HitEvent(this));
+        fire(new HitEvent());
     }
 
     @Override
