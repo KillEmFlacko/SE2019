@@ -38,7 +38,7 @@ public class BasicBullet extends Bullet {
     public void initPhysics() {
         BodyDef bdDef = new BodyDef();
         bdDef.type = BodyDef.BodyType.KinematicBody;
-        bdDef.position.set(initalPosition);
+        bdDef.position.set(getPosition());
 
         body = world.createBody(bdDef);
         body.setUserData(this);
@@ -88,7 +88,7 @@ public class BasicBullet extends Bullet {
 
     @Override
     public Bullet clone() {
-        BasicBullet clone = new BasicBullet(world, getWidth()/2, initalPosition, damage, initialSpeed);
+        BasicBullet clone = new BasicBullet(world, getWidth()/2, getPosition(), damage, initialSpeed);
         clone.setFilter(filter);
         return clone;
     }

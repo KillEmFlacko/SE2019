@@ -13,7 +13,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.GdxGame;
 import com.gdx.game.contact_listeners.events.DeathEvent;
-import com.gdx.game.exceptions.NotCastableException;
+import com.gdx.game.contact_listeners.events.HitEvent;
 import com.gdx.game.factories.Weapon;
 
 /**
@@ -36,9 +36,6 @@ public final class Player extends MortalEntity {
 
     public Player(String name, int lifepoints, World world, float width, float height, Vector2 position) {
         super(name, lifepoints, world, width, height, position);
-        weapon = new Weapon(this, new BasicBullet(world, 4f/GdxGame.game.SCALE, position, 10, speed * 1.5f), 3);
-        initPhysics();
-        initGraphics();
 
         //player must take spells that he has at his disposition
         //BigFireballSkillBullet bigFireballSkillBullet = new BigFireballSkillBullet(world, 3f, initalPosition, 50, 10f);
@@ -46,13 +43,14 @@ public final class Player extends MortalEntity {
         dSkill = new LightShieldSkill(2f, this);
         //skillWeapon = new Weapon(this, dmgSkill.getB(), 1/dmgSkill.getCoolDown());
 
+        weapon = new Weapon(this, new BasicBullet(world, 4f / GdxGame.game.SCALE, position, 10, speed * 1.5f), 3);
     }
 
     @Override
     protected void initPhysics() {
         BodyDef bdDef = new BodyDef();
         bdDef.type = BodyDef.BodyType.DynamicBody;
-        bdDef.position.set(initalPosition);
+        bdDef.position.set(getPosition());
         body = world.createBody(bdDef);
         body.setUserData(this);
 
@@ -82,6 +80,11 @@ public final class Player extends MortalEntity {
 
     @Override
     public void act(float delta) {
+        if (body == null) {
+            initPhysics();
+            initGraphics();
+        }
+        setPosition(body.getPosition());
         if (super.life <= 0) {
             kill();
             return;
@@ -165,13 +168,14 @@ public final class Player extends MortalEntity {
     @Override
     public void isHitBy(Bullet bullet) {
         life -= bullet.getDamage();
+        fire(new HitEvent(this));
     }
 
     @Override
     public void kill() {
-        fire(new DeathEvent());
         GdxGame.game.bodyToRemove.add(this.body);
         this.getStage().getRoot().removeActor(this);
+        fire(new DeathEvent());
     }
 
     float getBoostSpellMultiplier() {

@@ -43,13 +43,10 @@ public abstract class Bullet extends Entity implements Cloneable,Disposable {
     }
     
     @Override
-    public void setInitialPosition(Vector2 initialPos){
-        this.initalPosition.set(initialPos);
-    }
-    
-    @Override
     public void dispose() {
-        getStage().getRoot().removeActor(this);
-        GdxGame.game.bodyToRemove.add(body);
+        if(getStage() != null){
+            getStage().getRoot().removeActor(this);
+            GdxGame.game.bodyToRemove.add(body);
+        }
     }
 }

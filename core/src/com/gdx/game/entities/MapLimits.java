@@ -30,7 +30,7 @@ public class MapLimits extends Entity {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(this.initalPosition);
+        bodyDef.position.set(getPosition());
 
         this.body = this.world.createBody(bodyDef);
         

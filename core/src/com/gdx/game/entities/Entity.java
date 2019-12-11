@@ -1,5 +1,6 @@
 package com.gdx.game.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -18,13 +19,12 @@ public abstract class Entity extends Actor {
     protected World world;
     protected Body body;
     protected TextureRegion textureRegion;
-    protected Vector2 initalPosition;
 
     public Entity(World world, float worldWidth, float worldHeight, Vector2 initialPosition) {
         this.world = world;
         setWidth(worldWidth);
         setHeight(worldHeight);
-        this.initalPosition = initialPosition;
+        setPosition(initialPosition.x, initialPosition.y);
     }
     @Override
     public void draw(Batch batch, float parentAlpha) { //Draw dice al batch cosa deve disegnare. Lo stage ogni volta che fai stage.draw chiama tutti i draw degli actors passandogli il batch in modo che possono contribire al batch e disegna tutto insieme
@@ -35,7 +35,7 @@ public abstract class Entity extends Actor {
 
     protected abstract void initGraphics();
 
-    // --------------------- Physics:Velocity
+    // -------------- Physics:Velocity
     protected void setLinearVelocity(Vector2 velocity){
         body.setLinearVelocity(velocity);
     }
@@ -53,23 +53,11 @@ public abstract class Entity extends Actor {
      * @return the actual entity position
      */
     public Vector2 getPosition(){
-        return body.getPosition();
+        return new Vector2(getX(), getY());
     }
     
-    public void setInitialPosition(Vector2 initPos){
-        initalPosition.set(initPos);
-    }
-
-    public float getWorldWidth() {
-        return getWidth();
-    }
-
-    public float getWorldHeight() {
-        return getHeight();
-    }
-
-    public Vector2 getInitalPosition() {
-        return initalPosition;
+    public void setPosition(Vector2 pos){
+        setPosition(pos.x, pos.y);
     }
 
     public World getWorld() {

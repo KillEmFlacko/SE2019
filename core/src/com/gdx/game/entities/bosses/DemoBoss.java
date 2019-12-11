@@ -18,14 +18,15 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.GdxGame;
 import com.gdx.game.contact_listeners.events.DeathEvent;
+import com.gdx.game.contact_listeners.events.HitEvent;
 import com.gdx.game.entities.Bullet;
 import com.gdx.game.entities.Player;
 import com.gdx.game.movements.MovementSet;
 import java.util.Random;
 import com.gdx.game.entities.*;
+import com.gdx.game.factories.FilterFactory;
 import com.gdx.game.factories.Weapon;
 import com.gdx.game.movements.Movement;
-import com.gdx.game.movements.XMovement;
 
 /**
  *
@@ -69,7 +70,7 @@ public final class DemoBoss extends Boss {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(this.initalPosition);
+        bodyDef.position.set(getPosition());
 
         this.body = this.world.createBody(bodyDef);
         this.body.setUserData(this);
@@ -83,16 +84,17 @@ public final class DemoBoss extends Boss {
         fixtureDef.isSensor = false;
         fixtureDef.restitution = 0f;
         fixtureDef.density = 0f;
-
+        
         Fixture fixture = body.createFixture(fixtureDef);
         fixture.setUserData(body);
         shape.dispose();
-
+        
     }
     //private int i = 0;
 
     @Override
     public void act(float delta) {
+        setPosition(body.getPosition());
         if (super.life <= 0) {
             kill();
             return;
@@ -168,15 +170,16 @@ public final class DemoBoss extends Boss {
 //
 //        body.setUserData(null);
 //        body = null;
-        fire(new DeathEvent());
+        
         this.getStage().getRoot().removeActor(this);
-
+        fire(new DeathEvent());
         //stop animation and remove body
     }
 
     @Override
     public void isHitBy(Bullet bullet) {
         life -= bullet.getDamage();
+        fire(new HitEvent(this));
     }
 
     /**

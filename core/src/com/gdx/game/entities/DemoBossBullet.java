@@ -3,7 +3,6 @@ package com.gdx.game.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -37,7 +36,7 @@ public class DemoBossBullet extends BasicBullet {
 
     @Override
     public Bullet clone() {
-        DemoBossBullet clone = new DemoBossBullet(world, getWidth() / 2, initalPosition, damage, initialSpeed);
+        DemoBossBullet clone = new DemoBossBullet(world, getWidth() / 2, getPosition(), damage, initialSpeed);
         clone.setFilter(filter);
         return clone;
     }
