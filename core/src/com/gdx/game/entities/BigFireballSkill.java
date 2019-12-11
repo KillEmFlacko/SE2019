@@ -6,10 +6,6 @@
 package com.gdx.game.entities;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.factories.FilterFactory;
 import java.util.Date;
@@ -36,7 +32,7 @@ public final class BigFireballSkill extends DamageSkillAdapter {
             
             Vector2 normDir = direction.nor();
             Vector2 bulletVelocity = new Vector2(normDir.x * getB().getInitalSpeed(), normDir.y * getB().getInitalSpeed());
-            getB().setInitialPosition(getCaster().getPosition().add(normDir.x * getCaster().getWorldWidth() / 2, normDir.y * getB().getWorldHeight() / 2));
+            getB().setPosition(getCaster().getPosition().add(normDir.x * getCaster().getWidth()/ 2, normDir.y * getB().getHeight()/ 2));
             
             FilterFactory ff = new FilterFactory();
             

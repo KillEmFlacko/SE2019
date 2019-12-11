@@ -6,7 +6,6 @@
 package com.gdx.game.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -17,7 +16,6 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import com.gdx.game.factories.FilterFactory;
 
 /**
@@ -41,7 +39,7 @@ public class BigFireballSkillBullet extends SkillBullet{
         
         BodyDef bdDef = new BodyDef();
         bdDef.type = BodyDef.BodyType.KinematicBody;
-        bdDef.position.set(initalPosition);
+        bdDef.position.set(getPosition());
 
         body = world.createBody(bdDef);
         body.setUserData(this);
@@ -78,7 +76,7 @@ public class BigFireballSkillBullet extends SkillBullet{
 
     @Override
     public SkillBullet clone() {
-        BigFireballSkillBullet clone = new BigFireballSkillBullet(this.getDamage(), getInitalSpeed(), world, getWidth()/2, initalPosition);
+        BigFireballSkillBullet clone = new BigFireballSkillBullet(this.getDamage(), getInitalSpeed(), world, getWidth()/2, getPosition());
         clone.setFilter(filter);
         return clone;
     }
