@@ -17,14 +17,16 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.GdxGame;
+import com.gdx.game.contact_listeners.events.DeathEvent;
+import com.gdx.game.contact_listeners.events.HitEvent;
 import com.gdx.game.entities.Bullet;
 import com.gdx.game.entities.Player;
 import com.gdx.game.movements.MovementSet;
 import java.util.Random;
 import com.gdx.game.entities.*;
+import com.gdx.game.factories.FilterFactory;
 import com.gdx.game.factories.Weapon;
 import com.gdx.game.movements.Movement;
-import com.gdx.game.movements.XMovement;
 
 /**
  *
@@ -50,7 +52,7 @@ public final class DemoBoss extends Boss {
         super(name, life, world, width, height, position);
         this.movementQ = movementQ;
         this.player = player;
-        DemoBossBullet b = new DemoBossBullet(world, 1f, this.player.getPosition(), 25, 10f);
+        DemoBossBullet b = new DemoBossBullet(world, 4f/GdxGame.game.SCALE, this.player.getPosition(), 25, 10f);
         this.weapon = new Weapon(this, b, 1);
 
         //bossState = new IdleState(); TO ADD
@@ -68,13 +70,13 @@ public final class DemoBoss extends Boss {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(this.initalPosition);
+        bodyDef.position.set(getPosition());
 
         this.body = this.world.createBody(bodyDef);
         this.body.setUserData(this);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(worldWidth * 0.6f / 2, worldWidth / 2);
+        shape.setAsBox(getWidth() * 0.6f / 2, getWidth() / 2);
 //        CircleShape shape = new CircleShape();
 //        shape.setRadius(worldWidth/2);
         FixtureDef fixtureDef = new FixtureDef();
@@ -82,16 +84,17 @@ public final class DemoBoss extends Boss {
         fixtureDef.isSensor = false;
         fixtureDef.restitution = 0f;
         fixtureDef.density = 0f;
-
+        
         Fixture fixture = body.createFixture(fixtureDef);
         fixture.setUserData(body);
         shape.dispose();
-
+        
     }
     //private int i = 0;
 
     @Override
     public void act(float delta) {
+        setPosition(body.getPosition());
         if (super.life <= 0) {
             kill();
             return;
@@ -109,7 +112,7 @@ public final class DemoBoss extends Boss {
 
             if ((r.nextFloat() * 10) >= 6) {
 
-                System.out.println("Player position" + playerPosition);
+                //System.out.println("Player position" + playerPosition);
 
                 actVelocity.set(newMovePlayer.scl(1.3f));
                 //checkDirection(newMovePlayer);
@@ -118,7 +121,7 @@ public final class DemoBoss extends Boss {
                 //prevMovement = new Movement(newMovePlayer);
             } else {
                 Movement movement = movementQ.frontToBack();
-                Gdx.app.log("V", movement.toString());
+                //Gdx.app.log("V", movement.toString());
                 actVelocity.set(movement);
                 weapon.fire(newMovePlayer.scl(1f));
                 //checkDirection(movement);
@@ -129,6 +132,7 @@ public final class DemoBoss extends Boss {
 
             prevMovement = new Movement(this.getLinearVelocity());
         }
+        //robba di Armando nel mio codice
         if(!body.getLinearVelocity().equals(actVelocity)){
             body.setLinearVelocity(actVelocity);
         }
@@ -166,14 +170,16 @@ public final class DemoBoss extends Boss {
 //
 //        body.setUserData(null);
 //        body = null;
+        
         this.getStage().getRoot().removeActor(this);
-
+        fire(new DeathEvent());
         //stop animation and remove body
     }
 
     @Override
     public void isHitBy(Bullet bullet) {
         life -= bullet.getDamage();
+        fire(new HitEvent(this));
     }
 
     /**

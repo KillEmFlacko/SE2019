@@ -38,4 +38,16 @@ public abstract class MortalEntity extends Entity {
     public Integer getLife() {
         return life;
     }
+
+    float getBoostSpellMultiplier() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    float getDamageSpellMultiplier() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    float getDefenseSpelMultiplier() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

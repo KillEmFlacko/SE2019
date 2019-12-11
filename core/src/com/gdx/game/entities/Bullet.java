@@ -14,14 +14,15 @@ import com.gdx.game.GdxGame;
 public abstract class Bullet extends Entity implements Cloneable,Disposable {
     protected Filter filter;
     public Bullet(World world, float radius, Vector2 initialPosition) {
-        super(world, radius, radius, initialPosition);
+        super(world, radius*2, radius*2, initialPosition);
     }
     public abstract int getDamage();
     public abstract float getInitalSpeed();
     public void setFilter(Filter f){
         this.filter = f;
     }
-    public abstract void init();
+    public abstract void initPhysics();
+    public abstract void initGraphics();
     
     @Override
     public abstract Bullet clone();
@@ -42,13 +43,10 @@ public abstract class Bullet extends Entity implements Cloneable,Disposable {
     }
     
     @Override
-    public void setInitialPosition(Vector2 initialPos){
-        this.initalPosition.set(initialPos);
-    }
-    
-    @Override
     public void dispose() {
-        getStage().getRoot().removeActor(this);
-        GdxGame.game.bodyToRemove.add(body);
+        if(getStage() != null){
+            getStage().getRoot().removeActor(this);
+            GdxGame.game.bodyToRemove.add(body);
+        }
     }
 }

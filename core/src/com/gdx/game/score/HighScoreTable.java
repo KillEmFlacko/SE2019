@@ -12,8 +12,13 @@ import java.util.Collections;
 import java.util.Iterator;
 
 /**
- *
- * @author ellbock
+ * An <code>HighScoreTable</code> object represents an ordered list of a fixed
+ * number of scores obtained by the playersof the game. The object handles 
+ * reading and saving on a default location on the filesystem. 
+ * 
+ * @see HighScoreEntry
+ * @author Luca Boccia
+ * @author Salvatore Gravina
  */
 public class HighScoreTable implements Iterable<HighScoreEntry> {
     private static final int TOP = 10;
@@ -21,7 +26,12 @@ public class HighScoreTable implements Iterable<HighScoreEntry> {
     //private final File file;
     private final HighScoreFile savemanager;
     
-    
+     /**
+     * Constructor of the class. It handles the loading from the default file
+     * location on the filesystem.
+     * 
+     * @throws FileNotFoundException 
+     */
     public HighScoreTable() throws FileNotFoundException{
       //  this.file = new File(path);
         this.table = new ArrayList();
@@ -36,12 +46,23 @@ public class HighScoreTable implements Iterable<HighScoreEntry> {
         }
     }
     
-    
+    /**
+     * Checks if the <code>score</code> would appear in the table after the insetion.
+     * 
+     * @param score
+     * @return True if the score might appear in the table, False otherwise.
+     */
     public boolean isInTop(long score){ //broken method
         return ((table.isEmpty()) || table.size()<10 || table.get(table.size()-1).getScore() < score);
     }
     
-    
+    /**
+     * Inserts a new row in the table and saves it on the filesystem.
+     * 
+     * @param nickname a {@link String} representing the Nickname of the player.
+     * @param score the score value associated to the player.
+     * @throws IOException 
+     */
     public void insertHighScore(String nickname, long score) throws IOException{
         if (!isInTop(score))
             return;

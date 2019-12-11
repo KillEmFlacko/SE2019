@@ -30,12 +30,12 @@ public class MapLimits extends Entity {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(this.initalPosition);
+        bodyDef.position.set(getPosition());
 
         this.body = this.world.createBody(bodyDef);
         
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(worldWidth / 2, worldHeight / 2);
+        shape.setAsBox(getWidth() / 2, getHeight() / 2);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;

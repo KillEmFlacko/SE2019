@@ -1,5 +1,6 @@
 package com.gdx.game.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -18,25 +19,23 @@ public abstract class Entity extends Actor {
     protected World world;
     protected Body body;
     protected TextureRegion textureRegion;
-    protected float worldWidth, worldHeight;
-    protected Vector2 initalPosition;
 
-    public Entity(World world, float width, float height, Vector2 initialPosition) {
+    public Entity(World world, float worldWidth, float worldHeight, Vector2 initialPosition) {
         this.world = world;
-        this.worldWidth = width;
-        this.worldHeight = height;
-        this.initalPosition = initialPosition;
+        setWidth(worldWidth);
+        setHeight(worldHeight);
+        setPosition(initialPosition.x, initialPosition.y);
     }
     @Override
     public void draw(Batch batch, float parentAlpha) { //Draw dice al batch cosa deve disegnare. Lo stage ogni volta che fai stage.draw chiama tutti i draw degli actors passandogli il batch in modo che possono contribire al batch e disegna tutto insieme
-        batch.draw(textureRegion, body.getPosition().x - worldWidth / 2, body.getPosition().y - worldWidth / 2, worldWidth, worldHeight);
+        batch.draw(textureRegion, body.getPosition().x - getWidth() / 2, body.getPosition().y - getWidth() / 2, getWidth(), getHeight());
     }
 
     protected abstract void initPhysics();
 
     protected abstract void initGraphics();
 
-    // --------------------- Physics:Velocity
+    // -------------- Physics:Velocity
     protected void setLinearVelocity(Vector2 velocity){
         body.setLinearVelocity(velocity);
     }
@@ -54,22 +53,16 @@ public abstract class Entity extends Actor {
      * @return the actual entity position
      */
     public Vector2 getPosition(){
-        return body.getPosition();
+        return new Vector2(getX(), getY());
     }
     
-    public void setInitialPosition(Vector2 initPos){
-        initalPosition.set(initPos);
+    public void setPosition(Vector2 pos){
+        setPosition(pos.x, pos.y);
     }
 
-    public float getWorldWidth() {
-        return worldWidth;
+    public World getWorld() {
+        return world;
     }
-
-    public float getWorldHeight() {
-        return worldHeight;
-    }
-
-    public Vector2 getInitalPosition() {
-        return initalPosition;
-    }
+ 
+    
 }

@@ -13,8 +13,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- *
- * @author salvatore
+ * <code>HighScoreFile</code> handles the loading and the saving of a {@link HighScoreTable}.
+ * It has a default path on the filesystem that locates the saved file.
+ * 
+ * @author Salvatore Gravina
  */
 public class HighScoreFile{
     public final File file; //should be private

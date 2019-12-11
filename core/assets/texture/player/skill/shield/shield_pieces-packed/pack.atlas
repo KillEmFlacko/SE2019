@@ -1,0 +1,140 @@
+
+pack.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+energy
+  rotate: false
+  xy: 406, 439
+  size: 200, 167
+  orig: 200, 167
+  offset: 0, 0
+  index: 1
+energy
+  rotate: false
+  xy: 608, 641
+  size: 200, 167
+  orig: 200, 167
+  offset: 0, 0
+  index: 2
+energy
+  rotate: false
+  xy: 810, 843
+  size: 200, 167
+  orig: 200, 167
+  offset: 0, 0
+  index: 3
+energy
+  rotate: false
+  xy: 204, 35
+  size: 200, 167
+  orig: 200, 167
+  offset: 0, 0
+  index: 4
+energy
+  rotate: false
+  xy: 406, 237
+  size: 159, 200
+  orig: 159, 200
+  offset: 0, 0
+  index: 5
+energy
+  rotate: false
+  xy: 2, 810
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 6
+energy
+  rotate: false
+  xy: 2, 608
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 7
+energy
+  rotate: false
+  xy: 204, 810
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 8
+energy
+  rotate: false
+  xy: 2, 406
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 9
+energy
+  rotate: false
+  xy: 608, 439
+  size: 159, 200
+  orig: 159, 200
+  offset: 0, 0
+  index: 10
+energy
+  rotate: false
+  xy: 204, 608
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 11
+energy
+  rotate: false
+  xy: 406, 810
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 12
+energy
+  rotate: false
+  xy: 2, 204
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 13
+energy
+  rotate: false
+  xy: 204, 406
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 14
+energy
+  rotate: false
+  xy: 810, 641
+  size: 159, 200
+  orig: 159, 200
+  offset: 0, 0
+  index: 15
+energy
+  rotate: false
+  xy: 406, 608
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 16
+energy
+  rotate: false
+  xy: 608, 810
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 17
+energy
+  rotate: false
+  xy: 2, 2
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 18
+energy
+  rotate: false
+  xy: 204, 204
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 19
+

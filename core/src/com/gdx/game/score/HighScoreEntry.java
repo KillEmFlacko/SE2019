@@ -6,8 +6,11 @@
 package com.gdx.game.score;
 
 /**
+ * This class represents an entry of the {@link HighScoreTable}. It has a
+ * player, represented by his nickname, and a score associated to him/her.
  *
- * @author ellbock
+ * @author Luca Boccia
+ * @author Salvatore Gravina
  */
 public class HighScoreEntry implements Comparable<HighScoreEntry> {
 

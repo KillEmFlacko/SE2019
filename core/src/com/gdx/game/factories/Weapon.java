@@ -14,10 +14,10 @@ public class Weapon {
 
     private  Bullet bullet;
     private final Entity shooter;
-    private int shootingRate;
+    private final float shootingRate;
     private Date lastFireDate = null;
 
-    public Weapon(Entity shooterEntity, Bullet bullet, int shootingRate) {
+    public Weapon(Entity shooterEntity, Bullet bullet, float shootingRate) {
         this.shooter = shooterEntity;
         this.bullet = bullet;
         this.shootingRate = shootingRate;
@@ -44,7 +44,7 @@ public class Weapon {
         if (lastFireDate == null || ts.getTime() - lastFireDate.getTime() > (1f / shootingRate * 1000)) {
             Vector2 normDir = direction.nor();
             Vector2 bulletVelocity = new Vector2(normDir.x * bullet.getInitalSpeed(), normDir.y * bullet.getInitalSpeed());
-            bullet.setInitialPosition(shooter.getPosition().add(normDir.x * shooter.getWorldWidth()/2,normDir.y*shooter.getWorldHeight()/2));
+            bullet.setPosition(shooter.getPosition().add(normDir.x * shooter.getWidth()/2,normDir.y*shooter.getWidth()/2));
             FilterFactory ff = new FilterFactory();
             if (shooter instanceof Player) {
                 bullet.setFilter(ff.getPlayerBulletFilter());
@@ -53,7 +53,8 @@ public class Weapon {
             }
 
             Bullet clone = bullet.clone();
-            clone.init();
+            clone.initPhysics();
+            clone.initGraphics();
             shooter.getStage().addActor(clone);
             clone.setLinearVelocity(bulletVelocity);
 

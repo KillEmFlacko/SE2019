@@ -32,7 +32,7 @@ public class TitleScreen implements Screen {
 
     public TitleScreen(GdxGame aGame) {
         this.game = aGame;
-        this.stage = new Stage(aGame.vp);
+        this.stage = new Stage();
         initUI();
     }
 
