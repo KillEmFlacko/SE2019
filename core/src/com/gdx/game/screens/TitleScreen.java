@@ -46,9 +46,11 @@ public class TitleScreen implements Screen {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameters.size = 30;
-        parameters.color = Color.YELLOW;
-        parameters.borderWidth = 1;
+        parameters.color = Color.RED;
+        parameters.borderWidth = 3;
         parameters.borderColor = Color.BLACK;
+        parameters.shadowOffsetX=1;
+        parameters.shadowColor= Color.BROWN;
         BitmapFont font = generator.generateFont(parameters);
         generator.dispose();
 

@@ -143,7 +143,28 @@ public class GameScreen implements Screen {
         gameStage.addActor(down);
 
     }
+    public void initLabel(Color color){
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameters.size = 24;
+        parameters.color = color;
+        parameters.borderWidth = 1;
+        parameters.borderColor = Color.BLACK;
+        BitmapFont font = generator.generateFont(parameters);
+        generator.dispose();
 
+        Label.LabelStyle lblStyle = new Label.LabelStyle();
+        lblStyle.font = font;
+        label1.setStyle(lblStyle);
+        
+        if(color.equals(Color.RED)){
+            label1.setText("GAME LOSE");
+            label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.9f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
+        }else if(color.equals(Color.GREEN)){
+            label1.setText("VICTORY");
+            label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.7f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
+        }
+    }
     public final void initHUD() {
         //game over label
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
@@ -157,32 +178,16 @@ public class GameScreen implements Screen {
 
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
-        label1 = new Label("GAME OVER", lblStyle);
+        label1 = new Label("prova", lblStyle);
 
         label1.setSize(label1.getWidth() * 3, label1.getHeight() * 3);
         label1.setFontScale(3);
         label1.setPosition(Gdx.graphics.getWidth() / 2 - label1.getWidth() / 2, (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
-        label1.setVisible(false);
+        label1.setVisible(true);
 
         hudStage.addActor(label1);
-        //text field box
-
-        //text field style for future use
-        /*FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameters.size = 18;
-        parameters.color = Color.RED;
-        parameters.borderWidth = 1;
-        parameters.borderColor = Color.BLACK;
-        parameters.color= Color.WHITE;
         
-        BitmapFont font = generator.generateFont(parameters);
-        generator.dispose();
-        
-        TextField.TextFieldStyle txtfstyle = new TextField.TextFieldStyle();
-        txtfstyle.font=font;
-        txtfstyle.fontColor= Color.WHITE;     
-         */
+        //text field
         text = new TextField("", GdxGame.game.skin, "default");
         //text.setScale(1f/GdxGame.SCALE);
 
@@ -251,10 +256,14 @@ public class GameScreen implements Screen {
     }
 
     public void end(Actor actor) {
-        if(actor instanceof Player){
-            label1.setText("GAME LOSE");
-        }else if(actor instanceof DemoBoss){
-            label1.setText("GAME WIN");
+        if (actor instanceof Player) {
+            initLabel(Color.RED);
+            //label1.setText("GAME LOSE");
+            //label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.9f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
+        } else if (actor instanceof DemoBoss) {
+            initLabel(Color.GREEN);
+           // label1.setText("VICTORY");
+            //label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.7f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         }
         label1.setVisible(true);
         try {
@@ -266,13 +275,13 @@ public class GameScreen implements Screen {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         try {
-                            System.out.println("ciao");
                             String nick = text.getText().replaceAll("\\s+", "");
-                            hst.insertHighScore(nick, scoreCounter.getScore());
-                            game.setScreen(new ScoreScreen(game));
-                            GameScreen.this.dispose();
-                            game.setScreen(new ScoreScreen(game));
-
+                            if (!nick.equals("")) {
+                                hst.insertHighScore(nick, scoreCounter.getScore());
+                                game.setScreen(new ScoreScreen(game));
+                                GameScreen.this.dispose();
+                                game.setScreen(new ScoreScreen(game));
+                            }
                         } catch (FileNotFoundException ex) {
                             Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (IOException ex) {
@@ -320,7 +329,7 @@ public class GameScreen implements Screen {
 //5);
 
     }
-
+    
     @Override
     public void dispose() {
         gameStage.dispose();

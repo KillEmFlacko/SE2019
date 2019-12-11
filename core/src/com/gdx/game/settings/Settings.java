@@ -42,7 +42,7 @@ public class Settings implements Serializable {
     }
 
     public static void initAudio() {
-        music = Gdx.audio.newMusic(Gdx.files.internal("audio/menu/wakawaka.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("audio/menu/AbandonedWindmill.mp3"));
         music.play();
         music.setLooping(true);
         music.setVolume(DEFAULT_VOLUME);
