@@ -78,15 +78,15 @@ public class GameScreen implements Screen {
         
         /////////// LEVEL1 //////////
         level1 = new Level1(player);
-        stage.setRoot(level1);
+        stage.addActor(level1);
         ////////////////////////////
         
         ////////// MAP RENDERING /////////////
         float pixelPerUnit = (int) level1.getMap().getTileSets().getTileSet(0).getProperties().get("tilewidth");
         mapRenderer = new OrthogonalTiledMapRenderer(level1.getMap(), 1 / (pixelPerUnit * unitPerMeters));
-        level1.addListener(new EndDemoGameListener(this,player,(DemoBoss) level1.getEnemies().get(0)));
         //////////////////////////////////////
 
+        stage.getRoot().addListener(new EndDemoGameListener(this,player,(DemoBoss) level1.getEnemies().get(0)));
 
         ////////// SCORE //////////
         scoreCounter = new ScoreCounter();
@@ -130,7 +130,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         level1.start();
-        instantiateWalls(level1);
+//        instantiateWalls(level1);
         Gdx.input.setInputProcessor(stage);
     }
 
