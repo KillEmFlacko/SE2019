@@ -126,7 +126,7 @@ public final class Player extends MortalEntity {
 
     public void shouldShoot(float delta) {
         
-        if(Gdx.input.isKeyPressed(Keys.SPACE) && Gdx.input.isKeyPressed(Keys.E)){
+        if(Gdx.input.isKeyPressed(Keys.E)){
             dSkill.castOn(this);
             
         }

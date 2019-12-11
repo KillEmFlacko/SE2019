@@ -85,8 +85,9 @@ public class LightShieldSkillEntity extends MortalEntity {
     protected void initGraphics() {
 
         texture = new Texture(Gdx.files.internal("texture/player/skill/shield/shield1.png"));
-        //atlas = new TextureAtlas(Gdx.files.internal("texture/player/skill/shield/shield_pieces-packed/pack.atlas"));
-        //movingAnimation = new Animation<TextureRegion>(0.01f, atlas.findRegions("energy"),Animation.PlayMode.LOOP);
+        //atlas = new TextureAtlas(Gdx.files.internal("texture/player/skill/shield/shield3-packed/pack.atlas"));
+        //movingAnimation = new Animation<TextureRegion>(0.02f, atlas.findRegions("shield3_eff"),Animation.PlayMode.LOOP);
+        //textureRegion = movingAnimation.getKeyFrame(0f,true);
         //PERCHÈ È COMMENTATO : HO DELLE SPRITE DI MERDA CHE NON FUNZIONANO. Ho dovuto fare un atlas dividento un'immagine in 20 parti per ottenere un 
         //risultato mediocre. Meglio la texture fissa.
         /*
