@@ -5,11 +5,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.entities.BasicBullet;
 import com.gdx.game.factories.Weapon;
 
-public class EasternWizard implements CharacterClass{
+public class EasternWizard extends MovableCharacterClass{
     
     private final float STRENGHT = 1.5f;
     private final float ATTACK_RATE = 3;
@@ -25,11 +26,6 @@ public class EasternWizard implements CharacterClass{
         atlas = new TextureAtlas(Gdx.files.internal("texture/player/wizzard/Ewizzard.atlas"));
         idleAnimation = new Animation(0.2f, atlas.findRegions("m_idle"), Animation.PlayMode.LOOP);
         runAnimation = new Animation(0.09f, atlas.findRegions("m_run"), Animation.PlayMode.LOOP);
-    }
-    
-    @Override
-    public void executePhysics(World world, Vector2 position) {
-        
     }
     
     @Override
@@ -70,6 +66,11 @@ public class EasternWizard implements CharacterClass{
     @Override
     public Animation<TextureAtlas.AtlasRegion> getIdleAnimation() {
         return idleAnimation;
+    }
+
+    @Override
+    public Body getBody() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

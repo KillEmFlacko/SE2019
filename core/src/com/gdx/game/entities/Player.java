@@ -32,8 +32,9 @@ public final class Player extends MortalEntity {
     private DamageSkillAdapter dmgSkill;
     private DefenseSkill dSkill;
     private Weapon skillWeapon;
+	private final CharacterClass characterClass;
 
-    public Player(String name, int lifepoints, World world, float width, float height, Vector2 position) {
+    public Player(String name, World world, float width, float height, Vector2 position, CharacterClass characterClass) {
         super(name, lifepoints, world, width, height, position);
 
         //player must take spells that he has at his disposition
@@ -43,30 +44,31 @@ public final class Player extends MortalEntity {
         //skillWeapon = new Weapon(this, dmgSkill.getB(), 1/dmgSkill.getCoolDown());
 
         weapon = new Weapon(this, new BasicBullet(world, 4f / GdxGame.game.SCALE, position, 10, speed * 1.5f), 3);
+	this.characterClass = characterClass;
     }
 
     @Override
     protected void initPhysics() {
-        BodyDef bdDef = new BodyDef();
-        bdDef.type = BodyDef.BodyType.DynamicBody;
-        bdDef.position.set(getPosition());
-        body = world.createBody(bdDef);
-        body.setUserData(this);
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(getWidth() / 2, getWidth() / 2);
-
-        FilterFactory ff = new FilterFactory();
-        FixtureDef fixDef = new FixtureDef();
-        fixDef.shape = shape;
-        ff.copyFilter(fixDef.filter, ff.getPlayerFilter());
-        fixDef.isSensor = false;
-        fixDef.restitution = 0f;
-        fixDef.density = 0f;
-
-        Fixture fixt = body.createFixture(fixDef);
-        fixt.setUserData(body);
-        shape.dispose();
+//        BodyDef bdDef = new BodyDef();
+//        bdDef.type = BodyDef.BodyType.DynamicBody;
+//        bdDef.position.set(initalPosition);
+//        body = world.createBody(bdDef);
+//        body.setUserData(this);
+//
+//        PolygonShape shape = new PolygonShape();
+//        shape.setAsBox(worldWidth / 2, worldWidth / 2);
+//
+//        FilterFactory ff = new FilterFactory();
+//        FixtureDef fixDef = new FixtureDef();
+//        fixDef.shape = shape;
+//        ff.copyFilter(fixDef.filter, ff.getPlayerFilter());
+//        fixDef.isSensor = false;
+//        fixDef.restitution = 0f;
+//        fixDef.density = 0f;
+//
+//        Fixture fixt = body.createFixture(fixDef);
+//        fixt.setUserData(body);
+//        shape.dispose();
     }
 
     @Override
@@ -77,12 +79,11 @@ public final class Player extends MortalEntity {
 
     @Override
     public void act(float delta) {
-        if (body == null) {
-            initPhysics();
-            initGraphics();
+        if (characterClass.getBody() == null) {
+            characterClass.executeGraphics();
+            characterClass.executePhysics(world, initalPosition, worldWidth, worldHeight);
         }
-        setPosition(body.getPosition());
-        if (super.life <= 0) {
+        if(super.life <= 0){
             kill();
             return;
         }
