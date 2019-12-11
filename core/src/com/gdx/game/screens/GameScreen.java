@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -249,7 +250,12 @@ public class GameScreen implements Screen {
         debugRenderer.render(world, gameStage.getCamera().combined);
     }
 
-    public void end() {
+    public void end(Actor actor) {
+        if(actor instanceof Player){
+            label1.setText("GAME LOSE");
+        }else if(actor instanceof DemoBoss){
+            label1.setText("GAME WIN");
+        }
         label1.setVisible(true);
         try {
             final HighScoreTable hst = new HighScoreTable();
