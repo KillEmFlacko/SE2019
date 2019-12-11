@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.Timer.Task;
 import com.gdx.game.GameStage;
 import com.gdx.game.GdxGame;
 import com.gdx.game.entities.Player;
-import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.contact_listeners.BulletDamageContactListener;
 import com.gdx.game.contact_listeners.EndDemoGameListener;
 import com.gdx.game.contact_listeners.IncreaseScoreListener;
@@ -74,7 +73,7 @@ public class GameScreen implements Screen {
         ////////// SCORE //////////
         scoreCounter = new ScoreCounter();
         IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
-        level1.addListener(scoreListener);
+        stage.addListener(scoreListener);
         initLabel();
         //////////////////////////
 
@@ -103,7 +102,7 @@ public class GameScreen implements Screen {
         float a = 1f / (5 / GdxGame.SCALE), b = 1f / (16 / GdxGame.SCALE);
         label1 = new Label("GAME OVER", lblStyle);
         label1.setFontScale(1f / GdxGame.SCALE);
-        //label1.setSize((0.9f*game.vp.getWorldWidth()), 0.2f);
+//        label1.setSize((0.9f*game.vp.getWorldWidth()), 0.2f);
         label1.setPosition(0.08f * game.vp.getWorldWidth(), 0.2f * game.vp.getWorldHeight());
         label1.setVisible(false);
 
@@ -188,7 +187,6 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-
     }
 
     @Override

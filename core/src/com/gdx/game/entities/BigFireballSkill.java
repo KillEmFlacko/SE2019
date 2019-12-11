@@ -44,10 +44,10 @@ public final class BigFireballSkill extends DamageSkillAdapter {
 
             SkillBullet clone = this.getB().clone();
             
+            getCaster().getParent().addActor(clone);
             clone.initPhysics();
             clone.initGraphics();
             
-            getCaster().getStage().addActor(clone);
             clone.setLinearVelocity(bulletVelocity);
 
             lastFireDate = new Date();
