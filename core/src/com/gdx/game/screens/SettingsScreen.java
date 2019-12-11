@@ -22,7 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 /**
  *
- * @author Raffaele
+ * @author RaffaeleB
  */
 public class SettingsScreen implements Screen {
 
