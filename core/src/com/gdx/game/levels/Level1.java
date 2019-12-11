@@ -1,7 +1,9 @@
 package com.gdx.game.levels;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -78,7 +80,7 @@ public final class Level1 extends Level {
     protected float getPixelPerTile() {
         return 16f / 30f;
     }
-    
+
     private class EndLevel1Listener extends EndLevelListener {
 
         @Override

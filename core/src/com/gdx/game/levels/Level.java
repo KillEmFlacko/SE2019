@@ -1,5 +1,6 @@
 package com.gdx.game.levels;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapObject;
@@ -23,11 +24,11 @@ import com.gdx.game.entities.Enemy;
 import com.gdx.game.entities.Player;
 
 /**
- * A single game level with his entities and map.
- * A level is a Group, which extends Actor, so it knows how to draw itself.
- * That is, it knows how to draw the map and how to draw the other entities.
- * Also, it is a container for those entities.
- * It knows how to start and when it has ended.
+ * A single game level with his entities and map. A level is a Group, which
+ * extends Actor, so it knows how to draw itself. That is, it knows how to draw
+ * the map and how to draw the other entities. Also, it is a container for those
+ * entities. It knows how to start and when it has ended.
+ *
  * @author Davide
  */
 public abstract class Level extends Group {
@@ -118,10 +119,11 @@ public abstract class Level extends Group {
     }
 
     /**
-     * Loads the objects in the layer staticObjectsLayerId, then creates a single
-     * Static Body containing them as fixtures.
-     * @param staticObjectsLayerId the id of the object layer containing the static
-     * objects to instantiate
+     * Loads the objects in the layer staticObjectsLayerId, then creates a
+     * single Static Body containing them as fixtures.
+     *
+     * @param staticObjectsLayerId the id of the object layer containing the
+     * static objects to instantiate
      */
     protected void instantiateStaticObjects(String staticObjectsLayerId) {
         MapObjects walls = getMap().getLayers().get(staticObjectsLayerId).getObjects();
@@ -145,6 +147,7 @@ public abstract class Level extends Group {
     /**
      * Convenience method that casts a PolygonMapObject as a PolygonShape in
      * order to be utilized in a fixture.
+     *
      * @param polygonObject the PolygonMapObject to convert
      * @param scaleFactor the scale factor in pixelPerMeter
      * @return the converted PolygonMapObject as a PolygonShape
@@ -163,11 +166,12 @@ public abstract class Level extends Group {
         polygon.set(worldVertices);
         return polygon;
     }
-    
+
     /**
      * Draws the actors and the map.
+     *
      * @param batch
-     * @param parentAlpha 
+     * @param parentAlpha
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
