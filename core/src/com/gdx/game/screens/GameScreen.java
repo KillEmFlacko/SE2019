@@ -7,16 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Timer;
@@ -28,7 +20,6 @@ import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.contact_listeners.BulletDamageContactListener;
 import com.gdx.game.contact_listeners.EndDemoGameListener;
 import com.gdx.game.contact_listeners.IncreaseScoreListener;
-import com.gdx.game.levels.Level;
 import com.gdx.game.levels.Level1;
 import com.gdx.game.score.HighScoreTable;
 import com.gdx.game.score.ScoreCounter;
@@ -50,25 +41,24 @@ public class GameScreen implements Screen {
     private final GdxGame game;
     private final GameStage stage;
     public Label label1;
-    // 16 tiles in uno schermo di larghezza 30 metri
-    float unitPerMeters = 16f / 30f;
 
     private final ScoreCounter scoreCounter;
-
     private final Level1 level1;
 
     public GameScreen(GdxGame aGame) {
-        debugRenderer = new Box2DDebugRenderer();
-        world = new World(Vector2.Zero, true);
-        world.setContactListener(new ContactMultiplexer(new BulletDamageContactListener()));
         this.game = aGame;
         
         /////////// STAGE /////////////
-        stage = new GameStage();
-        stage.setViewport(aGame.vp);
-        stage.setWorld(world);
+        stage = new GameStage(aGame.vp);
+        stage.getRoot().addListener(new EndDemoGameListener(this));
         //////////////////////////////
 
+        ////////// WORLD //////////////
+        world = stage.getWorld();
+        debugRenderer = new Box2DDebugRenderer();
+        world.setContactListener(new ContactMultiplexer(new BulletDamageContactListener()));
+        ///////////////////////////////
+        
         /////////// PLAYER ////////////
         float playerWorldWidth = 16 / GdxGame.SCALE;
         float playerWorldHeight = 28 / GdxGame.SCALE;
@@ -80,7 +70,6 @@ public class GameScreen implements Screen {
         stage.addActor(level1);
         ////////////////////////////
 
-        stage.getRoot().addListener(new EndDemoGameListener(this,player,(DemoBoss) level1.getEnemies().get(0)));
 
         ////////// SCORE //////////
         scoreCounter = new ScoreCounter();
@@ -216,40 +205,5 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
-    }
-    
-    private void instantiateWalls(Level lvl) {
-        MapObjects walls = lvl.getMap().getLayers().get("walls").getObjects();
-
-        BodyDef bdDef = new BodyDef();
-        bdDef.type = BodyDef.BodyType.StaticBody;
-        bdDef.position.set(0, 0);
-        Body mapWalls = world.createBody(bdDef);
-        float pixelPerUnit = (int) lvl.getMap().getTileSets().getTileSet(0).getProperties().get("tilewidth");
-        for (MapObject wall : walls) {
-            if (wall instanceof PolygonMapObject ) {
-                PolygonShape shape = getPolygon((PolygonMapObject )wall, pixelPerUnit * unitPerMeters);
-                FixtureDef fxtDef = new FixtureDef();
-                fxtDef.shape = shape;
-                
-                mapWalls.createFixture(fxtDef);
-                shape.dispose();
-            }
-        }
-    }
-    
-    private static PolygonShape getPolygon(PolygonMapObject polygonObject,float scaleFactor) {
-        PolygonShape polygon = new PolygonShape();
-        float[] vertices = polygonObject.getPolygon().getTransformedVertices();
-
-        float[] worldVertices = new float[vertices.length];
-
-        for (int i = 0; i < vertices.length; ++i) {
-            System.out.println(vertices[i]);
-            worldVertices[i] = vertices[i]/(scaleFactor);
-        }
-
-        polygon.set(worldVertices);
-        return polygon;
     }
 }

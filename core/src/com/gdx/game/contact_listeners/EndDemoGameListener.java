@@ -20,7 +20,7 @@ import com.gdx.game.screens.GameScreen;
 public class EndDemoGameListener extends ChangeListener{
     private final GameScreen gamesScreen;
     
-    public EndDemoGameListener(GameScreen gameScreen,Player p, DemoBoss db){
+    public EndDemoGameListener(GameScreen gameScreen){
         this.gamesScreen = gameScreen;
     }
     
