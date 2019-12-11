@@ -17,7 +17,7 @@ import com.gdx.game.contact_listeners.events.HitEvent;
 import com.gdx.game.factories.Weapon;
 
 /**
- *  
+ *
  * @author Giovanni
  */
 public final class Player extends MortalEntity {
@@ -31,16 +31,14 @@ public final class Player extends MortalEntity {
 
     public Player(String name, int lifepoints, World world, float width, float height, Vector2 position) {
         super(name, lifepoints, world, width, height, position);
-        weapon = new Weapon(this, new BasicBullet(world, 4f/GdxGame.game.SCALE, position, 10, speed * 1.5f), 3);
-        initPhysics();
-        initGraphics();
+        weapon = new Weapon(this, new BasicBullet(world, 4f / GdxGame.game.SCALE, position, 10, speed * 1.5f), 3);
     }
 
     @Override
     protected void initPhysics() {
         BodyDef bdDef = new BodyDef();
         bdDef.type = BodyDef.BodyType.DynamicBody;
-        bdDef.position.set(initalPosition);
+        bdDef.position.set(getPosition());
         body = world.createBody(bdDef);
         body.setUserData(this);
 
@@ -70,11 +68,16 @@ public final class Player extends MortalEntity {
 
     @Override
     public void act(float delta) {
-        if(super.life <= 0){
+        if (body == null) {
+            initPhysics();
+            initGraphics();
+        }
+        setPosition(body.getPosition());
+        if (super.life <= 0) {
             kill();
             return;
         }
-        
+
         stateTime += delta;
         super.act(delta);
 
@@ -131,9 +134,9 @@ public final class Player extends MortalEntity {
         life -= bullet.getDamage();
         fire(new HitEvent(this));
     }
-    
+
     @Override
-    public void kill(){
+    public void kill() {
         GdxGame.game.bodyToRemove.add(this.body);
         this.getStage().getRoot().removeActor(this);
         fire(new DeathEvent());

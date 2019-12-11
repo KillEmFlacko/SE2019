@@ -28,7 +28,7 @@ public class Weapon {
         if (lastFireDate == null || ts.getTime() - lastFireDate.getTime() > (1f / shootingRate * 1000)) {
             Vector2 normDir = direction.nor();
             Vector2 bulletVelocity = new Vector2(normDir.x * bullet.getInitalSpeed(), normDir.y * bullet.getInitalSpeed());
-            bullet.setInitialPosition(shooter.getPosition().add(normDir.x * shooter.getWorldWidth()/2,normDir.y*shooter.getWorldHeight()/2));
+            bullet.setPosition(shooter.getPosition().add(normDir.x * shooter.getWidth()/2,normDir.y*shooter.getWidth()/2));
             FilterFactory ff = new FilterFactory();
             if (shooter instanceof Player) {
                 bullet.setFilter(ff.getPlayerBulletFilter());
