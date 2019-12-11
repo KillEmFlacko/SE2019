@@ -6,16 +6,26 @@
 package com.gdx.game.levels;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.gdx.game.GameStage;
 import com.gdx.game.GdxGame;
 import com.gdx.game.entities.Enemy;
 import com.gdx.game.entities.Player;
 import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.movements.MovementSetFactory;
-import java.util.ArrayList;
 
 /**
  *
@@ -35,7 +45,7 @@ public class Level1 extends Level {
         player.setPosition(new Vector2(15, 15 * (h / w)));
         Vector2 v = player.getPosition().add(5, 5);
         DemoBoss db = new DemoBoss("Wandering Demon", 150, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
-        enemies = Array.with((Enemy)db);
+        enemies = Array.with((Enemy) db);
     }
 
     public void start() {
@@ -58,5 +68,4 @@ public class Level1 extends Level {
     public Array<Enemy> getEnemies() {
         return enemies;
     }
-
 }

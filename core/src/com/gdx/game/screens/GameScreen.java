@@ -7,27 +7,29 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.gdx.game.GameStage;
 import com.gdx.game.GdxGame;
-import com.gdx.game.entities.MapLimits;
 import com.gdx.game.entities.Player;
 import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.contact_listeners.BulletDamageContactListener;
 import com.gdx.game.contact_listeners.EndDemoGameListener;
 import com.gdx.game.contact_listeners.IncreaseScoreListener;
+import com.gdx.game.levels.Level;
 import com.gdx.game.levels.Level1;
-import com.gdx.game.movements.MovementSetFactory;
 import com.gdx.game.score.HighScoreTable;
 import com.gdx.game.score.ScoreCounter;
 import de.tomgrill.gdxdialogs.core.GDXDialogs;
@@ -49,6 +51,8 @@ public class GameScreen implements Screen {
     private final GdxGame game;
     private final GameStage stage;
     public Label label1;
+    // 16 tiles in uno schermo di larghezza 30 metri
+    float unitPerMeters = 16f / 30f;
 
     private final ScoreCounter scoreCounter;
 
@@ -56,23 +60,40 @@ public class GameScreen implements Screen {
 
     public GameScreen(GdxGame aGame) {
         debugRenderer = new Box2DDebugRenderer();
+        world = new World(Vector2.Zero, true);
         this.game = aGame;
+        
+        /////////// STAGE /////////////
         stage = new GameStage();
         stage.setViewport(aGame.vp);
-        world = new World(Vector2.Zero, true);
         stage.setWorld(world);
         world.setContactListener(new ContactMultiplexer(new BulletDamageContactListener()));
+        //////////////////////////////
 
+        /////////// PLAYER ////////////
         float playerWorldWidth = 16 / GdxGame.SCALE;
         float playerWorldHeight = 28 / GdxGame.SCALE;
         player = new Player("uajono", 100, playerWorldWidth, playerWorldHeight, Vector2.Zero);
+        //////////////////////////////
+        
+        /////////// LEVEL1 //////////
         level1 = new Level1(player);
         stage.setRoot(level1);
-        ////////// MAPPA /////////////
-        float pixelsPerUnit = 25f;
-        float unitPerMeters = 16f / 30f; // 16 tiles in uno schermo di larghezza 30 metri
-        mapRenderer = new OrthogonalTiledMapRenderer(level1.getMap(), 1 / (pixelsPerUnit * unitPerMeters));
-        //////////////////////////////
+        ////////////////////////////
+        
+        ////////// MAP RENDERING /////////////
+        float pixelPerUnit = (int) level1.getMap().getTileSets().getTileSet(0).getProperties().get("tilewidth");
+        mapRenderer = new OrthogonalTiledMapRenderer(level1.getMap(), 1 / (pixelPerUnit * unitPerMeters));
+        level1.addListener(new EndDemoGameListener(this,player,(DemoBoss) level1.getEnemies().get(0)));
+        //////////////////////////////////////
+
+
+        ////////// SCORE //////////
+        scoreCounter = new ScoreCounter();
+        IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
+        level1.addListener(scoreListener);
+        initLabel();
+        //////////////////////////
 
         ///////////SET CAMERA///////////
         float w = Gdx.graphics.getWidth();
@@ -82,14 +103,6 @@ public class GameScreen implements Screen {
         cam.position.set(player.getPosition(), stage.getCamera().position.z);
         cam.update();
         ////////////////////////////////
-        level1.addListener(new EndDemoGameListener(this,player,(DemoBoss) level1.getEnemies().get(0)));
-
-        // Gestione dello score IncreaseScoreListener
-        scoreCounter = new ScoreCounter();
-        IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
-        level1.addListener(scoreListener);
-        initLabel();
-
     }
 
     public final void initLabel() {
@@ -112,12 +125,12 @@ public class GameScreen implements Screen {
         label1.setVisible(false);
 
         stage.addActor(label1);
-
     }
 
     @Override
     public void show() {
         level1.start();
+        instantiateWalls(level1);
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -126,15 +139,9 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         world.step(1 / 60f, 6, 2);
-        ////////////////REMOVING BODIES//////////////
-        for (Body b : GdxGame.game.bodyToRemove) {
-            world.destroyBody(b);
-        }
-        GdxGame.game.bodyToRemove.removeAll(GdxGame.game.bodyToRemove);
-        /////////////////////////////////////////////
         stage.act();
         mapRenderer.setView((OrthographicCamera) stage.getCamera());
-//        decommentare per seguire il player
+//      decommentare per seguire il player
         //stage.getCamera().position.set(player.getPosition(), stage.getCamera().position.z);
         mapRenderer.render();
         stage.draw();
@@ -219,5 +226,40 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
+    }
+    
+    private void instantiateWalls(Level lvl) {
+        MapObjects walls = lvl.getMap().getLayers().get("walls").getObjects();
+
+        BodyDef bdDef = new BodyDef();
+        bdDef.type = BodyDef.BodyType.StaticBody;
+        bdDef.position.set(0, 0);
+        Body mapWalls = world.createBody(bdDef);
+        float pixelPerUnit = (int) lvl.getMap().getTileSets().getTileSet(0).getProperties().get("tilewidth");
+        for (MapObject wall : walls) {
+            if (wall instanceof PolygonMapObject ) {
+                PolygonShape shape = getPolygon((PolygonMapObject )wall, pixelPerUnit * unitPerMeters);
+                FixtureDef fxtDef = new FixtureDef();
+                fxtDef.shape = shape;
+                
+                mapWalls.createFixture(fxtDef);
+                shape.dispose();
+            }
+        }
+    }
+    
+    private static PolygonShape getPolygon(PolygonMapObject polygonObject,float scaleFactor) {
+        PolygonShape polygon = new PolygonShape();
+        float[] vertices = polygonObject.getPolygon().getTransformedVertices();
+
+        float[] worldVertices = new float[vertices.length];
+
+        for (int i = 0; i < vertices.length; ++i) {
+            System.out.println(vertices[i]);
+            worldVertices[i] = vertices[i]/(scaleFactor);
+        }
+
+        polygon.set(worldVertices);
+        return polygon;
     }
 }
