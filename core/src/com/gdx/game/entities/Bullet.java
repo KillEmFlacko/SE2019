@@ -2,7 +2,6 @@ package com.gdx.game.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 import com.gdx.game.GdxGame;
 
@@ -44,8 +43,8 @@ public abstract class Bullet extends Entity implements Cloneable,Disposable {
     
     @Override
     public void dispose() {
-        if(getStage() != null){
-            getStage().getRoot().removeActor(this);
+        if(getParent() != null){
+            getParent().removeActor(this);
             GdxGame.game.bodyToRemove.add(body);
         }
     }
