@@ -15,6 +15,6 @@ public class DesktopLauncher {
         
 //        config.fullscreen = true;
         new LwjglApplication(new GdxGame(new FitViewport(config.width, config.height)), config);
-        //config
+        
     }
 }

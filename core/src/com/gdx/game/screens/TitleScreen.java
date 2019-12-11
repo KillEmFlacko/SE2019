@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Ciccio
+ * @author Giovanni
  */
 public class TitleScreen implements Screen {
 
