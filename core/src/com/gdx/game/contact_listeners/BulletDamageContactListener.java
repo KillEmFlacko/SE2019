@@ -27,7 +27,7 @@ public class BulletDamageContactListener implements ContactListener {
         
         if (contact.getFixtureA().getUserData() instanceof Bullet) {
             Bullet b = (Bullet) contact.getFixtureA().getUserData();
-
+            b.dispose();
             if (contact.getFixtureB().getUserData() instanceof Body) {
                 Body body = (Body) contact.getFixtureB().getUserData();
                 if (body.getUserData() instanceof DemoBoss) {
@@ -47,14 +47,16 @@ public class BulletDamageContactListener implements ContactListener {
                 }
             }
 
-            b.dispose();
+            
         }
         if (contact.getFixtureB().getUserData() instanceof Bullet) {
             Bullet b = (Bullet) contact.getFixtureB().getUserData();
+            
             System.out.println("Starting Contact");
             System.out.println(contact.getFixtureA().getUserData());
             System.out.println(contact.getFixtureB().getUserData());
             System.out.println(b.getDamage());
+            b.dispose();
                     
             if (contact.getFixtureA().getUserData() instanceof Body) {
                 Body body = (Body) contact.getFixtureA().getUserData();
@@ -74,7 +76,7 @@ public class BulletDamageContactListener implements ContactListener {
                 }
             }
             
-            b.dispose();
+            
         }
     }
 
