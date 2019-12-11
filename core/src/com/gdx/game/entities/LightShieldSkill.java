@@ -15,7 +15,7 @@ import java.util.Date;
  * @author ammanas
  */
 public final class LightShieldSkill extends DefenseSkill {
-
+    
     private Date lastFireDate;
     private LightShieldSkillEntity lsse;
 
@@ -27,6 +27,7 @@ public final class LightShieldSkill extends DefenseSkill {
 
     @Override
     public void cast(Vector2 direction) {
+        
     }
 
     @Override
@@ -37,14 +38,15 @@ public final class LightShieldSkill extends DefenseSkill {
 
             FilterFactory ff = new FilterFactory();
 
-            if (getCaster() instanceof Player) {
+            if (getCaster() instanceof Player && LightShieldSkillEntity.getN_instances() < 1) {
 
                 LightShieldSkillEntity clone = new LightShieldSkillEntity(lsse.name, lsse.life, lsse.world, lsse.getHeight(), lsse.getHeight(), getCaster().getPosition(), (Player)getCaster());
                 clone.initPhysics();
                 clone.initGraphics();   
-
+                
                 getCaster().getStage().addActor(clone);
-
+                LightShieldSkillEntity.setN_instances(1);
+                
                 
                 
 
@@ -60,7 +62,9 @@ public final class LightShieldSkill extends DefenseSkill {
     public LightShieldSkillEntity getLsse() {
         return lsse;
     }
-    
-    
 
+
+    
+    
+    
 }

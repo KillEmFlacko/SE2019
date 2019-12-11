@@ -17,12 +17,12 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public abstract class SkillBullet extends Bullet {
 
-    private final int damage;
-    private final float initialSpeed;
-    private Texture texture;
-    private Animation<TextureRegion> movingAnimation;
-    private Animation<TextureRegion> explosionAnimation;
-    private float stateTime = 0f;
+    protected final int damage;
+    protected final float initialSpeed;
+    protected Texture texture;
+    protected Animation<TextureRegion> movingAnimation;
+    protected Animation<TextureRegion> explosionAnimation;
+    protected float stateTime = 0f;
 
     public SkillBullet(int damage, float initialSpeed, World world, float radius, Vector2 initialPosition) {
         super(world, radius, initialPosition);

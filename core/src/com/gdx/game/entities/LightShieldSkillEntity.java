@@ -44,6 +44,7 @@ public class LightShieldSkillEntity extends MortalEntity {
     private TextureAtlas atlas;
     //private Fixture f;
     private RevoluteJoint revoluteJoint;
+    private static int n_instances = 0;
 
     //height and width are the dimensions of the square in which the circle is confined
     public LightShieldSkillEntity(String name, Integer life, World world, float width, float height, Vector2 position, Player caster) {
@@ -59,13 +60,15 @@ public class LightShieldSkillEntity extends MortalEntity {
 
     @Override
     public void kill() {
-       for (Fixture f : body.getFixtureList()){
-        body.destroyFixture(f);   
-       }
-        
+        LightShieldSkillEntity.setN_instances(getN_instances() - 1);
+        //ROBBA CHE NON CAPISCO
+        for (Fixture f : body.getFixtureList()) {
+            body.destroyFixture(f);
+        }
+
         GdxGame.game.bodyToRemove.add(body);
         this.getStage().getRoot().removeActor(this);
-        
+
     }
 
     @Override
@@ -92,12 +95,11 @@ public class LightShieldSkillEntity extends MortalEntity {
         Fixture fxt = body.createFixture(fixtureDef);
         fxt.setUserData(this.body);
         circleShape.dispose();
-        
+
         RevoluteJointDef jointDef = new RevoluteJointDef();
         jointDef.initialize(caster.body, body, caster.getPosition());
 
         this.world.createJoint(jointDef);
-        
 
     }
 
@@ -140,6 +142,14 @@ public class LightShieldSkillEntity extends MortalEntity {
         //body.setTransform(caster.getPosition(), 0);
         //textureRegion = movingAnimation.getKeyFrame(stateTime, true);
 
+    }
+
+    public static int getN_instances() {
+        return n_instances;
+    }
+
+    public static void setN_instances(int n_instances) {
+        LightShieldSkillEntity.n_instances = n_instances;
     }
 
 }

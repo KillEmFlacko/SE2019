@@ -24,12 +24,15 @@ import com.gdx.game.factories.FilterFactory;
  */
 public class BigFireballSkillBullet extends SkillBullet{
 
-
-    private TextureAtlas atlas; 
+/*
+     
     private Animation<TextureRegion> movingAnimation;
     private Animation<TextureRegion> explosionAnimation;
     private float stateTime = 0f;
-
+*/
+    private TextureAtlas atlas;
+    
+    
     public BigFireballSkillBullet(int damage,float speed,World world, float radius,Vector2 position) {
         super(damage, speed, world, radius, position);
     }
