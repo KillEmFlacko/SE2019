@@ -12,12 +12,10 @@ import java.util.ArrayList;
  *
  * @author Davide
  */
-public class Level extends Group{
-    private TiledMap map;
-    private ArrayList<Enemy> enemies;
+public abstract class Level extends Group{
     private Player player;
     
-    protected Level(Player p){
+    public Level(Player p){
         this.player = p;
     }
     
@@ -25,7 +23,7 @@ public class Level extends Group{
         this.addListener(new EndLevelListener());
     }
     
-    private void end(){
+    public void end(){
         
     }
     
@@ -33,15 +31,11 @@ public class Level extends Group{
         return player;
     }
     
-    public TiledMap getMap(){
-        return map;
-    }
+    public abstract TiledMap getMap();
     
-    public ArrayList<Enemy> getEnemies(){
-        return enemies;
-    }
+    public abstract ArrayList<Enemy> getEnemies();
     
-    private class EndLevelListener extends ChangeListener{
+    protected class EndLevelListener extends ChangeListener{
 
         @Override
         public void changed(ChangeEvent ce, Actor actor) {
