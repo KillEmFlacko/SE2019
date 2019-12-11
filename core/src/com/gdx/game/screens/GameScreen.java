@@ -261,7 +261,8 @@ public class GameScreen implements Screen {
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         try {
                             System.out.println("ciao");
-                            hst.insertHighScore(text.getText(), scoreCounter.getScore());
+                            String nick = text.getText().replaceAll("\\s+", "");
+                            hst.insertHighScore(nick, scoreCounter.getScore());
                             game.setScreen(new ScoreScreen(game));
                             GameScreen.this.dispose();
                             game.setScreen(new ScoreScreen(game));
@@ -290,9 +291,8 @@ public class GameScreen implements Screen {
                 }, 5);
 
             }
-        } catch (FileNotFoundException ex) {
-            game.setScreen(new TitleScreen(game));
         } catch (IOException ex) {
+            game.setScreen(new TitleScreen(game));
         }
 //                Timer.schedule(new Task() {
 //                    
