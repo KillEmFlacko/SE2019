@@ -175,10 +175,12 @@ public abstract class Level extends Group {
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
-//        if (mapRenderer != null) {
-//            mapRenderer.render();
-//            mapRenderer.setView((OrthographicCamera) getStage().getCamera());
-//        }
+        if (mapRenderer != null) {
+            batch.end();
+            mapRenderer.render();
+            mapRenderer.setView((OrthographicCamera) getStage().getCamera());
+            batch.begin();
+        }
         super.draw(batch, parentAlpha);
     }
 }

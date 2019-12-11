@@ -44,7 +44,6 @@ import net.dermetfan.gdx.physics.box2d.ContactMultiplexer;
  */
 public class GameScreen implements Screen {
 
-    private final OrthogonalTiledMapRenderer mapRenderer;
     private final Box2DDebugRenderer debugRenderer;
     private final Player player;
     private final World world;
@@ -61,13 +60,13 @@ public class GameScreen implements Screen {
     public GameScreen(GdxGame aGame) {
         debugRenderer = new Box2DDebugRenderer();
         world = new World(Vector2.Zero, true);
+        world.setContactListener(new ContactMultiplexer(new BulletDamageContactListener()));
         this.game = aGame;
         
         /////////// STAGE /////////////
         stage = new GameStage();
         stage.setViewport(aGame.vp);
         stage.setWorld(world);
-        world.setContactListener(new ContactMultiplexer(new BulletDamageContactListener()));
         //////////////////////////////
 
         /////////// PLAYER ////////////
@@ -80,11 +79,6 @@ public class GameScreen implements Screen {
         level1 = new Level1(player);
         stage.addActor(level1);
         ////////////////////////////
-        
-        ////////// MAP RENDERING /////////////
-        float pixelPerUnit = (int) level1.getMap().getTileSets().getTileSet(0).getProperties().get("tilewidth");
-        mapRenderer = new OrthogonalTiledMapRenderer(level1.getMap(), 1 / (pixelPerUnit * unitPerMeters));
-        //////////////////////////////////////
 
         stage.getRoot().addListener(new EndDemoGameListener(this,player,(DemoBoss) level1.getEnemies().get(0)));
 
@@ -140,10 +134,6 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         world.step(1 / 60f, 6, 2);
         stage.act();
-        mapRenderer.setView((OrthographicCamera) stage.getCamera());
-//      decommentare per seguire il player
-        //stage.getCamera().position.set(player.getPosition(), stage.getCamera().position.z);
-        mapRenderer.render();
         stage.draw();
         debugRenderer.render(world, stage.getCamera().combined);
     }
