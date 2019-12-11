@@ -14,7 +14,7 @@ public class Weapon {
 
     private  Bullet bullet;
     private final Entity shooter;
-    private final float shootingRate;
+    private float shootingRate;
     private Date lastFireDate = null;
 
     public Weapon(Entity shooterEntity, Bullet bullet, float shootingRate) {
@@ -31,11 +31,11 @@ public class Weapon {
         this.bullet = bullet;
     }
 
-    public int getShootingRate() {
+    public float getShootingRate() {
         return shootingRate;
     }
 
-    public void setShootingRate(int shootingRate) {
+    public void setShootingRate(float shootingRate) {
         this.shootingRate = shootingRate;
     }
 
