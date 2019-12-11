@@ -175,7 +175,7 @@ public final class Player extends MortalEntity {
     public void kill() {
         GdxGame.game.bodyToRemove.add(this.body);
         fire(new DeathEvent());
-        this.getStage().getRoot().removeActor(this);
+        getParent().removeActor(this);
     }
 
     float getBoostSpellMultiplier() {

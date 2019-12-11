@@ -1,44 +1,38 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.gdx.game.levels;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
-import com.badlogic.gdx.maps.objects.PolylineMapObject;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Polyline;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
-import com.gdx.game.GameStage;
 import com.gdx.game.GdxGame;
+import com.gdx.game.contact_listeners.events.DeathEvent;
 import com.gdx.game.entities.Enemy;
 import com.gdx.game.entities.Player;
 import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.movements.MovementSetFactory;
 
 /**
+ * The first level of our game. As a level it is final because there are some
+ * overridable methods called in th constructor.
  *
  * @author Armando
  */
-public class Level1 extends Level {
+public final class Level1 extends Level {
 
-    private TiledMap map;
-    private Array<Enemy> enemies;
+    private final TiledMap map;
+    private final Array<Enemy> enemies;
 
     public Level1(Player p) {
         super(p);
+        //////////// MAP ///////////
         map = new TmxMapLoader().load("mappa_text_low_res/mappa_low_res.tmx");
+        ////////////////////////////
+
+        //////////// ENTITIES ///////////////
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -46,17 +40,23 @@ public class Level1 extends Level {
         Vector2 v = player.getPosition().add(5, 5);
         DemoBoss db = new DemoBoss("Wandering Demon", 150, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
         enemies = Array.with((Enemy) db);
+        /////////////////////////////////////
     }
 
+    @Override
     public void start() {
+        addListener(new EndLevel1Listener());
+        mapRenderer = new OrthogonalTiledMapRenderer(getMap(), 1f / (getPixelPerTile() * getTilePerMeter()));
+        instantiateStaticObjects("walls");
         addActor(player);
         for (Enemy enemy : enemies) {
             addActor(enemy);
         }
     }
 
+    @Override
     public void end() {
-
+        fire(new EndLevelEvent());
     }
 
     @Override
@@ -67,5 +67,26 @@ public class Level1 extends Level {
     @Override
     public Array<Enemy> getEnemies() {
         return enemies;
+    }
+
+    @Override
+    protected float getTilePerMeter() {
+        return 25f;
+    }
+
+    @Override
+    protected float getPixelPerTile() {
+        return 16f / 30f;
+    }
+    
+    private class EndLevel1Listener extends EndLevelListener {
+
+        @Override
+        public void changed(ChangeEvent arg0, Actor arg1) {
+            if(arg0 instanceof DeathEvent){
+                Level1.this.end();
+            }
+        }
+        
     }
 }
