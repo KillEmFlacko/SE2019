@@ -22,6 +22,7 @@ import com.gdx.game.GameStage;
 import com.gdx.game.GdxGame;
 import com.gdx.game.entities.Enemy;
 import com.gdx.game.entities.Player;
+import com.gdx.game.factories.FilterFactory;
 
 /**
  * A single game level with his entities and map. A level is a Group, which
@@ -137,6 +138,9 @@ public abstract class Level extends Group {
                 PolygonShape shape = getPolygon((PolygonMapObject) wall, getPixelPerTile() * getTilePerMeter());
                 FixtureDef fxtDef = new FixtureDef();
                 fxtDef.shape = shape;
+                
+                FilterFactory ff = new FilterFactory();
+                ff.copyFilter(fxtDef.filter, ff.getStaticColliderFilter());
 
                 mapWalls.createFixture(fxtDef);
                 shape.dispose();

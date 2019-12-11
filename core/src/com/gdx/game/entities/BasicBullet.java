@@ -11,7 +11,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 /**
@@ -37,7 +36,8 @@ public class BasicBullet extends Bullet {
     @Override
     public void initPhysics() {
         BodyDef bdDef = new BodyDef();
-        bdDef.type = BodyDef.BodyType.KinematicBody;
+        bdDef.type = BodyDef.BodyType.DynamicBody;
+        bdDef.bullet = true;
         bdDef.position.set(getPosition());
 
         body = world.createBody(bdDef);

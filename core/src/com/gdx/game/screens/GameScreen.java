@@ -49,7 +49,7 @@ public class GameScreen implements Screen {
         
         /////////// STAGE /////////////
         stage = new GameStage(aGame.vp);
-        stage.getRoot().addListener(new EndDemoGameListener(this));
+        stage.addListener(new EndDemoGameListener(this));
         //////////////////////////////
 
         ////////// WORLD //////////////

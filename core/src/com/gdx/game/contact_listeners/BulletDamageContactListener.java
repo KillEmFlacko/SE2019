@@ -10,7 +10,6 @@ import com.gdx.game.entities.Bullet;
 import com.gdx.game.entities.LightShieldSkill;
 import com.gdx.game.entities.LightShieldSkillEntity;
 import com.gdx.game.entities.Player;
-import com.gdx.game.entities.PlayerSkill;
 import com.gdx.game.entities.bosses.DemoBoss;
 
 /**
