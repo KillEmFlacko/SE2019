@@ -6,7 +6,6 @@
 package com.gdx.game.contact_listeners.events;
 
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.gdx.game.entities.MortalEntity;
 
 /**
  *

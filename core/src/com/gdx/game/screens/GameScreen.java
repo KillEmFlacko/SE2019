@@ -1,7 +1,9 @@
 package com.gdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.loaders.AssetLoader;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -14,8 +16,15 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.utils.Align;
+import static com.badlogic.gdx.utils.Align.center;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.gdx.game.GdxGame;
@@ -31,7 +40,10 @@ import com.gdx.game.score.ScoreCounter;
 import de.tomgrill.gdxdialogs.core.GDXDialogs;
 import de.tomgrill.gdxdialogs.core.dialogs.GDXTextPrompt;
 import de.tomgrill.gdxdialogs.core.listener.TextPromptListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.dermetfan.gdx.physics.box2d.ContactMultiplexer;
 
 /**
@@ -46,14 +58,18 @@ public class GameScreen implements Screen {
     private final Player player;
     private final World world;
     private final GdxGame game;
-    private final Stage stage;
-    public Label label1;
+    private final Stage gameStage;
+    private final Stage hudStage;
+    private Label label1;
+    private TextField text;
+    private TextButton btn;
 
     private final ScoreCounter scoreCounter;
 
     public GameScreen(GdxGame aGame) {
         this.game = aGame;
-        stage = new Stage(aGame.vp);
+        gameStage = new Stage(aGame.vp);
+        hudStage = new Stage();
         world = new World(Vector2.Zero, true);
         world.setContactListener(new ContactMultiplexer(new BulletDamageContactListener()));
         ////////// MAPPA /////////////
@@ -74,25 +90,24 @@ public class GameScreen implements Screen {
         // Height is multiplied by aspect ratio.
         player.addListener(new EndDemoGameListener(this));
 
-        OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
+        OrthographicCamera cam = (OrthographicCamera) gameStage.getCamera();
         game.vp.setWorldSize(30, 30 * (h / w)); // 30 * aspectRatio
-        cam.position.set(player.getPosition(), stage.getCamera().position.z);
+        cam.position.set(player.getPosition(), gameStage.getCamera().position.z);
         cam.update();
-        
+
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         Vector2 v = player.getPosition().add(5, 5);
         DemoBoss db = new DemoBoss("Wandering Demon", 150, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
         db.addListener(new EndDemoGameListener(this));
-        
+
         // Gestione dello score IncreaseScoreListener
         scoreCounter = new ScoreCounter();
         IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
         db.addListener(scoreListener);
         player.addListener(scoreListener);
-        
-        
-        stage.addActor(player);
-        stage.addActor(db);
+
+        gameStage.addActor(player);
+        gameStage.addActor(db);
 
         System.out.println(Gdx.graphics.getWidth());
 
@@ -123,18 +138,19 @@ public class GameScreen implements Screen {
                 2 / unitPerMeters,
                 new Vector2(15, 0)
         );
-        initLabel();
-        stage.addActor(left);
-        stage.addActor(right);
-        stage.addActor(up);
-        stage.addActor(down);
+        initHUD();
+        gameStage.addActor(left);
+        gameStage.addActor(right);
+        gameStage.addActor(up);
+        gameStage.addActor(down);
 
     }
 
-    public final void initLabel() {
+    public final void initHUD() {
+        //game over label
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameters.size = 16;
+        parameters.size = 24;
         parameters.color = Color.RED;
         parameters.borderWidth = 1;
         parameters.borderColor = Color.BLACK;
@@ -143,20 +159,75 @@ public class GameScreen implements Screen {
 
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
-        float a = 1f / (5 / GdxGame.SCALE), b = 1f / (16 / GdxGame.SCALE);
         label1 = new Label("GAME OVER", lblStyle);
-        label1.setFontScale(1f / GdxGame.SCALE);
-        //label1.setSize((0.9f*game.vp.getWorldWidth()), 0.2f);
-        label1.setPosition(0.08f * game.vp.getWorldWidth(), 0.2f * game.vp.getWorldHeight());
+
+        label1.setSize(label1.getWidth() * 3, label1.getHeight() * 3);
+        label1.setFontScale(3);
+        label1.setPosition(Gdx.graphics.getWidth() / 2 - label1.getWidth() / 2, (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         label1.setVisible(false);
 
-        stage.addActor(label1);
+        hudStage.addActor(label1);
+        //text field box
+
+        //text field style for future use
+        /*FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameters.size = 18;
+        parameters.color = Color.RED;
+        parameters.borderWidth = 1;
+        parameters.borderColor = Color.BLACK;
+        parameters.color= Color.WHITE;
+        
+        BitmapFont font = generator.generateFont(parameters);
+        generator.dispose();
+        
+        TextField.TextFieldStyle txtfstyle = new TextField.TextFieldStyle();
+        txtfstyle.font=font;
+        txtfstyle.fontColor= Color.WHITE;     
+         */
+        text = new TextField("", GdxGame.game.skin, "default");
+        //text.setScale(1f/GdxGame.SCALE);
+
+        //text.setAlignment(center);
+        //text.setSize();
+        text.setAlignment(center);
+        text.setMaxLength(10);
+        text.setMessageText("Enter your nickname");
+        text.setSize(Gdx.graphics.getWidth() / 2, text.getHeight() * 2);
+        text.setPosition(Gdx.graphics.getWidth() / 2 - text.getWidth() / 2, (Gdx.graphics.getHeight() / 2 - text.getHeight() / 2) - 0.1f * Gdx.graphics.getHeight());
+        text.setVisible(false);
+
+        hudStage.addActor(text);
+
+        //enter button
+        btn = new TextButton("OK", GdxGame.game.skin, "default");
+        btn.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
+        btn.setPosition(Gdx.graphics.getWidth()/2-btn.getWidth()/2, Gdx.graphics.getHeight()/2-0.3f*Gdx.graphics.getHeight());
+//btn.setPosition(Gdx.graphics.getWidth() / 2 - text.getWidth() / 2, Gdx.graphics.getHeight() / 2 - text.getHeight() / 2);
+        btn.setVisible(false);
+        btn.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                try {
+
+                    game.setScreen(new ScoreScreen(game));
+
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return true;
+            }
+        });
+        hudStage.addActor(btn);
 
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(gameStage);
+        Gdx.input.setInputProcessor(hudStage);
     }
 
     @Override
@@ -170,77 +241,86 @@ public class GameScreen implements Screen {
         }
         GdxGame.game.bodyToRemove.removeAll(GdxGame.game.bodyToRemove);
         /////////////////////////////////////////////
-        stage.act();
-        mapRenderer.setView((OrthographicCamera) stage.getCamera());
+        gameStage.act();
+        mapRenderer.setView((OrthographicCamera) gameStage.getCamera());
 //        decommentare per seguire il player
-        //stage.getCamera().position.set(player.getPosition(), stage.getCamera().position.z);
+        //stage.getCamera().position.set(player.getPosition(), gameStage.getCamera().position.z);
         mapRenderer.render();
-        stage.draw();
-        debugRenderer.render(world, stage.getCamera().combined);
+        gameStage.draw();
+        hudStage.act();
+        hudStage.draw();
+        debugRenderer.render(world, gameStage.getCamera().combined);
     }
 
     public void end() {
         label1.setVisible(true);
-        Timer.schedule(new Task() {
-            @Override
-            public void run() {
-                try {
-                    final HighScoreTable hst = new HighScoreTable();
+        try {
+            final HighScoreTable hst = new HighScoreTable();
+            if (hst.isInTop(scoreCounter.getScore())) {
+                text.setVisible(true);
+                btn.setVisible(true);
+                btn.addListener(new InputListener() {
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        try {
+                            System.out.println("ciao");
+                            hst.insertHighScore(text.getText(), scoreCounter.getScore());
+                            game.setScreen(new ScoreScreen(game));
+                            GameScreen.this.dispose();  
+                            game.setScreen(new ScoreScreen(game));
 
-                    if (hst.isInTop(scoreCounter.getScore())) {
-
-                        GDXDialogs dialogs = game.getDialogMgr();
-                        GDXTextPrompt textPrompt = dialogs.newDialog(GDXTextPrompt.class);
-
-                        textPrompt.setTitle("New High Score!");
-                        textPrompt.setMessage("Please, insert your name.");
-
-                        textPrompt.setCancelButtonLabel("Cancel");
-                        textPrompt.setConfirmButtonLabel("OK");
-
-                        textPrompt.setTextPromptListener(new TextPromptListener() {
-
-                            @Override
-                            public void confirm(String text) {
-                                text=text.replaceAll("\\s+",""); //delete all possible white spaces from nickname
-                                try {
-                                    System.out.println("questo è lo score prima dell'inserimento"+GameScreen.this.scoreCounter.getScore());
-                                    hst.insertHighScore(text,scoreCounter.getScore());
-                                    game.setScreen(new ScoreScreen(game));
-                                } catch (IOException ex) {
-                                    game.setScreen(new TitleScreen(game));
-                                } finally {
-                                    GameScreen.this.dispose();
-                                }
-                            }
-
-                            @Override
-                            public void cancel() {
-                                try {
-                                    game.setScreen(new ScoreScreen(game));
-                                } catch (IOException ex) {
-                                    game.setScreen(new TitleScreen(game));
-                                } finally {
-                                    GameScreen.this.dispose();
-                                }
-                            }
-                        });
-
-                        textPrompt.build().show();
-                    } else {
-                        game.setScreen(new ScoreScreen(game));
-                        GameScreen.this.dispose();
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (IOException ex) {
+                            Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        return true;
                     }
-                } catch (IOException ex) {
-                    game.setScreen(new TitleScreen(game));
-                }
+                });
+            } else {
+                Timer.schedule(new Task() {
+                    @Override
+                    public void run() {
+                        try {
+                            game.setScreen(new ScoreScreen(game));
+                            GameScreen.this.dispose();
+                        } catch (IOException ex) {
+                            game.setScreen(new TitleScreen(game));
+                            GameScreen.this.dispose();
+                        }
+
+                    }
+                }, 5);
+
             }
-        }, 5);
+        } catch (FileNotFoundException ex) {
+            game.setScreen(new TitleScreen(game));
+        } catch (IOException ex) {
+        }
+//                Timer.schedule(new Task() {
+//                    
+//
+//                    
+//                    else {
+//                    game.setScreen(new ScoreScreen(game));
+//                    GameScreen.this.dispose();
+//                }
+//                } catch (IOException ex) {
+//                        game.setScreen(new TitleScreen(game));
+//                        }
+//            }
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+//     , 
+//5);
+
     }
 
     @Override
     public void dispose() {
-        stage.dispose();
+        gameStage.dispose();
 
     }
 

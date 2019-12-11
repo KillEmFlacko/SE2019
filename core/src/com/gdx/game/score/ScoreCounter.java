@@ -5,6 +5,8 @@
  */
 package com.gdx.game.score;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -14,7 +16,7 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * @author Salvatore Gravina
  */
-public class ScoreCounter {
+public class ScoreCounter extends ChangeListener {
     private final AtomicLong score;
     
     public ScoreCounter(){
@@ -37,6 +39,11 @@ public class ScoreCounter {
      */
     public void increaseScore(long dscore){
         this.score.addAndGet(dscore);
+    }
+
+    @Override
+    public void changed(ChangeEvent event, Actor actor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
