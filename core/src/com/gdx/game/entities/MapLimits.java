@@ -20,8 +20,8 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class MapLimits extends Entity {
 
-    public MapLimits(World world, float width, float height, Vector2 initialPosition) {
-        super(world, width, height, initialPosition);
+    public MapLimits( float width, float height, Vector2 initialPosition) {
+        super( width, height, initialPosition);
         initPhysics();
     }
 

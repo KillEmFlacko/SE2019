@@ -48,8 +48,8 @@ public final class DemoBoss extends Boss {
 
     private Movement prevMovement;
 
-    public DemoBoss(String name, Integer life, World world, float width, float height, Vector2 position, MovementSet movementQ, Player player) {
-        super(name, life, world, width, height, position);
+    public DemoBoss(String name, Integer life,  float width, float height, Vector2 position, MovementSet movementQ, Player player) {
+        super(name, life, width, height, position);
         this.movementQ = movementQ;
         this.player = player;
         DemoBossBullet b = new DemoBossBullet(world, 4f/GdxGame.game.SCALE, this.player.getPosition(), 25, 10f);
@@ -57,8 +57,8 @@ public final class DemoBoss extends Boss {
 
         //bossState = new IdleState(); TO ADD
         //this.movementQ = bossState.onIdle() TO ADD
-        initPhysics();
-        initGraphics();
+//        initPhysics();
+//        initGraphics();
         this.prevMovement = movementQ.peek();
     }
 
@@ -66,7 +66,7 @@ public final class DemoBoss extends Boss {
      * Initializes the Actor physics. Do not call directly.
      */
     @Override
-    protected final void initPhysics() {
+    public final void initPhysics() {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -94,6 +94,10 @@ public final class DemoBoss extends Boss {
 
     @Override
     public void act(float delta) {
+        if (body == null) {
+            initGraphics();
+            initPhysics();
+        }
         setPosition(body.getPosition());
         if (super.life <= 0) {
             kill();
@@ -150,7 +154,7 @@ public final class DemoBoss extends Boss {
      * Method instantiates the graphics of the Actor. Do not call directly.
      */
     @Override
-    protected void initGraphics() {
+    public void initGraphics() {
 
         //atlas = new TextureAtlas(Gdx.files.internal("texture/enemy/bosses/knight/knight_run/knight.atlas"));
         atlas = new TextureAtlas(Gdx.files.internal("texture/enemy/bosses/big_demon/big_demon.atlas"));

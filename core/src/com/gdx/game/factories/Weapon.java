@@ -53,9 +53,9 @@ public class Weapon {
             }
 
             Bullet clone = bullet.clone();
+            shooter.getStage().addActor(clone);
             clone.initPhysics();
             clone.initGraphics();
-            shooter.getStage().addActor(clone);
             clone.setLinearVelocity(bulletVelocity);
 
             lastFireDate = new Date();

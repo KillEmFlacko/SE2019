@@ -34,8 +34,8 @@ public final class Player extends MortalEntity {
     private DefenseSkill dSkill;
     private Weapon skillWeapon;
 
-    public Player(String name, int lifepoints, World world, float width, float height, Vector2 position) {
-        super(name, lifepoints, world, width, height, position);
+    public Player(String name, int lifepoints,  float width, float height, Vector2 position) {
+        super(name, lifepoints,  width, height, position);
 
         //player must take spells that he has at his disposition
         //BigFireballSkillBullet bigFireballSkillBullet = new BigFireballSkillBullet(world, 3f, initalPosition, 50, 10f);
@@ -43,7 +43,7 @@ public final class Player extends MortalEntity {
         dSkill = new LightShieldSkill(2f, this);
         //skillWeapon = new Weapon(this, dmgSkill.getB(), 1/dmgSkill.getCoolDown());
 
-        weapon = new Weapon(this, new BasicBullet(world, 4f / GdxGame.game.SCALE, position, 10, speed * 1.5f), 3);
+        weapon = new Weapon(this, new BasicBullet( 4f / GdxGame.game.SCALE, position, 10, speed * 1.5f), 3);
     }
 
     @Override

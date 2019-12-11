@@ -7,6 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.gdx.game.GameStage;
 
 /**
  * DIVIDI L'ENTITY BODY IN 2 BODY, UN COLLIDING BODY CHE SI OCCUPA DEL LATO FISICO, ED UN SENSOR
@@ -20,8 +22,7 @@ public abstract class Entity extends Actor {
     protected Body body;
     protected TextureRegion textureRegion;
 
-    public Entity(World world, float worldWidth, float worldHeight, Vector2 initialPosition) {
-        this.world = world;
+    public Entity( float worldWidth, float worldHeight, Vector2 initialPosition) {
         setWidth(worldWidth);
         setHeight(worldHeight);
         setPosition(initialPosition.x, initialPosition.y);
@@ -63,6 +64,16 @@ public abstract class Entity extends Actor {
     public World getWorld() {
         return world;
     }
- 
+
+    @Override
+    protected void setStage(Stage stage) {
+        super.setStage(stage);
+        if (stage instanceof GameStage) {
+        GameStage s = (GameStage) stage;
+        world = s.getWorld();
+        }
+            
+    }
+    
     
 }

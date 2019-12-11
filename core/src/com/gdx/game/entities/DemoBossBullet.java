@@ -19,7 +19,7 @@ public class DemoBossBullet extends BasicBullet {
 
     // ASTRAI
     public DemoBossBullet(World world, float radius, Vector2 position, int damage, float initSpeed) {
-        super(world, radius, position, damage, initSpeed);
+        super( radius, position, damage, initSpeed);
     }
 
     @Override

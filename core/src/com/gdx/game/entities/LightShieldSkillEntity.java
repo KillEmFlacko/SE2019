@@ -37,8 +37,8 @@ public class LightShieldSkillEntity extends MortalEntity {
     private TextureAtlas atlas;
 
     //height and width are the dimensions of the square in which the circle is confined
-    public LightShieldSkillEntity(String name, Integer life, World world, float width, float height, Vector2 position, Player caster) {
-        super(name, life, world, width, height, position);
+    public LightShieldSkillEntity(String name, Integer life,  float width, float height, Vector2 position, Player caster) {
+        super(name, life,  width, height, position);
         this.caster = caster;
         
     }

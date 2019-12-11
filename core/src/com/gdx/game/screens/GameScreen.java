@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+import com.gdx.game.GameStage;
 import com.gdx.game.GdxGame;
 import com.gdx.game.entities.MapLimits;
 import com.gdx.game.entities.Player;
@@ -46,15 +47,17 @@ public class GameScreen implements Screen {
     private final Player player;
     private final World world;
     private final GdxGame game;
-    private final Stage stage;
+    private final GameStage stage;
     public Label label1;
 
     private final ScoreCounter scoreCounter;
 
     public GameScreen(GdxGame aGame) {
         this.game = aGame;
-        stage = new Stage(aGame.vp);
+        stage = new GameStage();
+        stage.setViewport(aGame.vp);
         world = new World(Vector2.Zero, true);
+        stage.setWorld(world);
         world.setContactListener(new ContactMultiplexer(new BulletDamageContactListener()));
         ////////// MAPPA /////////////
         map = new TmxMapLoader().load("mappa_text_low_res/mappa_low_res.tmx");
@@ -69,7 +72,7 @@ public class GameScreen implements Screen {
         float h = Gdx.graphics.getHeight();
         //(14.623319,19.27667)  (15, 15 * (h / w))
 
-        player = new Player("uajono", 100, world, playerWorldWidth, playerWorldHeight, new Vector2(15, 15 * (h / w)));
+        player = new Player("uajono", 100, playerWorldWidth, playerWorldHeight, new Vector2(15, 15 * (h / w)));
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.
         player.addListener(new EndDemoGameListener(this));
@@ -81,14 +84,13 @@ public class GameScreen implements Screen {
         
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         Vector2 v = player.getPosition().add(5, 5);
-        DemoBoss db = new DemoBoss("Wandering Demon", 150, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
+        DemoBoss db = new DemoBoss("Wandering Demon", 150,  32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
         db.addListener(new EndDemoGameListener(this));
         
         // Gestione dello score IncreaseScoreListener
         scoreCounter = new ScoreCounter();
         IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
-        db.addListener(scoreListener);
-        player.addListener(scoreListener);
+        stage.getRoot().addListener(scoreListener);
         
         
         stage.addActor(player);
@@ -96,38 +98,38 @@ public class GameScreen implements Screen {
 
         System.out.println(Gdx.graphics.getWidth());
 
-        MapLimits left = new MapLimits(
-                world,
-                2 / unitPerMeters,
-                30 * (h / w),
-                new Vector2(0, 15 * (h / w))
-        );
-
-        MapLimits right = new MapLimits(
-                world,
-                2 / unitPerMeters,
-                30 * (h / w),
-                new Vector2(30, 15 * (h / w))
-        );
-
-        MapLimits up = new MapLimits(
-                world,
-                30,
-                2 / unitPerMeters,
-                new Vector2(15, 30 * (h / w))
-        );
-
-        MapLimits down = new MapLimits(
-                world,
-                30,
-                2 / unitPerMeters,
-                new Vector2(15, 0)
-        );
+//        MapLimits left = new MapLimits(
+//                world,
+//                2 / unitPerMeters,
+//                30 * (h / w),
+//                new Vector2(0, 15 * (h / w))
+//        );
+//
+//        MapLimits right = new MapLimits(
+//                world,
+//                2 / unitPerMeters,
+//                30 * (h / w),
+//                new Vector2(30, 15 * (h / w))
+//        );
+//
+//        MapLimits up = new MapLimits(
+//                world,
+//                30,
+//                2 / unitPerMeters,
+//                new Vector2(15, 30 * (h / w))
+//        );
+//
+//        MapLimits down = new MapLimits(
+//                world,
+//                30,
+//                2 / unitPerMeters,
+//                new Vector2(15, 0)
+//        );
         initLabel();
-        stage.addActor(left);
-        stage.addActor(right);
-        stage.addActor(up);
-        stage.addActor(down);
+//        stage.addActor(left);
+//        stage.addActor(right);
+//        stage.addActor(up);
+//        stage.addActor(down);
 
     }
 

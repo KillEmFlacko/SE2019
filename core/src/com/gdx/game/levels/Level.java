@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @author Davide
  */
 public abstract class Level extends Group{
-    private Player player;
+    protected Player player;
     
     public Level(Player p){
         this.player = p;

@@ -28,8 +28,8 @@ public class BasicBullet extends Bullet {
     protected float stateTime = 0f;
 
     // ASTRAI
-    public BasicBullet(World world, float radius, Vector2 position, int damage, float initSpeed) {
-        super(world, radius, position);
+    public BasicBullet( float radius, Vector2 position, int damage, float initSpeed) {
+        super( radius, position);
         this.damage = damage;
         this.initialSpeed = initSpeed;
     }
@@ -88,7 +88,7 @@ public class BasicBullet extends Bullet {
 
     @Override
     public Bullet clone() {
-        BasicBullet clone = new BasicBullet(world, getWidth()/2, getPosition(), damage, initialSpeed);
+        BasicBullet clone = new BasicBullet( getWidth()/2, getPosition(), damage, initialSpeed);
         clone.setFilter(filter);
         return clone;
     }

@@ -10,8 +10,8 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public abstract class Minion extends Enemy{
 
-    public Minion(String name, Integer life, World world, float width, float height, Vector2 position) {
-        super(name, life, world, width, height, position);
+    public Minion(String name, Integer life,  float width, float height, Vector2 position) {
+        super(name, life,width, height, position);
     }
     
 

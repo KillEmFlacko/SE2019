@@ -17,8 +17,8 @@ public abstract class MortalEntity extends Entity {
     protected String name;
     protected Integer life;
 
-    public MortalEntity(String name, Integer life, World world, float width, float height, Vector2 position) {
-        super(world, width, height, position);
+    public MortalEntity(String name, Integer life, float width, float height, Vector2 position) {
+        super( width, height, position);
         this.name = name;
         this.life = life;
     }

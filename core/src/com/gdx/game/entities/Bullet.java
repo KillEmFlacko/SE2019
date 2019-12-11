@@ -13,8 +13,8 @@ import com.gdx.game.GdxGame;
  */
 public abstract class Bullet extends Entity implements Cloneable,Disposable {
     protected Filter filter;
-    public Bullet(World world, float radius, Vector2 initialPosition) {
-        super(world, radius*2, radius*2, initialPosition);
+    public Bullet( float radius, Vector2 initialPosition) {
+        super( radius*2, radius*2, initialPosition);
     }
     public abstract int getDamage();
     public abstract float getInitalSpeed();

@@ -30,8 +30,8 @@ public class BigFireballSkillBullet extends SkillBullet{
     private Animation<TextureRegion> explosionAnimation;
     private float stateTime = 0f;
 
-    public BigFireballSkillBullet(int damage,float speed,World world, float radius,Vector2 position) {
-        super(damage, speed, world, radius, position);
+    public BigFireballSkillBullet(int damage,float speed, float radius,Vector2 position) {
+        super(damage, speed, radius, position);
     }
     
     @Override
@@ -76,7 +76,7 @@ public class BigFireballSkillBullet extends SkillBullet{
 
     @Override
     public SkillBullet clone() {
-        BigFireballSkillBullet clone = new BigFireballSkillBullet(this.getDamage(), getInitalSpeed(), world, getWidth()/2, getPosition());
+        BigFireballSkillBullet clone = new BigFireballSkillBullet(this.getDamage(), getInitalSpeed(), getWidth()/2, getPosition());
         clone.setFilter(filter);
         return clone;
     }
