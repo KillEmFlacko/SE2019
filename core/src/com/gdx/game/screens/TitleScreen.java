@@ -34,7 +34,7 @@ public class TitleScreen implements Screen {
     private final int BUTTON_SPACE = 5;
     private SettingsScreen ss;
 
-    public TitleScreen(GdxGame aGame) throws IOException {
+    public TitleScreen(GdxGame aGame){
         this.game = aGame;
         this.stage = new Stage();
         ss = new SettingsScreen(game, this);

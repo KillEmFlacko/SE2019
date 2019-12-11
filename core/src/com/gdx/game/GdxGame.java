@@ -9,10 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gdx.game.screens.TitleScreen;
 import com.gdx.game.settings.Settings;
-import java.io.IOException;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class GdxGame extends Game {
 
@@ -22,7 +19,7 @@ public class GdxGame extends Game {
     public static GdxGame game;
     public static final float SCALE = 6.0f;
     private Music music;
-   // private static final float DEFAULT_VOLUME = 0.5f;
+    // private static final float DEFAULT_VOLUME = 0.5f;
 
     public LinkedList<Body> bodyToRemove = new LinkedList<Body>();
 
@@ -33,32 +30,23 @@ public class GdxGame extends Game {
 
     }
 
- 
-/*
+    /*
     public static float getDEFAULT_VOLUME() {
         return DEFAULT_VOLUME;
     }*/
-
     public Music getMusic() {
         return music;
     }
-      
-    
 
     @Override
     public void create() {
         skin = new Skin(Gdx.files.internal("skin/expee-ui.json"));
 
-        try {
-            this.setScreen(new TitleScreen(this));
-        } catch (IOException ex) {
-            Logger.getLogger(GdxGame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.setScreen(new TitleScreen(this));
 
         Settings.initAudio();
 
     }
-    
 
     @Override
     public void render() {
@@ -75,7 +63,4 @@ public class GdxGame extends Game {
         vp.update(width, height);
     }
 
-    public GDXDialogs getDialogMgr() {
-        return dialogMgr;
-    }
 }

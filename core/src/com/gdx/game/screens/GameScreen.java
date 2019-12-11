@@ -37,9 +37,6 @@ import com.gdx.game.contact_listeners.IncreaseScoreListener;
 import com.gdx.game.movements.MovementSetFactory;
 import com.gdx.game.score.HighScoreTable;
 import com.gdx.game.score.ScoreCounter;
-import de.tomgrill.gdxdialogs.core.GDXDialogs;
-import de.tomgrill.gdxdialogs.core.dialogs.GDXTextPrompt;
-import de.tomgrill.gdxdialogs.core.listener.TextPromptListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -202,7 +199,7 @@ public class GameScreen implements Screen {
         //enter button
         btn = new TextButton("OK", GdxGame.game.skin, "default");
         btn.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
-        btn.setPosition(Gdx.graphics.getWidth()/2-btn.getWidth()/2, Gdx.graphics.getHeight()/2-0.3f*Gdx.graphics.getHeight());
+        btn.setPosition(Gdx.graphics.getWidth() / 2 - btn.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 0.3f * Gdx.graphics.getHeight());
 //btn.setPosition(Gdx.graphics.getWidth() / 2 - text.getWidth() / 2, Gdx.graphics.getHeight() / 2 - text.getHeight() / 2);
         btn.setVisible(false);
         btn.addListener(new InputListener() {
@@ -266,7 +263,7 @@ public class GameScreen implements Screen {
                             System.out.println("ciao");
                             hst.insertHighScore(text.getText(), scoreCounter.getScore());
                             game.setScreen(new ScoreScreen(game));
-                            GameScreen.this.dispose();  
+                            GameScreen.this.dispose();
                             game.setScreen(new ScoreScreen(game));
 
                         } catch (FileNotFoundException ex) {

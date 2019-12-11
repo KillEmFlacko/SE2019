@@ -20,6 +20,7 @@ import com.gdx.game.GdxGame;
 import com.gdx.game.settings.Settings;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 /**
  *
  * @author RaffaeleB
@@ -35,7 +36,7 @@ public class SettingsScreen implements Screen {
     private Label audio;
     private TitleScreen previousScreen;
 
-    public SettingsScreen(GdxGame game, TitleScreen previousS) throws FileNotFoundException, IOException {
+    public SettingsScreen(GdxGame game, TitleScreen previousS){
         this.game = game;
         this.stage = new Stage(game.vp);
         previousScreen = previousS;
@@ -99,10 +100,8 @@ public class SettingsScreen implements Screen {
 
             }
         });
-          
 
     }
-    
 
     @Override
     public void show() {

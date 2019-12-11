@@ -14,14 +14,12 @@ import java.io.Serializable;
  *
  * @author raffaele
  */
-public class Settings implements Serializable{
+public class Settings implements Serializable {
 
     public static Slider volume;
     public static Music music;
-    
-        private static final float DEFAULT_VOLUME = 0.5f;
 
-
+    private static final float DEFAULT_VOLUME = 0.5f;
 
     public static void setVolume(Slider volume) {
         Settings.volume = volume;
@@ -38,19 +36,16 @@ public class Settings implements Serializable{
     public static Music getMusic() {
         return music;
     }
-    
-    
+
     public static float getDEFAULT_VOLUME() {
         return DEFAULT_VOLUME;
     }
-  
-       public static void initAudio() {
+
+    public static void initAudio() {
         music = Gdx.audio.newMusic(Gdx.files.internal("audio/menu/wakawaka.mp3"));
         music.play();
         music.setLooping(true);
         music.setVolume(DEFAULT_VOLUME);
     }
-    
-    
- 
+
 }
