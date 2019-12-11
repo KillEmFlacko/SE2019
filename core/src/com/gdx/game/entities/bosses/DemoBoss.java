@@ -52,7 +52,7 @@ public final class DemoBoss extends Boss {
         super(name, life, world, width, height, position);
         this.movementQ = movementQ;
         this.player = player;
-        DemoBossBullet b = new DemoBossBullet(world, 4f/GdxGame.game.SCALE, this.player.getPosition(), 25, 10f);
+        DemoBossBullet b = new DemoBossBullet(world, 4f / GdxGame.game.SCALE, this.player.getPosition(), 25, 10f);
         this.weapon = new Weapon(this, b, 1);
 
         //bossState = new IdleState(); TO ADD
@@ -84,11 +84,11 @@ public final class DemoBoss extends Boss {
         fixtureDef.isSensor = false;
         fixtureDef.restitution = 0f;
         fixtureDef.density = 0f;
-        
+
         Fixture fixture = body.createFixture(fixtureDef);
         fixture.setUserData(body);
         shape.dispose();
-        
+
     }
     //private int i = 0;
 
@@ -111,29 +111,29 @@ public final class DemoBoss extends Boss {
             Random r = new Random();
 
             if ((r.nextFloat() * 10) >= 6) {
-
+                //si lancia contro il player
                 //System.out.println("Player position" + playerPosition);
-
                 actVelocity.set(newMovePlayer.scl(1.3f));
                 //checkDirection(newMovePlayer);
-                
+
                 timeAcc = 1.5f;
-                //prevMovement = new Movement(newMovePlayer);
+                checkDirection(newMovePlayer);
             } else {
+                //spara LELLO SPARA
                 Movement movement = movementQ.frontToBack();
                 //Gdx.app.log("V", movement.toString());
                 actVelocity.set(movement);
                 weapon.fire(newMovePlayer.scl(1f));
-                //checkDirection(movement);
-                
+                checkDirection(newMovePlayer);
+
                 timeAcc = 0f;
             }
-            checkDirection(this.getLinearVelocity());
+            
 
-            prevMovement = new Movement(this.getLinearVelocity());
+            
         }
         //robba di Armando nel mio codice
-        if(!body.getLinearVelocity().equals(actVelocity)){
+        if (!body.getLinearVelocity().equals(actVelocity)) {
             body.setLinearVelocity(actVelocity);
         }
     }
@@ -170,7 +170,7 @@ public final class DemoBoss extends Boss {
 //
 //        body.setUserData(null);
 //        body = null;
-        
+
         this.getStage().getRoot().removeActor(this);
         fire(new DeathEvent());
         //stop animation and remove body
@@ -268,16 +268,24 @@ public final class DemoBoss extends Boss {
 
     }
 
+    public boolean isRight() {
+        return !textureRegion.isFlipX();
+    }
+
+    public boolean isLeft() {
+        return textureRegion.isFlipX();
+    }
+
     public void checkDirection(Vector2 movement) {
-        if ((movement.x >= 0 && prevMovement.x >= 0) || (movement.x <= 0 && prevMovement.x <= 0)){
-            return;
-            
-        }else{
-            
-            
+        if ((movement.x > 0 && isLeft()) || (movement.x < 0 && isRight())) {
             flipFrames(true, false);
+
+        } else if (movement.x == 0){
+            
+           
+            
         }
-        
+
         /*
         if (movement.x > 0 && prevMovement.x < 0) {
 
@@ -304,9 +312,7 @@ public final class DemoBoss extends Boss {
                 //nothing
             }
             }
-        */
-
-        
+         */
     }
 
     public String getName() {
