@@ -4,9 +4,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Array;
 import com.gdx.game.entities.Enemy;
 import com.gdx.game.entities.Player;
-import java.util.ArrayList;
 
 /**
  *
@@ -20,7 +20,6 @@ public abstract class Level extends Group{
     }
     
     public void start(){
-        this.addListener(new EndLevelListener());
     }
     
     public void end(){
@@ -33,7 +32,7 @@ public abstract class Level extends Group{
     
     public abstract TiledMap getMap();
     
-    public abstract ArrayList<Enemy> getEnemies();
+    public abstract Array<Enemy> getEnemies();
     
     protected class EndLevelListener extends ChangeListener{
 

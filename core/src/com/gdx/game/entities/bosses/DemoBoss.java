@@ -175,15 +175,15 @@ public final class DemoBoss extends Boss {
 //        body.setUserData(null);
 //        body = null;
         
-        this.getStage().getRoot().removeActor(this);
         fire(new DeathEvent());
+        this.getStage().getRoot().removeActor(this);
         //stop animation and remove body
     }
 
     @Override
     public void isHitBy(Bullet bullet) {
         life -= bullet.getDamage();
-        fire(new HitEvent(this));
+        fire(new HitEvent());
     }
 
     /**

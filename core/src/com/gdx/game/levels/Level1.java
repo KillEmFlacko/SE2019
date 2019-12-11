@@ -5,6 +5,7 @@
  */
 package com.gdx.game.levels;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
@@ -29,12 +30,19 @@ public class Level1 extends Level {
         super(p);
         map = new TmxMapLoader().load("mappa_text_low_res/mappa_low_res.tmx");
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+        player.setPosition(new Vector2(15, 15 * (h / w)));
         Vector2 v = player.getPosition().add(5, 5);
         DemoBoss db = new DemoBoss("Wandering Demon", 150, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
+        enemies = Array.with((Enemy)db);
     }
 
     public void start() {
-        this.addListener(new EndLevelListener());
+        addActor(player);
+        for (Enemy enemy : enemies) {
+            addActor(enemy);
+        }
     }
 
     public void end() {
@@ -43,12 +51,12 @@ public class Level1 extends Level {
 
     @Override
     public TiledMap getMap() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return map;
     }
 
     @Override
-    public ArrayList<Enemy> getEnemies() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Array<Enemy> getEnemies() {
+        return enemies;
     }
 
 }

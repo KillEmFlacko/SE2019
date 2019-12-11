@@ -39,7 +39,7 @@ public class IncreaseScoreListener extends ChangeListener {
         HitEvent hit = (HitEvent) event;
         
         // Se il player le ha prese, resettiamo il comboMultiplier
-        if (hit.entity instanceof Player) {
+        if (hit.getTarget() instanceof Player) {
             resetCombo();
             return;
         }

@@ -26,6 +26,7 @@ import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.contact_listeners.BulletDamageContactListener;
 import com.gdx.game.contact_listeners.EndDemoGameListener;
 import com.gdx.game.contact_listeners.IncreaseScoreListener;
+import com.gdx.game.levels.Level1;
 import com.gdx.game.movements.MovementSetFactory;
 import com.gdx.game.score.HighScoreTable;
 import com.gdx.game.score.ScoreCounter;
@@ -41,7 +42,6 @@ import net.dermetfan.gdx.physics.box2d.ContactMultiplexer;
  */
 public class GameScreen implements Screen {
 
-    private final TiledMap map;
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final Box2DDebugRenderer debugRenderer;
     private final Player player;
@@ -52,84 +52,43 @@ public class GameScreen implements Screen {
 
     private final ScoreCounter scoreCounter;
 
+    private final Level1 level1;
+
     public GameScreen(GdxGame aGame) {
+        debugRenderer = new Box2DDebugRenderer();
         this.game = aGame;
         stage = new GameStage();
         stage.setViewport(aGame.vp);
         world = new World(Vector2.Zero, true);
         stage.setWorld(world);
         world.setContactListener(new ContactMultiplexer(new BulletDamageContactListener()));
-        ////////// MAPPA /////////////
-        map = new TmxMapLoader().load("mappa_text_low_res/mappa_low_res.tmx");
-        float pixelsPerUnit = 25f;
-        float unitPerMeters = 16f / 30f; // 16 tiles in uno schermo di larghezza 30 metri
-        mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / (pixelsPerUnit * unitPerMeters));
-        //////////////////////////////
-        debugRenderer = new Box2DDebugRenderer();
+
         float playerWorldWidth = 16 / GdxGame.SCALE;
         float playerWorldHeight = 28 / GdxGame.SCALE;
+        player = new Player("uajono", 100, playerWorldWidth, playerWorldHeight, Vector2.Zero);
+        level1 = new Level1(player);
+        stage.setRoot(level1);
+        ////////// MAPPA /////////////
+        float pixelsPerUnit = 25f;
+        float unitPerMeters = 16f / 30f; // 16 tiles in uno schermo di larghezza 30 metri
+        mapRenderer = new OrthogonalTiledMapRenderer(level1.getMap(), 1 / (pixelsPerUnit * unitPerMeters));
+        //////////////////////////////
+
+        ///////////SET CAMERA///////////
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-        //(14.623319,19.27667)  (15, 15 * (h / w))
-
-        player = new Player("uajono", 100, playerWorldWidth, playerWorldHeight, new Vector2(15, 15 * (h / w)));
-        // Constructs a new OrthographicCamera, using the given viewport width and height
-        // Height is multiplied by aspect ratio.
-        player.addListener(new EndDemoGameListener(this));
-
         OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
         game.vp.setWorldSize(30, 30 * (h / w)); // 30 * aspectRatio
         cam.position.set(player.getPosition(), stage.getCamera().position.z);
         cam.update();
-        
-        MovementSetFactory mvsf = MovementSetFactory.instanceOf();
-        Vector2 v = player.getPosition().add(5, 5);
-        DemoBoss db = new DemoBoss("Wandering Demon", 150,  32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
-        db.addListener(new EndDemoGameListener(this));
-        
+        ////////////////////////////////
+        level1.addListener(new EndDemoGameListener(this,player,(DemoBoss) level1.getEnemies().get(0)));
+
         // Gestione dello score IncreaseScoreListener
         scoreCounter = new ScoreCounter();
         IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
-        stage.getRoot().addListener(scoreListener);
-        
-        
-        stage.addActor(player);
-        stage.addActor(db);
-
-        System.out.println(Gdx.graphics.getWidth());
-
-//        MapLimits left = new MapLimits(
-//                world,
-//                2 / unitPerMeters,
-//                30 * (h / w),
-//                new Vector2(0, 15 * (h / w))
-//        );
-//
-//        MapLimits right = new MapLimits(
-//                world,
-//                2 / unitPerMeters,
-//                30 * (h / w),
-//                new Vector2(30, 15 * (h / w))
-//        );
-//
-//        MapLimits up = new MapLimits(
-//                world,
-//                30,
-//                2 / unitPerMeters,
-//                new Vector2(15, 30 * (h / w))
-//        );
-//
-//        MapLimits down = new MapLimits(
-//                world,
-//                30,
-//                2 / unitPerMeters,
-//                new Vector2(15, 0)
-//        );
+        level1.addListener(scoreListener);
         initLabel();
-//        stage.addActor(left);
-//        stage.addActor(right);
-//        stage.addActor(up);
-//        stage.addActor(down);
 
     }
 
@@ -158,6 +117,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        level1.start();
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -205,8 +165,8 @@ public class GameScreen implements Screen {
                             @Override
                             public void confirm(String text) {
                                 try {
-                                    System.out.println("questo è lo score prima dell'inserimento"+GameScreen.this.scoreCounter.getScore());
-                                    hst.insertHighScore(text,scoreCounter.getScore());
+                                    System.out.println("questo è lo score prima dell'inserimento" + GameScreen.this.scoreCounter.getScore());
+                                    hst.insertHighScore(text, scoreCounter.getScore());
                                     game.setScreen(new ScoreScreen(game));
                                 } catch (IOException ex) {
                                     game.setScreen(new TitleScreen(game));

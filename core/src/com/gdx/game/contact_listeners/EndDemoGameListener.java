@@ -5,15 +5,11 @@
  */
 package com.gdx.game.contact_listeners;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 import com.gdx.game.contact_listeners.events.DeathEvent;
+import com.gdx.game.entities.Player;
+import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.screens.GameScreen;
 
 /**
@@ -22,9 +18,13 @@ import com.gdx.game.screens.GameScreen;
  */
 public class EndDemoGameListener extends ChangeListener{
     private final GameScreen gamesScreen;
+    private final Player player;
+    private final DemoBoss demoBoss;
     
-    public EndDemoGameListener(GameScreen gameScreen){
+    public EndDemoGameListener(GameScreen gameScreen,Player p, DemoBoss db){
         this.gamesScreen = gameScreen;
+        this.player = p;
+        this.demoBoss = db;
     }
     
     @Override
@@ -32,8 +32,6 @@ public class EndDemoGameListener extends ChangeListener{
         if(event instanceof DeathEvent){
             System.out.println("livello finito");
             this.gamesScreen.end();
-
         }
     }
-    
 }
