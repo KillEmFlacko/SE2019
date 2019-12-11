@@ -11,10 +11,10 @@ import com.gdx.game.entities.Player;
 
 /**
  * A single game level with his entities and map.
- * A lavel is a Group, which extends Actor, so it knows how to draw itself.
+ * A level is a Group, which extends Actor, so it knows how to draw itself.
  * That is, it knows how to draw the map and how to draw the other entities.
  * Also, it is a container for those entities.
- * Knows how to start and when has ended.
+ * It knows how to start and when it has ended.
  * 
  * @author Davide
  */
