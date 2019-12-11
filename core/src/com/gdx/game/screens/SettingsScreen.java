@@ -38,7 +38,7 @@ public class SettingsScreen implements Screen {
 
     public SettingsScreen(GdxGame game, TitleScreen previousS){
         this.game = game;
-        this.stage = new Stage(game.vp);
+        this.stage = new Stage();
         previousScreen = previousS;
         //ts = new TitleScreen(game);//commento
         initUI();
