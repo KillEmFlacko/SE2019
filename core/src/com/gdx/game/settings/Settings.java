@@ -18,7 +18,7 @@ public class Settings implements Serializable{
 
     public static Slider volume;
     public static Music music;
-    // Resolution Attribute
+    
         private static final float DEFAULT_VOLUME = 0.5f;
 
 

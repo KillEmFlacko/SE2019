@@ -39,7 +39,7 @@ public class SettingsScreen implements Screen {
         this.game = game;
         this.stage = new Stage(game.vp);
         previousScreen = previousS;
-        //ts = new TitleScreen(game);
+        //ts = new TitleScreen(game);//commento
         initUI();
     }
 
