@@ -3,15 +3,16 @@ package com.gdx.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gdx.game.screens.TitleScreen;
-// Dialogs
-import de.tomgrill.gdxdialogs.core.GDXDialogs;
-import de.tomgrill.gdxdialogs.core.GDXDialogsSystem;
-//
+import com.gdx.game.settings.Settings;
+import java.io.IOException;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GdxGame extends Game {
 
@@ -20,9 +21,8 @@ public class GdxGame extends Game {
     public AssetManager assetManager;
     public static GdxGame game;
     public static final float SCALE = 6.0f;
-
-    private GDXDialogs dialogMgr; //Manager dei dialogs
-    //prefferred width / width
+    private Music music;
+   // private static final float DEFAULT_VOLUME = 0.5f;
 
     public LinkedList<Body> bodyToRemove = new LinkedList<Body>();
 
@@ -30,16 +30,35 @@ public class GdxGame extends Game {
         this.vp = vp;
         assetManager = new AssetManager();
         game = this;
+
     }
+
+ 
+/*
+    public static float getDEFAULT_VOLUME() {
+        return DEFAULT_VOLUME;
+    }*/
+
+    public Music getMusic() {
+        return music;
+    }
+      
+    
 
     @Override
     public void create() {
         skin = new Skin(Gdx.files.internal("skin/expee-ui.json"));
-        this.setScreen(new TitleScreen(this));
-        
-        // Installing the dialog manager
-        dialogMgr = GDXDialogsSystem.install();
+
+        try {
+            this.setScreen(new TitleScreen(this));
+        } catch (IOException ex) {
+            Logger.getLogger(GdxGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        Settings.initAudio();
+
     }
+    
 
     @Override
     public void render() {

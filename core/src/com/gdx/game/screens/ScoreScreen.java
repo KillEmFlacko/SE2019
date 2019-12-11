@@ -1,7 +1,6 @@
 
 package com.gdx.game.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -21,9 +20,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+public class ScoreScreen implements Screen {
 
-public class ScoreScreen implements Screen{
-    
     private final GdxGame game;
     private final Stage stage;
     private final ArrayList<Label> labelArray;
@@ -32,18 +30,18 @@ public class ScoreScreen implements Screen{
     private final HighScoreTable hst;
     private float colWidth;
     private float rowHeight;
+    private TitleScreen ts;
 
-    
     public ScoreScreen(GdxGame game) throws FileNotFoundException, IOException {
         this.hst = new HighScoreTable();
         this.game = game;
-        this.stage = new Stage();    
+        this.stage = new Stage();
         this.labelArray = new ArrayList();
+        ts = new TitleScreen(game);
         initUI();
     }
-    
+
 // a family of related product objects is designed to be used together, and you need to enforce this constraint.   
-    
     private void initUI() throws IOException {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -60,7 +58,7 @@ public class ScoreScreen implements Screen{
         labelTitle = new Label("Score:", lblStyle);
         labelTitle.setSize(Gdx.graphics.getWidth(), 30);
         labelTitle.setAlignment(Align.center);
-        labelTitle.setPosition(0, Gdx.graphics.getHeight()/2 + 300);
+        labelTitle.setPosition(0, Gdx.graphics.getHeight() / 2 + 300);
         stage.addActor(labelTitle);
 
         colWidth = Gdx.graphics.getWidth() / 5f;
@@ -72,16 +70,14 @@ public class ScoreScreen implements Screen{
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 ScoreScreen.this.dispose();
-                game.setScreen(new TitleScreen(game));
+                game.setScreen(ScoreScreen.this.ts);
                 return true;
             }
         });
         stage.addActor(btnButton);
         createLabel(lblStyle, hst);
-        
+
     }
-    
-    
 
     @Override
     public void show() {
@@ -118,15 +114,15 @@ public class ScoreScreen implements Screen{
     }
 
     private void createLabel(Label.LabelStyle lblStyle, HighScoreTable hst) {
-        int i=0;
-        for (HighScoreEntry x: hst) {
+        int i = 0;
+        for (HighScoreEntry x : hst) {
             labelArray.add(new Label(x.getNickname() + "..." + x.getScore(), lblStyle));
             labelArray.get(i).setSize(Gdx.graphics.getWidth(), 30);
             labelArray.get(i).setAlignment(Align.center);
-            labelArray.get(i).setPosition(0, Gdx.graphics.getHeight() / 2 + 300 - (i+1)*50);
+            labelArray.get(i).setPosition(0, Gdx.graphics.getHeight() / 2 + 300 - (i + 1) * 50);
             stage.addActor(labelArray.get(i));
             i++;
         }
     }
-    
+
 }

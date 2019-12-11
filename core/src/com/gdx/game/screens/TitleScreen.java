@@ -1,6 +1,8 @@
 package com.gdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
+import com.gdx.game.settings.Settings;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -20,7 +23,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Ciccio
+ * @author GiovanniB
  */
 public class TitleScreen implements Screen {
 
@@ -29,11 +32,14 @@ public class TitleScreen implements Screen {
     private Label label1;
     private final int padding = 15;
     private final int BUTTON_SPACE = 5;
+    private SettingsScreen ss;
 
-    public TitleScreen(GdxGame aGame) {
+    public TitleScreen(GdxGame aGame) throws IOException {
         this.game = aGame;
         this.stage = new Stage();
+        ss = new SettingsScreen(game, this);
         initUI();
+
     }
 
     private void initUI() {
@@ -62,15 +68,16 @@ public class TitleScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 TitleScreen.this.dispose();
+                Settings.getMusic().dispose();
                 game.setScreen(new GameScreen(game));
                 return true;
             }
         });
         stage.addActor(btnButton);
- 
+
         TextButton btnButton2 = new TextButton("Score", GdxGame.game.skin, "default");
         btnButton2.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
-        btnButton2.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - btnButton.getHeight() / 2 - padding*BUTTON_SPACE);
+        btnButton2.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - btnButton.getHeight() / 2 - padding * BUTTON_SPACE);
         btnButton2.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -86,10 +93,32 @@ public class TitleScreen implements Screen {
             }
         });
         stage.addActor(btnButton2);
-    }
 
-    private void initPhy() {
+        TextButton btnSetting = new TextButton("Options", game.skin, "default");
+        btnSetting.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
+        btnSetting.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 30 - padding * BUTTON_SPACE);
+        btnSetting.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                //TitleScreen.this.dispose();
+                game.setScreen(ss);
+                return true;
+            }
+        });
+        stage.addActor(btnSetting);
 
+        TextButton quitButton = new TextButton("Quit", game.skin, "default");
+        quitButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
+        quitButton.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 90 - padding * BUTTON_SPACE);
+        stage.addActor(quitButton);
+        quitButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                TitleScreen.this.dispose();
+                Gdx.app.exit();
+                return true;
+            }
+        });
     }
 
     @Override

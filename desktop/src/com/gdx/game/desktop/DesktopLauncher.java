@@ -12,7 +12,9 @@ public class DesktopLauncher {
 //        config.height = 576;
         config.width = 800;
         config.height = 600;
+        
 //        config.fullscreen = true;
         new LwjglApplication(new GdxGame(new FitViewport(config.width, config.height)), config);
+        
     }
 }
