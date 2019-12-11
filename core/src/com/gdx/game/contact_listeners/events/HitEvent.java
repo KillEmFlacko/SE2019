@@ -13,10 +13,5 @@ import com.gdx.game.entities.MortalEntity;
  * @author salvatore
  */
 public class HitEvent extends ChangeListener.ChangeEvent{
-    
-    public MortalEntity entity;
-    
-    public HitEvent(MortalEntity entity){
-        this.entity = entity;
-    }
+
 }

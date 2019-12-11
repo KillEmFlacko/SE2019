@@ -202,6 +202,7 @@ public class GameScreen implements Screen {
 
                             @Override
                             public void confirm(String text) {
+                                text=text.replaceAll("\\s+",""); //delete all possible white spaces from nickname
                                 try {
                                     System.out.println("questo è lo score prima dell'inserimento"+GameScreen.this.scoreCounter.getScore());
                                     hst.insertHighScore(text,scoreCounter.getScore());
