@@ -6,7 +6,10 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -33,7 +36,9 @@ public class TitleScreen implements Screen {
     private final int padding = 15;
     private final int BUTTON_SPACE = 5;
     private SettingsScreen ss;
-
+    private SpriteBatch spriteBatch = new SpriteBatch();
+    private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("menu/back.jpg")));
+    
     public TitleScreen(GdxGame aGame){
         this.game = aGame;
         this.stage = new Stage();
@@ -133,6 +138,12 @@ public class TitleScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
+        /*
+        stage.getBatch().begin();
+        stage.getBatch().draw(textureRegion, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        stage.getBatch().end();
+        */
+        
         stage.draw();
     }
 
