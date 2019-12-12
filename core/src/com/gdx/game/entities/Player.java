@@ -40,7 +40,7 @@ public final class Player extends MortalEntity {
         //player must take spells that he has at his disposition
         //BigFireballSkillBullet bigFireballSkillBullet = new BigFireballSkillBullet(world, 3f, initalPosition, 50, 10f);
         dmgSkill = new BigFireballSkill(5f, this, 30, 10f, world, 1f, this.getPosition());
-        dSkill = new LightShieldSkill(2f, this);
+        dSkill = new LightShieldSkill(3f, this);
         //skillWeapon = new Weapon(this, dmgSkill.getB(), 1/dmgSkill.getCoolDown());
 
         weapon = new Weapon(this, new BasicBullet(world, 4f / GdxGame.game.SCALE, position, 10, speed * 1.5f), 3);

@@ -90,7 +90,7 @@ public class LightShieldSkillEntity extends MortalEntity {
 
         ff.copyFilter(fixtureDef.filter, filter);
         fixtureDef.shape = circleShape;
-        //fixtureDef.isSensor = true;
+        fixtureDef.isSensor = true;
         fixtureDef.density = 1f;
 
         Fixture fxt = body.createFixture(fixtureDef);
