@@ -66,7 +66,6 @@ public class PlayerSelectionScreen implements Screen {
         this.game = aGame;
         this.stage = new Stage(aGame.vp);
         debugRenderer = new Box2DDebugRenderer();
-        world = new World(Vector2.Zero, true);
         atlas = new TextureAtlas(Gdx.files.internal("texture/player/wizzard/Nwizzard.atlas"));
         idleAnimation = new Animation(0.2f, atlas.findRegions("m_idle"), Animation.PlayMode.LOOP);
         initUI();
