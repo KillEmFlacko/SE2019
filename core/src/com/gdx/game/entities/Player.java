@@ -171,13 +171,6 @@ public final class Player extends MortalEntity {
         fire(new HitEvent());
     }
 
-    @Override
-    public void kill() {
-        GdxGame.game.bodyToRemove.add(this.body);
-        fire(new DeathEvent());
-        getParent().removeActor(this);
-    }
-
     float getBoostSpellMultiplier() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

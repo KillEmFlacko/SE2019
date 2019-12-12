@@ -164,21 +164,21 @@ public final class DemoBoss extends Boss {
         //movementAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("f_run"), PlayMode.LOOP);
     }
 
-    @Override
-    public void kill() {
-
-//        Pe', non mi chiamare rompipalle, purtroppo i corpi 
-//        possono essere distutti soltanto dopo il world.step()
-        GdxGame.game.bodyToRemove.add(body);
-//        this.world.destroyBody(body);
+//    @Override
+//    public void kill() {
 //
-//        body.setUserData(null);
-//        body = null;
-        
-        fire(new DeathEvent());
-        getParent().removeActor(this);
-        //stop animation and remove body
-    }
+////        Pe', non mi chiamare rompipalle, purtroppo i corpi 
+////        possono essere distutti soltanto dopo il world.step()
+//        GdxGame.game.bodyToRemove.add(body);
+////        this.world.destroyBody(body);
+////
+////        body.setUserData(null);
+////        body = null;
+//        
+//        fire(new DeathEvent());
+//        getParent().removeActor(this);
+//        //stop animation and remove body
+//    }
 
     @Override
     public void isHitBy(Bullet bullet) {

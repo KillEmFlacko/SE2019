@@ -7,6 +7,8 @@ package com.gdx.game.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.gdx.game.GdxGame;
+import com.gdx.game.contact_listeners.events.DeathEvent;
 
 /**
  *
@@ -33,7 +35,11 @@ public abstract class MortalEntity extends Entity {
      * Dispose all the involved bodies for deletion, that is adding their
      * references to the GdxGame.game.bodiesToRemove structure
      */
-    public abstract void kill();
+    public void kill() {
+        GdxGame.game.bodyToRemove.add(this.body);
+        fire(new DeathEvent());
+        getParent().removeActor(this);
+    }
 
     public Integer getLife() {
         return life;
