@@ -31,7 +31,7 @@ public class EndDemoGameListener extends ChangeListener{
         }
     }
     
-    public class EndDemoEvent extends ChangeEvent {
+    public static class EndDemoEvent extends ChangeEvent {
         
     }
 }
