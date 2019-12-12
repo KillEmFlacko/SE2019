@@ -22,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.JointDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
 import com.gdx.game.GdxGame;
 import com.gdx.game.contact_listeners.events.DeathEvent;
@@ -63,13 +64,16 @@ public class LightShieldSkillEntity extends MortalEntity {
     public void kill() {
         LightShieldSkillEntity.setN_instances(getN_instances() - 1);
         //ROBBA CHE NON CAPISCO
+        
         for (Fixture f : body.getFixtureList()) {
             body.destroyFixture(f);
         }
 
         GdxGame.game.bodyToRemove.add(body);
         this.getStage().getRoot().removeActor(this);
-
+        
+        //this.addAction(Actions.removeActor());
+        
     }
 
     @Override
