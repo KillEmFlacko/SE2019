@@ -16,7 +16,7 @@ public class EasternWizard extends MovableCharacterClass{
     private final float ATTACK_RATE = 3;
     private final float SPEED = 9f;
     private final int LIFE_POINTS = 100;
-    private final float BULLET_SPEED = 7f;
+    private final float BULLET_SPEED = 7f * 1.5f;
     private TextureAtlas atlas;
     private Animation<TextureAtlas.AtlasRegion> runAnimation;
     private Animation<TextureAtlas.AtlasRegion> idleAnimation;
@@ -66,11 +66,6 @@ public class EasternWizard extends MovableCharacterClass{
     @Override
     public Animation<TextureAtlas.AtlasRegion> getIdleAnimation() {
         return idleAnimation;
-    }
-
-    @Override
-    public Body getBody() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -11,19 +11,6 @@ import com.gdx.game.entities.Player;
 import com.gdx.game.factories.Weapon;
 
 public interface CharacterClass{
-    
-    /*
-    protected float strenght;
-    protected float speed;
-    protected float attackRate;
-    protected int lifePoints;
-    protected float bulletSpeed;
-    protected TextureAtlas atlas;
-    protected Weapon weapon;
-    protected Animation<TextureAtlas.AtlasRegion> runAnimation;
-    protected Animation<TextureAtlas.AtlasRegion> idleAnimation;
-    */
-    
 
     public float getAttackRate();
     

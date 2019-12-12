@@ -5,9 +5,14 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -21,10 +26,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
 import com.gdx.game.entities.Player;
+import com.gdx.game.entities.classes.animation.PlaybleCharacterAnimation;
 import com.gdx.game.entities.classes.EasternWizard;
+import com.gdx.game.entities.classes.animation.NorthernCharacterAnimation;
 import com.gdx.game.entities.classes.NorthernWizard;
 import com.gdx.game.entities.classes.SouthernWizard;
 import com.gdx.game.entities.classes.WesternWizard;
+import com.gdx.game.entities.classes.animation.EasternCharacterAnimation;
+import com.gdx.game.entities.classes.animation.SouthernCharacterAnimation;
+import com.gdx.game.entities.classes.animation.WesternCharacterAnimation;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,21 +49,28 @@ public class PlayerSelectionScreen implements Screen {
 
     private final Stage stage;
     private final GdxGame game;
-    private Label labelTitle;
+    private final Box2DDebugRenderer debugRenderer;
+    private Label labelTitle, labelName, labelStats;
     private final int padding = 15;
     private final int BUTTON_SPACE = 5;
     private float colWidth;
     private float rowHeight;
-    
+
     private Player player, player2, player3, player4;
     private final World world;
+
+    public Animation<TextureRegion> idleAnimation;
+    public TextureAtlas atlas;
+    public PlaybleCharacterAnimation nca, sca, wca, eca;
 
     public PlayerSelectionScreen(GdxGame aGame) {
         this.game = aGame;
         this.stage = new Stage(aGame.vp);
-
+        debugRenderer = new Box2DDebugRenderer();
         world = new World(Vector2.Zero, true);
-        
+        atlas = new TextureAtlas(Gdx.files.internal("texture/player/wizzard/Nwizzard.atlas"));
+        idleAnimation = new Animation(0.2f, atlas.findRegions("m_idle"), Animation.PlayMode.LOOP);
+
         initUI();
     }
 
@@ -73,9 +90,9 @@ public class PlayerSelectionScreen implements Screen {
         labelTitle = new Label("Choose Your Wizard", lblStyle);
         labelTitle.setSize(Gdx.graphics.getWidth(), 30);
         labelTitle.setAlignment(Align.center);
-        labelTitle.setPosition(0, Gdx.graphics.getHeight() - labelTitle.getHeight()*2);
+        labelTitle.setPosition(0, Gdx.graphics.getHeight() - labelTitle.getHeight() * 2);
         stage.addActor(labelTitle);
-        
+
         /*
         
         TextButton btnButton = new TextButton("Northern Wizard", game.skin, "default");
@@ -130,8 +147,7 @@ public class PlayerSelectionScreen implements Screen {
         });
         stage.addActor(btnButton4);
 
-        */
-        
+         */
         colWidth = Gdx.graphics.getWidth() / 5f;
         rowHeight = Gdx.graphics.getHeight() / 15f;
         TextButton btnButton5 = new TextButton("Back", GdxGame.game.skin, "default");
@@ -146,14 +162,15 @@ public class PlayerSelectionScreen implements Screen {
             }
         });
         stage.addActor(btnButton5);
-        
+
         //image
-        
         float playerWorldWidth = 16 / GdxGame.SCALE * 20;
         float playerWorldHeight = 28 / GdxGame.SCALE * 20;
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         //(14.623319,19.27667)  (15, 15 * (h / w))
+
+        /*
         
         game.vp.setWorldSize(800, 800 * (h / w)); // 30 * aspectRatio
 
@@ -161,7 +178,8 @@ public class PlayerSelectionScreen implements Screen {
         player = new Player("uajono", world, playerWorldWidth, playerWorldHeight, new Vector2(400,500), new NorthernWizard());
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.
-        player.setBounds(player.getPosition().x - player.getWorldWidth() / 2, player.getPosition().y - player.getWorldHeight() / 2, player.getWorldWidth(), player.getWorldHeight());
+        // player.setBounds(player.getPosition().x - player.getWidth() / 2, player.getPosition().y - player.getHeight() / 2, player.getWidth(), player.getHeight());
+        
         player.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -179,7 +197,7 @@ public class PlayerSelectionScreen implements Screen {
         stage.addActor(player);
         
         player2 = new Player("uajono", world, playerWorldWidth, playerWorldHeight, new Vector2(400,200), new SouthernWizard());
-        player2.setBounds(player2.getPosition().x - player2.getWorldWidth() / 2, player2.getPosition().y - player2.getWorldHeight() / 2, player.getWorldWidth(), player.getWorldHeight());
+       // player2.setBounds(player2.getPosition().x - player2.getWidth() / 2, player2.getPosition().y - player2.getHeight() / 2, player.getWidth(), player.getHeight());
         player2.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -197,7 +215,7 @@ public class PlayerSelectionScreen implements Screen {
         stage.addActor(player2);
         
         player3 = new Player("uajono", world, playerWorldWidth, playerWorldHeight, new Vector2(600,350), new EasternWizard());
-        player3.setBounds(player3.getPosition().x - player3.getWorldWidth() / 2, player3.getPosition().y - player3.getWorldHeight() / 2, player.getWorldWidth(), player.getWorldHeight());
+      //  player3.setBounds(player3.getPosition().x - player3.getWidth() / 2, player3.getPosition().y - player3.getHeight() / 2, player.getWidth(), player.getHeight());
         player3.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -215,8 +233,8 @@ public class PlayerSelectionScreen implements Screen {
         stage.addActor(player3);
         
         player4 = new Player("uajono", world, playerWorldWidth, playerWorldHeight, new Vector2(200,350), new WesternWizard());
-        player4.setBounds(player4.getPosition().x - player4.getWorldWidth() / 2, player4.getPosition().y - player4.getWorldHeight() / 2, player.getWorldWidth(), player.getWorldHeight());
-        player4.addListener(new InputListener() {
+       // player4.setBounds(player4.getPosition().x - player4.getWidth() / 2, player4.getPosition().y - player4.getHeight() / 2, player.getWidth(), player.getHeight());
+        player4.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 PlayerSelectionScreen.this.dispose();
@@ -231,9 +249,137 @@ public class PlayerSelectionScreen implements Screen {
             }
         });
         stage.addActor(player4);
-    }
 
-    private void initPhy() {
+         */
+        
+        
+        nca = new NorthernCharacterAnimation();
+        stage.addActor(nca);
+        nca.setPosition(Gdx.graphics.getWidth() / 2 - 25, Gdx.graphics.getHeight() / 2 + 150);
+        nca.setSize(playerWorldWidth, playerWorldHeight);
+        //prova.setBounds(player4.getPosition().x - player4.getWidth() / 2, player4.getPosition().y - player4.getHeight() / 2, player.getWidth(), player.getHeight());
+        nca.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                PlayerSelectionScreen.this.dispose();
+                game.setScreen(new GameScreen(game, new NorthernWizard()));
+                return true;
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                labelName = new Label("Northern Wizard", lblStyle);
+                labelName.setPosition(Gdx.graphics.getWidth() /2 - labelName.getWidth()/2, Gdx.graphics.getHeight() /2 + labelName.getHeight()*2);
+                stage.addActor(labelName);
+                labelStats = new Label("Speed UP - Life DOWN", lblStyle);
+                labelStats.setFontScale(0.8f);
+                labelStats.setSize(labelStats.getWidth() * 0.8f, labelStats.getHeight() * 0.8f);
+                labelStats.setPosition(Gdx.graphics.getWidth() /2 - labelStats.getWidth()/2, Gdx.graphics.getHeight() /2 - labelStats.getHeight()*2);
+                stage.addActor(labelStats);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                labelName.setText("");
+                labelStats.setText("");
+            }
+        });
+
+        sca = new SouthernCharacterAnimation();
+        stage.addActor(sca);
+        sca.setPosition(Gdx.graphics.getWidth() / 2 - 25, Gdx.graphics.getHeight() / 2 - 150);
+        sca.setSize(playerWorldWidth, playerWorldHeight);
+        //prova.setBounds(player4.getPosition().x - player4.getWidth() / 2, player4.getPosition().y - player4.getHeight() / 2, player.getWidth(), player.getHeight());
+        sca.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                PlayerSelectionScreen.this.dispose();
+                game.setScreen(new GameScreen(game, new SouthernWizard()));
+                return true;
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                labelName = new Label("Southern Wizard", lblStyle);
+                labelName.setPosition(Gdx.graphics.getWidth() /2 - labelName.getWidth()/2, Gdx.graphics.getHeight() /2 + labelName.getHeight()*2);
+                stage.addActor(labelName);
+                labelStats = new Label("Life UP - Speed DOWN", lblStyle);
+                labelStats.setFontScale(0.8f);
+                labelStats.setSize(labelStats.getWidth() * 0.8f, labelStats.getHeight() * 0.8f);
+                labelStats.setPosition(Gdx.graphics.getWidth() /2 - labelStats.getWidth()/2, Gdx.graphics.getHeight() /2 - labelStats.getHeight()*2);
+                stage.addActor(labelStats);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                labelName.setText("");
+                labelStats.setText("");
+            }
+        });
+
+        wca = new WesternCharacterAnimation();
+        stage.addActor(wca);
+        wca.setPosition(Gdx.graphics.getWidth() / 2 - 275, Gdx.graphics.getHeight() / 2);
+        wca.setSize(playerWorldWidth, playerWorldHeight);
+        //prova.setBounds(player4.getPosition().x - player4.getWidth() / 2, player4.getPosition().y - player4.getHeight() / 2, player.getWidth(), player.getHeight());
+        wca.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                PlayerSelectionScreen.this.dispose();
+                game.setScreen(new GameScreen(game, new WesternWizard()));
+                return true;
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                labelName = new Label("Western Wizard", lblStyle);
+                labelName.setPosition(Gdx.graphics.getWidth() /2 - labelName.getWidth()/2, Gdx.graphics.getHeight() /2 + labelName.getHeight()*2);
+                stage.addActor(labelName);
+                labelStats = new Label("Attack speed UP - Strenght DOWN", lblStyle);
+                labelStats.setFontScale(0.8f);
+                labelStats.setSize(labelStats.getWidth() * 0.8f, labelStats.getHeight() * 0.8f);
+                labelStats.setPosition(Gdx.graphics.getWidth() /2 - labelStats.getWidth()/2, Gdx.graphics.getHeight() /2 - labelStats.getHeight()*2);
+                stage.addActor(labelStats);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                labelName.setText("");
+                labelStats.setText("");
+            }
+        });
+
+        eca = new EasternCharacterAnimation();
+        stage.addActor(eca);
+        eca.setPosition(Gdx.graphics.getWidth() / 2 + 235, Gdx.graphics.getHeight() / 2);
+        eca.setSize(playerWorldWidth, playerWorldHeight);
+        //prova.setBounds(player4.getPosition().x - player4.getWidth() / 2, player4.getPosition().y - player4.getHeight() / 2, player.getWidth(), player.getHeight());
+        eca.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                PlayerSelectionScreen.this.dispose();
+                game.setScreen(new GameScreen(game, new EasternWizard()));
+                return true;
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                labelName = new Label("Eastern Wizard", lblStyle);
+                labelName.setPosition(Gdx.graphics.getWidth() /2 - labelName.getWidth()/2, Gdx.graphics.getHeight() /2 + labelName.getHeight()*2);
+                stage.addActor(labelName);
+                labelStats = new Label("Strenght UP - Bullet Speed DOWN", lblStyle);
+                labelStats.setFontScale(0.8f);
+                labelStats.setSize(labelStats.getWidth() * 0.8f, labelStats.getHeight() * 0.8f);
+                labelStats.setPosition(Gdx.graphics.getWidth() /2 - labelStats.getWidth()/2, Gdx.graphics.getHeight() /2 - labelStats.getHeight()*2);
+                stage.addActor(labelStats);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                labelName.setText("");
+                labelStats.setText("");
+            }
+        });
 
     }
 
@@ -248,6 +394,8 @@ public class PlayerSelectionScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
+        debugRenderer.render(world, stage.getCamera().combined);
+
     }
 
     @Override

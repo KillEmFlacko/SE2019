@@ -1,21 +1,15 @@
 package com.gdx.game.entities;
 
-import com.gdx.game.factories.FilterFactory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.GdxGame;
 import com.gdx.game.contact_listeners.events.DeathEvent;
 import com.gdx.game.contact_listeners.events.HitEvent;
 import com.gdx.game.entities.classes.CharacterClass;
-import com.gdx.game.entities.classes.NorthernWizard;
 import com.gdx.game.factories.Weapon;
 
 /**
@@ -27,15 +21,14 @@ public final class Player extends MortalEntity {
     private final Weapon weapon;
     private float stateTime = 0f;
     private float speed;
-    private CharacterClass characterClass;
+    
     private boolean skillSelected = false;
     private DamageSkillAdapter dmgSkill;
     private DefenseSkill dSkill;
     private Weapon skillWeapon;
-	private final CharacterClass characterClass;
 
     public Player(String name, World world, float width, float height, Vector2 position, CharacterClass characterClass) {
-        super(name, lifepoints, world, width, height, position);
+        super(name, characterClass.getLifePoints(), world, width, height, position);
 
         //player must take spells that he has at his disposition
         //BigFireballSkillBullet bigFireballSkillBullet = new BigFireballSkillBullet(world, 3f, initalPosition, 50, 10f);
@@ -43,32 +36,12 @@ public final class Player extends MortalEntity {
         dSkill = new LightShieldSkill(2f, this);
         //skillWeapon = new Weapon(this, dmgSkill.getB(), 1/dmgSkill.getCoolDown());
 
-        weapon = new Weapon(this, new BasicBullet(world, 4f / GdxGame.game.SCALE, position, 10, speed * 1.5f), 3);
+        weapon = new Weapon(this, new BasicBullet(world, 4f / GdxGame.game.SCALE, position, 10, characterClass.getBulletSpeed()), 3);
 	this.characterClass = characterClass;
     }
 
     @Override
     protected void initPhysics() {
-//        BodyDef bdDef = new BodyDef();
-//        bdDef.type = BodyDef.BodyType.DynamicBody;
-//        bdDef.position.set(initalPosition);
-//        body = world.createBody(bdDef);
-//        body.setUserData(this);
-//
-//        PolygonShape shape = new PolygonShape();
-//        shape.setAsBox(worldWidth / 2, worldWidth / 2);
-//
-//        FilterFactory ff = new FilterFactory();
-//        FixtureDef fixDef = new FixtureDef();
-//        fixDef.shape = shape;
-//        ff.copyFilter(fixDef.filter, ff.getPlayerFilter());
-//        fixDef.isSensor = false;
-//        fixDef.restitution = 0f;
-//        fixDef.density = 0f;
-//
-//        Fixture fixt = body.createFixture(fixDef);
-//        fixt.setUserData(body);
-//        shape.dispose();
     }
 
     @Override
@@ -81,8 +54,10 @@ public final class Player extends MortalEntity {
     public void act(float delta) {
         if (characterClass.getBody() == null) {
             characterClass.executeGraphics();
-            characterClass.executePhysics(world, initalPosition, worldWidth, worldHeight);
+            characterClass.executePhysics(world, getPosition(), getWidth(), getHeight());
+            body = characterClass.getBody();
         }
+        setPosition(characterClass.getBody().getPosition());
         if(super.life <= 0){
             kill();
             return;
@@ -175,6 +150,16 @@ public final class Player extends MortalEntity {
         this.getStage().getRoot().removeActor(this);
         fire(new DeathEvent());
     }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        Color color = getColor();
+        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+        batch.draw(textureRegion, getX() - getWidth()/2, getY() - getWidth()/2, getOriginX(), getOriginY(),
+        getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+    }
+    
+    
 
     float getBoostSpellMultiplier() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
