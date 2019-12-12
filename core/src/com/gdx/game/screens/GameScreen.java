@@ -183,7 +183,7 @@ public class GameScreen implements Screen {
         label1.setSize(label1.getWidth() * 3, label1.getHeight() * 3);
         label1.setFontScale(3);
         label1.setPosition(Gdx.graphics.getWidth() / 2 - label1.getWidth() / 2, (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
-        label1.setVisible(true);
+        label1.setVisible(false);
 
         hudStage.addActor(label1);
         

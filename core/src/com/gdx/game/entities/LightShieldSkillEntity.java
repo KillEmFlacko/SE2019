@@ -55,6 +55,7 @@ public class LightShieldSkillEntity extends MortalEntity {
 
     @Override
     public void isHitBy(Bullet bullet) {
+        System.out.println("HEY");
         life -= bullet.getDamage();
     }
 

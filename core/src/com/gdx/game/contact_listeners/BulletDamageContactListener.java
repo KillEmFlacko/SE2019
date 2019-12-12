@@ -42,6 +42,7 @@ public class BulletDamageContactListener implements ContactListener {
                     Gdx.app.log("HP", player.getLife().toString());
                 }else if(body.getUserData() instanceof LightShieldSkill){
                     LightShieldSkillEntity lsse = (LightShieldSkillEntity) body.getUserData();
+                    
                     System.out.println("Colpito lo scudo");
                     lsse.isHitBy(b);
                 }

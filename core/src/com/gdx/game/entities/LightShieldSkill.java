@@ -29,7 +29,12 @@ public final class LightShieldSkill extends DefenseSkill {
     public void cast(Vector2 direction) {
         
     }
-
+    /**
+     * This class instantiates an Actor representing the skill
+     * The entity contains as userdata its own instance. 
+     * So the clone body has a reference to its own instance.
+     * @param toCastOn Who to cast a skill on. 
+     */
     @Override
     public void castOn(MortalEntity toCastOn) {
         Date ts = new Date();
@@ -43,7 +48,7 @@ public final class LightShieldSkill extends DefenseSkill {
                 LightShieldSkillEntity clone = new LightShieldSkillEntity(lsse.name, lsse.life, lsse.world, lsse.getHeight(), lsse.getHeight(), getCaster().getPosition(), (Player)getCaster());
                 clone.initPhysics();
                 clone.initGraphics();   
-                
+                clone.body.setUserData(clone);
                 getCaster().getStage().addActor(clone);
                 LightShieldSkillEntity.setN_instances(1);
                 
