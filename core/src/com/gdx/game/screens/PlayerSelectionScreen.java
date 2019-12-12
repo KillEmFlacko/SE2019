@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -55,6 +57,7 @@ public class PlayerSelectionScreen implements Screen {
     private final int BUTTON_SPACE = 5;
     private float colWidth;
     private float rowHeight;
+    private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("menu/back.jpg")));
 
     private Player player, player2, player3, player4;
 
@@ -83,6 +86,11 @@ public class PlayerSelectionScreen implements Screen {
 
         final Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
+
+        Image image = new Image(textureRegion.getTexture());
+        image.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        image.setPosition(0, 0);
+        stage.addActor(image);
 
         labelTitle = new Label("Choose Your Wizard", lblStyle);
         labelTitle.setSize(Gdx.graphics.getWidth(), 30);
@@ -250,8 +258,7 @@ public class PlayerSelectionScreen implements Screen {
         stage.addActor(player4);
 
          */
-        
-        
+
         nca = new NorthernCharacterAnimation();
         stage.addActor(nca);
         nca.setPosition(Gdx.graphics.getWidth() / 2 - 25, Gdx.graphics.getHeight() / 2 + 150);
@@ -268,12 +275,12 @@ public class PlayerSelectionScreen implements Screen {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 labelName = new Label("Northern Wizard", lblStyle);
-                labelName.setPosition(Gdx.graphics.getWidth() /2 - labelName.getWidth()/2, Gdx.graphics.getHeight() /2 + labelName.getHeight()*2);
+                labelName.setPosition(Gdx.graphics.getWidth() / 2 - labelName.getWidth() / 2, Gdx.graphics.getHeight() / 2 + labelName.getHeight() * 2);
                 stage.addActor(labelName);
                 labelStats = new Label("Speed UP - Life DOWN", lblStyle);
                 labelStats.setFontScale(0.8f);
                 labelStats.setSize(labelStats.getWidth() * 0.8f, labelStats.getHeight() * 0.8f);
-                labelStats.setPosition(Gdx.graphics.getWidth() /2 - labelStats.getWidth()/2, Gdx.graphics.getHeight() /2 - labelStats.getHeight()*2);
+                labelStats.setPosition(Gdx.graphics.getWidth() / 2 - labelStats.getWidth() / 2, Gdx.graphics.getHeight() / 2 - labelStats.getHeight() * 2);
                 stage.addActor(labelStats);
             }
 
@@ -300,12 +307,12 @@ public class PlayerSelectionScreen implements Screen {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 labelName = new Label("Southern Wizard", lblStyle);
-                labelName.setPosition(Gdx.graphics.getWidth() /2 - labelName.getWidth()/2, Gdx.graphics.getHeight() /2 + labelName.getHeight()*2);
+                labelName.setPosition(Gdx.graphics.getWidth() / 2 - labelName.getWidth() / 2, Gdx.graphics.getHeight() / 2 + labelName.getHeight() * 2);
                 stage.addActor(labelName);
                 labelStats = new Label("Life UP - Speed DOWN", lblStyle);
                 labelStats.setFontScale(0.8f);
                 labelStats.setSize(labelStats.getWidth() * 0.8f, labelStats.getHeight() * 0.8f);
-                labelStats.setPosition(Gdx.graphics.getWidth() /2 - labelStats.getWidth()/2, Gdx.graphics.getHeight() /2 - labelStats.getHeight()*2);
+                labelStats.setPosition(Gdx.graphics.getWidth() / 2 - labelStats.getWidth() / 2, Gdx.graphics.getHeight() / 2 - labelStats.getHeight() * 2);
                 stage.addActor(labelStats);
             }
 
@@ -332,12 +339,12 @@ public class PlayerSelectionScreen implements Screen {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 labelName = new Label("Western Wizard", lblStyle);
-                labelName.setPosition(Gdx.graphics.getWidth() /2 - labelName.getWidth()/2, Gdx.graphics.getHeight() /2 + labelName.getHeight()*2);
+                labelName.setPosition(Gdx.graphics.getWidth() / 2 - labelName.getWidth() / 2, Gdx.graphics.getHeight() / 2 + labelName.getHeight() * 2);
                 stage.addActor(labelName);
                 labelStats = new Label("Attack speed UP - Strenght DOWN", lblStyle);
                 labelStats.setFontScale(0.8f);
                 labelStats.setSize(labelStats.getWidth() * 0.8f, labelStats.getHeight() * 0.8f);
-                labelStats.setPosition(Gdx.graphics.getWidth() /2 - labelStats.getWidth()/2, Gdx.graphics.getHeight() /2 - labelStats.getHeight()*2);
+                labelStats.setPosition(Gdx.graphics.getWidth() / 2 - labelStats.getWidth() / 2, Gdx.graphics.getHeight() / 2 - labelStats.getHeight() * 2);
                 stage.addActor(labelStats);
             }
 
@@ -364,12 +371,12 @@ public class PlayerSelectionScreen implements Screen {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 labelName = new Label("Eastern Wizard", lblStyle);
-                labelName.setPosition(Gdx.graphics.getWidth() /2 - labelName.getWidth()/2, Gdx.graphics.getHeight() /2 + labelName.getHeight()*2);
+                labelName.setPosition(Gdx.graphics.getWidth() / 2 - labelName.getWidth() / 2, Gdx.graphics.getHeight() / 2 + labelName.getHeight() * 2);
                 stage.addActor(labelName);
                 labelStats = new Label("Strenght UP - Bullet Speed DOWN", lblStyle);
                 labelStats.setFontScale(0.8f);
                 labelStats.setSize(labelStats.getWidth() * 0.8f, labelStats.getHeight() * 0.8f);
-                labelStats.setPosition(Gdx.graphics.getWidth() /2 - labelStats.getWidth()/2, Gdx.graphics.getHeight() /2 - labelStats.getHeight()*2);
+                labelStats.setPosition(Gdx.graphics.getWidth() / 2 - labelStats.getWidth() / 2, Gdx.graphics.getHeight() / 2 - labelStats.getHeight() * 2);
                 stage.addActor(labelStats);
             }
 
