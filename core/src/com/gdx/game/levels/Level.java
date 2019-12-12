@@ -30,7 +30,7 @@ import com.gdx.game.factories.FilterFactory;
  * the map and how to draw the other entities. Also, it is a container for those
  * entities. It knows how to start and when it has ended.
  *
- * @author Davide
+ * @author Davide & Armando
  */
 public abstract class Level extends Group {
 
