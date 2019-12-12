@@ -52,7 +52,6 @@ public class GameScreen implements Screen {
     public Label label1;
 
     private final ScoreCounter scoreCounter;
-
     public GameScreen(GdxGame aGame, CharacterClass characterClass) {
         this.game = aGame;
         stage = new Stage(aGame.vp);
@@ -70,6 +69,7 @@ public class GameScreen implements Screen {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         //(14.623319,19.27667)  (15, 15 * (h / w))
+
         player = new Player("uajono", world, playerWorldWidth, playerWorldHeight, new Vector2(15,15*(h/w)), characterClass);
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.

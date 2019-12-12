@@ -57,7 +57,6 @@ public class PlayerSelectionScreen implements Screen {
     private float rowHeight;
 
     private Player player, player2, player3, player4;
-    private final World world;
 
     public Animation<TextureRegion> idleAnimation;
     public TextureAtlas atlas;
@@ -70,7 +69,6 @@ public class PlayerSelectionScreen implements Screen {
         world = new World(Vector2.Zero, true);
         atlas = new TextureAtlas(Gdx.files.internal("texture/player/wizzard/Nwizzard.atlas"));
         idleAnimation = new Animation(0.2f, atlas.findRegions("m_idle"), Animation.PlayMode.LOOP);
-
         initUI();
     }
 
@@ -92,7 +90,6 @@ public class PlayerSelectionScreen implements Screen {
         labelTitle.setAlignment(Align.center);
         labelTitle.setPosition(0, Gdx.graphics.getHeight() - labelTitle.getHeight() * 2);
         stage.addActor(labelTitle);
-
         /*
         
         TextButton btnButton = new TextButton("Northern Wizard", game.skin, "default");
@@ -169,7 +166,6 @@ public class PlayerSelectionScreen implements Screen {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         //(14.623319,19.27667)  (15, 15 * (h / w))
-
         /*
         
         game.vp.setWorldSize(800, 800 * (h / w)); // 30 * aspectRatio
@@ -179,7 +175,7 @@ public class PlayerSelectionScreen implements Screen {
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.
         // player.setBounds(player.getPosition().x - player.getWidth() / 2, player.getPosition().y - player.getHeight() / 2, player.getWidth(), player.getHeight());
-        
+
         player.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -198,6 +194,7 @@ public class PlayerSelectionScreen implements Screen {
         
         player2 = new Player("uajono", world, playerWorldWidth, playerWorldHeight, new Vector2(400,200), new SouthernWizard());
        // player2.setBounds(player2.getPosition().x - player2.getWidth() / 2, player2.getPosition().y - player2.getHeight() / 2, player.getWidth(), player.getHeight());
+
         player2.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -216,6 +213,7 @@ public class PlayerSelectionScreen implements Screen {
         
         player3 = new Player("uajono", world, playerWorldWidth, playerWorldHeight, new Vector2(600,350), new EasternWizard());
       //  player3.setBounds(player3.getPosition().x - player3.getWidth() / 2, player3.getPosition().y - player3.getHeight() / 2, player.getWidth(), player.getHeight());
+
         player3.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -233,8 +231,10 @@ public class PlayerSelectionScreen implements Screen {
         stage.addActor(player3);
         
         player4 = new Player("uajono", world, playerWorldWidth, playerWorldHeight, new Vector2(200,350), new WesternWizard());
+
        // player4.setBounds(player4.getPosition().x - player4.getWidth() / 2, player4.getPosition().y - player4.getHeight() / 2, player.getWidth(), player.getHeight());
         player4.addListener(new ClickListener() {
+
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 PlayerSelectionScreen.this.dispose();
@@ -394,8 +394,6 @@ public class PlayerSelectionScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
-        debugRenderer.render(world, stage.getCamera().combined);
-
     }
 
     @Override
