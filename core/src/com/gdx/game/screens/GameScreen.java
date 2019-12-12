@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.gdx.game.GameStage;
@@ -19,7 +20,9 @@ import com.gdx.game.entities.Player;
 import com.gdx.game.contact_listeners.BulletDamageContactListener;
 import com.gdx.game.contact_listeners.EndDemoGameListener;
 import com.gdx.game.contact_listeners.IncreaseScoreListener;
+import com.gdx.game.levels.Level;
 import com.gdx.game.levels.Level1;
+import com.gdx.game.levels.Level2;
 import com.gdx.game.score.HighScoreTable;
 import com.gdx.game.score.ScoreCounter;
 import de.tomgrill.gdxdialogs.core.GDXDialogs;
@@ -39,10 +42,10 @@ public class GameScreen implements Screen {
     private final World world;
     private final GdxGame game;
     private final GameStage stage;
+    private final Array<Level> levels;
     public Label label1;
 
     private final ScoreCounter scoreCounter;
-    private final Level1 level1;
 
     public GameScreen(GdxGame aGame) {
         this.game = aGame;
@@ -65,8 +68,10 @@ public class GameScreen implements Screen {
         //////////////////////////////
         
         /////////// LEVEL1 //////////
-        level1 = new Level1(player);
-        stage.addActor(level1);
+        levels = new Array<>();
+        levels.add(new Level1(player), new Level2(player));
+        stage.addActor(levels.get(0));
+        stage.addActor(levels.get(1));
         ////////////////////////////
 
 
@@ -111,7 +116,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        level1.start();
+        levels.get(0).start();
 //        instantiateWalls(level1);
         Gdx.input.setInputProcessor(stage);
     }
