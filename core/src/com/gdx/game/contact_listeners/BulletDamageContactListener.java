@@ -21,10 +21,11 @@ public class BulletDamageContactListener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
+        /*
         if (!(contact.getFixtureA().getUserData() instanceof Bullet)  && !(contact.getFixtureB().getUserData() instanceof Bullet)){
           return;  
         }
-        
+*/
         if (contact.getFixtureA().getUserData() instanceof Bullet) {
             Bullet b = (Bullet) contact.getFixtureA().getUserData();
             b.dispose();
@@ -36,8 +37,10 @@ public class BulletDamageContactListener implements ContactListener {
                     Gdx.app.log("Hit", "Ueue, hai colpito il bosso!");
                     Gdx.app.log("HP", boss.getLife().toString());
                 } else if (body.getUserData() instanceof Player) {
+        System.out.println("COLLISION");
                     Player player = (Player) body.getUserData();
                     player.isHitBy(b);
+                    
                     Gdx.app.log("Hit", "Ops, il bosso ti ha colpito!");
                     Gdx.app.log("HP", player.getLife().toString());
                 }else if(body.getUserData() instanceof LightShieldSkillEntity){
@@ -61,6 +64,7 @@ public class BulletDamageContactListener implements ContactListener {
                     
             if (contact.getFixtureA().getUserData() instanceof Body) {
                 Body body = (Body) contact.getFixtureA().getUserData();
+        System.out.println("COLLISION");
                 if (body.getUserData() instanceof DemoBoss) {
                     DemoBoss boss = (DemoBoss) body.getUserData();
                     boss.isHitBy(b);

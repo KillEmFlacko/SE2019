@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.gdx.game.entities.MortalEntity;
 import com.gdx.game.entities.Player;
 import com.gdx.game.factories.Weapon;
 
@@ -31,6 +32,6 @@ public interface CharacterClass{
     public Animation<TextureAtlas.AtlasRegion> getIdleAnimation();
     
     
-    public void executePhysics(World world, Vector2 position, float fixtureWidth,float fixtureHeight);
+    public void executePhysics(World world, Vector2 position, float fixtureWidth,float fixtureHeight, MortalEntity character);
     public void executeGraphics();
 }

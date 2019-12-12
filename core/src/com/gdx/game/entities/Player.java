@@ -25,22 +25,22 @@ public final class Player extends MortalEntity {
     private DamageSkillAdapter dmgSkill;
     private DefenseSkill dSkill;
     private Weapon skillWeapon;
+    
     public Player(String name, World world, float width, float height, Vector2 position, CharacterClass characterClass) {
         super(name, characterClass.getLifePoints(), world, width, height, position);
-
+        System.out.println(this.getLife());
         //player must take spells that he has at his disposition
         //BigFireballSkillBullet bigFireballSkillBullet = new BigFireballSkillBullet(world, 3f, initalPosition, 50, 10f);
         dmgSkill = new BigFireballSkill(5f, this, 30, 10f, world, 1f, this.getPosition());
         dSkill = new LightShieldSkill(3f, this);
         //skillWeapon = new Weapon(this, dmgSkill.getB(), 1/dmgSkill.getCoolDown());
+        
 
         weapon = new Weapon(this, new BasicBullet(world, 4f / GdxGame.game.SCALE, position, 10, characterClass.getBulletSpeed()), 3);
 	this.characterClass = characterClass;
     }
     
-    @Override
-    protected void initPhysics() {
-    }
+
     
     @Override
     protected void initGraphics() {
@@ -52,7 +52,7 @@ public final class Player extends MortalEntity {
     public void act(float delta) {
         if (characterClass.getBody() == null) {
             characterClass.executeGraphics();
-            characterClass.executePhysics(world, getPosition(), getWidth(), getWidth());
+            characterClass.executePhysics(world, getPosition(), getWidth(), getWidth(),this);
             body = characterClass.getBody();
         }
         setPosition(characterClass.getBody().getPosition());
@@ -139,6 +139,7 @@ public final class Player extends MortalEntity {
     
     @Override
     public void isHitBy(Bullet bullet) {
+        //System.out.println("GGGGG");
         life -= bullet.getDamage();
         fire(new HitEvent());
     }
@@ -165,6 +166,11 @@ public final class Player extends MortalEntity {
     }
     
     float getDefenseSpelMultiplier() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void initPhysics() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
