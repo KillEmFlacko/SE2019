@@ -23,37 +23,21 @@ public abstract class MovableCharacterClass implements CharacterClass {
         bdDef.position.set(position);
         body = world.createBody(bdDef);
         body.setUserData(this);
-
-        // MAIN FIXTURE, THE SENSOR ONE
-        PolygonShape mainShape = new PolygonShape();
-        mainShape.setAsBox(fixtureWidth / 2, fixtureWidth / 2);
-
+        
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(fixtureWidth / 2, fixtureHeight / 2);
+        
         FilterFactory ff = new FilterFactory();
-        FixtureDef mainFixDef = new FixtureDef();
-        mainFixDef.shape = mainShape;
-        ff.copyFilter(mainFixDef.filter, ff.getPlayerFilter());
-        mainFixDef.isSensor = true;
-        mainFixDef.restitution = 0f;
-        mainFixDef.density = 0f;
-
-        // COLLISION FIXTURE
-        PolygonShape collisionShape = new PolygonShape();
-        collisionShape.setAsBox(fixtureWidth / 2, fixtureHeight * 0.2f / 2, new Vector2(0, -fixtureWidth * 0.8f / 2), 0f);
-
-        FixtureDef collisionFixDef = new FixtureDef();
-        collisionFixDef.shape = collisionShape;
-        ff.copyFilter(collisionFixDef.filter, ff.getEntityCollisionFixtureFilter());
-        collisionFixDef.isSensor = false;
-        collisionFixDef.restitution = 0f;
-        collisionFixDef.density = 0f;
-
-        Fixture mainFixture = body.createFixture(mainFixDef);
-        Fixture collisionFixture = body.createFixture(collisionFixDef);
-
-        mainFixture.setUserData(body);
-        collisionFixture.setUserData(body);
-        mainShape.dispose();
-        collisionShape.dispose();
+        FixtureDef fixDef = new FixtureDef();
+        fixDef.shape = shape;
+        ff.copyFilter(fixDef.filter, ff.getPlayerFilter());
+        fixDef.isSensor = false;
+        fixDef.restitution = 0f;
+        fixDef.density = 0f;
+        
+        Fixture fixt = body.createFixture(fixDef);
+        fixt.setUserData(body);
+        shape.dispose();
     }
 
     @Override

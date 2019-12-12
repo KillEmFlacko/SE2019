@@ -54,7 +54,7 @@ public final class Player extends MortalEntity {
     public void act(float delta) {
         if (characterClass.getBody() == null) {
             characterClass.executeGraphics();
-            characterClass.executePhysics(world, getPosition(), getWidth(), getHeight());
+            characterClass.executePhysics(world, getPosition(), getWidth(), getWidth());
             body = characterClass.getBody();
         }
         setPosition(characterClass.getBody().getPosition());
