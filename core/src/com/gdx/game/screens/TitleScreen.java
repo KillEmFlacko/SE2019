@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
@@ -38,8 +39,8 @@ public class TitleScreen implements Screen {
     private SettingsScreen ss;
     private SpriteBatch spriteBatch = new SpriteBatch();
     private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("menu/back.jpg")));
-    
-    public TitleScreen(GdxGame aGame){
+
+    public TitleScreen(GdxGame aGame) {
         this.game = aGame;
         this.stage = new Stage();
         ss = new SettingsScreen(game, this);
@@ -54,14 +55,19 @@ public class TitleScreen implements Screen {
         parameters.color = Color.RED;
         parameters.borderWidth = 3;
         parameters.borderColor = Color.BLACK;
-        parameters.shadowOffsetX=1;
-        parameters.shadowColor= Color.BROWN;
+        parameters.shadowOffsetX = 1;
+        parameters.shadowColor = Color.BROWN;
         BitmapFont font = generator.generateFont(parameters);
         generator.dispose();
 
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
-
+        //REMOVE IMAGE IF YOU DONT LIKE IT
+        Image image = new Image(textureRegion.getTexture());
+        image.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        image.setPosition(0,0);
+        stage.addActor(image);
+        
         label1 = new Label("Doors of Sacrahan", lblStyle);
         label1.setSize(Gdx.graphics.getWidth(), 30);
         label1.setAlignment(Align.center);
@@ -142,8 +148,8 @@ public class TitleScreen implements Screen {
         stage.getBatch().begin();
         stage.getBatch().draw(textureRegion, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.getBatch().end();
-        */
-        
+         */
+
         stage.draw();
     }
 
