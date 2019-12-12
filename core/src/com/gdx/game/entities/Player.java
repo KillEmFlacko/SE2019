@@ -144,9 +144,10 @@ public final class Player extends MortalEntity {
         }
         
         if (Gdx.input.isKeyPressed(Keys.DOWN) && Gdx.input.isKeyPressed(Keys.Q)) {
-            weapon.fire(new Vector2(0, -1));
-        } else if (Gdx.input.isKeyPressed(Keys.DOWN) && Gdx.input.isKeyPressed(Keys.Q)) {
+            
             dmgSkill.cast(new Vector2(0, -1));
+        } else if (Gdx.input.isKeyPressed(Keys.DOWN) && !Gdx.input.isKeyPressed(Keys.Q)) {
+            weapon.fire(new Vector2(0, -1));
         }
         
         if (Gdx.input.isKeyPressed(Keys.RIGHT) && Gdx.input.isKeyPressed(Keys.Q)) {
