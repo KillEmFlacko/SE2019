@@ -31,7 +31,7 @@ public final class Level1 extends Level {
     public Level1(Player p) {
         super(p);
         //////////// MAP ///////////
-        map = new TmxMapLoader().load("mappa_text_low_res/mappa_low_res.tmx");
+        map = new TmxMapLoader().load("maps/level1/map.tmx");
         ////////////////////////////
 
         //////////// ENTITIES ///////////////

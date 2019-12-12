@@ -26,8 +26,12 @@ public class EndDemoGameListener extends ChangeListener{
     
     @Override
     public void changed(ChangeEvent event, Actor actor) {
-        if(event instanceof Level.EndLevelEvent){
+        if(event instanceof EndDemoEvent){
             this.gamesScreen.end();
         }
+    }
+    
+    public class EndDemoEvent extends ChangeEvent {
+        
     }
 }

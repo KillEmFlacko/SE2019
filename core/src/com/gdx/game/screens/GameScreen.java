@@ -10,7 +10,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
@@ -116,6 +118,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        stage.addListener(new EndLevelListener());
         levels.get(0).start();
 //        instantiateWalls(level1);
         Gdx.input.setInputProcessor(stage);
@@ -128,6 +131,8 @@ public class GameScreen implements Screen {
         world.step(1 / 60f, 6, 2);
         stage.act();
         stage.draw();
+        //      decommentare per seguire il player
+        stage.getCamera().position.set(player.getPosition(), stage.getCamera().position.z);
         debugRenderer.render(world, stage.getCamera().combined);
     }
 
@@ -208,5 +213,16 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
+    }
+    
+    private class EndLevelListener extends ChangeListener {
+
+        @Override
+        public void changed(ChangeEvent arg0, Actor arg1) {
+            if(arg0 instanceof Level.EndLevelEvent) {
+                levels.get(1).start();
+            }
+        }
+        
     }
 }

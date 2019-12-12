@@ -1,6 +1,5 @@
 package com.gdx.game.levels;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -19,23 +18,20 @@ import com.gdx.game.entities.Player;
 public final class Level2 extends Level{
 
     private final TiledMap map;
+    private Vector2 initPlayerPos;
 
     public Level2(Player p) {
         super(p);
+        initPlayerPos = new Vector2(12, 4);
+        
         //////////// MAP ///////////
         map = new TmxMapLoader().load("maps/level2/map.tmx");
         ////////////////////////////
-
-        //////////// ENTITIES ///////////////
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
-        player.setPosition(new Vector2(15, 15 * (h / w)));
-        Vector2 v = player.getPosition().add(5, 5);
-        /////////////////////////////////////
     }
 
     @Override
     public void start() {
+        player.setPosition(initPlayerPos);
         addListener(new EndLevel1Listener());
         mapRenderer = new OrthogonalTiledMapRenderer(getMap(), 1f / (getPixelPerTile() * getTilePerMeter()));
         instantiateStaticObjects("walls");

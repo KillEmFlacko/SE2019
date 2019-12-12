@@ -84,6 +84,9 @@ public abstract class Entity extends Actor {
     protected void setParent(Group parent) {
         if (parent == null && body != null) {
             GdxGame.game.bodyToRemove.add(body);
+            body = null;
+            world = null;
+            textureRegion = null;
         } else {
             super.setParent(parent);
         }
