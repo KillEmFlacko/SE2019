@@ -50,8 +50,7 @@ public class LightShieldSkillEntity extends MortalEntity {
 
     @Override
     public void kill() {
-        this.getParent().removeActor(this);
-        GdxGame.game.bodyToRemove.add(this.body);
+        this.remove();
     }
 
     @Override

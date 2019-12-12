@@ -36,9 +36,8 @@ public abstract class MortalEntity extends Entity {
      * references to the GdxGame.game.bodiesToRemove structure
      */
     public void kill() {
-        GdxGame.game.bodyToRemove.add(this.body);
         fire(new DeathEvent());
-        getParent().removeActor(this);
+        this.remove();
     }
 
     public Integer getLife() {

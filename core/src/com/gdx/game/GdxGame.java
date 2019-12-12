@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gdx.game.screens.TitleScreen;
 // Dialogs
@@ -24,7 +25,7 @@ public class GdxGame extends Game {
     private GDXDialogs dialogMgr; //Manager dei dialogs
     //prefferred width / width
 
-    public Array<Body> bodyToRemove = new Array<Body>();
+    public SnapshotArray<Body> bodyToRemove = new SnapshotArray<Body>();
 
     public GdxGame(Viewport vp) {
         this.vp = vp;
@@ -46,10 +47,12 @@ public class GdxGame extends Game {
         vp.apply();
         super.render();
         ////////////////REMOVING BODIES//////////////
+        bodyToRemove.begin();
         for (Body b : GdxGame.game.bodyToRemove) {
             b.getWorld().destroyBody(b);
         }
-        GdxGame.game.bodyToRemove.clear();
+        bodyToRemove.clear();
+        bodyToRemove.end();
         /////////////////////////////////////////////
     }
 
