@@ -51,6 +51,7 @@ public class LightShieldSkillEntity extends MortalEntity {
     public LightShieldSkillEntity(String name, Integer life, World world, float width, float height, Vector2 position, Player caster) {
         super(name, life, world, width, height, position);
         this.caster = caster;
+        
 
     }
 
