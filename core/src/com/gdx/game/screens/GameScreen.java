@@ -164,6 +164,7 @@ public class GameScreen implements Screen {
             label1.setText("VICTORY");
             label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.7f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         }
+        label1.setVisible(true);
     }
     public final void initHUD() {
         //game over label
