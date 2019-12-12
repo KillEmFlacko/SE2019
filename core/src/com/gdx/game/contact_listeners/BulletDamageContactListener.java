@@ -46,7 +46,7 @@ public class BulletDamageContactListener implements ContactListener {
                 }
             }
 
-            b.dispose();
+            b.remove();
         }
         if (contact.getFixtureB().getUserData() instanceof Bullet) {
             Bullet b = (Bullet) contact.getFixtureB().getUserData();
@@ -73,7 +73,7 @@ public class BulletDamageContactListener implements ContactListener {
                 }
             }
             
-            b.dispose();
+            b.remove();
         }
     }
 

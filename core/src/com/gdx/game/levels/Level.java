@@ -37,6 +37,7 @@ public abstract class Level extends Group {
     protected Player player;
     protected World world;
     protected OrthogonalTiledMapRenderer mapRenderer;
+    protected Body mapWalls;
 
     public Level(Player p) {
         this.player = p;
@@ -132,7 +133,7 @@ public abstract class Level extends Group {
         BodyDef bdDef = new BodyDef();
         bdDef.type = BodyDef.BodyType.StaticBody;
         bdDef.position.set(0, 0);
-        Body mapWalls = world.createBody(bdDef);
+        mapWalls = world.createBody(bdDef);
         for (MapObject wall : walls) {
             if (wall instanceof PolygonMapObject) {
                 PolygonShape shape = getPolygon((PolygonMapObject) wall, getPixelPerTile() * getTilePerMeter());

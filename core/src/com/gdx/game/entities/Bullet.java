@@ -10,7 +10,7 @@ import com.gdx.game.GdxGame;
  * Uses prototype pattern, our prototype interface is bullet.
  * @author Armando
  */
-public abstract class Bullet extends Entity implements Cloneable,Disposable {
+public abstract class Bullet extends Entity implements Cloneable {
     protected Filter filter;
     public Bullet( float radius, Vector2 initialPosition) {
         super( radius*2, radius*2, initialPosition);
@@ -39,13 +39,5 @@ public abstract class Bullet extends Entity implements Cloneable,Disposable {
     @Override
     public Vector2 getLinearVelocity(){
         return super.getLinearVelocity();
-    }
-    
-    @Override
-    public void dispose() {
-        if(getParent() != null){
-            getParent().removeActor(this);
-            GdxGame.game.bodyToRemove.add(body);
-        }
     }
 }

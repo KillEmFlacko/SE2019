@@ -5,13 +5,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gdx.game.screens.TitleScreen;
 // Dialogs
 import de.tomgrill.gdxdialogs.core.GDXDialogs;
 import de.tomgrill.gdxdialogs.core.GDXDialogsSystem;
 //
-import java.util.LinkedList;
 
 public class GdxGame extends Game {
 
@@ -24,7 +24,7 @@ public class GdxGame extends Game {
     private GDXDialogs dialogMgr; //Manager dei dialogs
     //prefferred width / width
 
-    public LinkedList<Body> bodyToRemove = new LinkedList<Body>();
+    public Array<Body> bodyToRemove = new Array<Body>();
 
     public GdxGame(Viewport vp) {
         this.vp = vp;
@@ -44,13 +44,13 @@ public class GdxGame extends Game {
     @Override
     public void render() {
         vp.apply();
+        super.render();
         ////////////////REMOVING BODIES//////////////
         for (Body b : GdxGame.game.bodyToRemove) {
             b.getWorld().destroyBody(b);
         }
-        GdxGame.game.bodyToRemove.removeAll(GdxGame.game.bodyToRemove);
+        GdxGame.game.bodyToRemove.clear();
         /////////////////////////////////////////////
-        super.render();
     }
 
     @Override

@@ -1,47 +1,36 @@
 package com.gdx.game.levels;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
-import com.gdx.game.GdxGame;
 import com.gdx.game.contact_listeners.events.DeathEvent;
 import com.gdx.game.entities.Enemy;
 import com.gdx.game.entities.Player;
-import com.gdx.game.entities.bosses.DemoBoss;
-import com.gdx.game.movements.MovementSetFactory;
 
 /**
- * The first level of our game. As a level it is final because there are some
- * overridable methods called in th constructor.
  *
  * @author Armando
  */
-public final class Level1 extends Level {
+public final class Level2 extends Level{
 
     private final TiledMap map;
-    private final Array<Enemy> enemies;
 
-    public Level1(Player p) {
+    public Level2(Player p) {
         super(p);
         //////////// MAP ///////////
-        map = new TmxMapLoader().load("mappa_text_low_res/mappa_low_res.tmx");
+        map = new TmxMapLoader().load("maps/level2/map.tmx");
         ////////////////////////////
 
         //////////// ENTITIES ///////////////
-        MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         player.setPosition(new Vector2(15, 15 * (h / w)));
         Vector2 v = player.getPosition().add(5, 5);
-        DemoBoss db = new DemoBoss("Wandering Demon", 150, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
-        enemies = Array.with((Enemy) db);
         /////////////////////////////////////
     }
 
@@ -51,20 +40,10 @@ public final class Level1 extends Level {
         mapRenderer = new OrthogonalTiledMapRenderer(getMap(), 1f / (getPixelPerTile() * getTilePerMeter()));
         instantiateStaticObjects("walls");
         addActor(player);
-        for (Enemy enemy : enemies) {
-            addActor(enemy);
-        }
     }
 
     @Override
     public void end() {
-        mapRenderer.dispose();
-        mapRenderer = null;
-        for (Enemy enemy : enemies) {
-            enemy.remove();
-        }
-        player.remove();
-        GdxGame.game.bodyToRemove.add(mapWalls);
         fire(new EndLevelEvent());
     }
 
@@ -75,7 +54,7 @@ public final class Level1 extends Level {
 
     @Override
     public Array<Enemy> getEnemies() {
-        return enemies;
+        return null;
     }
 
     @Override
@@ -91,9 +70,9 @@ public final class Level1 extends Level {
     private class EndLevel1Listener extends EndLevelListener {
 
         @Override
-        public void changed(ChangeEvent arg0, Actor arg1) {
+        public void changed(ChangeListener.ChangeEvent arg0, Actor arg1) {
             if(arg0 instanceof DeathEvent){
-                Level1.this.end();
+                Level2.this.end();
             }
         }
         
