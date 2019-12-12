@@ -82,7 +82,7 @@ public class TitleScreen implements Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 TitleScreen.this.dispose();
                 Settings.getMusic().dispose();
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new PlayerSelectionScreen(game));
                 return true;
             }
         });

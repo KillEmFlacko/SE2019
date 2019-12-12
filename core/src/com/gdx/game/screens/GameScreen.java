@@ -35,6 +35,8 @@ import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.contact_listeners.BulletDamageContactListener;
 import com.gdx.game.contact_listeners.EndDemoGameListener;
 import com.gdx.game.contact_listeners.IncreaseScoreListener;
+import com.gdx.game.entities.classes.CharacterClass;
+import com.gdx.game.entities.classes.NorthernWizard;
 import com.gdx.game.movements.MovementSetFactory;
 import com.gdx.game.score.HighScoreTable;
 import com.gdx.game.score.ScoreCounter;
@@ -63,8 +65,7 @@ public class GameScreen implements Screen {
     private TextButton btn;
 
     private final ScoreCounter scoreCounter;
-
-    public GameScreen(GdxGame aGame) {
+    public GameScreen(GdxGame aGame, CharacterClass characterClass) {
         this.game = aGame;
         gameStage = new Stage(aGame.vp);
         hudStage = new Stage();
@@ -83,7 +84,7 @@ public class GameScreen implements Screen {
         float h = Gdx.graphics.getHeight();
         //(14.623319,19.27667)  (15, 15 * (h / w))
 
-        player = new Player("uajono", 100, world, playerWorldWidth, playerWorldHeight, new Vector2(15, 15 * (h / w)));
+        player = new Player("uajono", world, playerWorldWidth, playerWorldHeight, new Vector2(15,15*(h/w)), characterClass);
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.
         player.addListener(new EndDemoGameListener(this));
