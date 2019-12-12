@@ -178,7 +178,7 @@ public class GameScreen implements Screen {
 
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
-        label1 = new Label("prova", lblStyle);
+        label1 = new Label("Prova", lblStyle);
 
         label1.setSize(label1.getWidth() * 3, label1.getHeight() * 3);
         label1.setFontScale(3);
