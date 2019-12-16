@@ -42,6 +42,7 @@ public class SettingsScreen implements Screen {
         previousScreen = previousS;
         //ts = new TitleScreen(game);//commento
         initUI();
+        //sono un animale
     }
 
     private void initUI() {
