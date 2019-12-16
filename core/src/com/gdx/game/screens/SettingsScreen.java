@@ -69,7 +69,7 @@ public class SettingsScreen implements Screen {
         TextButton btnButton = new TextButton("Back", GdxGame.game.skin, "default");
         btnButton.setSize(colWidth, rowHeight);
         btnButton.setPosition(padding, padding);
-        btnButton.addListener(new InputListener() {
+        btnButton.addListener(new InputListener() {//sei una bestia
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //   SettingsScreen.this.dispose();
