@@ -1,9 +1,8 @@
 package com.gdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.loaders.AssetLoader;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -21,10 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.utils.Align;
 import static com.badlogic.gdx.utils.Align.center;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
@@ -36,7 +33,6 @@ import com.gdx.game.contact_listeners.BulletDamageContactListener;
 import com.gdx.game.contact_listeners.EndDemoGameListener;
 import com.gdx.game.contact_listeners.IncreaseScoreListener;
 import com.gdx.game.entities.classes.CharacterClass;
-import com.gdx.game.entities.classes.NorthernWizard;
 import com.gdx.game.movements.MovementSetFactory;
 import com.gdx.game.score.HighScoreTable;
 import com.gdx.game.score.ScoreCounter;
@@ -48,7 +44,7 @@ import net.dermetfan.gdx.physics.box2d.ContactMultiplexer;
 
 /**
  *
- * @author Armando
+ * @author Raffaele & Giovanni
  */
 public class GameScreen implements Screen {
 
@@ -63,8 +59,11 @@ public class GameScreen implements Screen {
     private Label label1;
     private TextField text;
     private TextButton btn;
+    private PauseScreen pauseScreen;
+    private boolean isPaused = false;
 
     private final ScoreCounter scoreCounter;
+
     public GameScreen(GdxGame aGame, CharacterClass characterClass) {
         this.game = aGame;
         gameStage = new Stage(aGame.vp);
@@ -84,7 +83,7 @@ public class GameScreen implements Screen {
         float h = Gdx.graphics.getHeight();
         //(14.623319,19.27667)  (15, 15 * (h / w))
 
-        player = new Player("uajono", world, playerWorldWidth, playerWorldHeight, new Vector2(15,15*(h/w)), characterClass);
+        player = new Player("uajono", world, playerWorldWidth, playerWorldHeight, new Vector2(15, 15 * (h / w)), characterClass);
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.
         player.addListener(new EndDemoGameListener(this));
@@ -143,8 +142,11 @@ public class GameScreen implements Screen {
         gameStage.addActor(up);
         gameStage.addActor(down);
 
+        pauseScreen = new PauseScreen(game, this);
+
     }
-    public void initLabel(Color color){
+
+    public void initLabel(Color color) {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameters.size = 24;
@@ -157,16 +159,17 @@ public class GameScreen implements Screen {
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
         label1.setStyle(lblStyle);
-        
-        if(color.equals(Color.RED)){
+
+        if (color.equals(Color.RED)) {
             label1.setText("GAME LOSE");
-            label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.9f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
-        }else if(color.equals(Color.GREEN)){
+            label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.9f * label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
+        } else if (color.equals(Color.GREEN)) {
             label1.setText("VICTORY");
-            label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.7f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
+            label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.7f * label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         }
         label1.setVisible(true);
     }
+
     public final void initHUD() {
         //game over label
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
@@ -188,7 +191,7 @@ public class GameScreen implements Screen {
         label1.setVisible(false);
 
         hudStage.addActor(label1);
-        
+
         //text field
         text = new TextField("", GdxGame.game.skin, "default");
         //text.setScale(1f/GdxGame.SCALE);
@@ -237,6 +240,12 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float f) {
+
+        if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+            f = 0;
+            this.pause();
+        }
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         world.step(1 / 60f, 6, 2);
@@ -264,7 +273,7 @@ public class GameScreen implements Screen {
             //label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.9f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         } else if (actor instanceof DemoBoss) {
             initLabel(Color.GREEN);
-           // label1.setText("VICTORY");
+            // label1.setText("VICTORY");
             //label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.7f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         }
         label1.setVisible(true);
@@ -331,7 +340,7 @@ public class GameScreen implements Screen {
 //5);
 
     }
-    
+
     @Override
     public void dispose() {
         gameStage.dispose();
@@ -344,6 +353,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
+        isPaused = true;
+        game.setScreen(pauseScreen);
     }
 
     @Override
