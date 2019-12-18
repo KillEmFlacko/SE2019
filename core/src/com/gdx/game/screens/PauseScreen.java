@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
@@ -79,7 +78,7 @@ public class PauseScreen implements Screen {
 
         TextButton btnButton2 = new TextButton("QUIT", GdxGame.game.skin, "default");
         btnButton2.setSize(colWidth, rowHeight);
-        btnButton2.setPosition(Gdx.graphics.getWidth() / 2 - 80, Gdx.graphics.getHeight() / 2 - 30);
+        btnButton2.setPosition(Gdx.graphics.getWidth() / 2 - 80, Gdx.graphics.getHeight() / 2 - 80);
         btnButton2.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -89,6 +88,20 @@ public class PauseScreen implements Screen {
             }
         });
         stage.addActor(btnButton2);
+        
+        
+        TextButton btn3Button = new TextButton("MAIN MENU", GdxGame.game.skin, "default");
+        btn3Button.setSize(colWidth, rowHeight);
+        btn3Button.setPosition(Gdx.graphics.getWidth() / 2 - 80, Gdx.graphics.getHeight() / 2 - 30);
+        btn3Button.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                PauseScreen.this.dispose();
+                game.setScreen(new TitleScreen(game));
+                return true;
+            }
+        });
+        stage.addActor(btn3Button);
 
     }
 
@@ -99,7 +112,7 @@ public class PauseScreen implements Screen {
 
     @Override
     public void render(float f) {
-        Gdx.gl.glClearColor(1, 0, 0, 0);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
