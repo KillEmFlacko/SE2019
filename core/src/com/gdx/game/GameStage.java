@@ -57,10 +57,6 @@ public class GameStage extends Stage{
         return world;
     }
 
-    public void setWorld(World world) {
-        this.world = world;
-    }
-
     @Override
     public void dispose() {
         super.dispose();
