@@ -21,7 +21,7 @@ public class GameAction extends Action {
     }
     
     /**
-     * NOTE: if target is not an Entity then nothing is set.
+     * NOTE: if target is not an Entity then an Error occurs.
      * Downcast might be an hazard.
      * 
      * Remember that, if not stated otherwise, target is the same as Actor.
@@ -34,13 +34,13 @@ public class GameAction extends Action {
             //super.target = target;
             super.setTarget(target);
         } else {
-
+            throw new Error("Invalid target, taget must be an Entity instance.");
             //l'eccezione non può essere lanciata perchè modifica la firma
             //quello che posso fare è castare a Entity. Posso ? Chiedere ad Armando
         }
     }
     /**
-     * NOTE: if actor is not an Entity then nothing is set.
+     * NOTE: if target is not an Entity then an Error occurs
      * Downcast might be an hazard.
      * @param actor 
      */
@@ -50,6 +50,7 @@ public class GameAction extends Action {
             //super.actor = actor;
             super.setActor(actor);
         } else {
+            throw new Error("Invalid target, taget must be an Entity instance.");
 
             //l'eccezione non può essere lanciata perchè modifica la firma
             //quello che posso fare è castare a Entity. Posso ? Chiedere ad Armando
