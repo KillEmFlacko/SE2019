@@ -37,6 +37,7 @@ import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.contact_listeners.BulletDamageContactListener;
 import com.gdx.game.contact_listeners.EndDemoGameListener;
 import com.gdx.game.contact_listeners.IncreaseScoreListener;
+import com.gdx.game.contact_listeners.UpdateHUDListener;
 import com.gdx.game.entities.classes.CharacterClass;
 import com.gdx.game.entities.classes.NorthernWizard;
 import com.gdx.game.movements.MovementSetFactory;
@@ -116,6 +117,7 @@ public class GameScreen implements Screen {
         IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
         db.addListener(scoreListener);
         player.addListener(scoreListener);
+        player.addListener(new UpdateHUDListener(life));
 
         gameStage.addActor(player);
         gameStage.addActor(db);
