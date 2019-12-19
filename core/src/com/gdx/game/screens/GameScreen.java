@@ -79,11 +79,6 @@ public class GameScreen implements Screen {
     private Image image1;
     private Image image, image2;
     
-    
-    
-
-    private final ScoreCounter scoreCounter;
-    
     public GameScreen(GdxGame aGame, CharacterClass characterClass) {
         this.game = aGame;
         gameStage = new Stage(aGame.vp);
