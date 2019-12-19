@@ -107,6 +107,7 @@ public class PauseScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 PauseScreen.this.dispose();
+                
                 game.setScreen(new TitleScreen(game));
                 return true;
             }

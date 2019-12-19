@@ -61,6 +61,7 @@ public class GameScreen implements Screen {
     private TextButton btn;
     private PauseScreen pauseScreen;
     private boolean isPaused = false;
+    private boolean isEnded=false;
 
     private final ScoreCounter scoreCounter;
 
@@ -240,7 +241,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float f) {
 
-        if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+        if (!isEnded && Gdx.input.isKeyPressed(Keys.ESCAPE)) {
             f = 0;
             this.pause();
         }
@@ -266,6 +267,7 @@ public class GameScreen implements Screen {
     }
 
     public void end(Actor actor) {
+        isEnded=true;
         if (actor instanceof Player) {
             initLabel(Color.RED);
             //label1.setText("GAME LOSE");
@@ -273,6 +275,7 @@ public class GameScreen implements Screen {
         } else if (actor instanceof DemoBoss) {
             initLabel(Color.GREEN);
              label1.setText("VICTORY");
+       
             //label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.7f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         }
         label1.setVisible(true);

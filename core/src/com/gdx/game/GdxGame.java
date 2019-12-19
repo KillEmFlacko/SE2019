@@ -19,12 +19,14 @@ public class GdxGame extends Game {
     public static GdxGame game;
     public static final float SCALE = 6.0f;
     private Music music;
+    public Settings settings;
     // private static final float DEFAULT_VOLUME = 0.5f;
 
     public LinkedList<Body> bodyToRemove = new LinkedList<Body>();
 
     public GdxGame(Viewport vp) {
         this.vp = vp;
+        this.settings = new Settings(); 
         assetManager = new AssetManager();
         game = this;
 
@@ -41,10 +43,12 @@ public class GdxGame extends Game {
     @Override
     public void create() {
         skin = new Skin(Gdx.files.internal("skin/expee-ui.json"));
-
+        music = Gdx.audio.newMusic(Gdx.files.internal("audio/menu/AbandonedWindmill.mp3"));
+        music.play();
+        music.setLooping(true);
+        music.setVolume(settings.getVolume());
+        
         this.setScreen(new TitleScreen(this));
-
-        Settings.initAudio();
 
     }
 
