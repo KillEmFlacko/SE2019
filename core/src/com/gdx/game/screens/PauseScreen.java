@@ -24,7 +24,7 @@ import com.gdx.game.GdxGame;
 
 /**
  *
- * @author raffaele
+ * @author Giovanni
  */
 public class PauseScreen implements Screen {
 
@@ -34,7 +34,7 @@ public class PauseScreen implements Screen {
     private Label label1;
     private float colWidth;
     private float rowHeight;
-    private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("pause/sfondo.jpg")));
+    private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("pause/sfondo.JPG")));
 
 
     public PauseScreen(GdxGame game, GameScreen previousS) {
