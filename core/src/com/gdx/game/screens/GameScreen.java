@@ -98,6 +98,7 @@ public class GameScreen implements Screen {
         //(14.623319,19.27667)  (15, 15 * (h / w))
 
         player = new Player("uajono", world, playerWorldWidth, playerWorldHeight, new Vector2(15,15*(h/w)), characterClass);
+
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.
         player.addListener(new EndDemoGameListener(this));
@@ -117,7 +118,6 @@ public class GameScreen implements Screen {
         IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
         db.addListener(scoreListener);
         player.addListener(scoreListener);
-        player.addListener(new UpdateHUDListener(life));
 
         gameStage.addActor(player);
         gameStage.addActor(db);
@@ -377,14 +377,14 @@ public class GameScreen implements Screen {
         image1 = new Image(texture);
         image1.setPosition(Gdx.graphics.getWidth()/3-image1.getWidth()/2,Gdx.graphics.getHeight()*2/3-image1.getHeight()/2);
         hudStage.addActor(image1);
-*/
-        
+
+ */       
         this.life = new ArrayList();
         
         for(int i=0; i<player.getLife(); i++) {
             life.add(new Heart());
         }
-        
+        player.addListener(new UpdateHUDListener(life));
         createLifebar();
 
     }

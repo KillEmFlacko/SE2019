@@ -22,7 +22,6 @@ import java.util.ArrayList;
 public class UpdateHUDListener extends ChangeListener {
 
     private ArrayList<Heart> life;
-    private DemoBoss boss;
 
     public UpdateHUDListener(ArrayList<Heart> life) {
         this.life = life;
@@ -35,9 +34,8 @@ public class UpdateHUDListener extends ChangeListener {
         }
         if (actor instanceof Player) {
             int currlife = ((Player) actor).getLife();
-            int i = 0;
-
-            for (i = life.size() - currlife - 1; i < life.size(); i++) {
+            
+            for (int i = life.size() - 1; i > currlife - 1; i--) {
                 life.get(i).getImage().setColor(Color.BLACK);
             }
         }
