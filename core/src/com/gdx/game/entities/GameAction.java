@@ -19,22 +19,36 @@ public class GameAction extends Action {
     public boolean act(float delta) {
         return true;
     }
+    
+    /**
+     * NOTE: if target is not an Entity then nothing is set.
+     * Downcast might be an hazard.
+     * 
+     * Remember that, if not stated otherwise, target is the same as Actor.
+     * @param target 
+     */
 
     @Override
     public void setTarget(Actor target) {
         if (target instanceof Entity) {
-            super.target = target;
+            //super.target = target;
+            super.setTarget(target);
         } else {
 
             //l'eccezione non può essere lanciata perchè modifica la firma
             //quello che posso fare è castare a Entity. Posso ? Chiedere ad Armando
         }
     }
-
+    /**
+     * NOTE: if actor is not an Entity then nothing is set.
+     * Downcast might be an hazard.
+     * @param actor 
+     */
     @Override
     public void setActor(Actor actor) {
         if (actor instanceof Entity) {
-            super.actor = actor;
+            //super.actor = actor;
+            super.setActor(actor);
         } else {
 
             //l'eccezione non può essere lanciata perchè modifica la firma
