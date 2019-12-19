@@ -72,10 +72,12 @@ public class GameScreen implements Screen {
     private TextButton btn;
     
     private ArrayList<Heart> life;
-    private ProgressBar bossLife;
     
-    private Texture texture;
+    private Texture texture, blank;
     private Image image1;
+    private Image image, image2;
+    
+    
     
 
     private final ScoreCounter scoreCounter;
@@ -282,6 +284,8 @@ public class GameScreen implements Screen {
             //label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.9f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         } else if (actor instanceof DemoBoss) {
             initLabel(Color.GREEN);
+            image.setVisible(false);
+            image2.setVisible(false);
            // label1.setText("VICTORY");
             //label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.7f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         }
@@ -372,21 +376,30 @@ public class GameScreen implements Screen {
     public void hide() {
     }
 
-    private void initHUD2() {
-
-        
-        bossLife=new ProgressBar(0f,(float) db.getLife(), , true, style);
-        
+    private void initHUD2() { 
         this.life = new ArrayList();
-        
         for(int i=0; i<player.getLife(); i++) {
             life.add(new Heart());
         }
-        
         player.addListener(new UpdateHUDListener(life));
-        db.addListener(new UpdateHUDListener());
-        
         createLifebar();
+        
+        
+        blank = new Texture(Gdx.files.internal("texture/enemy/bosses/red.jpg"));
+                
+        image2 = new Image(blank);
+        image2.setSize(Gdx.graphics.getWidth(), 30);
+        image2.setPosition(0, 0);
+        image2.setColor(Color.DARK_GRAY);
+        hudStage.addActor(image2);
+        
+        image = new Image(blank);
+        image.setSize(Gdx.graphics.getWidth()-5, 20);
+        image.setPosition(5, 5);
+        image.setColor(Color.RED);
+        hudStage.addActor(image);
+
+        db.addListener(new UpdateHUDListener(image));
 
     }
 

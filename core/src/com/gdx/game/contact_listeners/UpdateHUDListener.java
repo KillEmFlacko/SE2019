@@ -8,6 +8,7 @@ package com.gdx.game.contact_listeners;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.gdx.game.contact_listeners.events.HitEvent;
@@ -23,13 +24,13 @@ import java.util.ArrayList;
 public class UpdateHUDListener extends ChangeListener {
 
     private ArrayList<Heart> life;
-    private ProgressBar bossLife;
+    private Image bossBar; 
 
     public UpdateHUDListener(ArrayList<Heart> life) {
         this.life = life;
     }
-    public UpdateHUDListener(ProgressBar bossLife){
-        this.bossLife=bossLife;
+    public UpdateHUDListener(Image bossBar) {
+        this.bossBar = bossBar;
     }
 
     @Override
@@ -45,7 +46,7 @@ public class UpdateHUDListener extends ChangeListener {
             }
         }
         else if(actor instanceof DemoBoss){
-            
+            bossBar.setSize(((DemoBoss) actor).getLife()*Gdx.graphics.getWidth()/150, 20);
         }
     }
 
