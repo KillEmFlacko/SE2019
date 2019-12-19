@@ -86,6 +86,9 @@ public class SettingsScreen implements Screen {
             }
         });
         stage.addActor(btnButton);
+        
+      
+
 
         audio = new Label("AUDIO", lblStyle);
         audio.setSize(Gdx.graphics.getWidth(), 30);
@@ -109,6 +112,24 @@ public class SettingsScreen implements Screen {
 
             }
         });
+        
+        
+          TextButton defaultButton = new TextButton("Default Settings", GdxGame.game.skin, "default");
+        defaultButton.setSize(colWidth, rowHeight);
+        defaultButton.setPosition(padding + 600, padding);
+        defaultButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+           Settings.getMusic().setVolume(Settings.getDEFAULT_VOLUME());
+                        volume.setValue(Settings.getDEFAULT_VOLUME());
+
+               
+
+               
+                return true;
+            }
+        });
+        stage.addActor(defaultButton);
 
     }
 
