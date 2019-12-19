@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  *
  * @author Armando
  */
-public class Entity extends Actor {
+public class Entity extends Actor{
 
     // ------------- OLD PROPERTIES ---------------
 //    protected World world;
