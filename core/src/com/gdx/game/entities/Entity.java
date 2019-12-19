@@ -33,12 +33,13 @@ public class Entity extends Actor {
     // ++++++++++++++++++++++++++++++++++++++++++++
 
     // ------------ OLD CONSTRUCTOR --------------- 
-//    public Entity(World world, float worldWidth, float worldHeight, Vector2 initialPosition) {
-//        this.world = world;
-//        setWidth(worldWidth);
-//        setHeight(worldHeight);
-//        setPosition(initialPosition.x, initialPosition.y);
-//    }
+/*    public Entity(World world, float worldWidth, float worldHeight, Vector2 initialPosition) {
+        this.world = world;
+        setWidth(worldWidth);
+        setHeight(worldHeight);
+        setPosition(initialPosition.x, initialPosition.y);
+    }
+     */
     // --------------------------------------------
     
     // ++++++++++++++++ REFACTOR ++++++++++++++++++
@@ -65,14 +66,20 @@ public class Entity extends Actor {
     protected void setRegionToDraw(TextureRegion textureRegion) {
         this.textureRegion = textureRegion;
     }
-    
-    public WorldStage getWorldStage(){
+
+    /*
+    Calls getStage() and cast the stage to WorldStage
+     */
+    public WorldStage getWorldStage() {
         return null;
     }
-    
+
+    /*
+    Sets the stage, raise an error if it's not a WorldStage
+     */
     @Override
-    public void setStage(Stage stage){
-        
+    public void setStage(Stage stage) {
+
     }
 
     @Override
@@ -84,7 +91,7 @@ public class Entity extends Actor {
     public void setHeight(float height) {
 
     }
-    
+
     /**
      * Returns the actual entity position.
      *
@@ -97,23 +104,28 @@ public class Entity extends Actor {
     public void setPosition(Vector2 pos) {
         setPosition(pos.x, pos.y);
     }
-    
-    protected Body updateFistures(){
+
+    protected Body updateFistures() {
         return null;
     }
-    
-    public void draw(){
-        
+
+    /* Defines a default implementation of draw
+    where the textureRegion is drawn using
+    the actor's parameters 
+     */
+    public void draw() {
+
     }
-    
-    public void dispose(){
-        
+
+    /* Utilize Action in order to remove the Actor
+    from the Stage and to take it in a state that 
+    allows the object to be reused
+     */
+    public void dispose() {
+
     }
-    
+
     // ++++++++++++++++++++++++++++++++++++++++++++
-    
-    
-    
     
     // ------------ OLD METHOD --------------------
 //    @Override
@@ -121,9 +133,6 @@ public class Entity extends Actor {
 //        batch.draw(textureRegion, body.getPosition().x - getWidth() / 2, body.getPosition().y - getWidth() / 2, getWidth(), getHeight());
 //    }
     // --------------------------------------------
-    
-    
-    
     
     // -------------- Physics:Velocity
     protected void setLinearVelocity(Vector2 velocity) {
