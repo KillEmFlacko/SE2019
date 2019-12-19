@@ -4,12 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
@@ -35,6 +38,7 @@ public class SettingsScreen implements Screen {
     private final int padding = 15;
     private Label audio;
     private TitleScreen previousScreen;
+     private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("menu/back.jpg")));
 
     public SettingsScreen(GdxGame game, TitleScreen previousS){
         this.game = game;
@@ -57,6 +61,10 @@ public class SettingsScreen implements Screen {
 
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
+         Image image = new Image(textureRegion.getTexture());
+        image.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        image.setPosition(0,0);
+        stage.addActor(image);
 
         label1 = new Label("SETTINGS", lblStyle);
         label1.setSize(Gdx.graphics.getWidth(), 30);
