@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -61,6 +62,7 @@ public class GameScreen implements Screen {
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final Box2DDebugRenderer debugRenderer;
     private final Player player;
+    private final DemoBoss db;
     private final World world;
     private final GdxGame game;
     private final Stage gameStage;
@@ -70,6 +72,7 @@ public class GameScreen implements Screen {
     private TextButton btn;
     
     private ArrayList<Heart> life;
+    private ProgressBar bossLife;
     
     private Texture texture;
     private Image image1;
@@ -110,9 +113,8 @@ public class GameScreen implements Screen {
 
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         Vector2 v = player.getPosition().add(5, 5);
-        DemoBoss db = new DemoBoss("Wandering Demon", 150, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
+        db = new DemoBoss("Wandering Demon", 150, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
         db.addListener(new EndDemoGameListener(this));
-
         // Gestione dello score IncreaseScoreListener
         scoreCounter = new ScoreCounter();
         IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
@@ -371,20 +373,19 @@ public class GameScreen implements Screen {
     }
 
     private void initHUD2() {
-        
-        /*
-        Texture texture = new Texture(Gdx.files.internal("texture/player/hud/heart.png"));
-        image1 = new Image(texture);
-        image1.setPosition(Gdx.graphics.getWidth()/3-image1.getWidth()/2,Gdx.graphics.getHeight()*2/3-image1.getHeight()/2);
-        hudStage.addActor(image1);
 
- */       
+        
+        bossLife=new ProgressBar(0f,(float) db.getLife(), , true, style);
+        
         this.life = new ArrayList();
         
         for(int i=0; i<player.getLife(); i++) {
             life.add(new Heart());
         }
+        
         player.addListener(new UpdateHUDListener(life));
+        db.addListener(new UpdateHUDListener());
+        
         createLifebar();
 
     }
