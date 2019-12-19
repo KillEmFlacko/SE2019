@@ -6,48 +6,48 @@
 package com.gdx.game.settings;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import java.io.Serializable;
-
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author raffaele
  */
-public class Settings implements Serializable {
-
-    private static Slider volume;
-    private static Music music;
-    private static final float DEFAULT_VOLUME = 0.5f;
+public class Settings{
     
-   
+    private final List<SettingsObserver> observers;
+    private float volume;
+    private static final float DEFAULT_VOLUME = 0.5f;
 
-
-    public static void setVolume(Slider volume) {
-        Settings.volume = volume;
+    public Settings(){
+        this.volume = DEFAULT_VOLUME;
+        this.observers = new ArrayList();
+    }
+    
+    private void notifyObservers(){
+        for (SettingsObserver o : observers){
+            o.update(this);
+        }
+    }
+    
+    public void attach(SettingsObserver o){
+        observers.add(o);
+    }
+    
+    public void detach(SettingsObserver o){
+        observers.remove(o);
+    }
+    
+    public void setVolume(float volume) {
+        this.volume = volume;
+        notifyObservers();
     }
 
-    public static void setMusic(Music music) {
-        Settings.music = music;
+    public float getVolume() {
+        return this.volume;
     }
-
-    public static Slider getVolume() {
-        return volume;
+    
+    public void setDefault(){
+        this.volume = DEFAULT_VOLUME;
+        notifyObservers();
     }
-
-    public static Music getMusic() {
-        return music;
-    }
-
-    public static float getDEFAULT_VOLUME() {
-        return DEFAULT_VOLUME;
-    }
-
-    public static void initAudio() {
-        music = Gdx.audio.newMusic(Gdx.files.internal("audio/menu/AbandonedWindmill.mp3"));
-        music.play();
-        music.setLooping(true);
-        music.setVolume(DEFAULT_VOLUME);
-    }
-
 }

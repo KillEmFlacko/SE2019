@@ -38,15 +38,15 @@ public class SettingsScreen implements Screen {
     private final int padding = 15;
     private Label audio;
     private TitleScreen previousScreen;
-     private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("menu/back.jpg")));
+    private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("menu/back.jpg")));
 
-    public SettingsScreen(GdxGame game, TitleScreen previousS){
+    public SettingsScreen(GdxGame game, TitleScreen previousS) {
         this.game = game;
         this.stage = new Stage();
         previousScreen = previousS;
         //ts = new TitleScreen(game);//commento
         initUI();
-     
+
     }
 
     private void initUI() {
@@ -63,7 +63,7 @@ public class SettingsScreen implements Screen {
         lblStyle.font = font;
         Image image = new Image(textureRegion.getTexture());
         image.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        image.setPosition(0,0);
+        image.setPosition(0, 0);
         stage.addActor(image);
 
         label1 = new Label("SETTINGS", lblStyle);
@@ -86,9 +86,6 @@ public class SettingsScreen implements Screen {
             }
         });
         stage.addActor(btnButton);
-        
-      
-
 
         audio = new Label("AUDIO", lblStyle);
         audio.setSize(Gdx.graphics.getWidth(), 30);
@@ -97,35 +94,34 @@ public class SettingsScreen implements Screen {
         stage.addActor(audio);
 
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        final Slider volume = new Slider(0.0f, 1.0f, 0.1f, false, skin);
+        final Slider volumeSlider = new Slider(0.0f, 1.0f, 0.1f, false, skin);
 
-        volume.setValue(Settings.getDEFAULT_VOLUME());
-        volume.setPosition(Gdx.graphics.getWidth() / 2 - 140, Gdx.graphics.getHeight() / 2 + 155);
+        volumeSlider.setValue(game.settings.getVolume());
+        volumeSlider.setPosition(Gdx.graphics.getWidth() / 2 - 140, Gdx.graphics.getHeight() / 2 + 155);
 
-        stage.addActor(volume);
+        stage.addActor(volumeSlider);
 
-        volume.addListener(new ChangeListener() {
+        volumeSlider.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                Settings.getMusic().setVolume(volume.getValue());
-                volume.setValue(volume.getValue());
-                System.out.println("il volume è VolumeSetValue: " + volume.getValue());
+                game.settings.setVolume(volumeSlider.getValue());
+                game.getMusic().setVolume(game.settings.getVolume());
+                
+                //volumeSlider.setValue(volumeSlider.getValue());
+                System.out.println("il volume è VolumeSetValue: " + volumeSlider.getValue());
 
             }
         });
-        
-        
-          TextButton defaultButton = new TextButton("Default Settings", GdxGame.game.skin, "default");
+
+        TextButton defaultButton = new TextButton("Default Settings", GdxGame.game.skin, "default");
         defaultButton.setSize(colWidth, rowHeight);
         defaultButton.setPosition(padding + 600, padding);
         defaultButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-           Settings.getMusic().setVolume(Settings.getDEFAULT_VOLUME());
-                        volume.setValue(Settings.getDEFAULT_VOLUME());
+                game.settings.setDefault();
+                game.getMusic().setVolume(game.settings.getVolume());
+                volumeSlider.setValue(game.settings.getVolume());
 
-               
-
-               
                 return true;
             }
         });
