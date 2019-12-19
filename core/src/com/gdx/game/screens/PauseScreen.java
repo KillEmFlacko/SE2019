@@ -24,7 +24,7 @@ import com.gdx.game.GdxGame;
 
 /**
  *
- * @author raffaele.barbato1997
+ * @author raffaele
  */
 public class PauseScreen implements Screen {
 
