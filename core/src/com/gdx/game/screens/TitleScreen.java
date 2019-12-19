@@ -119,10 +119,24 @@ public class TitleScreen implements Screen {
             }
         });
         stage.addActor(btnSetting);
+        
+        
+         TextButton guideButton = new TextButton("Guide", game.skin, "default");
+        guideButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
+        guideButton.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 90 - padding * BUTTON_SPACE);
+        guideButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                TitleScreen.this.dispose();
+                game.setScreen( new GuideScreen(game));
+                return true;
+            }
+        });
+        stage.addActor(guideButton);
 
         TextButton quitButton = new TextButton("Quit", game.skin, "default");
         quitButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
-        quitButton.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 90 - padding * BUTTON_SPACE);
+        quitButton.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 150  - padding * BUTTON_SPACE);
         stage.addActor(quitButton);
         quitButton.addListener(new InputListener() {
             @Override
