@@ -16,10 +16,12 @@ import java.io.Serializable;
  */
 public class Settings implements Serializable {
 
-    public static Slider volume;
-    public static Music music;
-
+    private static Slider volume;
+    private static Music music;
     private static final float DEFAULT_VOLUME = 0.5f;
+    
+   
+
 
     public static void setVolume(Slider volume) {
         Settings.volume = volume;
