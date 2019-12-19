@@ -164,7 +164,7 @@ public class GameScreen implements Screen {
             label1.setText("GAME LOSE");
             label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.9f * label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         } else if (color.equals(Color.GREEN)) {
-            label1.setText("VICTORY");
+            //label1.setText("VICTORY");
             label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.7f * label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         }
         label1.setVisible(true);
@@ -191,8 +191,7 @@ public class GameScreen implements Screen {
         label1.setVisible(false);
 
         hudStage.addActor(label1);
-
-        //text field
+      //text field
         text = new TextField("", GdxGame.game.skin, "default");
         //text.setScale(1f/GdxGame.SCALE);
 
@@ -273,7 +272,7 @@ public class GameScreen implements Screen {
             //label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.9f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         } else if (actor instanceof DemoBoss) {
             initLabel(Color.GREEN);
-            // label1.setText("VICTORY");
+             label1.setText("VICTORY");
             //label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.7f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         }
         label1.setVisible(true);

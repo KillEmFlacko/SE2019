@@ -61,7 +61,7 @@ public class SettingsScreen implements Screen {
 
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
-         Image image = new Image(textureRegion.getTexture());
+        Image image = new Image(textureRegion.getTexture());
         image.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         image.setPosition(0,0);
         stage.addActor(image);
