@@ -52,7 +52,7 @@ public final class DemoBoss extends Boss {
         super(name, life, world, width, height, position);
         this.movementQ = movementQ;
         this.player = player;
-        DemoBossBullet b = new DemoBossBullet(world, 4f / GdxGame.game.SCALE, this.player.getPosition(), 25, 10f);
+        DemoBossBullet b = new DemoBossBullet(world, 4f / GdxGame.game.SCALE, this.player.getPosition(), 1, 10f);
         this.weapon = new Weapon(this, b, 1);
 
         //bossState = new IdleState(); TO ADD
