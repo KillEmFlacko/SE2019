@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -19,7 +20,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import static com.badlogic.gdx.utils.Align.center;
@@ -32,12 +36,15 @@ import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.contact_listeners.BulletDamageContactListener;
 import com.gdx.game.contact_listeners.EndDemoGameListener;
 import com.gdx.game.contact_listeners.IncreaseScoreListener;
+import com.gdx.game.contact_listeners.UpdateHUDListener;
 import com.gdx.game.entities.classes.CharacterClass;
 import com.gdx.game.movements.MovementSetFactory;
 import com.gdx.game.score.HighScoreTable;
 import com.gdx.game.score.ScoreCounter;
+import com.gdx.game.screens.assets.Heart;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.dermetfan.gdx.physics.box2d.ContactMultiplexer;
@@ -52,6 +59,7 @@ public class GameScreen implements Screen {
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final Box2DDebugRenderer debugRenderer;
     private final Player player;
+    private final DemoBoss db;
     private final World world;
     private final GdxGame game;
     private final Stage gameStage;
@@ -64,7 +72,18 @@ public class GameScreen implements Screen {
     private boolean isEnded=false;
 
     private final ScoreCounter scoreCounter;
+    
+    private ArrayList<Heart> life;
+    
+    private Texture texture, blank;
+    private Image image1;
+    private Image image, image2;
+    
+    
+    
 
+    private final ScoreCounter scoreCounter;
+    
     public GameScreen(GdxGame aGame, CharacterClass characterClass) {
         this.game = aGame;
         gameStage = new Stage(aGame.vp);
@@ -84,7 +103,8 @@ public class GameScreen implements Screen {
         float h = Gdx.graphics.getHeight();
         //(14.623319,19.27667)  (15, 15 * (h / w))
 
-        player = new Player("uajono", world, playerWorldWidth, playerWorldHeight, new Vector2(15, 15 * (h / w)), characterClass);
+        player = new Player("uajono", world, playerWorldWidth, playerWorldHeight, new Vector2(15,15*(h/w)), characterClass);
+
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.
         player.addListener(new EndDemoGameListener(this));
@@ -96,9 +116,8 @@ public class GameScreen implements Screen {
 
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         Vector2 v = player.getPosition().add(5, 5);
-        DemoBoss db = new DemoBoss("Wandering Demon", 150, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
+        db = new DemoBoss("Wandering Demon", 150, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
         db.addListener(new EndDemoGameListener(this));
-
         // Gestione dello score IncreaseScoreListener
         scoreCounter = new ScoreCounter();
         IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
@@ -138,6 +157,7 @@ public class GameScreen implements Screen {
                 new Vector2(15, 0)
         );
         initHUD();
+        
         gameStage.addActor(left);
         gameStage.addActor(right);
         gameStage.addActor(up);
@@ -172,6 +192,7 @@ public class GameScreen implements Screen {
     }
 
     public final void initHUD() {
+        initHUD2();
         //game over label
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -274,8 +295,10 @@ public class GameScreen implements Screen {
             //label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.9f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         } else if (actor instanceof DemoBoss) {
             initLabel(Color.GREEN);
-             label1.setText("VICTORY");
-       
+
+            image.setVisible(false);
+            image2.setVisible(false);
+           // label1.setText("VICTORY");
             //label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.7f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         }
         label1.setVisible(true);
@@ -365,5 +388,42 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
+    }
+
+    private void initHUD2() { 
+        this.life = new ArrayList();
+        for(int i=0; i<player.getLife(); i++) {
+            life.add(new Heart());
+        }
+        player.addListener(new UpdateHUDListener(life));
+        createLifebar();
+        
+        
+        blank = new Texture(Gdx.files.internal("texture/enemy/bosses/red.jpg"));
+                
+        image2 = new Image(blank);
+        image2.setSize(Gdx.graphics.getWidth(), 30);
+        image2.setPosition(0, 0);
+        image2.setColor(Color.DARK_GRAY);
+        hudStage.addActor(image2);
+        
+        image = new Image(blank);
+        image.setSize(Gdx.graphics.getWidth()-5, 20);
+        image.setPosition(5, 5);
+        image.setColor(Color.RED);
+        hudStage.addActor(image);
+
+        db.addListener(new UpdateHUDListener(image));
+
+    }
+
+    private void createLifebar() {
+        int i = 0;
+        for (Heart h : life) {
+            h.getImage().setPosition(8 + 10*i + h.getImage().getWidth()/15 * i  , Gdx.graphics.getHeight() - h.getImage().getHeight()/12);
+            h.getImage().setSize(Gdx.graphics.getWidth()/15, Gdx.graphics.getHeight()/12);
+            hudStage.addActor(h.getImage());
+            i++;
+        }
     }
 }
