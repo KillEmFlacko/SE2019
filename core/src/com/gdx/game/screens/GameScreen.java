@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.loaders.AssetLoader;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -40,8 +42,10 @@ import com.gdx.game.entities.classes.NorthernWizard;
 import com.gdx.game.movements.MovementSetFactory;
 import com.gdx.game.score.HighScoreTable;
 import com.gdx.game.score.ScoreCounter;
+import com.gdx.game.screens.assets.Heart;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.dermetfan.gdx.physics.box2d.ContactMultiplexer;
@@ -63,8 +67,16 @@ public class GameScreen implements Screen {
     private Label label1;
     private TextField text;
     private TextButton btn;
+    
+    private ArrayList<Heart> life;
+    
+    private Texture texture;
+    private Image image1;
+    
 
     private final ScoreCounter scoreCounter;
+    
+    
     public GameScreen(GdxGame aGame, CharacterClass characterClass) {
         this.game = aGame;
         gameStage = new Stage(aGame.vp);
@@ -138,6 +150,7 @@ public class GameScreen implements Screen {
                 new Vector2(15, 0)
         );
         initHUD();
+        
         gameStage.addActor(left);
         gameStage.addActor(right);
         gameStage.addActor(up);
@@ -168,6 +181,7 @@ public class GameScreen implements Screen {
         label1.setVisible(true);
     }
     public final void initHUD() {
+        initHUD2();
         //game over label
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -352,5 +366,34 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
+    }
+
+    private void initHUD2() {
+        
+        /*
+        Texture texture = new Texture(Gdx.files.internal("texture/player/hud/heart.png"));
+        image1 = new Image(texture);
+        image1.setPosition(Gdx.graphics.getWidth()/3-image1.getWidth()/2,Gdx.graphics.getHeight()*2/3-image1.getHeight()/2);
+        hudStage.addActor(image1);
+*/
+        
+        this.life = new ArrayList();
+        
+        for(int i=0; i<player.getLife(); i++) {
+            life.add(new Heart());
+        }
+        
+        createLifebar();
+
+    }
+
+    private void createLifebar() {
+        int i = 0;
+        for (Heart h : life) {
+            h.getImage().setPosition(8 + 10*i + h.getImage().getWidth()/15 * i  , Gdx.graphics.getHeight() - h.getImage().getHeight()/12);
+            h.getImage().setSize(Gdx.graphics.getWidth()/15, Gdx.graphics.getHeight()/12);
+            hudStage.addActor(h.getImage());
+            i++;
+        }
     }
 }
