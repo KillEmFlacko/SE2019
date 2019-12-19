@@ -15,7 +15,7 @@ public class EasternWizard extends MovableCharacterClass{
     private final float STRENGHT = 1.5f;
     private final float ATTACK_RATE = 3;
     private final float SPEED = 9f;
-    private final int LIFE_POINTS = 4;
+    private final int LIFE_POINTS = 100;
     private final float BULLET_SPEED = 7f * 1.5f;
     private TextureAtlas atlas;
     private Animation<TextureAtlas.AtlasRegion> runAnimation;
