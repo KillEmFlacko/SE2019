@@ -7,7 +7,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Disposable;
 
 /**
  * DIVIDI L'ENTITY BODY IN 2 BODY, UN COLLIDING BODY CHE SI OCCUPA DEL LATO
@@ -17,7 +16,7 @@ import com.badlogic.gdx.utils.Disposable;
  *
  * @author Armando
  */
-public class Entity extends Actor implements Disposable{
+public class Entity extends Actor {
 
     // ------------- OLD PROPERTIES ---------------
 //    protected World world;
