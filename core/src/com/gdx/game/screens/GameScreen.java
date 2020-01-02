@@ -97,7 +97,7 @@ public class GameScreen implements Screen {
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         Vector2 v = player.getPosition().add(5, 5);
         //DemoBoss db = new DemoBoss("Wandering Demon", 150, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
-        DemoBoss db = new DemoBoss(new Stats(), 50);
+        DemoBoss db = new DemoBoss(new Stats());
         db.addListener(new EndDemoGameListener(this));
 
         // Gestione dello score IncreaseScoreListener

@@ -14,16 +14,21 @@ public abstract class MortalEntity extends Entity {
     private Stats stats;
     private int hp;
 
-    public MortalEntity(Stats stats, int hp) {
+    public MortalEntity(Stats stats, EntityDef entityDef) {
+        super(entityDef);
         this.stats = stats;
-        this.hp = hp;
     }
-
+    
     public abstract void kill();
 
-    public abstract void isHitBy();
+    public abstract void isHitBy(Bullet b);
 
     public int getHP(){
         return hp;
     }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+    
 }

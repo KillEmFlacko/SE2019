@@ -48,6 +48,7 @@ public class Entity extends Actor {
         super();
         this.entityDef = entityDef;
     }
+    
     // ++++++++++++++++++++++++++++++++++++++++++++
     
     // ++++++++++++++++ REFACTOR ++++++++++++++++++

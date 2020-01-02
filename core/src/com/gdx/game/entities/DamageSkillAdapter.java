@@ -21,11 +21,6 @@ public abstract class DamageSkillAdapter extends PlayerSkill {
     }
 
 
-
-    public float getDamageSpellMultiplier() {
-        return getCaster().getDamageSpellMultiplier();
-    }
-
     public SkillBullet getB() {
         return b;
     }

@@ -18,13 +18,4 @@ public abstract class DamageSkill extends PlayerSkill{
         super(coolDown, caster);
     }
 
-
-
-
-
-
-    public float getDamageSpellMultiplier(){
-        return getCaster().getDamageSpellMultiplier();
-    }
-    
 }

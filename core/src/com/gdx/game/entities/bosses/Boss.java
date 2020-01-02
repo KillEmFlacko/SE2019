@@ -17,9 +17,10 @@ import com.gdx.game.entities.*;
  */
 public abstract class Boss extends MortalEntity {
 
-    public Boss(Stats stats, int hp) {
-        super(stats, hp);
+    public Boss(Stats stats, EntityDef entityDef) {
+        super(stats, entityDef);
     }
+
 
 
 }

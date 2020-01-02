@@ -40,13 +40,10 @@ public final class DemoBoss extends Boss {
 
     private Movement prevMovement;
 
-    public DemoBoss(Stats stats, int hp) {
-        super(stats, hp);
+    public DemoBoss(Stats stats, EntityDef entityDef) {
+        super(stats, entityDef);
     }
 
-    /**
-     * Initializes the Actor physics. Do not call directly.
-     */
     private void init() {
 
         BodyDef bodyDef = new BodyDef();
@@ -117,8 +114,8 @@ public final class DemoBoss extends Boss {
     }
 
     @Override
-    public void isHitBy() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void isHitBy(Bullet b) {
+        this.setHp(this.getHP() - b.getDamage());
     }
 
     @Override
