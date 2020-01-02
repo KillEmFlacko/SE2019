@@ -21,13 +21,15 @@ public abstract class MortalEntity extends Entity {
     
     public abstract void kill();
 
-    public abstract void isHitBy(Bullet b);
+    public void isHitBy(Bullet b){
+        hp -= b.getDamage();
+    }
 
     public int getHP(){
         return hp;
     }
 
-    public void setHp(int hp) {
+    private void setHp(int hp) {
         this.hp = hp;
     }
     

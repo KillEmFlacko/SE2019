@@ -47,18 +47,8 @@ public class LightShieldSkillEntity extends MortalEntity {
     private RevoluteJoint revoluteJoint;
     private static int n_instances = 0;
 
-    //height and width are the dimensions of the square in which the circle is confined
-    public LightShieldSkillEntity(String name, Integer life, World world, float width, float height, Vector2 position, Player caster) {
-        super(name, life, world, width, height, position);
-        this.caster = caster;
-        
-
-    }
-
-    @Override
-    public void isHitBy(Bullet bullet) {
-        System.out.println("HEY");
-        life -= bullet.getDamage();
+    public LightShieldSkillEntity(Stats stats, EntityDef entityDef) {
+        super(stats, entityDef);
     }
 
     @Override
