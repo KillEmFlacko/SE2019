@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.gdx.game.actions.GameAction;
 
 /**
  * DIVIDI L'ENTITY BODY IN 2 BODY, UN COLLIDING BODY CHE SI OCCUPA DEL LATO
@@ -41,6 +42,13 @@ public class Entity extends Actor {
     }
      */
     // --------------------------------------------
+    
+    // ++++++++++++++++ REFACTOR ++++++++++++++++++
+    public Entity(EntityDef entityDef){
+        super();
+        this.entityDef = entityDef;
+    }
+    // ++++++++++++++++++++++++++++++++++++++++++++
     
     // ++++++++++++++++ REFACTOR ++++++++++++++++++
     public Body getBody() {
@@ -105,7 +113,7 @@ public class Entity extends Actor {
         setPosition(pos.x, pos.y);
     }
 
-    protected Body updateFistures() {
+    protected Body updateFixtures() {
         return null;
     }
 
@@ -145,6 +153,12 @@ public class Entity extends Actor {
 
     protected Vector2 getLinearVelocity() {
         return body.getLinearVelocity();
+    }
+    
+    protected class Init extends GameAction{
+        public void act(){
+            // to be implemented
+        }
     }
 
 }
