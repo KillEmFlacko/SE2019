@@ -112,8 +112,5 @@ public final class DemoBoss extends Boss {
             return true;
         }
     }
-    @Override
-    public void kill() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 }
