@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gdx.game.entities.EntityDef;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -20,15 +21,15 @@ public class BossDef implements EntityDef {
 
     private BodyDef bd;
     private ObjectMap<String, FixtureDef> fixtureDefs;
-    private Map<String, Animation> animations;
+    private ObjectMap<String, Animation> animations;
     private float width;
     private float height;
     private float customScale;
 
-    public BossDef(BodyDef bd, ObjectMap<String, FixtureDef> fixtureDefs, Map<String, Animation> animations) {
+    public BossDef(BodyDef bd) {
         this.bd = bd;
-        this.fixtureDefs = fixtureDefs;
-        this.animations = animations;
+        this.fixtureDefs = new ObjectMap<>();
+        this.animations = new ObjectMap<>();
     }
 
     @Override
@@ -42,7 +43,7 @@ public class BossDef implements EntityDef {
     }
 
     @Override
-    public Map<String, Animation> getAnimations() {
+    public ObjectMap<String, Animation> getAnimations() {
         return animations;
     }
 

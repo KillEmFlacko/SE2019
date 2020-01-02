@@ -23,5 +23,7 @@ public abstract class MortalEntity extends Entity {
 
     public abstract void isHitBy();
 
-    public abstract int getHP();
+    public int getHP(){
+        return hp;
+    }
 }

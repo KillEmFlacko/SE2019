@@ -71,7 +71,7 @@ public final class DemoBoss extends Boss {
         TreeMap<String,Animation> tm = new TreeMap<>();
         tm.put("movingAnimation", movementAnimation);
         
-        BossDef bd = new BossDef(bodyDef, fdMap, tm);
+        BossDef bd = new BossDef(bodyDef);
         this.setEntityDef(bd);
 
     }
@@ -117,10 +117,6 @@ public final class DemoBoss extends Boss {
     
     @Override
     public void isHitBy() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    @Override
-    public int getHP() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -16,7 +16,7 @@ public interface EntityDef {
 
     public ObjectMap<String, FixtureDef> getFixtureDefs();
 
-    public Map<String, Animation> getAnimations();
+    public ObjectMap<String, Animation> getAnimations();
     
     public float getWidth();
     
