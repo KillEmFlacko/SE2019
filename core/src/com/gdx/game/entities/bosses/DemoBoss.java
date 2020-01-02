@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gdx.game.entities.Player;
 import com.gdx.game.movements.MovementSet;
@@ -59,12 +60,12 @@ public final class DemoBoss extends Boss {
         fixtureDef.shape = shape;
         fixtureDef.isSensor = false;
         fixtureDef.restitution = 0f;
-        fixtureDef.density = 0f;        
+        fixtureDef.density = 0f;
         shape.dispose();
 
         atlas = new TextureAtlas(Gdx.files.internal("texture/enemy/bosses/big_demon/big_demon.atlas"));
         movementAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("run"), PlayMode.LOOP);
-        
+
         BossDef bd = new BossDef(bodyDef);
         bd.getAnimations().put("moving", movementAnimation);
         bd.getFixtureDefs().put("basicHitbox", fixtureDef);
@@ -72,50 +73,53 @@ public final class DemoBoss extends Boss {
 
     }
 
-    @Override
-    public void act(float delta) {
-        setPosition(getBody().getPosition());
-        if (this.getHP() <= 0) {
-            kill();
-            return;
-        }
-        timeAcc += delta;
-        stateTime += delta;
+    private class DemoBossAction extends Action {
 
-        this.setRegionToDraw(movementAnimation.getKeyFrame(stateTime, true));
-
-        Vector2 playerPosition = player.getPosition();
-        Vector2 newMovePlayer = new Vector2(playerPosition.sub(this.getPosition()));
-
-        if (timeAcc >= 2.0f) {
-            Random r = new Random();
-
-            if ((r.nextFloat() * 10) >= 6) {
-                //si lancia contro il player
-                //System.out.println("Player position" + playerPosition);
-                actVelocity.set(newMovePlayer.scl(1.3f));
-                //checkDirection(newMovePlayer);
-
-                timeAcc = 1.5f;
-                //checkDirection(newMovePlayer);
-            } else {
-                //spara LELLO SPARA
-                Movement movement = movementQ.frontToBack();
-                //Gdx.app.log("V", movement.toString());
-                actVelocity.set(movement);
-                weapon.fire(newMovePlayer.scl(1f));
-                //checkDirection(newMovePlayer);
-
-                timeAcc = 0f;
+        @Override
+        public boolean act(float delta) {
+            setPosition(getBody().getPosition());
+            if (DemoBoss.this.getHP() <= 0) {
+                kill();
+                return false;
             }
+            timeAcc += delta;
+            stateTime += delta;
+
+            DemoBoss.this.setRegionToDraw(movementAnimation.getKeyFrame(stateTime, true));
+
+            Vector2 playerPosition = player.getPosition();
+            Vector2 newMovePlayer = new Vector2(playerPosition.sub(DemoBoss.this.getPosition()));
+
+            if (timeAcc >= 2.0f) {
+                Random r = new Random();
+
+                if ((r.nextFloat() * 10) >= 6) {
+                    //si lancia contro il player
+                    //System.out.println("Player position" + playerPosition);
+                    actVelocity.set(newMovePlayer.scl(1.3f));
+                    //checkDirection(newMovePlayer);
+
+                    timeAcc = 1.5f;
+                    //checkDirection(newMovePlayer);
+                } else {
+                    //spara LELLO SPARA
+                    Movement movement = movementQ.frontToBack();
+                    //Gdx.app.log("V", movement.toString());
+                    actVelocity.set(movement);
+                    weapon.fire(newMovePlayer.scl(1f));
+                    //checkDirection(newMovePlayer);
+
+                    timeAcc = 0f;
+                }
+            }
+            return true;
         }
     }
-    
+
     @Override
     public void isHitBy() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
     @Override
     public void kill() {
