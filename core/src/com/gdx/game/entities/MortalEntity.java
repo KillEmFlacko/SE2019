@@ -5,51 +5,23 @@
  */
 package com.gdx.game.entities;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
-
 /**
  *
  * @author ammanas
  */
 public abstract class MortalEntity extends Entity {
 
-    protected String name;
-    protected Integer life;
+    private Stats stats;
+    private int hp;
 
-    public MortalEntity(String name, Integer life, World world, float width, float height, Vector2 position) {
-        super(world, width, height, position);
-        this.name = name;
-        this.life = life;
+    public MortalEntity(Stats stats, int hp) {
+        this.stats = stats;
+        this.hp = hp;
     }
-    
-    /**
-     * Correctly manage the damage due to a bullet
-     * @param bullet 
-     */
-    public abstract void isHitBy(Bullet bullet);
-    
-    /**
-     * Dispose all the involved bodies for deletion, that is adding their
-     * references to the GdxGame.game.bodiesToRemove structure
-     */
+
     public abstract void kill();
 
-    public Integer getLife() {
-        return life;
-    }
+    public abstract void isHitBy();
 
-    float getBoostSpellMultiplier() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    float getDamageSpellMultiplier() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    float getDefenseSpelMultiplier() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public abstract int getHP();
 }

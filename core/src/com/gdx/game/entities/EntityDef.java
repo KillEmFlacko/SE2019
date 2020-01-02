@@ -26,10 +26,11 @@ public interface EntityDef {
     
     public void setWidtHeight(float width);
     
+    public void setHeight(float height);
     
     // !! modificatore d'accesso protected non permesso
     public float getCustomScale();
     
     // !! modificatore d'accesso protected non permesso
-    public void setCustomScale();
+    public void setCustomScale(float customScale);
 }
