@@ -61,17 +61,13 @@ public final class DemoBoss extends Boss {
         fixtureDef.restitution = 0f;
         fixtureDef.density = 0f;        
         shape.dispose();
-        
-        ObjectMap<String,FixtureDef> fdMap = new ObjectMap<>();
-        fdMap.put("basicHitbox", fixtureDef);
 
         atlas = new TextureAtlas(Gdx.files.internal("texture/enemy/bosses/big_demon/big_demon.atlas"));
         movementAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("run"), PlayMode.LOOP);
-
-        TreeMap<String,Animation> tm = new TreeMap<>();
-        tm.put("movingAnimation", movementAnimation);
         
         BossDef bd = new BossDef(bodyDef);
+        bd.getAnimations().put("moving", movementAnimation);
+        bd.getFixtureDefs().put("basicHitbox", fixtureDef);
         this.setEntityDef(bd);
 
     }
@@ -119,6 +115,7 @@ public final class DemoBoss extends Boss {
     public void isHitBy() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 
     @Override
     public void kill() {
