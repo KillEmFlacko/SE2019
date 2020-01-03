@@ -22,36 +22,19 @@ import com.gdx.game.errors.InvalidStageTypeError;
  */
 public class Entity extends Actor {
 
-    // ------------- OLD PROPERTIES ---------------
-//    protected World world;
-//    protected CharacterClass characterClass;
-//    protected Body body;
-//    protected TextureRegion textureRegion;
-    // --------------------------------------------
-    // ++++++++++++++++ REFACTOR ++++++++++++++++++
     private Body body;
     private TextureRegion textureRegion;
     private EntityDef entityDef;
-    private Fixture mainFixture;
-    // ++++++++++++++++++++++++++++++++++++++++++++
-
-    // ------------ OLD CONSTRUCTOR --------------- 
-/*    public Entity(World world, float worldWidth, float worldHeight, Vector2 initialPosition) {
-        this.world = world;
-        setWidth(worldWidth);
-        setHeight(worldHeight);
-        setPosition(initialPosition.x, initialPosition.y);
-    }
-     */
-    // --------------------------------------------
-    // ++++++++++++++++ REFACTOR ++++++++++++++++++
+    private Fixture mainFixture; 
+    
     public Entity(EntityDef entityDef) {
         super();
         this.entityDef = entityDef;
+
+        textureRegion = (TextureRegion) entityDef.getAnimations().get("idle").getKeyFrame(0f);
+        addAction(new Init());
     }
 
-    // ++++++++++++++++++++++++++++++++++++++++++++
-    // ++++++++++++++++ REFACTOR ++++++++++++++++++
     public Body getBody() {
         return body;
     }
@@ -79,19 +62,21 @@ public class Entity extends Actor {
     /*
     Calls getStage() and cast the stage to WorldStage
      */
-    public WorldStage getWorldStage() {
-        return (WorldStage)super.getStage();
+    @Override
+    public WorldStage getStage() {
+        return (WorldStage) super.getStage();
     }
 
     /*
     Sets the stage, raise an error if it's not a WorldStage
      */
     @Override
-    public void setStage(Stage stage){
-        if(stage instanceof WorldStage)
+    public void setStage(Stage stage) {
+        if (stage instanceof WorldStage) {
             super.setStage(stage);
-        else
+        } else {
             throw new InvalidStageTypeError();
+        }
     }
 
     @Override
@@ -126,7 +111,7 @@ public class Entity extends Actor {
     the actor's parameters 
      */
     @Override
-    public void draw(Batch batch, float parentAlpha){
+    public void draw(Batch batch, float parentAlpha) {
         batch.draw(textureRegion, body.getPosition().x - getWidth() / 2, body.getPosition().y - getWidth() / 2, getWidth(), getHeight());
     }
 
@@ -147,13 +132,6 @@ public class Entity extends Actor {
 
     }
 
-    // ++++++++++++++++++++++++++++++++++++++++++++
-    // ------------ OLD METHOD --------------------
-//    @Override
-//    public void draw(Batch batch, float parentAlpha) { //Draw dice al batch cosa deve disegnare. Lo stage ogni volta che fai stage.draw chiama tutti i draw degli actors passandogli il batch in modo che possono contribire al batch e disegna tutto insieme
-//        batch.draw(textureRegion, body.getPosition().x - getWidth() / 2, body.getPosition().y - getWidth() / 2, getWidth(), getHeight());
-//    }
-    // --------------------------------------------
     // -------------- Physics:Velocity
     protected void setLinearVelocity(Vector2 velocity) {
         body.setLinearVelocity(velocity);
@@ -170,7 +148,16 @@ public class Entity extends Actor {
     protected class Init extends GameAction {
 
         public void act() {
-            // to be implemented
+            if (body == null) {
+                body = getStage().getWorld().createBody(entityDef.getBodyDef());
+                body.setUserData(this);
+                Fixture f1 = body.createFixture(entityDef.getFixtureDefs().get("colliding"));
+                Fixture f2 = body.createFixture(entityDef.getFixtureDefs().get("sensor"));
+
+                f1.setUserData(body);
+                f2.setUserData(body);
+
+            }
         }
     }
 
