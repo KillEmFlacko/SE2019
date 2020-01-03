@@ -15,7 +15,7 @@ public class Bullet extends Entity implements Cloneable,Disposable {
         super(entityDef);
     }
 
-    public Bullet(Filter filter, EntityDef entityDef) {
+    public Bullet(Filter filter, BulletDef entityDef) {
         super(entityDef);
         this.filter = filter;
     }
@@ -23,6 +23,12 @@ public class Bullet extends Entity implements Cloneable,Disposable {
     public void setFilter(Filter f){
         this.filter = f;
     }
+
+    @Override
+    public BulletDef getEntityDef() {
+        return (BulletDef)super.getEntityDef();//To change body of generated methods, choose Tools | Templates.
+    }   
+    
 
     @Override
     public Bullet clone(){
