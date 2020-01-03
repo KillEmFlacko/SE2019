@@ -10,6 +10,7 @@ import com.gdx.game.exceptions.NotSelfCastableException;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
@@ -22,6 +23,7 @@ public abstract class Skill{
     private TextureAtlas atlas;
     private TextureRegion region;
     private MortalEntity caster;
+    private Filter filter;
 
     public Skill(float coolDown,MortalEntity caster) {
         

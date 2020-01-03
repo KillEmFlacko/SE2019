@@ -26,7 +26,7 @@ public class Bullet extends Entity implements Cloneable,Disposable {
 
     @Override
     public BulletDef getEntityDef() {
-        return (BulletDef)super.getEntityDef();//To change body of generated methods, choose Tools | Templates.
+        return (BulletDef)super.getEntityDef();
     }   
     
 

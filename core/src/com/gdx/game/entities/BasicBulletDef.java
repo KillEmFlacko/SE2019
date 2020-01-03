@@ -37,8 +37,9 @@ public class BasicBulletDef implements BulletDef {
     private float height = width;
 
     private float customScale;
+    private Filter filter;
 
-    public BasicBulletDef() {
+    public BasicBulletDef(MortalEntity caster,Filter filter) {
         bd = new BodyDef();
 
         bd.type = BodyDef.BodyType.KinematicBody;
@@ -49,7 +50,7 @@ public class BasicBulletDef implements BulletDef {
         FilterFactory ff = new FilterFactory();
 
         FixtureDef fixtureDef = new FixtureDef();
-        Filter filter = ff.getPlayerFilter();
+        this.filter = filter;
 
         ff.copyFilter(fixtureDef.filter, filter);
         fixtureDef.shape = circleShape;
