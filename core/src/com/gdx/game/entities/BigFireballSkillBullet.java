@@ -31,12 +31,12 @@ public class BigFireballSkillBullet extends SkillBullet{
     private float stateTime = 0f;
 */
     private TextureAtlas atlas;
-    
-    
-    public BigFireballSkillBullet(int damage,float speed,World world, float radius,Vector2 position) {
-        super(damage, speed, world, radius, position);
+
+    public BigFireballSkillBullet(EntityDef entityDef) {
+        super(entityDef);
     }
     
+
     @Override
     public void initPhysics() {
         

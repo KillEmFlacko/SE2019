@@ -35,19 +35,20 @@ public class BulletDamageContactListener implements ContactListener {
                     DemoBoss boss = (DemoBoss) body.getUserData();
                     boss.isHitBy(b);
                     Gdx.app.log("Hit", "Ueue, hai colpito il bosso!");
-                    Gdx.app.log("HP", boss.getLife().toString());
+                    Gdx.app.log("HP", Integer.toString(boss.getHP()));
                 } else if (body.getUserData() instanceof Player) {
         System.out.println("COLLISION");
                     Player player = (Player) body.getUserData();
                     player.isHitBy(b);
                     
                     Gdx.app.log("Hit", "Ops, il bosso ti ha colpito!");
-                    Gdx.app.log("HP", player.getLife().toString());
+                    Gdx.app.log("HP", Integer.toString(player.getHP()));
                 }else if(body.getUserData() instanceof LightShieldSkillEntityDef){
                     LightShieldSkillEntityDef lsse = (LightShieldSkillEntityDef) body.getUserData();
                     
                     System.out.println("Colpito lo scudo");
                     lsse.isHitBy(b);
+                    
                 }
             }
 
@@ -68,12 +69,12 @@ public class BulletDamageContactListener implements ContactListener {
                 if (body.getUserData() instanceof DemoBoss) {
                     DemoBoss boss = (DemoBoss) body.getUserData();
                     boss.isHitBy(b);
-                    Gdx.app.log("HP", boss.getLife().toString());
+                    Gdx.app.log("HP", Integer.toString(boss.getHP()));
                 } else if (body.getUserData() instanceof Player) {
                     Player player = (Player) body.getUserData();
                     player.isHitBy(b);
                     Gdx.app.log("Hit", "Ops, il bosso ti ha colpito!");
-                    Gdx.app.log("HP", player.getLife().toString());
+                    Gdx.app.log("HP", Integer.toString(player.getHP()));
                 }else if(body.getUserData() instanceof LightShieldSkillEntityDef){
                     LightShieldSkillEntityDef lsse = (LightShieldSkillEntityDef) body.getUserData();
                     System.out.println("Colpito lo scudo");

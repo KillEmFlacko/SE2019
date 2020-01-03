@@ -120,9 +120,10 @@ public class Entity extends Actor {
     allows the object to be reused
      */
     public void dispose() {
-        for (Action a : this.getActions()) {
+        for (Action a : this.getActions()){
             a.reset();
         }
+        
         this.clear();
 
         Action removeActor = Actions.removeActor(this);

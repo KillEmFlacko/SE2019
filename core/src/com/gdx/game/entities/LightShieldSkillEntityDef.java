@@ -32,37 +32,53 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Inanimate Object representing the light shield that players can cast.
+ * Calling the animation getter will yield an Error.
  * @author ammanas
  */
 public class LightShieldSkillEntityDef implements EntityDef {
+    //protected Animation<TextureRegion> explosionAnimation;
 
-    protected Filter filter;
-    protected Animation<TextureRegion> movingAnimation;
-    protected Animation<TextureRegion> explosionAnimation;
-    private float stateTime = 0f;
-    private Player caster;
-    private Texture texture;
     private TextureAtlas atlas;
     //private Fixture f;
     private RevoluteJoint revoluteJoint;
     private static int n_instances = 0;
 
     private BodyDef bd;
-    private ObjectMap<String, FixtureDef> fixtureDefs;
-    private ObjectMap<String, Animation> animations;
+    private ObjectMap<String, FixtureDef> fixtureDefs = new ObjectMap<>();
+    //private ObjectMap<String, Animation> animations = new ObjectMap<>();
     private float width;
     private float height;
     private float customScale;
 
-    public LightShieldSkillEntityDef(BodyDef bd) {
-        this.bd = bd;
-        this.fixtureDefs = new ObjectMap<>();
-        this.animations = new ObjectMap<>();
-    }
-    
-    
+    private final Texture texture = new Texture(Gdx.files.internal("texture/player/skill/shield/s420.png"));
+    private final TextureRegion textureRegion = new TextureRegion(texture);
 
+    public LightShieldSkillEntityDef() {
+        bd = new BodyDef();
+        
+        BodyDef bdDef = new BodyDef();
+        bdDef.type = BodyDef.BodyType.DynamicBody;
+        
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(width / 2);
+
+        FilterFactory ff = new FilterFactory();
+        Filter filter = ff.getPlayerFilter();
+        FixtureDef fixtureDef = new FixtureDef();
+        ff.copyFilter(fixtureDef.filter, filter);
+        
+        fixtureDef.shape = circleShape;
+        fixtureDef.isSensor = true;
+        fixtureDef.density = 1f;
+        
+        fixtureDefs.put("basic", fixtureDef);
+        
+        circleShape.dispose();
+
+    }
+
+    /*
     @Override
     public void kill() {
         LightShieldSkillEntityDef.setN_instances(getN_instances() - 1);
@@ -77,7 +93,8 @@ public class LightShieldSkillEntityDef implements EntityDef {
 
         //this.addAction(Actions.removeActor());
     }
-
+     */
+ /*
     @Override
     protected void initPhysics() {
 
@@ -109,7 +126,8 @@ public class LightShieldSkillEntityDef implements EntityDef {
         this.world.createJoint(jointDef);
 
     }
-
+     */
+ /*
     @Override
     protected void initGraphics() {
 
@@ -119,7 +137,9 @@ public class LightShieldSkillEntityDef implements EntityDef {
         System.out.println(textureRegion);
 
     }
+     */
 
+ /*
     @Override
     public void act(float delta) {
         if (super.life <= 0) {
@@ -137,6 +157,10 @@ public class LightShieldSkillEntityDef implements EntityDef {
     public static void setN_instances(int n_instances) {
         LightShieldSkillEntityDef.n_instances = n_instances;
     }
+     */
+    public TextureRegion getTextureRegion() {
+        return textureRegion;
+    }
 
     @Override
     public BodyDef getBodyDef() {
@@ -150,7 +174,7 @@ public class LightShieldSkillEntityDef implements EntityDef {
 
     @Override
     public ObjectMap<String, Animation> getAnimations() {
-        return animations;
+        throw new Error("Inanimate object");
     }
 
     @Override
