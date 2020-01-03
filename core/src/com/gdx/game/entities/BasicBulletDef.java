@@ -9,31 +9,41 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 
 /**
  *
  * @author Armando
  */
-public class BasicBullet extends Bullet {
+public class BasicBulletDef implements EntityDef {
 
-    protected final int damage;
-    protected final float initialSpeed;
-    private Texture texture;
+    //protected final int damage;
+    //protected final float initialSpeed;
     protected Animation<TextureRegion> movingAnimation;
     protected Animation<TextureRegion> explosionAnimation;
     protected float stateTime = 0f;
 
-    // ASTRAI
-    public BasicBullet(World world, float radius, Vector2 position, int damage, float initSpeed) {
-        super(world, radius, position);
-        this.damage = damage;
-        this.initialSpeed = initSpeed;
-    }
+    private RevoluteJoint revoluteJoint;
 
+    private BodyDef bd;
+    private ObjectMap<String, FixtureDef> fixtureDefs = new ObjectMap<>();
+    //private ObjectMap<String, Animation> animations = new ObjectMap<>();
+    private float width;
+    private float height;
+    private float customScale;
+
+    private final Texture texture = new Texture(Gdx.files.internal("texture/player/skill/shield/s420.png"));
+    private final TextureRegion textureRegion = new TextureRegion(texture);
+
+    
+    
+    /*
     @Override
     public void initPhysics() {
         BodyDef bdDef = new BodyDef();
@@ -88,7 +98,7 @@ public class BasicBullet extends Bullet {
 
     @Override
     public Bullet clone() {
-        BasicBullet clone = new BasicBullet(world, getWidth()/2, getPosition(), damage, initialSpeed);
+        BasicBulletDef clone = new BasicBulletDef(world, getWidth()/2, getPosition(), damage, initialSpeed);
         clone.setFilter(filter);
         return clone;
     }
@@ -103,5 +113,61 @@ public class BasicBullet extends Bullet {
                 textureW, textureH, 
                 1, 1, 
                 body.getLinearVelocity().angle()+180f);
-    }  
+    }
+     */
+    public TextureRegion getTextureRegion() {
+        return textureRegion;
+    }
+
+    @Override
+    public BodyDef getBodyDef() {
+        return bd;
+    }
+
+    @Override
+    public ObjectMap<String, FixtureDef> getFixtureDefs() {
+        return fixtureDefs;
+    }
+
+    @Override
+    public ObjectMap<String, Animation> getAnimations() {
+        throw new Error("Inanimate object");
+    }
+
+    @Override
+    public float getWidth() {
+        return width;
+    }
+
+    @Override
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    @Override
+    public float getHeight() {
+        return height;
+    }
+
+    @Override
+    public void setWidtHeight(float width) {
+        this.width = width;
+        this.height = width;
+    }
+
+    @Override
+    public float getCustomScale() {
+        return customScale;
+    }
+
+    @Override
+    public void setCustomScale(float customScale) {
+        this.customScale = customScale;
+    }
+
+    @Override
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
 }

@@ -37,12 +37,8 @@ import java.util.logging.Logger;
  * @author ammanas
  */
 public class LightShieldSkillEntityDef implements EntityDef {
-    //protected Animation<TextureRegion> explosionAnimation;
-
-    private TextureAtlas atlas;
-    //private Fixture f;
+    
     private RevoluteJoint revoluteJoint;
-    private static int n_instances = 0;
 
     private BodyDef bd;
     private ObjectMap<String, FixtureDef> fixtureDefs = new ObjectMap<>();
@@ -54,7 +50,10 @@ public class LightShieldSkillEntityDef implements EntityDef {
     private final Texture texture = new Texture(Gdx.files.internal("texture/player/skill/shield/s420.png"));
     private final TextureRegion textureRegion = new TextureRegion(texture);
 
-    public LightShieldSkillEntityDef() {
+    public LightShieldSkillEntityDef(MortalEntity caster) {
+        width = caster.getWidth();
+        height = caster.getHeight();
+        
         bd = new BodyDef();
         
         BodyDef bdDef = new BodyDef();

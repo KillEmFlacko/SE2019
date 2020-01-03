@@ -36,7 +36,7 @@ public final class Player extends MortalEntity {
         //skillWeapon = new Weapon(this, dmgSkill.getB(), 1/dmgSkill.getCoolDown());
         
 
-        weapon = new Weapon(this, new BasicBullet(world, 4f / GdxGame.game.SCALE, position, 10, characterClass.getBulletSpeed()), 3);
+        weapon = new Weapon(this, new BasicBulletDef(world, 4f / GdxGame.game.SCALE, position, 10, characterClass.getBulletSpeed()), 3);
 	this.characterClass = characterClass;
     }
     

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.gdx.game.entities.BasicBullet;
+import com.gdx.game.entities.BasicBulletDef;
 import com.gdx.game.factories.Weapon;
 
 public class SouthernWizard extends MovableCharacterClass{

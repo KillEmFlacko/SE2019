@@ -15,7 +15,7 @@ import com.gdx.game.GdxGame;
  *
  * @author ammanas
  */
-public class DemoBossBullet extends BasicBullet {
+public class DemoBossBullet extends BasicBulletDef {
 
     // ASTRAI
     public DemoBossBullet(World world, float radius, Vector2 position, int damage, float initSpeed) {

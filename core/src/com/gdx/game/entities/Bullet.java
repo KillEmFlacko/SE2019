@@ -50,6 +50,7 @@ public abstract class Bullet extends Entity implements Cloneable,Disposable {
         return super.getLinearVelocity();
     }
     
+    /*
     @Override
     public void dispose() {
         if(getStage() != null){
@@ -57,4 +58,5 @@ public abstract class Bullet extends Entity implements Cloneable,Disposable {
             GdxGame.game.bodyToRemove.add(this.getBody());
         }
     }
+    */
 }
