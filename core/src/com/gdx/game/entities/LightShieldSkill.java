@@ -25,7 +25,7 @@ public final class LightShieldSkill extends DefenseSkill {
     
   
 
-    public LightShieldSkill(float coolDown, MortalEntity caster, Filter filter) {
+    public LightShieldSkill(float coolDown, MortalEntity caster) {
         super(coolDown, caster);
         //lsse = new LightShieldSkillEntityDef("shieldSkill", 25, caster.getWorld(), caster.getHeight(), caster.getHeight(), caster.getPosition(), (Player) caster);
 

@@ -40,7 +40,7 @@ public class FireballSkillBulletDef implements BulletDef {
     private final TextureRegion textureRegion;
     private MortalEntity caster;
 
-    public FireballSkillBulletDef(MortalEntity caster,Filter filter) {
+    public FireballSkillBulletDef(MortalEntity caster, Filter filter) {
         this.caster = caster;
         
         atlas = new TextureAtlas(Gdx.files.internal("texture/player/skill/fireballSkill/pack.atlas"));

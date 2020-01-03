@@ -50,6 +50,8 @@ public class LightShieldSkillEntityDef implements EntityDef {
     private final Texture texture = new Texture(Gdx.files.internal("texture/player/skill/shield/s420.png"));
     private final TextureRegion textureRegion = new TextureRegion(texture);
     private Filter filter;
+    
+    
     public LightShieldSkillEntityDef(MortalEntity caster,Filter filter) {
         width = caster.getWidth();
         height = caster.getHeight();

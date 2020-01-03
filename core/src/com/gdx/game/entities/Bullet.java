@@ -9,19 +9,10 @@ import com.badlogic.gdx.utils.Disposable;
  * @author Armando
  */
 public class Bullet extends Entity implements Cloneable,Disposable {
-    protected Filter filter;
 
     public Bullet(BulletDef entityDef) {
         super(entityDef);
-    }
-
-    public Bullet(Filter filter, BulletDef entityDef) {
-        super(entityDef);
-        this.filter = filter;
-    }
-
-    public void setFilter(Filter f){
-        this.filter = f;
+        
     }
 
     @Override
@@ -32,7 +23,7 @@ public class Bullet extends Entity implements Cloneable,Disposable {
 
     @Override
     public Bullet clone(){
-        return new Bullet(filter, this.getEntityDef());
+        return new Bullet(this.getEntityDef());
     }
     
     @Override
