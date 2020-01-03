@@ -5,6 +5,7 @@
  */
 package com.gdx.game.entities;
 
+import com.gdx.game.contact_listeners.events.DeathEvent;
 /**
  *
  * @author ammanas
@@ -19,7 +20,14 @@ public abstract class MortalEntity extends Entity {
         this.stats = stats;
     }
     
-    public abstract void kill();
+    /**
+     * Dispose all the involved bodies for deletion, that is adding their
+     * references to the GdxGame.game.bodiesToRemove structure
+     */
+    public void kill() {
+        dispose();
+        fire(new DeathEvent());
+    }
 
     public void isHitBy(Bullet b){
         hp -= b.getDamage();

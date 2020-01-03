@@ -15,7 +15,7 @@ import com.gdx.game.entities.*;
  *
  * @author ammanas
  */
-public abstract class Boss extends MortalEntity {
+public class Boss extends MortalEntity {
 
     public Boss(Stats stats, EntityDef entityDef) {
         super(stats, entityDef);
