@@ -16,33 +16,69 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.gdx.game.GdxGame;
 
 /**
  *
  * @author Armando
  */
-public class BasicBulletDef implements EntityDef {
+public class BasicBulletDef implements BulletDef {
 
-    //protected final int damage;
-    //protected final float initialSpeed;
+    private final int damage = 1;
+    private final float initialSpeed = 10;
     protected Animation<TextureRegion> movingAnimation;
-    protected Animation<TextureRegion> explosionAnimation;
-    protected float stateTime = 0f;
-
-    private RevoluteJoint revoluteJoint;
+    private Texture texture = new Texture(Gdx.files.internal("texture/fireballV2/Small_Iceball_24x9.png"));
+    private TextureRegion textureRegion;
 
     private BodyDef bd;
     private ObjectMap<String, FixtureDef> fixtureDefs = new ObjectMap<>();
-    //private ObjectMap<String, Animation> animations = new ObjectMap<>();
-    private float width;
-    private float height;
+    private ObjectMap<String, Animation> animations = new ObjectMap<>();
+    private float width = 4f / GdxGame.game.SCALE;
+    private float height = width;
+
     private float customScale;
 
-    private final Texture texture = new Texture(Gdx.files.internal("texture/player/skill/shield/s420.png"));
-    private final TextureRegion textureRegion = new TextureRegion(texture);
+    public BasicBulletDef() {
+        bd = new BodyDef();
 
+        bd.type = BodyDef.BodyType.KinematicBody;
+
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(width / 2);
+
+        FilterFactory ff = new FilterFactory();
+
+        FixtureDef fixtureDef = new FixtureDef();
+        Filter filter = ff.getPlayerFilter();
+
+        ff.copyFilter(fixtureDef.filter, filter);
+        fixtureDef.shape = circleShape;
+        fixtureDef.isSensor = true;
+        fixtureDef.density = 0.1f;
+
+        circleShape.dispose();
+        
+        fixtureDefs.put("basic", fixtureDef);
+        
+        TextureRegion[][] animation = TextureRegion.split(texture, 24, 9);
+        Array<TextureRegion> array = new Array<>(animation.length * animation[0].length);
+        for (TextureRegion[] textureRegions : animation) {
+            array.addAll(textureRegions);
+        }
+        movingAnimation = new Animation<>(0.05f, array, Animation.PlayMode.LOOP);
+        
+        animations.put("basic", movingAnimation);
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public float getInitialSpeed() {
+        return initialSpeed;
+    }
     
-    
+
     /*
     @Override
     public void initPhysics() {
@@ -98,7 +134,7 @@ public class BasicBulletDef implements EntityDef {
 
     @Override
     public Bullet clone() {
-        BasicBulletDef clone = new BasicBulletDef(world, getWidth()/2, getPosition(), damage, initialSpeed);
+        BasicBullet clone = new BasicBullet(world, getWidth()/2, getPosition(), damage, initialSpeed);
         clone.setFilter(filter);
         return clone;
     }
@@ -115,10 +151,6 @@ public class BasicBulletDef implements EntityDef {
                 body.getLinearVelocity().angle()+180f);
     }
      */
-    public TextureRegion getTextureRegion() {
-        return textureRegion;
-    }
-
     @Override
     public BodyDef getBodyDef() {
         return bd;
@@ -131,7 +163,7 @@ public class BasicBulletDef implements EntityDef {
 
     @Override
     public ObjectMap<String, Animation> getAnimations() {
-        throw new Error("Inanimate object");
+        return animations;
     }
 
     @Override
