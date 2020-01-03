@@ -10,7 +10,7 @@ import com.gdx.game.contact_listeners.events.DeathEvent;
  *
  * @author ammanas
  */
-public abstract class MortalEntity extends Entity {
+public class MortalEntity extends Entity {
 
     private Stats stats;
     private int hp;
