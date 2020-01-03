@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.gdx.game.actions.GameAction;
+import com.gdx.game.errors.InvalidStageTypeError;
 
 /**
  * DIVIDI L'ENTITY BODY IN 2 BODY, UN COLLIDING BODY CHE SI OCCUPA DEL LATO
@@ -79,15 +80,18 @@ public class Entity extends Actor {
     Calls getStage() and cast the stage to WorldStage
      */
     public WorldStage getWorldStage() {
-        return null;
+        return (WorldStage)super.getStage();
     }
 
     /*
     Sets the stage, raise an error if it's not a WorldStage
      */
     @Override
-    public void setStage(Stage stage) {
-
+    public void setStage(Stage stage){
+        if(stage instanceof WorldStage)
+            super.setStage(stage);
+        else
+            throw new InvalidStageTypeError();
     }
 
     @Override
@@ -122,7 +126,7 @@ public class Entity extends Actor {
     the actor's parameters 
      */
     public void draw() {
-
+        
     }
 
     /* Utilize Action in order to remove the Actor
