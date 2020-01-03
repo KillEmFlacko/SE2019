@@ -41,4 +41,7 @@ public class MortalEntity extends Entity {
         this.hp = hp;
     }
     
+    public void getFilter(){
+    }
+    
 }

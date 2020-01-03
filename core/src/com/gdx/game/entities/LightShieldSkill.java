@@ -29,7 +29,7 @@ public final class LightShieldSkill extends DefenseSkill {
         super(coolDown, caster);
         //lsse = new LightShieldSkillEntityDef("shieldSkill", 25, caster.getWorld(), caster.getHeight(), caster.getHeight(), caster.getPosition(), (Player) caster);
 
-        LightShieldSkillEntityDef lssed = new LightShieldSkillEntityDef(this.getCaster(),filter);
+        LightShieldSkillEntityDef lssed = new LightShieldSkillEntityDef(this.getCaster(),caster.getFilter());
         lsse = new Entity(lssed);
 
     }
