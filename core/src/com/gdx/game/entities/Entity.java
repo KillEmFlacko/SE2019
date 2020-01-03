@@ -5,8 +5,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.gdx.game.actions.GameAction;
 import com.gdx.game.errors.InvalidStageTypeError;
 
@@ -26,7 +28,6 @@ public class Entity extends Actor {
 //    protected Body body;
 //    protected TextureRegion textureRegion;
     // --------------------------------------------
-    
     // ++++++++++++++++ REFACTOR ++++++++++++++++++
     private Body body;
     private TextureRegion textureRegion;
@@ -43,14 +44,13 @@ public class Entity extends Actor {
     }
      */
     // --------------------------------------------
-    
     // ++++++++++++++++ REFACTOR ++++++++++++++++++
-    public Entity(EntityDef entityDef){
+    public Entity(EntityDef entityDef) {
         super();
         this.entityDef = entityDef;
     }
+
     // ++++++++++++++++++++++++++++++++++++++++++++
-    
     // ++++++++++++++++ REFACTOR ++++++++++++++++++
     public Body getBody() {
         return body;
@@ -134,18 +134,24 @@ public class Entity extends Actor {
     allows the object to be reused
      */
     public void dispose() {
+        this.clear();
+        for (Action a : this.getActions()){
+            a.reset();
+        }
+        Action removeActor = Actions.removeActor(this);
+        if (getStage() != null) {
+            getStage().addAction(removeActor);
+        }
 
     }
 
     // ++++++++++++++++++++++++++++++++++++++++++++
-    
     // ------------ OLD METHOD --------------------
 //    @Override
 //    public void draw(Batch batch, float parentAlpha) { //Draw dice al batch cosa deve disegnare. Lo stage ogni volta che fai stage.draw chiama tutti i draw degli actors passandogli il batch in modo che possono contribire al batch e disegna tutto insieme
 //        batch.draw(textureRegion, body.getPosition().x - getWidth() / 2, body.getPosition().y - getWidth() / 2, getWidth(), getHeight());
 //    }
     // --------------------------------------------
-    
     // -------------- Physics:Velocity
     protected void setLinearVelocity(Vector2 velocity) {
         body.setLinearVelocity(velocity);
@@ -158,9 +164,10 @@ public class Entity extends Actor {
     protected Vector2 getLinearVelocity() {
         return body.getLinearVelocity();
     }
-    
-    protected class Init extends GameAction{
-        public void act(){
+
+    protected class Init extends GameAction {
+
+        public void act() {
             // to be implemented
         }
     }

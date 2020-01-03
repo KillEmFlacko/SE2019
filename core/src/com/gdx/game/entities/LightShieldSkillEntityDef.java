@@ -24,6 +24,7 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.gdx.game.GdxGame;
 import com.gdx.game.contact_listeners.events.DeathEvent;
 import com.gdx.game.factories.FilterFactory;
@@ -34,7 +35,7 @@ import java.util.logging.Logger;
  *
  * @author ammanas
  */
-public class LightShieldSkillEntity extends MortalEntity {
+public class LightShieldSkillEntityDef implements EntityDef {
 
     protected Filter filter;
     protected Animation<TextureRegion> movingAnimation;
@@ -47,34 +48,34 @@ public class LightShieldSkillEntity extends MortalEntity {
     private RevoluteJoint revoluteJoint;
     private static int n_instances = 0;
 
-    //height and width are the dimensions of the square in which the circle is confined
-    public LightShieldSkillEntity(String name, Integer life, World world, float width, float height, Vector2 position, Player caster) {
-        super(name, life, world, width, height, position);
-        this.caster = caster;
-        
+    private BodyDef bd;
+    private ObjectMap<String, FixtureDef> fixtureDefs;
+    private ObjectMap<String, Animation> animations;
+    private float width;
+    private float height;
+    private float customScale;
 
+    public LightShieldSkillEntityDef(BodyDef bd) {
+        this.bd = bd;
+        this.fixtureDefs = new ObjectMap<>();
+        this.animations = new ObjectMap<>();
     }
-
-    @Override
-    public void isHitBy(Bullet bullet) {
-        System.out.println("HEY");
-        life -= bullet.getDamage();
-    }
+    
+    
 
     @Override
     public void kill() {
-        LightShieldSkillEntity.setN_instances(getN_instances() - 1);
+        LightShieldSkillEntityDef.setN_instances(getN_instances() - 1);
         //ROBBA CHE NON CAPISCO
-        
+
         for (Fixture f : body.getFixtureList()) {
             body.destroyFixture(f);
         }
 
         GdxGame.game.bodyToRemove.add(body);
         this.getStage().getRoot().removeActor(this);
-        
+
         //this.addAction(Actions.removeActor());
-        
     }
 
     @Override
@@ -113,23 +114,6 @@ public class LightShieldSkillEntity extends MortalEntity {
     protected void initGraphics() {
 
         texture = new Texture(Gdx.files.internal("texture/player/skill/shield/s420.png"));
-        //atlas = new TextureAtlas(Gdx.files.internal("texture/player/skill/shield/shield3-packed/pack.atlas"));
-        //movingAnimation = new Animation<TextureRegion>(0.02f, atlas.findRegions("shield3_eff"),Animation.PlayMode.LOOP);
-        //textureRegion = movingAnimation.getKeyFrame(0f,true);
-        //PERCHÈ È COMMENTATO : HO DELLE SPRITE DI MERDA CHE NON FUNZIONANO. Ho dovuto fare un atlas dividento un'immagine in 20 parti per ottenere un 
-        //risultato mediocre. Meglio la texture fissa.
-        /*
-        TextureRegion[][] animation = TextureRegion.split(texture, 5, 4);
-        
-        Array<TextureRegion> array = new Array<>(animation.length * animation[0].length);
-
-        for (TextureRegion[] textureRegions : animation) {
-            array.addAll(textureRegions);
-        }
-        movingAnimation = new Animation<>(0.1f, array, Animation.PlayMode.LOOP);
-        textureRegion = movingAnimation.getKeyFrame(0,true);
-         */
-
         textureRegion = new TextureRegion(texture);
 
         System.out.println(textureRegion);
@@ -143,10 +127,6 @@ public class LightShieldSkillEntity extends MortalEntity {
             return;
         }
         stateTime += delta;
-        //Questo  fa si che il body vada appresso al player MA dato che lo setti ogni volta 
-        //lo scudo si trova in mezzo al boss anche se questo non potrebbe superarlo.
-        //body.setTransform(caster.getPosition(), 0);
-        //textureRegion = movingAnimation.getKeyFrame(stateTime, true);
 
     }
 
@@ -155,7 +135,58 @@ public class LightShieldSkillEntity extends MortalEntity {
     }
 
     public static void setN_instances(int n_instances) {
-        LightShieldSkillEntity.n_instances = n_instances;
+        LightShieldSkillEntityDef.n_instances = n_instances;
+    }
+
+    @Override
+    public BodyDef getBodyDef() {
+        return bd;
+    }
+
+    @Override
+    public ObjectMap<String, FixtureDef> getFixtureDefs() {
+        return fixtureDefs;
+    }
+
+    @Override
+    public ObjectMap<String, Animation> getAnimations() {
+        return animations;
+    }
+
+    @Override
+    public float getWidth() {
+        return width;
+    }
+
+    @Override
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    @Override
+    public float getHeight() {
+        return height;
+    }
+
+    @Override
+    public void setWidtHeight(float width) {
+        this.width = width;
+        this.height = width;
+    }
+
+    @Override
+    public float getCustomScale() {
+        return customScale;
+    }
+
+    @Override
+    public void setCustomScale(float customScale) {
+        this.customScale = customScale;
+    }
+
+    @Override
+    public void setHeight(float height) {
+        this.height = height;
     }
 
 }

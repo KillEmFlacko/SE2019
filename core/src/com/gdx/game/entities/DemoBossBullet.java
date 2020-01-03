@@ -13,7 +13,7 @@ import com.gdx.game.GdxGame;
 
 /**
  *
- * @author Armando
+ * @author ammanas
  */
 public class DemoBossBullet extends BasicBullet {
 

@@ -32,6 +32,7 @@ import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.contact_listeners.BulletDamageContactListener;
 import com.gdx.game.contact_listeners.EndDemoGameListener;
 import com.gdx.game.contact_listeners.IncreaseScoreListener;
+import com.gdx.game.entities.Stats;
 import com.gdx.game.entities.classes.CharacterClass;
 import com.gdx.game.movements.MovementSetFactory;
 import com.gdx.game.score.HighScoreTable;
@@ -92,10 +93,11 @@ public class GameScreen implements Screen {
         game.vp.setWorldSize(30, 30 * (h / w)); // 30 * aspectRatio
         cam.position.set(player.getPosition(), gameStage.getCamera().position.z);
         cam.update();
-
+        
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         Vector2 v = player.getPosition().add(5, 5);
-        DemoBoss db = new DemoBoss("Wandering Demon", 150, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
+        //DemoBoss db = new DemoBoss("Wandering Demon", 150, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
+        DemoBoss db = new DemoBoss(new Stats());
         db.addListener(new EndDemoGameListener(this));
 
         // Gestione dello score IncreaseScoreListener
@@ -106,7 +108,8 @@ public class GameScreen implements Screen {
 
         gameStage.addActor(player);
         gameStage.addActor(db);
-
+        
+        
         System.out.println(Gdx.graphics.getWidth());
 
         MapLimits left = new MapLimits(

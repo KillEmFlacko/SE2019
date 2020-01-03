@@ -18,11 +18,4 @@ public abstract class DefenseSkill extends PlayerSkill{
         super(coolDown, caster);
     }
 
-
-
-
-
-    public float getDefenseSpellMultiplier(){
-        return getCaster().getDefenseSpelMultiplier();
-    }
 }

@@ -6,6 +6,7 @@
 package com.gdx.game.entities;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.gdx.game.factories.FilterFactory;
 import java.util.Date;
@@ -17,12 +18,15 @@ import java.util.Date;
 public final class LightShieldSkill extends DefenseSkill {
     
     private Date lastFireDate;
-    private LightShieldSkillEntity lsse;
+    private Entity lsse;
 
     public LightShieldSkill(float coolDown, MortalEntity caster) {
         super(coolDown, caster);
-        lsse = new LightShieldSkillEntity("shieldSkill", 25, caster.getWorld(), caster.getHeight(), caster.getHeight(), caster.getPosition(), (Player) caster);
-        LightShieldSkillEntity.setN_instances(0);
+        //lsse = new LightShieldSkillEntityDef("shieldSkill", 25, caster.getWorld(), caster.getHeight(), caster.getHeight(), caster.getPosition(), (Player) caster);
+        
+        BodyDef bd = new BodyDef();
+        lsse = new Entity(new LightShieldSkillEntityDef(bd));
+        LightShieldSkillEntityDef.setN_instances(0);
 
     }
 
@@ -44,13 +48,14 @@ public final class LightShieldSkill extends DefenseSkill {
 
             FilterFactory ff = new FilterFactory();
 
-            if (getCaster() instanceof Player && LightShieldSkillEntity.getN_instances() < 1) {
+            if (getCaster() instanceof Player && LightShieldSkillEntityDef.getN_instances() < 1) {
 
-                LightShieldSkillEntity clone = new LightShieldSkillEntity(lsse.name, lsse.life, lsse.world, lsse.getHeight(), lsse.getHeight(), getCaster().getPosition(), (Player)getCaster());
+                //LightShieldSkillEntity clone = new LightShieldSkillEntityDef(lsse.name, lsse.life, lsse.world, lsse.getHeight(), lsse.getHeight(), getCaster().getPosition(), (Player)getCaster());
+                LightShieldSkillEntityDef clone = new LightShieldSkillEntityDef(new Stats(), lsse.getEntityDef());
                 clone.initPhysics();
                 clone.initGraphics();
-                LightShieldSkillEntity.setN_instances(1);
-                clone.body.setUserData(clone);
+                LightShieldSkillEntityDef.setN_instances(1);
+                clone.getBody().setUserData(clone);
                 getCaster().getStage().addActor(clone);
                 
                 
@@ -61,12 +66,12 @@ public final class LightShieldSkill extends DefenseSkill {
                 //.setFilter(ff.getEnemyBulletFilter());
             }
 
-            //CALl TO GRAPHICS  and PHYSICS
+           
             lastFireDate = new Date();
         }
     }
 
-    public LightShieldSkillEntity getLsse() {
+    public LightShieldSkillEntityDef getLsse() {
         return lsse;
     }
 

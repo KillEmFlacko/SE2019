@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.gdx.game.entities.Bullet;
 import com.gdx.game.entities.LightShieldSkill;
-import com.gdx.game.entities.LightShieldSkillEntity;
+import com.gdx.game.entities.LightShieldSkillEntityDef;
 import com.gdx.game.entities.Player;
 import com.gdx.game.entities.PlayerSkill;
 import com.gdx.game.entities.bosses.DemoBoss;
@@ -43,8 +43,8 @@ public class BulletDamageContactListener implements ContactListener {
                     
                     Gdx.app.log("Hit", "Ops, il bosso ti ha colpito!");
                     Gdx.app.log("HP", player.getLife().toString());
-                }else if(body.getUserData() instanceof LightShieldSkillEntity){
-                    LightShieldSkillEntity lsse = (LightShieldSkillEntity) body.getUserData();
+                }else if(body.getUserData() instanceof LightShieldSkillEntityDef){
+                    LightShieldSkillEntityDef lsse = (LightShieldSkillEntityDef) body.getUserData();
                     
                     System.out.println("Colpito lo scudo");
                     lsse.isHitBy(b);
@@ -74,8 +74,8 @@ public class BulletDamageContactListener implements ContactListener {
                     player.isHitBy(b);
                     Gdx.app.log("Hit", "Ops, il bosso ti ha colpito!");
                     Gdx.app.log("HP", player.getLife().toString());
-                }else if(body.getUserData() instanceof LightShieldSkillEntity){
-                    LightShieldSkillEntity lsse = (LightShieldSkillEntity) body.getUserData();
+                }else if(body.getUserData() instanceof LightShieldSkillEntityDef){
+                    LightShieldSkillEntityDef lsse = (LightShieldSkillEntityDef) body.getUserData();
                     System.out.println("Colpito lo scudo");
                     lsse.isHitBy(b);
                 }

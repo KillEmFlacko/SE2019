@@ -23,6 +23,7 @@ public abstract class BossState {
     
     /**
      * State handle method
+     * @param boss
      * @param keyword What to find in the atlas
      * @return Animation if the called method is the correct handle for the current state,
      * otherwise null

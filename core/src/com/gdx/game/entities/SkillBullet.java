@@ -16,20 +16,19 @@ import com.badlogic.gdx.physics.box2d.World;
  * @author ammanas
  */
 public abstract class SkillBullet extends Bullet {
-
-    protected final int damage;
-    protected final float initialSpeed;
+    //prendere da stats
+    protected final int damage = 1;
+    protected final float initialSpeed = 10;
     protected Texture texture;
     protected Animation<TextureRegion> movingAnimation;
     protected Animation<TextureRegion> explosionAnimation;
     protected float stateTime = 0f;
 
-    public SkillBullet(int damage, float initialSpeed, World world, float radius, Vector2 initialPosition) {
-        super(world, radius, initialPosition);
-        this.damage = damage;
-        this.initialSpeed = initialSpeed;
-        //do not call init here
+    public SkillBullet(EntityDef entityDef) {
+        super(entityDef);
     }
+
+
 
     @Override
     public int getDamage() {
