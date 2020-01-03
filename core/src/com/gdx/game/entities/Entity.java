@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.gdx.game.actions.GameAction;
+import com.gdx.game.errors.InvalidStageTypeError;
 
 /**
  * DIVIDI L'ENTITY BODY IN 2 BODY, UN COLLIDING BODY CHE SI OCCUPA DEL LATO
@@ -79,25 +80,28 @@ public class Entity extends Actor {
     Calls getStage() and cast the stage to WorldStage
      */
     public WorldStage getWorldStage() {
-        return null;
+        return (WorldStage)super.getStage();
     }
 
     /*
     Sets the stage, raise an error if it's not a WorldStage
      */
     @Override
-    public void setStage(Stage stage) {
-
+    public void setStage(Stage stage){
+        if(stage instanceof WorldStage)
+            super.setStage(stage);
+        else
+            throw new InvalidStageTypeError();
     }
 
     @Override
     public void setWidth(float width) {
-
+        super.setWidth(width);
     }
 
     @Override
     public void setHeight(float height) {
-
+        super.setHeight(height);
     }
 
     /**
@@ -121,8 +125,9 @@ public class Entity extends Actor {
     where the textureRegion is drawn using
     the actor's parameters 
      */
-    public void draw() {
-
+    @Override
+    public void draw(Batch batch, float parentAlpha){
+        batch.draw(textureRegion, body.getPosition().x - getWidth() / 2, body.getPosition().y - getWidth() / 2, getWidth(), getHeight());
     }
 
     /* Utilize Action in order to remove the Actor
