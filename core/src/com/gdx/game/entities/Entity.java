@@ -96,12 +96,12 @@ public class Entity extends Actor {
 
     @Override
     public void setWidth(float width) {
-
+        super.setWidth(width);
     }
 
     @Override
     public void setHeight(float height) {
-
+        super.setHeight(height);
     }
 
     /**
@@ -125,8 +125,9 @@ public class Entity extends Actor {
     where the textureRegion is drawn using
     the actor's parameters 
      */
-    public void draw() {
-        
+    @Override
+    public void draw(Batch batch, float parentAlpha){
+        batch.draw(textureRegion, body.getPosition().x - getWidth() / 2, body.getPosition().y - getWidth() / 2, getWidth(), getHeight());
     }
 
     /* Utilize Action in order to remove the Actor
@@ -134,10 +135,11 @@ public class Entity extends Actor {
     allows the object to be reused
      */
     public void dispose() {
-        this.clear();
-        for (Action a : this.getActions()){
+        for (Action a : this.getActions()) {
             a.reset();
         }
+        this.clear();
+
         Action removeActor = Actions.removeActor(this);
         if (getStage() != null) {
             getStage().addAction(removeActor);
