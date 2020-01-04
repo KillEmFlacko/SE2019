@@ -20,6 +20,11 @@ public class MortalEntity extends Entity {
         this.stats = stats;
     }
     
+    public MortalEntity(MortalEntityDef entityDef){
+        super(entityDef);
+        this.hp = entityDef.getBaseHP();
+    }
+    
     /**
      * Dispose all the involved bodies for deletion, that is adding their
      * references to the GdxGame.game.bodiesToRemove structure

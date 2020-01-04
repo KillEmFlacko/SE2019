@@ -148,7 +148,8 @@ public class Entity extends Actor {
 
     protected class Init extends GameAction {
 
-        public void act() {
+        @Override
+        public boolean act(float delta) {
             if (body == null) {
                 body = getStage().getWorld().createBody(entityDef.getBodyDef());
                 body.setUserData(this);
@@ -157,8 +158,9 @@ public class Entity extends Actor {
 
                 f1.setUserData(body);
                 f2.setUserData(body);
-
             }
+            
+            return true;
         }
     }
 
