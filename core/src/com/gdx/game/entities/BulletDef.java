@@ -15,6 +15,8 @@ import com.badlogic.gdx.utils.ObjectMap;
  * @author ammanas
  */
 public interface BulletDef extends EntityDef{
-
+    
+    public int getDamage();
+    public float getInitialSpeed();
     
 }

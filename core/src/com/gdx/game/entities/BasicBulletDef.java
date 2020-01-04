@@ -26,6 +26,7 @@ public class BasicBulletDef implements BulletDef {
 
     private final int damage = 1;
     private final float initialSpeed = 10;
+    
     protected Animation<TextureRegion> movingAnimation;
     private Texture texture = new Texture(Gdx.files.internal("texture/fireballV2/Small_Iceball_24x9.png"));
     private TextureRegion textureRegion;
@@ -38,6 +39,8 @@ public class BasicBulletDef implements BulletDef {
 
     private float customScale;
     private Filter filter;
+    
+    
 
     public BasicBulletDef(MortalEntity caster,Filter filter) {
         bd = new BodyDef();
@@ -71,10 +74,12 @@ public class BasicBulletDef implements BulletDef {
         animations.put("basic", movingAnimation);
     }
 
+    @Override
     public int getDamage() {
         return damage;
     }
 
+    @Override
     public float getInitialSpeed() {
         return initialSpeed;
     }
