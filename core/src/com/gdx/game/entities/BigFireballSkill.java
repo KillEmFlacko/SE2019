@@ -14,7 +14,9 @@ import java.util.Date;
  *
  * @author ammanas
  */
-public final class BigFireballSkill extends DamageSkillAdapter {
+//extends DamageSkillAdapter
+public class BigFireballSkill  {
+    /*
     private Date lastFireDate = null;
     
     
@@ -22,6 +24,11 @@ public final class BigFireballSkill extends DamageSkillAdapter {
         super(coolDown, caster);
         this.setB(new BigFireballSkillBullet(damage, speed, world, radius, position));
     }
+
+    public BigFireballSkill(float coolDown, MortalEntity caster) {
+        super(coolDown, caster);
+    }
+    
 
     @Override
     public void cast(Vector2 direction) {
@@ -58,5 +65,57 @@ public final class BigFireballSkill extends DamageSkillAdapter {
     @Override
     public void castOn(MortalEntity caster){
     }
+*/
+
+    /*
+    private Date lastFireDate = null;
+    
+    
+    public BigFireballSkill(float coolDown, MortalEntity caster, int damage, float speed, World world, float radius, Vector2 position) {
+        super(coolDown, caster);
+        this.setB(new BigFireballSkillBullet(damage, speed, world, radius, position));
+    }
+
+    public BigFireballSkill(float coolDown, MortalEntity caster) {
+        super(coolDown, caster);
+    }
+    
+
+    @Override
+    public void cast(Vector2 direction) {
+        
+        Date ts = new Date();
+        
+        if (lastFireDate == null || ts.getTime() - lastFireDate.getTime() > (getCoolDown() * 1000)) {
+            
+            Vector2 normDir = direction.nor();
+            Vector2 bulletVelocity = new Vector2(normDir.x * getB().getInitalSpeed(), normDir.y * getB().getInitalSpeed());
+            getB().setPosition(getCaster().getPosition().add(normDir.x * getCaster().getWidth()/ 2, normDir.y * getB().getHeight()/ 2));
+            
+            FilterFactory ff = new FilterFactory();
+            
+            if (getCaster() instanceof Player) {
+                getB().setFilter(ff.getPlayerBulletFilter());
+            } else {
+                getB().setFilter(ff.getEnemyBulletFilter());
+            }
+
+            SkillBullet clone = this.getB().clone();
+            
+            clone.initPhysics();
+            clone.initGraphics();
+            
+            getCaster().getStage().addActor(clone);
+            clone.setLinearVelocity(bulletVelocity);
+
+            lastFireDate = new Date();
+        }
+
+    }
+
+    @Override
+    public void castOn(MortalEntity caster){
+    }
+*/
 
 }

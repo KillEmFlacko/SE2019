@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gdx.game.factories.FilterFactory;
 
@@ -35,10 +36,10 @@ public class FireballSkillBulletDef implements BulletDef {
     private float customScale;
     private Animation<TextureRegion> movingAnimation;
     private TextureAtlas atlas;
-
-    private final Texture texture;
-    private final TextureRegion textureRegion;
     private MortalEntity caster;
+    
+    private int damage = 10;
+    private float initialSpeed = 10f;
 
     public FireballSkillBulletDef(MortalEntity caster, Filter filter) {
         this.caster = caster;
@@ -266,4 +267,13 @@ public class FireballSkillBulletDef implements BulletDef {
         this.height = height;
     }
 
+    @Override
+    public int getDamage() {
+        return damage;
+    }
+
+    @Override
+    public float getInitialSpeed() {
+        return initialSpeed;        
+    }
 }

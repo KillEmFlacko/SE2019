@@ -36,19 +36,16 @@ public class BossDef implements EntityDef {
     private float height;
     private float customScale;
 
-    private Float timeAcc = 2f;
     //per farlo muovere subito senza dover istanziare un movimento
-    private float stateTime = 0f;
     private Texture regions;
     private Animation<TextureRegion> movementAnimation;
     private TextureAtlas atlas;
+    
     private MovementSet movementQ;
     private BossState bossState;
     private Player player;
     private Weapon weapon;
-    private Vector2 actVelocity = new Vector2(0, 0);
 
-    private Movement prevMovement;
 
     public BossDef(BodyDef bd) {
         this.bd = new BodyDef();
@@ -71,7 +68,7 @@ public class BossDef implements EntityDef {
 
         
         animations.put("moving", movementAnimation);
-        fixtureDefs.put("basicHitbox", fixtureDef);
+        fixtureDefs.put("sensor", fixtureDef);
         
 
     }
