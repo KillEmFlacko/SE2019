@@ -154,10 +154,10 @@ public class Entity extends Actor {
                 body = getStage().getWorld().createBody(entityDef.getBodyDef());
                 body.setUserData(this);
                 Fixture f1 = body.createFixture(entityDef.getFixtureDefs().get("colliding"));
-                Fixture f2 = body.createFixture(entityDef.getFixtureDefs().get("sensor"));
+                //Fixture f2 = body.createFixture(entityDef.getFixtureDefs().get("sensor"));
 
                 f1.setUserData(body);
-                f2.setUserData(body);
+                //f2.setUserData(body);
             }
             
             return true;
