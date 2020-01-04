@@ -41,4 +41,6 @@ public class Bullet extends Entity implements Cloneable,Disposable {
         return super.getLinearVelocity();
     }
     
+    public abstract int getDamage();
+    
 }
