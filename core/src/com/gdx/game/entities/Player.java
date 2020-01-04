@@ -2,15 +2,10 @@ package com.gdx.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
-import com.gdx.game.GdxGame;
+import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.gdx.game.actions.GameAction;
-import com.gdx.game.contact_listeners.events.DeathEvent;
 import com.gdx.game.contact_listeners.events.HitEvent;
-import com.gdx.game.entities.classes.CharacterClass;
 import com.gdx.game.factories.Weapon;
 
 /**
@@ -19,14 +14,11 @@ import com.gdx.game.factories.Weapon;
  */
 public final class Player extends MortalEntity {
 
-    private final Weapon weapon;
     private float stateTime = 0f;
     private float speed;
 
     private boolean skillSelected = false;
-    private DamageSkillAdapter dmgSkill;
     private DefenseSkill dSkill;
-    private Weapon skillWeapon;
 
     private float strength = 1.5f;
     private float attackRate = 3;
@@ -40,6 +32,12 @@ public final class Player extends MortalEntity {
         this.baseSpeed = entityDef.getSpeed();
         this.attackRate = entityDef.getAttackRate();
         this.bulletSpeed = entityDef.getBulletSpeed();
+
+        RepeatAction playerAction = new RepeatAction();
+        playerAction.setAction(new PlayerAction());
+        playerAction.setCount(RepeatAction.FOREVER);
+
+        addAction(playerAction);
     }
 
     /*
@@ -115,8 +113,7 @@ public final class Player extends MortalEntity {
 
         shouldShoot(delta);
     }
-*/
-
+     */
     public void shouldShoot(float delta) {
 
         if (Gdx.input.isKeyPressed(Keys.E)) {
@@ -158,18 +155,11 @@ public final class Player extends MortalEntity {
 
     @Override
     public void isHitBy(Bullet bullet) {
-        //System.out.println("GGGGG");
-        life -= bullet.getDamage();
+        super.isHitBy(bullet);
         fire(new HitEvent());
     }
 
-    @Override
-    public void kill() {
-        GdxGame.game.bodyToRemove.add(this.body);
-        this.getStage().getRoot().removeActor(this);
-        fire(new DeathEvent());
-    }
-
+    /*
     @Override
     public void draw(Batch batch, float parentAlpha) {
         Color color = getColor();
@@ -178,23 +168,11 @@ public final class Player extends MortalEntity {
                 getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 
-    float getBoostSpellMultiplier() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    float getDamageSpellMultiplier() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    float getDefenseSpelMultiplier() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     @Override
     protected void initPhysics() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+     */
     private class PlayerAction extends GameAction {
 
         @Override
