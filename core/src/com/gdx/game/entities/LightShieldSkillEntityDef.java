@@ -38,7 +38,9 @@ import java.util.logging.Logger;
  */
 public class LightShieldSkillEntityDef implements EntityDef {
     
-    private RevoluteJoint revoluteJoint;
+    //private RevoluteJoint revoluteJoint =;
+    private final RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
+    
 
     private BodyDef bd;
     private ObjectMap<String, FixtureDef> fixtureDefs = new ObjectMap<>();
@@ -53,6 +55,7 @@ public class LightShieldSkillEntityDef implements EntityDef {
     
     
     public LightShieldSkillEntityDef(MortalEntity caster,Filter filter) {
+        
         width = caster.getWidth();
         height = caster.getHeight();
         
@@ -79,6 +82,11 @@ public class LightShieldSkillEntityDef implements EntityDef {
 
     }
 
+    public RevoluteJointDef getRevoluteJointDef() {
+        return revoluteJointDef;
+    }
+    
+    
     /*
     @Override
     public void kill() {
