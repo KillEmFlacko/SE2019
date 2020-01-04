@@ -1,6 +1,7 @@
 package com.gdx.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -11,7 +12,7 @@ import com.badlogic.gdx.utils.ObjectMap;
  */
 public interface EntityDef {
 
-    public BodyDef getBodyDef();
+    public BodyDef getBodyDef(Vector2 position);
 
     public ObjectMap<String, FixtureDef> getFixtureDefs();
 

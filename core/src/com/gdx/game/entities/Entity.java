@@ -151,7 +151,7 @@ public class Entity extends Actor {
         @Override
         public boolean act(float delta) {
             if (body == null) {
-                body = getStage().getWorld().createBody(entityDef.getBodyDef());
+                body = getStage().getWorld().createBody(entityDef.getBodyDef(getPosition()));
                 body.setUserData(this);
                 Fixture f1 = body.createFixture(entityDef.getFixtureDefs().get("colliding"));
                 //Fixture f2 = body.createFixture(entityDef.getFixtureDefs().get("sensor"));

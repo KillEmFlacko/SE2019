@@ -8,6 +8,7 @@ package com.gdx.game.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -20,13 +21,13 @@ import com.gdx.game.factories.FilterFactory;
  * @author david
  */
 public class EasternWizardDef implements PlayerDef {
-    
+
     private final float STRENGHT = 1.5f;
     private final float ATTACK_RATE = 3;
     private final float SPEED = 9f;
     private final int LIFE_POINTS = 100;
     private final float BULLET_SPEED = 7f * 1.5f;
-    
+
     private BodyDef bodyDef;
     private ObjectMap<String, FixtureDef> fixtureDefs;
     private ObjectMap<String, Animation> animations;
@@ -34,12 +35,12 @@ public class EasternWizardDef implements PlayerDef {
     public EasternWizardDef() {
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        
+
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(16 / GdxGame.SCALE, 16 / GdxGame.SCALE);
-        
+
         fixtureDefs = new ObjectMap<>();
-        
+
         FilterFactory ff = new FilterFactory();
         FixtureDef fixDef = new FixtureDef();
         fixDef.shape = shape;
@@ -47,17 +48,17 @@ public class EasternWizardDef implements PlayerDef {
         fixDef.isSensor = false;
         fixDef.restitution = 0f;
         fixDef.density = 0f;
-        
+
         fixtureDefs.put("colliding", fixDef);
-        
+
         shape.dispose();
-        
+
         animations = new ObjectMap<>();
-        
+
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("texture/player/wizzard/Ewizzard.atlas"));
         animations.put("idle", new Animation(0.2f, atlas.findRegions("m_idle"), Animation.PlayMode.LOOP));
         animations.put("run", new Animation(0.09f, atlas.findRegions("m_run"), Animation.PlayMode.LOOP));
-        
+
     }
 
     @Override
@@ -86,7 +87,8 @@ public class EasternWizardDef implements PlayerDef {
     }
 
     @Override
-    public BodyDef getBodyDef() {
+    public BodyDef getBodyDef(Vector2 position) {
+        bodyDef.position.set(position);
         return bodyDef;
     }
 
