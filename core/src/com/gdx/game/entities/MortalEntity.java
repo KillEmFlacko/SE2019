@@ -5,6 +5,7 @@
  */
 package com.gdx.game.entities;
 
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.gdx.game.contact_listeners.events.DeathEvent;
 /**
  *
@@ -46,7 +47,8 @@ public class MortalEntity extends Entity {
         this.hp = hp;
     }
     
-    public void getFilter(){
+    public Filter getFilter(){
+        return this.getEntityDef().getFixtureDefs().get("sensor").filter;
     }
     
 }

@@ -65,7 +65,7 @@ public class LightShieldSkillEntityDef implements EntityDef {
         circleShape.setRadius(width / 2);
 
         FilterFactory ff = new FilterFactory();
-        filter = filter;
+        this.filter = filter;
         FixtureDef fixtureDef = new FixtureDef();
         ff.copyFilter(fixtureDef.filter, filter);
         
@@ -73,7 +73,7 @@ public class LightShieldSkillEntityDef implements EntityDef {
         fixtureDef.isSensor = true;
         fixtureDef.density = 1f;
         
-        fixtureDefs.put("basic", fixtureDef);
+        fixtureDefs.put("sensor", fixtureDef);
         
         circleShape.dispose();
 
