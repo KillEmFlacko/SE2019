@@ -5,9 +5,6 @@
  */
 package com.gdx.game.settings;
 
-import com.badlogic.gdx.Gdx;
-import java.util.ArrayList;
-import java.util.List;
 /**
  *
  * @author raffaele
