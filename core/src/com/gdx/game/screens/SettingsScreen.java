@@ -38,7 +38,7 @@ public class SettingsScreen implements Screen {
     private final int padding = 15;
     private Label audio;
     private TitleScreen previousScreen;
-     private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("menu/back.jpg")));
+    //private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("menu/back.jpg")));
 
     public SettingsScreen(GdxGame game, TitleScreen previousS){
         this.game = game;
@@ -53,7 +53,7 @@ public class SettingsScreen implements Screen {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameters.size = 30;
-        parameters.color = Color.YELLOW;
+        parameters.color = Color.RED;
         parameters.borderWidth = 1;
         parameters.borderColor = Color.BLACK;
         BitmapFont font = generator.generateFont(parameters);
@@ -61,11 +61,12 @@ public class SettingsScreen implements Screen {
 
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
+        /*
         Image image = new Image(textureRegion.getTexture());
         image.setSize(stage.getWidth(), stage.getWidth());
         image.setPosition(0,0);
         stage.addActor(image);
-
+        */
         label1 = new Label("SETTINGS", lblStyle);
         label1.setSize(stage.getWidth(), 30);
         label1.setAlignment(Align.center);
