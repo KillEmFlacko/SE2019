@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="16" height="12" tilewidth="25" tileheight="25" infinite="0" nextlayerid="4" nextobjectid="21">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="16" height="14" tilewidth="25" tileheight="25" infinite="0" nextlayerid="5" nextobjectid="26">
  <tileset firstgid="1" source="rogueliketilesx3.tsx"/>
- <layer id="1" name="wallsAndGroundLayer" width="16" height="12">
+ <tileset firstgid="61" source="../level2/rogueliketilesx3.tsx"/>
+ <layer id="1" name="wallsAndGroundLayer" width="16" height="14">
   <data encoding="csv">
+0,0,0,0,0,0,14,14,14,14,0,0,0,0,0,0,
+0,0,0,0,0,0,14,31,32,14,0,0,0,0,0,0,
 14,14,14,14,14,14,14,37,38,14,14,14,14,14,14,14,
 14,9,9,9,9,9,9,9,9,9,9,9,9,9,9,14,
 14,9,9,9,9,9,9,9,9,9,9,9,9,9,9,14,
@@ -17,8 +20,10 @@
 14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14
 </data>
  </layer>
- <layer id="2" name="Livello tile 2" width="16" height="12">
+ <layer id="2" name="Livello tile 2" width="16" height="14">
   <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,17,0,0,17,0,0,0,0,0,0,
 0,56,0,0,0,0,0,0,0,0,0,0,0,0,55,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -34,23 +39,29 @@
 </data>
  </layer>
  <objectgroup id="3" name="walls">
-  <object id="15" x="0" y="0">
+  <object id="15" x="0" y="50">
    <polygon points="0,0 175,0 175,25 0,25"/>
   </object>
-  <object id="16" x="0" y="25">
+  <object id="16" x="0" y="75">
    <polygon points="0,0 25,0 25,275 0,275"/>
   </object>
-  <object id="17" x="225" y="25">
+  <object id="17" x="225" y="75">
    <polygon points="0,0 0,-25 175,-25 175,0"/>
   </object>
-  <object id="18" x="375" y="25">
+  <object id="18" x="375" y="75">
    <polygon points="0,0 25,0 25,275 0,275"/>
   </object>
-  <object id="19" x="375" y="275">
+  <object id="19" x="375" y="325">
    <polygon points="0,0 0,25 -350,25 -350,0"/>
   </object>
   <object id="20" x="175" y="25">
    <polygon points="0,0 0,-25 50,-25 50,0"/>
+  </object>
+  <object id="24" x="250" y="50">
+   <polygon points="0,0 0,-50 -25,-50 -25,0"/>
+  </object>
+  <object id="25" x="150" y="50">
+   <polygon points="0,0 25,0 25,-50 0,-50"/>
   </object>
  </objectgroup>
 </map>
