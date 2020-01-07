@@ -78,7 +78,7 @@ public final class DemoBoss extends Boss {
         fixtureDef.density = 0f;
 
         Fixture fixture = body.createFixture(fixtureDef);
-        fixture.setUserData(body);
+        fixture.setUserData(this);
         shape.dispose();
 
     }

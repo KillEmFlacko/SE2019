@@ -33,7 +33,7 @@ public abstract class MovableCharacterClass implements CharacterClass {
         fixDef.density = 0f;
 
         Fixture fixt = body.createFixture(fixDef);
-        fixt.setUserData(body);
+        fixt.setUserData(character);
         shape.dispose();
         return body;
     }

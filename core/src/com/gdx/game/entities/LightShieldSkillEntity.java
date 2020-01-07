@@ -59,7 +59,7 @@ public class LightShieldSkillEntity extends MortalEntity {
         fixtureDef.density = 1f;
 
         Fixture fxt = body.createFixture(fixtureDef);
-        fxt.setUserData(this.body);
+        fxt.setUserData(this);
         circleShape.dispose();
 
         RevoluteJointDef jointDef = new RevoluteJointDef();

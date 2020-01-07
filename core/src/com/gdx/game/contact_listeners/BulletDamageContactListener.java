@@ -1,15 +1,13 @@
 package com.gdx.game.contact_listeners;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.gdx.game.entities.Bullet;
 import com.gdx.game.entities.LightShieldSkillEntity;
-import com.gdx.game.entities.Player;
-import com.gdx.game.entities.bosses.DemoBoss;
+import com.gdx.game.entities.MortalEntity;
 
 /**
  *
@@ -27,28 +25,19 @@ public class BulletDamageContactListener implements ContactListener {
         if (contact.getFixtureA().getUserData() instanceof Bullet) {
             Bullet b = (Bullet) contact.getFixtureA().getUserData();
             b.dispose();
-            if (contact.getFixtureB().getUserData() instanceof Body) {
-                Body body = (Body) contact.getFixtureB().getUserData();
-                if (body.getUserData() instanceof DemoBoss) {
-                    DemoBoss boss = (DemoBoss) body.getUserData();
-                    boss.isHitBy(b);
-                    Gdx.app.log("Hit", "Ueue, hai colpito il bosso!");
-                    Gdx.app.log("HP", boss.getLife().toString());
-                } else if (body.getUserData() instanceof Player) {
-                    System.out.println("COLLISION");
-                    Player player = (Player) body.getUserData();
-                    player.isHitBy(b);
+            if (contact.getFixtureB().getUserData() instanceof MortalEntity) {
+                MortalEntity boss = (MortalEntity) contact.getFixtureB().getUserData();
+                boss.isHitBy(b);
+                Gdx.app.log("Hit", "Ueue, hai colpito il bosso!");
+                Gdx.app.log("HP", boss.getLife().toString());
+            } else if (contact.getFixtureB().getUserData() instanceof LightShieldSkillEntity) {
+                LightShieldSkillEntity lsse = (LightShieldSkillEntity) contact.getFixtureB().getUserData();
 
-                    Gdx.app.log("Hit", "Ops, il bosso ti ha colpito!");
-                    Gdx.app.log("HP", player.getLife().toString());
-                } else if (body.getUserData() instanceof LightShieldSkillEntity) {
-                    LightShieldSkillEntity lsse = (LightShieldSkillEntity) body.getUserData();
-
-                    System.out.println("Colpito lo scudo");
-                    lsse.isHitBy(b);
-                }
+                System.out.println("Colpito lo scudo");
+                lsse.isHitBy(b);
             }
         }
+
         if (contact.getFixtureB().getUserData() instanceof Bullet) {
             Bullet b = (Bullet) contact.getFixtureB().getUserData();
 
@@ -58,23 +47,15 @@ public class BulletDamageContactListener implements ContactListener {
             System.out.println(b.getDamage());
             b.dispose();
 
-            if (contact.getFixtureA().getUserData() instanceof Body) {
-                Body body = (Body) contact.getFixtureA().getUserData();
-                System.out.println("COLLISION");
-                if (body.getUserData() instanceof DemoBoss) {
-                    DemoBoss boss = (DemoBoss) body.getUserData();
-                    boss.isHitBy(b);
-                    Gdx.app.log("HP", boss.getLife().toString());
-                } else if (body.getUserData() instanceof Player) {
-                    Player player = (Player) body.getUserData();
-                    player.isHitBy(b);
-                    Gdx.app.log("Hit", "Ops, il bosso ti ha colpito!");
-                    Gdx.app.log("HP", player.getLife().toString());
-                } else if (body.getUserData() instanceof LightShieldSkillEntity) {
-                    LightShieldSkillEntity lsse = (LightShieldSkillEntity) body.getUserData();
-                    System.out.println("Colpito lo scudo");
-                    lsse.isHitBy(b);
-                }
+            System.out.println("COLLISION");
+            if (contact.getFixtureA().getUserData() instanceof MortalEntity) {
+                MortalEntity boss = (MortalEntity) contact.getFixtureA().getUserData();
+                boss.isHitBy(b);
+                Gdx.app.log("HP", boss.getLife().toString());
+            } else if (contact.getFixtureA().getUserData() instanceof LightShieldSkillEntity) {
+                LightShieldSkillEntity lsse = (LightShieldSkillEntity) contact.getFixtureA().getUserData();
+                System.out.println("Colpito lo scudo");
+                lsse.isHitBy(b);
             }
         }
     }
