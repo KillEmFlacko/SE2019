@@ -10,7 +10,6 @@ import com.gdx.game.entities.Bullet;
 import com.gdx.game.entities.LightShieldSkill;
 import com.gdx.game.entities.LightShieldSkillEntity;
 import com.gdx.game.entities.Player;
-import com.gdx.game.entities.PlayerSkill;
 import com.gdx.game.entities.bosses.DemoBoss;
 
 /**
@@ -50,8 +49,6 @@ public class BulletDamageContactListener implements ContactListener {
                     lsse.isHitBy(b);
                 }
             }
-
-            
         }
         if (contact.getFixtureB().getUserData() instanceof Bullet) {
             Bullet b = (Bullet) contact.getFixtureB().getUserData();
@@ -80,8 +77,6 @@ public class BulletDamageContactListener implements ContactListener {
                     lsse.isHitBy(b);
                 }
             }
-            
-            
         }
     }
 

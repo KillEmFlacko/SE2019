@@ -6,10 +6,10 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gdx.game.screens.TitleScreen;
 import com.gdx.game.settings.Settings;
-import java.util.LinkedList;
 
 public class GdxGame extends Game {
 
@@ -19,14 +19,12 @@ public class GdxGame extends Game {
     public static GdxGame game;
     public static final float SCALE = 6.0f;
     private Music music;
-    public Settings settings;
     // private static final float DEFAULT_VOLUME = 0.5f;
 
-    public LinkedList<Body> bodyToRemove = new LinkedList<Body>();
+    public ObjectSet<Body> bodyToRemove = new ObjectSet<Body>();
 
     public GdxGame(Viewport vp) {
         this.vp = vp;
-        this.settings = new Settings(); 
         assetManager = new AssetManager();
         game = this;
 
@@ -42,20 +40,27 @@ public class GdxGame extends Game {
 
     @Override
     public void create() {
-        skin = new Skin(Gdx.files.internal("skin/expee-ui.json"));
-        music = Gdx.audio.newMusic(Gdx.files.internal("audio/menu/AbandonedWindmill.mp3"));
-        music.play();
-        music.setLooping(true);
-        music.setVolume(settings.getVolume());
-        
+        //skin = new Skin(Gdx.files.internal("skin/expee-ui.json"));
+        skin = new Skin(Gdx.files.internal("flat/skin/skin.json"));
+
         this.setScreen(new TitleScreen(this));
+
+        Settings.initAudio();
 
     }
 
     @Override
     public void render() {
-        vp.apply();
         super.render();
+        vp.apply();
+        ////////////////REMOVING BODIES//////////////
+//        bodyToRemove.begin();
+        for (Body b : GdxGame.game.bodyToRemove) {
+            b.getWorld().destroyBody(b);
+        }
+        bodyToRemove.clear();
+//        bodyToRemove.end();
+        /////////////////////////////////////////////
     }
 
     @Override

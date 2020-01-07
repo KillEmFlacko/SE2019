@@ -24,8 +24,8 @@ public abstract class SkillBullet extends Bullet {
     protected Animation<TextureRegion> explosionAnimation;
     protected float stateTime = 0f;
 
-    public SkillBullet(int damage, float initialSpeed, World world, float radius, Vector2 initialPosition) {
-        super(world, radius, initialPosition);
+    public SkillBullet(int damage, float initialSpeed,  float radius, Vector2 initialPosition) {
+        super( radius, initialPosition);
         this.damage = damage;
         this.initialSpeed = initialSpeed;
         //do not call init here

@@ -33,7 +33,7 @@ public class GuideScreen implements Screen {
     private float rowHeight;
     private final int padding=15;
     
-     private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("guide/guida.png")));
+     private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("guida/guida.png")));
     
   
     public GuideScreen(GdxGame game){

@@ -14,7 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.gdx.game.contact_listeners.events.HitEvent;
 import com.gdx.game.entities.Player;
 import com.gdx.game.entities.bosses.DemoBoss;
-import com.gdx.game.screens.assets.Heart;
+import com.gdx.game.levels.Level;
+import com.gdx.game.screens.Heart;
 import java.util.ArrayList;
 
 /**
@@ -26,10 +27,8 @@ public class UpdateHUDListener extends ChangeListener {
     private ArrayList<Heart> life;
     private Image bossBar; 
 
-    public UpdateHUDListener(ArrayList<Heart> life) {
+    public UpdateHUDListener(ArrayList<Heart> life, Image bossBar) {
         this.life = life;
-    }
-    public UpdateHUDListener(Image bossBar) {
         this.bossBar = bossBar;
     }
 
@@ -38,6 +37,15 @@ public class UpdateHUDListener extends ChangeListener {
         if (!(event instanceof HitEvent)) {
             return;
         }
+//        if (actor instanceof Player) {
+//            int currlife = ((Player) actor).getLife();
+//            for (int i = 0; i < life.size() ; i++) {
+//                if(i > currlife){
+//                    life.get(i).getImage().setColor(Color.BLACK);
+//                }
+//            }
+//        }
+        
         if (actor instanceof Player) {
             int currlife = ((Player) actor).getLife();
             

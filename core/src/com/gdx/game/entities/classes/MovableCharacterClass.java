@@ -15,10 +15,10 @@ import com.gdx.game.factories.FilterFactory;
 
 
 public abstract class MovableCharacterClass implements CharacterClass {
-    protected Body body;
     
     @Override
-    public void executePhysics(World world, Vector2 position, float fixtureWidth,float fixtureHeight, MortalEntity character) {
+    public Body executePhysics(World world, Vector2 position, float fixtureWidth,float fixtureHeight, MortalEntity character) {
+        Body body;
         BodyDef bdDef = new BodyDef();
         bdDef.type = BodyDef.BodyType.DynamicBody;
         bdDef.position.set(position);
@@ -39,11 +39,6 @@ public abstract class MovableCharacterClass implements CharacterClass {
         Fixture fixt = body.createFixture(fixDef);
         fixt.setUserData(body);
         shape.dispose();
-    }
-
-    @Override
-    public Body getBody() {
         return body;
     }
-    
 }

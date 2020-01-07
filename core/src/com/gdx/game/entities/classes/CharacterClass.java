@@ -15,7 +15,6 @@ public interface CharacterClass{
 
     public float getAttackRate();
     
-    public Body getBody();
 
     public int getLifePoints();
 
@@ -32,6 +31,7 @@ public interface CharacterClass{
     public Animation<TextureAtlas.AtlasRegion> getIdleAnimation();
     
     
-    public void executePhysics(World world, Vector2 position, float fixtureWidth,float fixtureHeight, MortalEntity character);
+    public Body executePhysics(World world, Vector2 position, float fixtureWidth,float fixtureHeight, MortalEntity character);
     public void executeGraphics();
+    
 }

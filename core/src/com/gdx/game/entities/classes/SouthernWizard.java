@@ -14,7 +14,7 @@ public class SouthernWizard extends MovableCharacterClass{
     private final float STRENGHT = 1f;
     private final float ATTACK_RATE = 3;
     private final float SPEED = 7f;
-    private final int LIFE_POINTS = 6;
+    private final int LIFE_POINTS = 9;
     private final float BULLET_SPEED = 9f * 1.5f;
     private TextureAtlas atlas;
     private Animation<TextureAtlas.AtlasRegion> runAnimation;

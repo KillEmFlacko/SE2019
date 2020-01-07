@@ -20,7 +20,7 @@ public final class BigFireballSkill extends DamageSkillAdapter {
     
     public BigFireballSkill(float coolDown, MortalEntity caster, int damage, float speed, World world, float radius, Vector2 position) {
         super(coolDown, caster);
-        this.setB(new BigFireballSkillBullet(damage, speed, world, radius, position));
+        this.setB(new BigFireballSkillBullet(damage, speed, radius, position));
     }
 
     @Override
@@ -44,10 +44,10 @@ public final class BigFireballSkill extends DamageSkillAdapter {
 
             SkillBullet clone = this.getB().clone();
             
+            getCaster().getParent().addActor(clone);
             clone.initPhysics();
             clone.initGraphics();
             
-            getCaster().getStage().addActor(clone);
             clone.setLinearVelocity(bulletVelocity);
 
             lastFireDate = new Date();

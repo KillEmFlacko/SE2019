@@ -9,156 +9,125 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import static com.badlogic.gdx.utils.Align.center;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+import com.gdx.game.GameStage;
 import com.gdx.game.GdxGame;
-import com.gdx.game.entities.MapLimits;
 import com.gdx.game.entities.Player;
-import com.gdx.game.entities.bosses.DemoBoss;
 import com.gdx.game.contact_listeners.BulletDamageContactListener;
-import com.gdx.game.contact_listeners.EndDemoGameListener;
 import com.gdx.game.contact_listeners.IncreaseScoreListener;
 import com.gdx.game.contact_listeners.UpdateHUDListener;
 import com.gdx.game.entities.classes.CharacterClass;
-import com.gdx.game.movements.MovementSetFactory;
+import com.gdx.game.levels.Level;
+import com.gdx.game.levels.Level.EndLevelEvent;
+import com.gdx.game.levels.Level1;
+import com.gdx.game.levels.Level2;
 import com.gdx.game.score.HighScoreTable;
 import com.gdx.game.score.ScoreCounter;
-import com.gdx.game.screens.assets.Heart;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.dermetfan.gdx.physics.box2d.ContactMultiplexer;
 
 /**
  *
  * @author Raffaele & Giovanni
  */
-public class GameScreen implements Screen {
+public class GameScreen implements Screen, EventListener {
 
-    private final TiledMap map;
-    private final OrthogonalTiledMapRenderer mapRenderer;
     private final Box2DDebugRenderer debugRenderer;
     private final Player player;
-    private final DemoBoss db;
     private final World world;
     private final GdxGame game;
-    private final Stage gameStage;
     private final Stage hudStage;
-    private Label label1;
     private TextField text;
     private TextButton btn;
     private PauseScreen pauseScreen;
     private boolean isPaused = false;
-    private boolean isEnded=false;
-
+    private final GameStage gameStage;
+    private final Array<Level> levels;
+    private Button btnButton;
+    public Label label1;
+    private boolean isEnded = false;
     private final ScoreCounter scoreCounter;
-    
     private ArrayList<Heart> life;
-    
+
     private Texture texture, blank;
     private Image image1;
     private Image image, image2;
-    
+
     public GameScreen(GdxGame aGame, CharacterClass characterClass) {
-        this.game = aGame;
-        gameStage = new Stage(aGame.vp);
-        hudStage = new Stage();
-        world = new World(Vector2.Zero, true);
-        world.setContactListener(new ContactMultiplexer(new BulletDamageContactListener()));
-        ////////// MAPPA /////////////
-        map = new TmxMapLoader().load("mappa_text_low_res/mappa_low_res.tmx");
-        float pixelsPerUnit = 25f;
-        float unitPerMeters = 16f / 30f; // 16 tiles in uno schermo di larghezza 30 metri
-        mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / (pixelsPerUnit * unitPerMeters));
-        //////////////////////////////
         debugRenderer = new Box2DDebugRenderer();
+        this.game = aGame;
+
+        /////////// STAGE /////////////
+        gameStage = new GameStage();
+        hudStage = new Stage();
+        gameStage.setViewport(aGame.vp);
+        gameStage.getRoot().addListener(this);
+        //////////////////////////////
+
+        ////////// WORLD //////////////
+        world = gameStage.getWorld();
+        world.setContactListener(new ContactMultiplexer(new BulletDamageContactListener()));
+        ///////////////////////////////
+
+        /////////// PLAYER ////////////
         float playerWorldWidth = 16 / GdxGame.SCALE;
         float playerWorldHeight = 28 / GdxGame.SCALE;
+        player = new Player("uajono", playerWorldWidth, playerWorldHeight, Vector2.Zero, characterClass);
+        //////////////////////////////
+
+        /////////// LEVEL1 //////////
+        levels = new Array<>();
+        levels.add(new Level1(player), new Level2(player));
+        gameStage.addActor(levels.get(0));
+        gameStage.addActor(levels.get(1));
+        ////////////////////////////
+
+        ////////// SCORE //////////
+        scoreCounter = new ScoreCounter();
+        IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
+        gameStage.addListener(scoreListener);
+//        initLabel();
+        //////////////////////////
+
+        ///////////SET CAMERA///////////
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         //(14.623319,19.27667)  (15, 15 * (h / w))
-
-        player = new Player("uajono", world, playerWorldWidth, playerWorldHeight, new Vector2(15,15*(h/w)), characterClass);
-
-        // Constructs a new OrthographicCamera, using the given viewport width and height
-        // Height is multiplied by aspect ratio.
-        player.addListener(new EndDemoGameListener(this));
 
         OrthographicCamera cam = (OrthographicCamera) gameStage.getCamera();
         game.vp.setWorldSize(30, 30 * (h / w)); // 30 * aspectRatio
         cam.position.set(player.getPosition(), gameStage.getCamera().position.z);
         cam.update();
-
-        MovementSetFactory mvsf = MovementSetFactory.instanceOf();
-        Vector2 v = player.getPosition().add(5, 5);
-        db = new DemoBoss("Wandering Demon", 150, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
-        db.addListener(new EndDemoGameListener(this));
-        // Gestione dello score IncreaseScoreListener
-        scoreCounter = new ScoreCounter();
-        IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
-        db.addListener(scoreListener);
-        player.addListener(scoreListener);
-
-        gameStage.addActor(player);
-        gameStage.addActor(db);
-
-        System.out.println(Gdx.graphics.getWidth());
-
-        MapLimits left = new MapLimits(
-                world,
-                2 / unitPerMeters,
-                30 * (h / w),
-                new Vector2(0, 15 * (h / w))
-        );
-
-        MapLimits right = new MapLimits(
-                world,
-                2 / unitPerMeters,
-                30 * (h / w),
-                new Vector2(30, 15 * (h / w))
-        );
-
-        MapLimits up = new MapLimits(
-                world,
-                30,
-                2 / unitPerMeters,
-                new Vector2(15, 30 * (h / w))
-        );
-
-        MapLimits down = new MapLimits(
-                world,
-                30,
-                2 / unitPerMeters,
-                new Vector2(15, 0)
-        );
+//        ////////////////////////////////
+//        level1.addListener(new EndDemoGameListener(this,player,(DemoBoss) level1.getEnemies().get(0)));
+//
+//        // Gestione dello score IncreaseScoreListener
+//        scoreCounter = new ScoreCounter();
+//        IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
+////        initLabel();
         initHUD();
-        
-        gameStage.addActor(left);
-        gameStage.addActor(right);
-        gameStage.addActor(up);
-        gameStage.addActor(down);
-
+//        pauseScreen = new PauseScreen(game, this);
+//        gameStage.getRoot().addListener(scoreListener);
         pauseScreen = new PauseScreen(game, this);
+        
 
     }
 
@@ -180,7 +149,7 @@ public class GameScreen implements Screen {
             label1.setText("GAME LOSE");
             label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.9f * label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         } else if (color.equals(Color.GREEN)) {
-            label1.setText("VICTORY");
+            //label1.setText("VICTORY");
             label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.7f * label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         }
         label1.setVisible(true);
@@ -205,10 +174,11 @@ public class GameScreen implements Screen {
         label1.setSize(label1.getWidth() * 3, label1.getHeight() * 3);
         label1.setFontScale(3);
         label1.setPosition(Gdx.graphics.getWidth() / 2 - label1.getWidth() / 2, (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
+
         label1.setVisible(false);
 
         hudStage.addActor(label1);
-      //text field
+        //text field
         text = new TextField("", GdxGame.game.skin, "default");
         //text.setScale(1f/GdxGame.SCALE);
 
@@ -237,9 +207,7 @@ public class GameScreen implements Screen {
                     game.setScreen(new ScoreScreen(game));
 
                 } catch (FileNotFoundException ex) {
-                    Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
-                    Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return true;
             }
@@ -252,12 +220,14 @@ public class GameScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(gameStage);
         Gdx.input.setInputProcessor(hudStage);
+        gameStage.addListener(this);
+        levels.get(0).start();
     }
 
     @Override
     public void render(float f) {
 
-        if (!isEnded && Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+        if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
             f = 0;
             this.pause();
         }
@@ -265,35 +235,24 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         world.step(1 / 60f, 6, 2);
-        ////////////////REMOVING BODIES//////////////
-        for (Body b : GdxGame.game.bodyToRemove) {
-            world.destroyBody(b);
-        }
-        GdxGame.game.bodyToRemove.removeAll(GdxGame.game.bodyToRemove);
-        /////////////////////////////////////////////
         gameStage.act();
-        mapRenderer.setView((OrthographicCamera) gameStage.getCamera());
-//        decommentare per seguire il player
-        //stage.getCamera().position.set(player.getPosition(), gameStage.getCamera().position.z);
-        mapRenderer.render();
         gameStage.draw();
         hudStage.act();
         hudStage.draw();
+        //      decommentare per seguire il player
+        gameStage.getCamera().position.set(player.getPosition(), gameStage.getCamera().position.z);
+        gameStage.getCamera().update();
         debugRenderer.render(world, gameStage.getCamera().combined);
     }
 
-    public void end(Actor actor) {
-        isEnded=true;
-        if (actor instanceof Player) {
+    public void end(boolean win) {
+        if (!win) {
             initLabel(Color.RED);
             //label1.setText("GAME LOSE");
             //label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.9f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
-        } else if (actor instanceof DemoBoss) {
+        } else {
             initLabel(Color.GREEN);
-
-            image.setVisible(false);
-            image2.setVisible(false);
-           // label1.setText("VICTORY");
+            label1.setText("VICTORY");
             //label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.7f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
         }
         label1.setVisible(true);
@@ -312,11 +271,10 @@ public class GameScreen implements Screen {
                                 game.setScreen(new ScoreScreen(game));
                                 GameScreen.this.dispose();
                                 game.setScreen(new ScoreScreen(game));
+
                             }
                         } catch (FileNotFoundException ex) {
-                            Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (IOException ex) {
-                            Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         return true;
                     }
@@ -363,8 +321,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        gameStage.dispose();
-
     }
 
     @Override
@@ -385,38 +341,51 @@ public class GameScreen implements Screen {
     public void hide() {
     }
 
-    private void initHUD2() { 
+    @Override
+    public boolean handle(Event event) {
+        if (event instanceof EndLevelEvent) {
+            if (!((EndLevelEvent) event).hasWon()) {
+                end(((EndLevelEvent) event).hasWon());
+            } else if (event.getTarget() == levels.get(0)) {
+                levels.get(1).start();
+            } else {
+                end(((EndLevelEvent) event).hasWon());
+                player.dispose();
+            }
+        }
+        return true;
+    }
+
+    private void initHUD2() {
         this.life = new ArrayList();
-        for(int i=0; i<player.getLife(); i++) {
+        for (int i = 0; i < player.getLife(); i++) {
             life.add(new Heart());
         }
-        player.addListener(new UpdateHUDListener(life));
         createLifebar();
-        
-        
+
         blank = new Texture(Gdx.files.internal("texture/enemy/bosses/red.jpg"));
-                
+
         image2 = new Image(blank);
         image2.setSize(Gdx.graphics.getWidth(), 30);
         image2.setPosition(0, 0);
         image2.setColor(Color.DARK_GRAY);
         hudStage.addActor(image2);
-        
+
         image = new Image(blank);
-        image.setSize(Gdx.graphics.getWidth()-5, 20);
+        image.setSize(Gdx.graphics.getWidth() - 5, 20);
         image.setPosition(5, 5);
         image.setColor(Color.RED);
         hudStage.addActor(image);
 
-        db.addListener(new UpdateHUDListener(image));
+        gameStage.addListener(new UpdateHUDListener(life,image));
 
     }
 
     private void createLifebar() {
         int i = 0;
         for (Heart h : life) {
-            h.getImage().setPosition(8 + 10*i + h.getImage().getWidth()/15 * i  , Gdx.graphics.getHeight() - h.getImage().getHeight()/12);
-            h.getImage().setSize(Gdx.graphics.getWidth()/15, Gdx.graphics.getHeight()/12);
+            h.getImage().setPosition(8 + 10 * i + h.getImage().getWidth() / 15 * i, Gdx.graphics.getHeight() - h.getImage().getHeight() / 12);
+            h.getImage().setSize(Gdx.graphics.getWidth() / 15, Gdx.graphics.getHeight() / 12);
             hudStage.addActor(h.getImage());
             i++;
         }

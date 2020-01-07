@@ -6,9 +6,12 @@
 package com.gdx.game.entities;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
+import com.badlogic.gdx.utils.Disposable;
+import com.gdx.game.GdxGame;
+import com.gdx.game.contact_listeners.events.DeathEvent;
 
 /**
  *
@@ -19,9 +22,10 @@ public abstract class MortalEntity extends Entity {
     protected String name;
     protected Integer life;
 
-    public MortalEntity(String name, Integer life, World world, float width, float height, Vector2 position) {
-        super(world, width, height, position);
+    public MortalEntity(String name, Integer life, float width, float height, Vector2 position) {
+        super( width, height, position);
         this.name = name;
+        setName(name);
         this.life = life;
     }
     
@@ -35,8 +39,11 @@ public abstract class MortalEntity extends Entity {
      * Dispose all the involved bodies for deletion, that is adding their
      * references to the GdxGame.game.bodiesToRemove structure
      */
-    public abstract void kill();
-
+    public void kill() {
+        dispose();
+        fire(new DeathEvent());
+    }
+    
     public Integer getLife() {
         return life;
     }

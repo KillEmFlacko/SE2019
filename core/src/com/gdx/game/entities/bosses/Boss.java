@@ -15,8 +15,8 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public abstract class Boss extends Enemy {
 
-    public Boss(String name, Integer life, World world, float width, float height, Vector2 position) {
-        super(name, life, world, width, height, position);
+    public Boss(String name, Integer life, float width, float height, Vector2 position) {
+        super(name, life,  width, height, position);
     }
 
 

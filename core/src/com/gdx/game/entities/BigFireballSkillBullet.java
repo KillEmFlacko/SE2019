@@ -11,11 +11,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.gdx.game.factories.FilterFactory;
 
 /**
@@ -23,19 +25,17 @@ import com.gdx.game.factories.FilterFactory;
  * @author ammanas
  */
 public class BigFireballSkillBullet extends SkillBullet{
-
+    private TextureAtlas atlas;
 /*
      
     private Animation<TextureRegion> movingAnimation;
     private Animation<TextureRegion> explosionAnimation;
     private float stateTime = 0f;
 */
-    private TextureAtlas atlas;
-    
-    
-    public BigFireballSkillBullet(int damage,float speed,World world, float radius,Vector2 position) {
-        super(damage, speed, world, radius, position);
-    }
+    public BigFireballSkillBullet(int damage,float speed, float radius,Vector2 position) {
+        super(damage, speed, radius, position);
+        defaultAction = new BasicBulletAction();
+   }
     
     @Override
     public void initPhysics() {
@@ -70,16 +70,20 @@ public class BigFireballSkillBullet extends SkillBullet{
         textureRegion = movingAnimation.getKeyFrame(0f);
     }
 
-    @Override
-    public void act(float delta) {
-        stateTime += delta;
-        textureRegion = movingAnimation.getKeyFrame(stateTime,true);
+    private class BasicBulletAction extends Action {
+
+        @Override
+        public boolean act(float delta) {
+            stateTime += delta;
+            textureRegion = movingAnimation.getKeyFrame(stateTime, true);
+            return false;
+        }
     }
     
 
     @Override
     public SkillBullet clone() {
-        BigFireballSkillBullet clone = new BigFireballSkillBullet(this.getDamage(), getInitalSpeed(), world, getWidth()/2, getPosition());
+        BigFireballSkillBullet clone = new BigFireballSkillBullet(this.getDamage(), getInitalSpeed(), getWidth()/2, getPosition());
         clone.setFilter(filter);
         return clone;
     }

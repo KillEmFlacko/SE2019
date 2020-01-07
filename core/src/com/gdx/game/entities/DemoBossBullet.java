@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.gdx.game.GdxGame;
@@ -18,8 +17,8 @@ import com.gdx.game.GdxGame;
 public class DemoBossBullet extends BasicBullet {
 
     // ASTRAI
-    public DemoBossBullet(World world, float radius, Vector2 position, int damage, float initSpeed) {
-        super(world, radius, position, damage, initSpeed);
+    public DemoBossBullet( float radius, Vector2 position, int damage, float initSpeed) {
+        super( radius, position, damage, initSpeed);
     }
 
     @Override
@@ -36,23 +35,8 @@ public class DemoBossBullet extends BasicBullet {
 
     @Override
     public Bullet clone() {
-        DemoBossBullet clone = new DemoBossBullet(world, getWidth() / 2, getPosition(), damage, initialSpeed);
+        DemoBossBullet clone = new DemoBossBullet( getWidth() / 2, getPosition(), damage, initialSpeed);
         clone.setFilter(filter);
         return clone;
     }
-
-    @Override
-    public void dispose() {
-        Stage stage = getStage();
-        //actor already removed i don't really know what it is
-        if (stage == null)
-            return;
-
-        Group g = stage.getRoot();
-        
-        g.removeActor(this);
-        
-        GdxGame.game.bodyToRemove.add(body);
-    }
-
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -16,6 +17,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.gdx.game.GdxGame;
 import com.gdx.game.contact_listeners.events.DeathEvent;
 import com.gdx.game.contact_listeners.events.HitEvent;
@@ -48,25 +51,26 @@ public final class DemoBoss extends Boss {
 
     private Movement prevMovement;
 
-    public DemoBoss(String name, Integer life, World world, float width, float height, Vector2 position, MovementSet movementQ, Player player) {
-        super(name, life, world, width, height, position);
+    public DemoBoss(String name, Integer life, float width, float height, Vector2 position, MovementSet movementQ, Player player) {
+        super(name, life, width, height, position);
         this.movementQ = movementQ;
         this.player = player;
-        DemoBossBullet b = new DemoBossBullet(world, 4f / GdxGame.game.SCALE, this.player.getPosition(), 1, 10f);
+        DemoBossBullet b = new DemoBossBullet(4f / GdxGame.game.SCALE, this.player.getPosition(), 1, 10f);
         this.weapon = new Weapon(this, b, 1);
 
         //bossState = new IdleState(); TO ADD
         //this.movementQ = bossState.onIdle() TO ADD
-        initPhysics();
-        initGraphics();
+//        initPhysics();
+//        initGraphics();
         this.prevMovement = movementQ.peek();
+        defaultAction = new DemoBossAction();
     }
 
     /**
      * Initializes the Actor physics. Do not call directly.
      */
     @Override
-    protected final void initPhysics() {
+    public final void initPhysics() {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -92,49 +96,56 @@ public final class DemoBoss extends Boss {
     }
     //private int i = 0;
 
-    @Override
-    public void act(float delta) {
-        setPosition(body.getPosition());
-        if (super.life <= 0) {
-            kill();
-            return;
-        }
-        timeAcc += delta;
-        stateTime += delta;
 
-        textureRegion = movementAnimation.getKeyFrame(stateTime, true);
+    private class DemoBossAction extends Action {
 
-        Vector2 playerPosition = player.getPosition();
-        Vector2 newMovePlayer = new Vector2(playerPosition.sub(this.getPosition()));
-
-        if (timeAcc >= 2.0f) {
-            Random r = new Random();
-
-            if ((r.nextFloat() * 10) >= 6) {
-                //si lancia contro il player
-                //System.out.println("Player position" + playerPosition);
-                actVelocity.set(newMovePlayer.scl(1.3f));
-                //checkDirection(newMovePlayer);
-
-                timeAcc = 1.5f;
-                checkDirection(newMovePlayer);
-            } else {
-                //spara LELLO SPARA
-                Movement movement = movementQ.frontToBack();
-                //Gdx.app.log("V", movement.toString());
-                actVelocity.set(movement);
-                weapon.fire(newMovePlayer.scl(1f));
-                checkDirection(newMovePlayer);
-
-                timeAcc = 0f;
+        @Override
+        public boolean act(float delta) {
+            if (body == null) {
+                initGraphics();
+                initPhysics();
             }
-            
+            setPosition(body.getPosition());
+            if (DemoBoss.super.life <= 0) {
+                kill();
+                return true;
+            }
+            timeAcc += delta;
+            stateTime += delta;
 
-            
-        }
-        //robba di Armando nel mio codice
-        if (!body.getLinearVelocity().equals(actVelocity)) {
-            body.setLinearVelocity(actVelocity);
+            textureRegion = movementAnimation.getKeyFrame(stateTime, true);
+
+            Vector2 playerPosition = player.getPosition();
+            Vector2 newMovePlayer = new Vector2(playerPosition.sub(DemoBoss.this.getPosition()));
+
+            if (timeAcc >= 2.0f) {
+                Random r = new Random();
+
+                if ((r.nextFloat() * 10) >= 6) {
+                    //si lancia contro il player
+                    //System.out.println("Player position" + playerPosition);
+                    actVelocity.set(newMovePlayer.scl(1.3f));
+                    //checkDirection(newMovePlayer);
+
+                    timeAcc = 1.5f;
+                    checkDirection(newMovePlayer);
+                } else {
+                    //spara LELLO SPARA
+                    Movement movement = movementQ.frontToBack();
+                    //Gdx.app.log("V", movement.toString());
+                    actVelocity.set(movement);
+                    weapon.fire(newMovePlayer.scl(1f));
+                    checkDirection(newMovePlayer);
+
+                    timeAcc = 0f;
+                }
+
+            }
+            //robba di Armando nel mio codice
+            if (!body.getLinearVelocity().equals(actVelocity)) {
+                body.setLinearVelocity(actVelocity);
+            }
+            return false;
         }
     }
 
@@ -150,7 +161,7 @@ public final class DemoBoss extends Boss {
      * Method instantiates the graphics of the Actor. Do not call directly.
      */
     @Override
-    protected void initGraphics() {
+    public void initGraphics() {
 
         //atlas = new TextureAtlas(Gdx.files.internal("texture/enemy/bosses/knight/knight_run/knight.atlas"));
         atlas = new TextureAtlas(Gdx.files.internal("texture/enemy/bosses/big_demon/big_demon.atlas"));
@@ -160,22 +171,21 @@ public final class DemoBoss extends Boss {
         //movementAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("f_run"), PlayMode.LOOP);
     }
 
-    @Override
-    public void kill() {
-
-//        Pe', non mi chiamare rompipalle, purtroppo i corpi 
-//        possono essere distutti soltanto dopo il world.step()
-        GdxGame.game.bodyToRemove.add(body);
-//        this.world.destroyBody(body);
+//    @Override
+//    public void kill() {
 //
-//        body.setUserData(null);
-//        body = null;
-
-        this.getStage().getRoot().removeActor(this);
-        fire(new DeathEvent());
-        //stop animation and remove body
-    }
-
+////        Pe', non mi chiamare rompipalle, purtroppo i corpi 
+////        possono essere distutti soltanto dopo il world.step()
+//        GdxGame.game.bodyToRemove.add(body);
+////        this.world.destroyBody(body);
+////
+////        body.setUserData(null);
+////        body = null;
+//        
+//        fire(new DeathEvent());
+//        getParent().removeActor(this);
+//        //stop animation and remove body
+//    }
     @Override
     public void isHitBy(Bullet bullet) {
         life -= bullet.getDamage();
@@ -280,10 +290,8 @@ public final class DemoBoss extends Boss {
         if ((movement.x > 0 && isLeft()) || (movement.x < 0 && isRight())) {
             flipFrames(true, false);
 
-        } else if (movement.x == 0){
-            
-           
-            
+        } else if (movement.x == 0) {
+
         }
 
         /*

@@ -8,6 +8,7 @@ package com.gdx.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -20,8 +21,8 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class MapLimits extends Entity {
 
-    public MapLimits(World world, float width, float height, Vector2 initialPosition) {
-        super(world, width, height, initialPosition);
+    public MapLimits( float width, float height, Vector2 initialPosition) {
+        super( width, height, initialPosition);
         initPhysics();
     }
 
@@ -57,4 +58,10 @@ public class MapLimits extends Entity {
     @Override
     protected void initGraphics() {
     }
+
+    @Override
+    public void setBody(Body b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

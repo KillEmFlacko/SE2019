@@ -57,7 +57,8 @@ public class PlayerSelectionScreen implements Screen {
     private final int BUTTON_SPACE = 5;
     private float colWidth;
     private float rowHeight;
-    private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("menu/back.jpg")));
+    //private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("menu/back.jpg")));
+    private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("back.png")));
 
     private Player player, player2, player3, player4;
 
@@ -92,7 +93,8 @@ public class PlayerSelectionScreen implements Screen {
         image.setPosition(0, 0);
         stage.addActor(image);
 
-        labelTitle = new Label("Choose Your Wizard", lblStyle);
+        labelTitle = new Label("Select your character", lblStyle);
+        labelTitle.setColor(Color.RED);
         labelTitle.setSize(Gdx.graphics.getWidth(), 30);
         labelTitle.setAlignment(Align.center);
         labelTitle.setPosition(0, Gdx.graphics.getHeight() - labelTitle.getHeight() * 2);
