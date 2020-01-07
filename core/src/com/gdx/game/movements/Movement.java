@@ -13,7 +13,7 @@ public class Movement extends Vector2 {
     protected float xSpeed;
     protected float ySpeed;
     protected Vector2 v;
-    protected String label;
+    protected String label = "";
 
     public Movement(float xSpeed, float ySpeed) {
         super(xSpeed, ySpeed);
@@ -46,5 +46,15 @@ public class Movement extends Vector2 {
     public Vector2 getV() {
         return v;
     }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+    
+    
 
 }

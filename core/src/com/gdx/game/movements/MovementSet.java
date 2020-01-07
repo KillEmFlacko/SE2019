@@ -8,7 +8,7 @@ import java.util.Queue;
  *
  * @author ammanas
  */
-public class MovementSet extends LinkedList{
+public class MovementSet {
     
     
     private Queue<Movement> moveSet;
@@ -20,6 +20,7 @@ public class MovementSet extends LinkedList{
     
     public MovementSet() {
         this.moveSet = new LinkedList<>();
+        
     }
     
     
@@ -29,7 +30,7 @@ public class MovementSet extends LinkedList{
         moveSet.offer(m);
     }
     
-    @Override
+
     public Movement remove(){
         return moveSet.remove();
     }
@@ -41,7 +42,7 @@ public class MovementSet extends LinkedList{
         return m;
     }
 
-    @Override
+
     public Movement peek() {
         return moveSet.peek();
     }
