@@ -49,7 +49,6 @@ public final class DemoBoss extends Boss {
     private Weapon weapon;
     private Vector2 actVelocity = new Vector2(0, 0);
 
-    private Movement prevMovement;
 
     public DemoBoss(String name, Integer life, float width, float height, Vector2 position, MovementSet movementQ, Player player) {
         super(name, life, width, height, position);
@@ -58,11 +57,6 @@ public final class DemoBoss extends Boss {
         DemoBossBullet b = new DemoBossBullet(4f / GdxGame.game.SCALE, this.player.getPosition(), 1, 10f);
         this.weapon = new Weapon(this, b, 1);
 
-        //bossState = new IdleState(); TO ADD
-        //this.movementQ = bossState.onIdle() TO ADD
-//        initPhysics();
-//        initGraphics();
-        this.prevMovement = movementQ.peek();
         defaultAction = new DemoBossAction();
     }
 
@@ -132,7 +126,6 @@ public final class DemoBoss extends Boss {
                 } else {
                     //spara LELLO SPARA
                     Movement movement = movementQ.frontToBack();
-                    //Gdx.app.log("V", movement.toString());
                     actVelocity.set(movement);
                     weapon.fire(newMovePlayer.scl(1f));
                     checkDirection(newMovePlayer);
@@ -293,34 +286,6 @@ public final class DemoBoss extends Boss {
         } else if (movement.x == 0) {
 
         }
-
-        /*
-        if (movement.x > 0 && prevMovement.x < 0) {
-
-            //textureRegion.flip(true, false);
-            flipFrames(true, false);
-
-        } else if (movement.x < 0 && prevMovement.x > 0) {
-
-            //System.out.println("jee");
-            //textureRegion.flip(true, false);
-            flipFrames(true, false);
-
-        } else if (movement.x == 0 && movement.y > 0) {
-            //change texture region to y one by moving on the atlas
-        } else if (movement.x == 0 && movement.y < 0) {
-            //change texture region by moving on the atlas
-        } else {
-            //System.out.println("WHat?!");
-            //since sprites are missing
-            /*
-            if (movement.x > movement.y) {
-                flipFrames(true, false);
-            } else {
-                //nothing
-            }
-            }
-         */
     }
 
     public String getName() {
