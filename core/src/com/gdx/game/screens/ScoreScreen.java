@@ -1,4 +1,3 @@
-
 package com.gdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
@@ -49,8 +48,8 @@ public class ScoreScreen implements Screen {
         parameters.color = Color.RED;
         parameters.borderWidth = 3;
         parameters.borderColor = Color.BLACK;
-        parameters.shadowOffsetX=1;
-        parameters.shadowColor= Color.BROWN;
+        parameters.shadowOffsetX = 1;
+        parameters.shadowColor = Color.BROWN;
         BitmapFont font = generator.generateFont(parameters);
         generator.dispose();
 

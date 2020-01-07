@@ -54,7 +54,7 @@ public abstract class Level extends Group implements Disposable {
         /////////// PLAYER ////////////
         float playerWorldWidth = 16 / GdxGame.SCALE;
         float playerWorldHeight = 28 / GdxGame.SCALE;
-        player = new Player("uajono",  playerWorldWidth, playerWorldHeight, Vector2.Zero,new NorthernWizard());
+        player = new Player("uajono", playerWorldWidth, playerWorldHeight, Vector2.Zero, new NorthernWizard());
         ///////////////////////////////
     }
 
@@ -71,18 +71,20 @@ public abstract class Level extends Group implements Disposable {
     @Override
     public void dispose() {
         Gdx.app.log(getName(), "Disposing");
-        if(mapRenderer != null) mapRenderer.dispose();
+        if (mapRenderer != null) {
+            mapRenderer.dispose();
+        }
         mapRenderer = null;
-        do{
+        do {
             getChildren().begin();
             for (Actor actor : getChildren()) {
-                if(actor != null){
+                if (actor != null) {
                     actor.clear();
                     actor.remove();
                 }
             }
             getChildren().end();
-        }while(getChildren().size > 0);
+        } while (getChildren().size > 0);
         GdxGame.game.bodyToRemove.add(mapWalls);
     }
 
@@ -126,13 +128,14 @@ public abstract class Level extends Group implements Disposable {
      * target?)
      */
     public static class EndLevelEvent extends ChangeListener.ChangeEvent {
+
         private boolean win;
-        
-        public EndLevelEvent(boolean hasWon){
+
+        public EndLevelEvent(boolean hasWon) {
             win = hasWon;
         }
-        
-        public boolean hasWon(){
+
+        public boolean hasWon() {
             return win;
         }
     }
@@ -165,7 +168,7 @@ public abstract class Level extends Group implements Disposable {
                 PolygonShape shape = getPolygon((PolygonMapObject) wall, getPixelPerTile() * getTilePerMeter());
                 FixtureDef fxtDef = new FixtureDef();
                 fxtDef.shape = shape;
-                
+
                 FilterFactory ff = new FilterFactory();
                 ff.copyFilter(fxtDef.filter, ff.getStaticColliderFilter());
 

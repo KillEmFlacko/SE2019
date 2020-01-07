@@ -1,8 +1,6 @@
 package com.gdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -14,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
@@ -68,7 +65,7 @@ public class TitleScreen implements Screen {
         image.setSize(stage.getWidth(), stage.getHeight());
         image.setPosition(0,0);
         stage.addActor(image);
-           */
+         */
         label1 = new Label("Doors of Sacrahan", lblStyle);
         label1.setSize(stage.getWidth(), 30);
         label1.setAlignment(Align.center);

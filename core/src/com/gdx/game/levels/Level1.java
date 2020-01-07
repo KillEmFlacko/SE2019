@@ -78,11 +78,11 @@ public final class Level1 extends Level {
 
         @Override
         public void changed(ChangeEvent arg0, Actor arg1) {
-            if(arg0 instanceof DeathEvent){
+            if (arg0 instanceof DeathEvent) {
                 dispose();
                 fire(new EndLevelEvent(!(arg1 instanceof Player)));
             }
         }
-        
+
     }
 }

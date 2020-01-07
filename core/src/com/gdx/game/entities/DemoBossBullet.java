@@ -5,10 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
-import com.gdx.game.GdxGame;
 
 /**
  *
@@ -17,8 +14,8 @@ import com.gdx.game.GdxGame;
 public class DemoBossBullet extends BasicBullet {
 
     // ASTRAI
-    public DemoBossBullet( float radius, Vector2 position, int damage, float initSpeed) {
-        super( radius, position, damage, initSpeed);
+    public DemoBossBullet(float radius, Vector2 position, int damage, float initSpeed) {
+        super(radius, position, damage, initSpeed);
     }
 
     @Override
@@ -35,7 +32,7 @@ public class DemoBossBullet extends BasicBullet {
 
     @Override
     public Bullet clone() {
-        DemoBossBullet clone = new DemoBossBullet( getWidth() / 2, getPosition(), damage, initialSpeed);
+        DemoBossBullet clone = new DemoBossBullet(getWidth() / 2, getPosition(), damage, initialSpeed);
         clone.setFilter(filter);
         return clone;
     }

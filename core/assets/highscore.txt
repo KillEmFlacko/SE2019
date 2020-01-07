@@ -1,4 +1,5 @@
 Peppe 1160
+UEUE_PAESA 910
 Davide 840
 SempreIo 690
 nicolapie 650
@@ -7,4 +8,3 @@ ciaobella 610
 Ciccio-sama 600
 Gianni 570
 Doxerino 550
-bello 540

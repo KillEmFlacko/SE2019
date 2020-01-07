@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
  *
  * @author ammanas
  */
-public class YMovement extends Movement{
+public class YMovement extends Movement {
 
     public YMovement(float ySpeed) {
         super(0, ySpeed);
@@ -16,13 +16,8 @@ public class YMovement extends Movement{
         super(0, ySpeed, label);
     }
 
-    
-
-
     public Vector2 getV() {
         return v;
     }
-    
-    
-    
+
 }

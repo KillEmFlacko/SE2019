@@ -1,17 +1,11 @@
-
 package com.gdx.game.entities.classes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
-import com.gdx.game.entities.BasicBullet;
-import com.gdx.game.factories.Weapon;
 
-public class WesternWizard extends MovableCharacterClass{
-    
+public class WesternWizard extends MovableCharacterClass {
+
     private final float STRENGHT = 0.8f;
     private final float ATTACK_RATE = 10;
     private final float SPEED = 9f;
@@ -27,7 +21,7 @@ public class WesternWizard extends MovableCharacterClass{
         idleAnimation = new Animation(0.2f, atlas.findRegions("m_idle"), Animation.PlayMode.LOOP);
         runAnimation = new Animation(0.09f, atlas.findRegions("m_run"), Animation.PlayMode.LOOP);
     }
-    
+
     @Override
     public float getStrenght() {
         return STRENGHT;
@@ -49,10 +43,10 @@ public class WesternWizard extends MovableCharacterClass{
     }
 
     @Override
-    public float getBulletSpeed(){
+    public float getBulletSpeed() {
         return BULLET_SPEED;
     }
-    
+
     @Override
     public TextureAtlas getAtlas() {
         return atlas;
@@ -67,6 +61,5 @@ public class WesternWizard extends MovableCharacterClass{
     public Animation<TextureAtlas.AtlasRegion> getIdleAnimation() {
         return idleAnimation;
     }
-    
+
 }
-    

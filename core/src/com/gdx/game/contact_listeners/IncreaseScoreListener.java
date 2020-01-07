@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.gdx.game.contact_listeners;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -37,24 +32,24 @@ public class IncreaseScoreListener extends ChangeListener {
         }
 
         HitEvent hit = (HitEvent) event;
-        
+
         // Se il player le ha prese, resettiamo il comboMultiplier
-        
         if (actor instanceof Player) {
             resetCombo();
             return;
         }
-        
+
         // Utilizziamo il tempo per resettare il comboMultiplier
         long currentHitTime = System.currentTimeMillis();
 
         // Se il tempo passato dall'ultimo colpo centrato è sotto soglia
         // aumentiamo il combo Multiplier, altrimenti va resettato.
-        if (currentHitTime - lastHitTime < RESET_TIME)
+        if (currentHitTime - lastHitTime < RESET_TIME) {
             increaseCombo();
-        else 
+        } else {
             resetCombo();
-        
+        }
+
         // Incrementiamo lo score e lo stampiamo sulla console
         long delta = BASE_INCR * comboMultiplier;
         score.increaseScore(delta);

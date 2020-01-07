@@ -36,7 +36,6 @@ public class PauseScreen implements Screen {
     private float rowHeight;
     private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("pause/sfondo.JPG")));
 
-
     public PauseScreen(GdxGame game, GameScreen previousScreen) {
         this.game = game;
         this.stage = new Stage(game.vp);
@@ -58,11 +57,11 @@ public class PauseScreen implements Screen {
 
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
-        
+
         Image image = new Image(textureRegion.getTexture());
         image.setSize(stage.getWidth(), stage.getHeight());
-        image.setPosition(0,0);
-        image.setColor(1,1,1,0.5f);
+        image.setPosition(0, 0);
+        image.setColor(1, 1, 1, 0.5f);
         stage.addActor(image);
 
         label1 = new Label("Game Paused", lblStyle);
@@ -98,8 +97,7 @@ public class PauseScreen implements Screen {
             }
         });
         stage.addActor(btnButton2);
-        
-        
+
         TextButton btn3Button = new TextButton("MAIN MENU", GdxGame.game.skin, "default");
         btn3Button.setSize(colWidth, rowHeight);
         btn3Button.setPosition(stage.getWidth() / 2 - 80, stage.getHeight() / 2 - 30);
@@ -107,7 +105,7 @@ public class PauseScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 PauseScreen.this.dispose();
-                
+
                 game.setScreen(new TitleScreen(game));
                 return true;
             }

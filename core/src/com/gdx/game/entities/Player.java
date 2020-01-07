@@ -3,11 +3,7 @@ package com.gdx.game.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
-import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.gdx.game.GdxGame;
 import com.gdx.game.contact_listeners.events.HitEvent;
 import com.gdx.game.entities.classes.CharacterClass;
@@ -99,8 +95,7 @@ public final class Player extends MortalEntity {
             shouldShoot(delta);
             return false;
         }
-        
-        
+
     }
 
     public void shouldShoot(float delta) {

@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.gdx.game.entities;
-
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -13,7 +7,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 
 /**
  *
@@ -21,8 +14,8 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class MapLimits extends Entity {
 
-    public MapLimits( float width, float height, Vector2 initialPosition) {
-        super( width, height, initialPosition);
+    public MapLimits(float width, float height, Vector2 initialPosition) {
+        super(width, height, initialPosition);
         initPhysics();
     }
 
@@ -34,7 +27,7 @@ public class MapLimits extends Entity {
         bodyDef.position.set(getPosition());
 
         this.body = this.world.createBody(bodyDef);
-        
+
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(getWidth() / 2, getHeight() / 2);
 
@@ -52,7 +45,7 @@ public class MapLimits extends Entity {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-         //To change body of generated methods, choose Tools | Templates.
+        //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

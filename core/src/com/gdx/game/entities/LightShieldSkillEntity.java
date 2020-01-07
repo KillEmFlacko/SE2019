@@ -1,23 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.gdx.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -35,8 +26,8 @@ public class LightShieldSkillEntity extends MortalEntity {
     private static int n_instances = 0;
 
     //height and width are the dimensions of the square in which the circle is confined
-    public LightShieldSkillEntity(String name, Integer life,  float width, float height, Vector2 position, Player caster) {
-        super(name, life,  width, height, position);
+    public LightShieldSkillEntity(String name, Integer life, float width, float height, Vector2 position, Player caster) {
+        super(name, life, width, height, position);
         this.caster = caster;
         defaultAction = new Aziona();
     }
@@ -105,22 +96,20 @@ public class LightShieldSkillEntity extends MortalEntity {
 
     }
 
-
-    
-
     private class Aziona extends Action {
-    @Override
-    public boolean act(float delta) {
-        if (LightShieldSkillEntity.super.life <= 0 || caster.getParent() == null) {
-            dispose();
-            return true;
+
+        @Override
+        public boolean act(float delta) {
+            if (LightShieldSkillEntity.super.life <= 0 || caster.getParent() == null) {
+                dispose();
+                return true;
+            }
+            //Questo  fa si che il body vada appresso al player MA dato che lo setti ogni volta 
+            //lo scudo si trova in mezzo al boss anche se questo non potrebbe superarlo.
+            //body.setTransform(caster.getPosition(), 0);
+            //textureRegion = movingAnimation.getKeyFrame(stateTime, true);
+            return false;
         }
-        //Questo  fa si che il body vada appresso al player MA dato che lo setti ogni volta 
-        //lo scudo si trova in mezzo al boss anche se questo non potrebbe superarlo.
-        //body.setTransform(caster.getPosition(), 0);
-        //textureRegion = movingAnimation.getKeyFrame(stateTime, true);
-        return false;
-    }
     }
 
     public static int getN_instances() {
@@ -133,7 +122,7 @@ public class LightShieldSkillEntity extends MortalEntity {
 
     @Override
     protected void setParent(Group parent) {
-        super.setParent(parent); 
+        super.setParent(parent);
         n_instances--;
-    }  
+    }
 }

@@ -1,6 +1,5 @@
 package com.gdx.game.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -12,7 +11,6 @@ import com.gdx.game.entities.classes.CharacterClass;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.utils.Disposable;
 import com.gdx.game.GameStage;
 import com.gdx.game.GdxGame;
@@ -114,7 +112,7 @@ public abstract class Entity extends Actor implements Disposable {
         }
     }
 
-    public void setBody(Body b){
+    public void setBody(Body b) {
         body = b;
     }
 

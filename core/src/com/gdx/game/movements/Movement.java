@@ -54,7 +54,5 @@ public class Movement extends Vector2 {
     public void setLabel(String label) {
         this.label = label;
     }
-    
-    
 
 }

@@ -26,24 +26,23 @@ import com.gdx.game.GdxGame;
  * @author Giovanni
  */
 public class GuideScreen implements Screen {
-    
+
     private final GdxGame game;
     private final Stage stage;
-     private float colWidth;
+    private float colWidth;
     private float rowHeight;
-    private final int padding=15;
-    
-     private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("guida/guida.png")));
-    
-  
-    public GuideScreen(GdxGame game){
-        this.game=game;
-        this.stage=new Stage(game.vp);
+    private final int padding = 15;
+
+    private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("guida/guida.png")));
+
+    public GuideScreen(GdxGame game) {
+        this.game = game;
+        this.stage = new Stage(game.vp);
         initUI();
     }
-    
-    private void initUI(){
-         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
+
+    private void initUI() {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameters.size = 30;
         parameters.color = Color.YELLOW;
@@ -54,12 +53,12 @@ public class GuideScreen implements Screen {
 
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
-        
+
         Image image = new Image(textureRegion.getTexture());
         image.setSize(stage.getWidth(), stage.getHeight());
-        image.setPosition(0,0);
+        image.setPosition(0, 0);
         stage.addActor(image);
-        
+
         colWidth = stage.getWidth() / 5f;
         rowHeight = stage.getHeight() / 15f;
         TextButton btnButton = new TextButton("Back", GdxGame.game.skin, "default");
@@ -74,14 +73,13 @@ public class GuideScreen implements Screen {
             }
         });
         stage.addActor(btnButton);
-        
-        
+
     }
-    
+
     @Override
     public void show() {
-           Gdx.input.setInputProcessor(stage);
-        
+        Gdx.input.setInputProcessor(stage);
+
     }
 
     @Override
@@ -99,23 +97,23 @@ public class GuideScreen implements Screen {
 
     @Override
     public void pause() {
-        
+
     }
 
     @Override
     public void resume() {
-        
+
     }
 
     @Override
     public void hide() {
-        
+
     }
 
     @Override
     public void dispose() {
         stage.dispose();
-      
+
     }
-    
+
 }

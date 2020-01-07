@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import java.util.HashMap;
 
-
 /**
  *
  * @author ammanas
@@ -41,16 +40,16 @@ public class MovementSetFactory {
         Gdx.app.log("Speed", speedModes.get(speed).toString());
         //Gdx.app.log("Shape", shape);
 
-        return selectMoves(speedModes.get(speed),shape, clockwise, playerPosition,towardsPlayer);
+        return selectMoves(speedModes.get(speed), shape, clockwise, playerPosition, towardsPlayer);
 
     }
 
-    protected MovementSet selectMoves(float selectedSpeed, String shape, boolean clockwise, Vector2 playerVector,int times) {
+    protected MovementSet selectMoves(float selectedSpeed, String shape, boolean clockwise, Vector2 playerVector, int times) {
 
         MovementSet mv = new MovementSet();
 
         System.out.println(selectedSpeed);
-        
+
         switch (shape) {
             case ("Square"): {
 

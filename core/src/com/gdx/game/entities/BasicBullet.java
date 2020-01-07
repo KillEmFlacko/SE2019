@@ -7,13 +7,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.gdx.game.factories.FilterFactory;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
 
 /**
@@ -73,7 +71,6 @@ public class BasicBullet extends Bullet {
         movingAnimation = new Animation<>(0.05f, array, Animation.PlayMode.LOOP);
         textureRegion = movingAnimation.getKeyFrame(0f);
     }
-
 
     private class BasicBulletAction extends Action {
 

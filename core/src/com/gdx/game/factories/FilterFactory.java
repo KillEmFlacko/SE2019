@@ -42,7 +42,7 @@ public class FilterFactory {
         f.maskBits = (short) (PLAYER_CATEGORY | STATIC_COLLIDER_CATEGORY);
         return f;
     }
-    
+
     public Filter getStaticColliderFilter() {
         Filter f = new Filter();
         f.categoryBits = STATIC_COLLIDER_CATEGORY;

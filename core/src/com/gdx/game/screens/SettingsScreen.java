@@ -4,15 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
@@ -21,8 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
 import com.gdx.game.settings.Settings;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 /**
  *
@@ -40,13 +35,13 @@ public class SettingsScreen implements Screen {
     private TitleScreen previousScreen;
     //private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("menu/back.jpg")));
 
-    public SettingsScreen(GdxGame game, TitleScreen previousS){
+    public SettingsScreen(GdxGame game, TitleScreen previousS) {
         this.game = game;
         this.stage = new Stage(game.vp);
         previousScreen = previousS;
         //ts = new TitleScreen(game);//commento
         initUI();
-     
+
     }
 
     private void initUI() {
@@ -66,7 +61,7 @@ public class SettingsScreen implements Screen {
         image.setSize(stage.getWidth(), stage.getWidth());
         image.setPosition(0,0);
         stage.addActor(image);
-        */
+         */
         label1 = new Label("SETTINGS", lblStyle);
         label1.setSize(stage.getWidth(), 30);
         label1.setAlignment(Align.center);

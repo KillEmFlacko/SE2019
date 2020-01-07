@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -16,18 +15,14 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.gdx.game.GdxGame;
-import com.gdx.game.contact_listeners.events.DeathEvent;
 import com.gdx.game.contact_listeners.events.HitEvent;
 import com.gdx.game.entities.Bullet;
 import com.gdx.game.entities.Player;
 import com.gdx.game.movements.MovementSet;
 import java.util.Random;
 import com.gdx.game.entities.*;
-import com.gdx.game.factories.FilterFactory;
 import com.gdx.game.factories.Weapon;
 import com.gdx.game.movements.Movement;
 
@@ -48,7 +43,6 @@ public final class DemoBoss extends Boss {
     private Player player;
     private Weapon weapon;
     private Vector2 actVelocity = new Vector2(0, 0);
-
 
     public DemoBoss(String name, Integer life, float width, float height, Vector2 position, MovementSet movementQ, Player player) {
         super(name, life, width, height, position);
@@ -89,7 +83,6 @@ public final class DemoBoss extends Boss {
 
     }
     //private int i = 0;
-
 
     private class DemoBossAction extends Action {
 

@@ -77,9 +77,9 @@ public class GameScreen implements Screen, EventListener {
         /////////// STAGE /////////////
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-        gameStage = new GameStage(new FitViewport(4,3));
-        gameStage.getViewport().setWorldSize(30, 30 * (3.0f/4));
-        gameStage.getViewport().update((int)w, (int)h);
+        gameStage = new GameStage(new FitViewport(4, 3));
+        gameStage.getViewport().setWorldSize(30, 30 * (3.0f / 4));
+        gameStage.getViewport().update((int) w, (int) h);
         //gameStage.getViewport().setWorldSize(30, 30 * (h / w)); // 30 * aspectRatio
         hudStage = new Stage(aGame.vp);
         gameStage.getRoot().addListener(this);
@@ -111,7 +111,6 @@ public class GameScreen implements Screen, EventListener {
         //////////////////////////
 
         //(14.623319,19.27667)  (15, 15 * (h / w))
-
         ///////////SET CAMERA///////////
         OrthographicCamera cam = (OrthographicCamera) gameStage.getCamera();
         cam.position.set(player.getPosition(), gameStage.getCamera().position.z);
@@ -220,7 +219,7 @@ public class GameScreen implements Screen, EventListener {
         Gdx.input.setInputProcessor(gameStage);
         Gdx.input.setInputProcessor(hudStage);
         gameStage.addListener(this);
-        
+
     }
 
     @Override
@@ -378,7 +377,7 @@ public class GameScreen implements Screen, EventListener {
         image.setColor(Color.RED);
         hudStage.addActor(image);
 
-        gameStage.addListener(new UpdateHUDListener(life,image));
+        gameStage.addListener(new UpdateHUDListener(life, image));
 
     }
 

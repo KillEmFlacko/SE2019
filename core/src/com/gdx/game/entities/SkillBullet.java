@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.gdx.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 
 /**
  *
@@ -24,8 +18,8 @@ public abstract class SkillBullet extends Bullet {
     protected Animation<TextureRegion> explosionAnimation;
     protected float stateTime = 0f;
 
-    public SkillBullet(int damage, float initialSpeed,  float radius, Vector2 initialPosition) {
-        super( radius, initialPosition);
+    public SkillBullet(int damage, float initialSpeed, float radius, Vector2 initialPosition) {
+        super(radius, initialPosition);
         this.damage = damage;
         this.initialSpeed = initialSpeed;
         //do not call init here
@@ -44,6 +38,4 @@ public abstract class SkillBullet extends Bullet {
     @Override
     public abstract SkillBullet clone();
 
-    
-    
 }

@@ -1,12 +1,11 @@
-
 package com.gdx.game.entities.classes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-public class NorthernWizard extends MovableCharacterClass{
-    
+public class NorthernWizard extends MovableCharacterClass {
+
     private final float STRENGHT = 1f;
     private final float ATTACK_RATE = 3;
     private final float SPEED = 12f;
@@ -22,7 +21,7 @@ public class NorthernWizard extends MovableCharacterClass{
         idleAnimation = new Animation(0.2f, atlas.findRegions("m_idle"), Animation.PlayMode.LOOP);
         runAnimation = new Animation(0.09f, atlas.findRegions("m_run"), Animation.PlayMode.LOOP);
     }
-    
+
     @Override
     public float getStrenght() {
         return STRENGHT;
@@ -44,10 +43,10 @@ public class NorthernWizard extends MovableCharacterClass{
     }
 
     @Override
-    public float getBulletSpeed(){
+    public float getBulletSpeed() {
         return BULLET_SPEED;
     }
-    
+
     @Override
     public TextureAtlas getAtlas() {
         return atlas;
@@ -62,6 +61,5 @@ public class NorthernWizard extends MovableCharacterClass{
     public Animation<TextureAtlas.AtlasRegion> getIdleAnimation() {
         return idleAnimation;
     }
-    
+
 }
-    

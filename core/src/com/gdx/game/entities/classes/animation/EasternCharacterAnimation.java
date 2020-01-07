@@ -1,4 +1,3 @@
-
 package com.gdx.game.entities.classes.animation;
 
 import com.badlogic.gdx.Gdx;
