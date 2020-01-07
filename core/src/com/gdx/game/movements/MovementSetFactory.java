@@ -31,7 +31,7 @@ public class MovementSetFactory {
      * Player
      * @return
      */
-    public MovementSet build(String speed, String shape, boolean clockwise, Vector2 playerPosition, int towardsPlayer) {
+    public MovementSet build(String speed, String shape, boolean clockwise) {
         HashMap<String, Float> speedModes = new HashMap<>();
 
         speedModes.put("Slow", 2f);
@@ -41,11 +41,11 @@ public class MovementSetFactory {
         Gdx.app.log("Speed", speedModes.get(speed).toString());
         //Gdx.app.log("Shape", shape);
 
-        return selectMoves(speedModes.get(speed),shape, clockwise, playerPosition,towardsPlayer);
+        return selectMoves(speedModes.get(speed),shape, clockwise);
 
     }
 
-    protected MovementSet selectMoves(float selectedSpeed, String shape, boolean clockwise, Vector2 playerVector,int times) {
+    protected MovementSet selectMoves(float selectedSpeed, String shape, boolean clockwise) {
 
         MovementSet mv = new MovementSet();
 

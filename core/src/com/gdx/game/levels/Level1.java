@@ -37,7 +37,7 @@ public final class Level1 extends Level {
         float h = Gdx.graphics.getHeight();
         player.setPosition(new Vector2(15, 15 * (h / w)));
         Vector2 v = player.getPosition().add(5, 5);
-        DemoBoss db = new DemoBoss("Wandering Demon", 150, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
+        DemoBoss db = new DemoBoss("Wandering Demon", 150, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false), player);
         enemies = Array.with((Enemy) db);
         /////////////////////////////////////
     }

@@ -36,7 +36,7 @@ public final class Level2 extends Level {
         //////////// ENTITIES ///////////////
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         Vector2 v = new Vector2(25, 35);
-        DemoBoss db = new DemoBoss("Wandering Demon", 150, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), p);
+        DemoBoss db = new DemoBoss("Wandering Demon", 150, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false), p);
         enemies = Array.with((Enemy) db);
         /////////////////////////////////////
 
