@@ -144,7 +144,7 @@ public class GameScreen implements Screen, EventListener {
         label1.setStyle(lblStyle);
 
         if (color.equals(Color.RED)) {
-            label1.setText("GAME LOSE");
+            label1.setText("You Lost");
             label1.setPosition(hudStage.getWidth() / 2 - 0.9f * label1.getWidth(), (hudStage.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * hudStage.getHeight());
         } else if (color.equals(Color.GREEN)) {
             //label1.setText("VICTORY");
@@ -252,7 +252,7 @@ public class GameScreen implements Screen, EventListener {
             //label1.setPosition(hudStage.getWidth() / 2 - 0.9f*label1.getWidth(), (hudStage.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * hudStage.getHeight());
         } else {
             initLabel(Color.GREEN);
-            label1.setText("VICTORY");
+            label1.setText("You Win");
             //label1.setPosition(hudStage.getWidth() / 2 - 0.7f*label1.getWidth(), (hudStage.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * hudStage.getHeight());
         }
         label1.setVisible(true);
