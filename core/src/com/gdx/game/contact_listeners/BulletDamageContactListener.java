@@ -17,11 +17,6 @@ public class BulletDamageContactListener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-        /*
-        if (!(contact.getFixtureA().getUserData() instanceof Bullet)  && !(contact.getFixtureB().getUserData() instanceof Bullet)){
-          return;  
-        }
-         */
         if (contact.getFixtureA().getUserData() instanceof Bullet) {
             Bullet b = (Bullet) contact.getFixtureA().getUserData();
             b.dispose();
