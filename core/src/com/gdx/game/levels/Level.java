@@ -1,5 +1,6 @@
 package com.gdx.game.levels;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapObject;
@@ -69,6 +70,7 @@ public abstract class Level extends Group implements Disposable {
      */
     @Override
     public void dispose() {
+        Gdx.app.log(getName(), "Disposing");
         if(mapRenderer != null) mapRenderer.dispose();
         mapRenderer = null;
         do{

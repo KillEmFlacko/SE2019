@@ -58,8 +58,6 @@ public class GameScreen implements Screen, EventListener {
     private final Stage hudStage;
     private TextField text;
     private TextButton btn;
-    private PauseScreen pauseScreen;
-    private boolean isPaused = false;
     private final GameStage gameStage;
     private final Array<Level> levels;
     private Button btnButton;
@@ -128,8 +126,7 @@ public class GameScreen implements Screen, EventListener {
         initHUD();
 //        pauseScreen = new PauseScreen(game, this);
 //        gameStage.getRoot().addListener(scoreListener);
-        pauseScreen = new PauseScreen(game, this);
-        
+        levels.get(0).start();
 
     }
 
@@ -223,7 +220,7 @@ public class GameScreen implements Screen, EventListener {
         Gdx.input.setInputProcessor(gameStage);
         Gdx.input.setInputProcessor(hudStage);
         gameStage.addListener(this);
-        levels.get(0).start();
+        
     }
 
     @Override
@@ -334,8 +331,7 @@ public class GameScreen implements Screen, EventListener {
 
     @Override
     public void pause() {
-        isPaused = true;
-        game.setScreen(pauseScreen);
+        game.setScreen(new PauseScreen(game, this));
     }
 
     @Override

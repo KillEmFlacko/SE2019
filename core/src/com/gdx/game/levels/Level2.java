@@ -27,6 +27,7 @@ public final class Level2 extends Level {
 
     public Level2(Player p) {
         super(p);
+        setName("Level2");
         initPlayerPos = new Vector2(11, 4);
 
         //////////// MAP ///////////
