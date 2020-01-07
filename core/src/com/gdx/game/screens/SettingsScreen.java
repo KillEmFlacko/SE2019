@@ -42,7 +42,7 @@ public class SettingsScreen implements Screen {
 
     public SettingsScreen(GdxGame game, TitleScreen previousS){
         this.game = game;
-        this.stage = new Stage();
+        this.stage = new Stage(game.vp);
         previousScreen = previousS;
         //ts = new TitleScreen(game);//commento
         initUI();
@@ -62,18 +62,18 @@ public class SettingsScreen implements Screen {
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
         Image image = new Image(textureRegion.getTexture());
-        image.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        image.setSize(stage.getWidth(), stage.getWidth());
         image.setPosition(0,0);
         stage.addActor(image);
 
         label1 = new Label("SETTINGS", lblStyle);
-        label1.setSize(Gdx.graphics.getWidth(), 30);
+        label1.setSize(stage.getWidth(), 30);
         label1.setAlignment(Align.center);
-        label1.setPosition(0, Gdx.graphics.getHeight() / 2 - 15 + 250);
+        label1.setPosition(0, stage.getWidth() / 2 - 15 + 250);
         stage.addActor(label1);
 
-        colWidth = Gdx.graphics.getWidth() / 5f;
-        rowHeight = Gdx.graphics.getHeight() / 15f;
+        colWidth = stage.getWidth() / 5f;
+        rowHeight = stage.getWidth() / 15f;
         TextButton btnButton = new TextButton("Back", GdxGame.game.skin, "default");
         btnButton.setSize(colWidth, rowHeight);
         btnButton.setPosition(padding, padding);
@@ -88,16 +88,16 @@ public class SettingsScreen implements Screen {
         stage.addActor(btnButton);
 
         audio = new Label("AUDIO", lblStyle);
-        audio.setSize(Gdx.graphics.getWidth(), 30);
+        audio.setSize(stage.getWidth(), 30);
         audio.setAlignment(Align.center);
-        audio.setPosition(Gdx.graphics.getWidth() / 2 - 15 - 675, Gdx.graphics.getHeight() / 2 + 150);
+        audio.setPosition(stage.getWidth() / 2 - 15 - 675, stage.getWidth() / 2 + 150);
         stage.addActor(audio);
 
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         final Slider volume = new Slider(0.0f, 1.0f, 0.1f, false, skin);
 
         volume.setValue(Settings.getDEFAULT_VOLUME());
-        volume.setPosition(Gdx.graphics.getWidth() / 2 - 140, Gdx.graphics.getHeight() / 2 + 155);
+        volume.setPosition(stage.getWidth() / 2 - 140, stage.getWidth() / 2 + 155);
 
         stage.addActor(volume);
 
@@ -119,15 +119,14 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 0, 0, 0);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
     }
 
     @Override
-    public void resize(int arg0, int arg1) {
-
+    public void resize(int width, int height) {
     }
 
     @Override

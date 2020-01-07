@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.gdx.game.GameStage;
 import com.gdx.game.GdxGame;
 import com.gdx.game.entities.Player;
@@ -76,9 +77,13 @@ public class GameScreen implements Screen, EventListener {
         this.game = aGame;
 
         /////////// STAGE /////////////
-        gameStage = new GameStage();
-        hudStage = new Stage();
-        gameStage.setViewport(aGame.vp);
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+        gameStage = new GameStage(new FitViewport(4,3));
+        gameStage.getViewport().setWorldSize(30, 30 * (3.0f/4));
+        gameStage.getViewport().update((int)w, (int)h);
+        //gameStage.getViewport().setWorldSize(30, 30 * (h / w)); // 30 * aspectRatio
+        hudStage = new Stage(aGame.vp);
         gameStage.getRoot().addListener(this);
         //////////////////////////////
 
@@ -107,13 +112,10 @@ public class GameScreen implements Screen, EventListener {
 //        initLabel();
         //////////////////////////
 
-        ///////////SET CAMERA///////////
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
         //(14.623319,19.27667)  (15, 15 * (h / w))
 
+        ///////////SET CAMERA///////////
         OrthographicCamera cam = (OrthographicCamera) gameStage.getCamera();
-        game.vp.setWorldSize(30, 30 * (h / w)); // 30 * aspectRatio
         cam.position.set(player.getPosition(), gameStage.getCamera().position.z);
         cam.update();
 //        ////////////////////////////////
@@ -147,10 +149,10 @@ public class GameScreen implements Screen, EventListener {
 
         if (color.equals(Color.RED)) {
             label1.setText("GAME LOSE");
-            label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.9f * label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
+            label1.setPosition(hudStage.getWidth() / 2 - 0.9f * label1.getWidth(), (hudStage.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * hudStage.getHeight());
         } else if (color.equals(Color.GREEN)) {
             //label1.setText("VICTORY");
-            label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.7f * label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
+            label1.setPosition(hudStage.getWidth() / 2 - 0.7f * label1.getWidth(), (hudStage.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * hudStage.getHeight());
         }
         label1.setVisible(true);
     }
@@ -173,7 +175,7 @@ public class GameScreen implements Screen, EventListener {
 
         label1.setSize(label1.getWidth() * 3, label1.getHeight() * 3);
         label1.setFontScale(3);
-        label1.setPosition(Gdx.graphics.getWidth() / 2 - label1.getWidth() / 2, (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
+        label1.setPosition(hudStage.getWidth() / 2 - label1.getWidth() / 2, (hudStage.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * hudStage.getHeight());
 
         label1.setVisible(false);
 
@@ -187,17 +189,17 @@ public class GameScreen implements Screen, EventListener {
         text.setAlignment(center);
         text.setMaxLength(10);
         text.setMessageText("Enter your nickname");
-        text.setSize(Gdx.graphics.getWidth() / 2, text.getHeight() * 2);
-        text.setPosition(Gdx.graphics.getWidth() / 2 - text.getWidth() / 2, (Gdx.graphics.getHeight() / 2 - text.getHeight() / 2) - 0.1f * Gdx.graphics.getHeight());
+        text.setSize(hudStage.getWidth() / 2, text.getHeight() * 2);
+        text.setPosition(hudStage.getWidth() / 2 - text.getWidth() / 2, (hudStage.getHeight() / 2 - text.getHeight() / 2) - 0.1f * hudStage.getHeight());
         text.setVisible(false);
 
         hudStage.addActor(text);
 
         //enter button
         btn = new TextButton("OK", GdxGame.game.skin, "default");
-        btn.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
-        btn.setPosition(Gdx.graphics.getWidth() / 2 - btn.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 0.3f * Gdx.graphics.getHeight());
-//btn.setPosition(Gdx.graphics.getWidth() / 2 - text.getWidth() / 2, Gdx.graphics.getHeight() / 2 - text.getHeight() / 2);
+        btn.setSize(hudStage.getWidth() / 5, hudStage.getHeight() / 15);
+        btn.setPosition(hudStage.getWidth() / 2 - btn.getWidth() / 2, hudStage.getHeight() / 2 - 0.3f * hudStage.getHeight());
+//btn.setPosition(hudStage.getWidth() / 2 - text.getWidth() / 2, hudStage.getHeight() / 2 - text.getHeight() / 2);
         btn.setVisible(false);
         btn.addListener(new InputListener() {
             @Override
@@ -236,8 +238,10 @@ public class GameScreen implements Screen, EventListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         world.step(1 / 60f, 6, 2);
         gameStage.act();
+        gameStage.getViewport().apply();
         gameStage.draw();
         hudStage.act();
+        hudStage.getViewport().apply();
         hudStage.draw();
         //      decommentare per seguire il player
         gameStage.getCamera().position.set(player.getPosition(), gameStage.getCamera().position.z);
@@ -249,11 +253,11 @@ public class GameScreen implements Screen, EventListener {
         if (!win) {
             initLabel(Color.RED);
             //label1.setText("GAME LOSE");
-            //label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.9f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
+            //label1.setPosition(hudStage.getWidth() / 2 - 0.9f*label1.getWidth(), (hudStage.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * hudStage.getHeight());
         } else {
             initLabel(Color.GREEN);
             label1.setText("VICTORY");
-            //label1.setPosition(Gdx.graphics.getWidth() / 2 - 0.7f*label1.getWidth(), (Gdx.graphics.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * Gdx.graphics.getHeight());
+            //label1.setPosition(hudStage.getWidth() / 2 - 0.7f*label1.getWidth(), (hudStage.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * hudStage.getHeight());
         }
         label1.setVisible(true);
         try {
@@ -324,7 +328,8 @@ public class GameScreen implements Screen, EventListener {
     }
 
     @Override
-    public void resize(int i, int i1) {
+    public void resize(int width, int height) {
+        gameStage.getViewport().update(width, height);
     }
 
     @Override
@@ -366,13 +371,13 @@ public class GameScreen implements Screen, EventListener {
         blank = new Texture(Gdx.files.internal("texture/enemy/bosses/red.jpg"));
 
         image2 = new Image(blank);
-        image2.setSize(Gdx.graphics.getWidth(), 30);
+        image2.setSize(hudStage.getWidth(), 30);
         image2.setPosition(0, 0);
         image2.setColor(Color.DARK_GRAY);
         hudStage.addActor(image2);
 
         image = new Image(blank);
-        image.setSize(Gdx.graphics.getWidth() - 5, 20);
+        image.setSize(hudStage.getWidth() - 5, 20);
         image.setPosition(5, 5);
         image.setColor(Color.RED);
         hudStage.addActor(image);
@@ -384,8 +389,8 @@ public class GameScreen implements Screen, EventListener {
     private void createLifebar() {
         int i = 0;
         for (Heart h : life) {
-            h.getImage().setPosition(8 + 10 * i + h.getImage().getWidth() / 15 * i, Gdx.graphics.getHeight() - h.getImage().getHeight() / 12);
-            h.getImage().setSize(Gdx.graphics.getWidth() / 15, Gdx.graphics.getHeight() / 12);
+            h.getImage().setPosition(8 + 10 * i + h.getImage().getWidth() / 15 * i, hudStage.getHeight() - h.getImage().getHeight() / 12);
+            h.getImage().setSize(hudStage.getWidth() / 15, hudStage.getHeight() / 12);
             hudStage.addActor(h.getImage());
             i++;
         }

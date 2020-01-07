@@ -39,7 +39,7 @@ public class PauseScreen implements Screen {
 
     public PauseScreen(GdxGame game, GameScreen previousS) {
         this.game = game;
-        this.stage = new Stage();
+        this.stage = new Stage(game.vp);
         previousScreen = previousS;
         initUI();
 
@@ -60,23 +60,23 @@ public class PauseScreen implements Screen {
         lblStyle.font = font;
         
         Image image = new Image(textureRegion.getTexture());
-        image.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        image.setSize(stage.getWidth(), stage.getHeight());
         image.setPosition(0,0);
         image.setColor(1,1,1,0.5f);
         stage.addActor(image);
 
         label1 = new Label("Game Paused", lblStyle);
-        label1.setSize(Gdx.graphics.getWidth(), 30);
+        label1.setSize(stage.getWidth(), 30);
         label1.setAlignment(Align.center);
-        label1.setPosition(0, Gdx.graphics.getHeight() / 2 - 15 + 100);
+        label1.setPosition(0, stage.getHeight() / 2 - 15 + 100);
         label1.setVisible(true);
         stage.addActor(label1);
 
-        colWidth = Gdx.graphics.getWidth() / 5f;
-        rowHeight = Gdx.graphics.getHeight() / 15f;
+        colWidth = stage.getWidth() / 5f;
+        rowHeight = stage.getHeight() / 15f;
         TextButton btnButton = new TextButton("RESUME", GdxGame.game.skin, "default");
         btnButton.setSize(colWidth, rowHeight);
-        btnButton.setPosition(Gdx.graphics.getWidth() / 2 - 80, Gdx.graphics.getHeight() / 2 + 20);
+        btnButton.setPosition(stage.getWidth() / 2 - 80, stage.getHeight() / 2 + 20);
         btnButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -88,7 +88,7 @@ public class PauseScreen implements Screen {
 
         TextButton btnButton2 = new TextButton("QUIT", GdxGame.game.skin, "default");
         btnButton2.setSize(colWidth, rowHeight);
-        btnButton2.setPosition(Gdx.graphics.getWidth() / 2 - 80, Gdx.graphics.getHeight() / 2 - 80);
+        btnButton2.setPosition(stage.getWidth() / 2 - 80, stage.getHeight() / 2 - 80);
         btnButton2.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -102,7 +102,7 @@ public class PauseScreen implements Screen {
         
         TextButton btn3Button = new TextButton("MAIN MENU", GdxGame.game.skin, "default");
         btn3Button.setSize(colWidth, rowHeight);
-        btn3Button.setPosition(Gdx.graphics.getWidth() / 2 - 80, Gdx.graphics.getHeight() / 2 - 30);
+        btn3Button.setPosition(stage.getWidth() / 2 - 80, stage.getHeight() / 2 - 30);
         btn3Button.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -130,7 +130,7 @@ public class PauseScreen implements Screen {
     }
 
     @Override
-    public void resize(int i, int i1) {
+    public void resize(int width, int height) {
     }
 
     @Override

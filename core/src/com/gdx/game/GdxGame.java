@@ -70,6 +70,7 @@ public class GdxGame extends Game {
     @Override
     public void resize(int width, int height) {
         vp.update(width, height);
+        getScreen().resize(width, height);
     }
 
 }

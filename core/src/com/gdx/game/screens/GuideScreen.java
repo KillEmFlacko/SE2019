@@ -37,9 +37,9 @@ public class GuideScreen implements Screen {
     
   
     public GuideScreen(GdxGame game){
-    this.game=game;
-    this.stage=new Stage();
-    initUI();
+        this.game=game;
+        this.stage=new Stage(game.vp);
+        initUI();
     }
     
     private void initUI(){
@@ -56,12 +56,12 @@ public class GuideScreen implements Screen {
         lblStyle.font = font;
         
         Image image = new Image(textureRegion.getTexture());
-        image.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        image.setSize(stage.getWidth(), stage.getHeight());
         image.setPosition(0,0);
         stage.addActor(image);
         
-        colWidth = Gdx.graphics.getWidth() / 5f;
-        rowHeight = Gdx.graphics.getHeight() / 15f;
+        colWidth = stage.getWidth() / 5f;
+        rowHeight = stage.getHeight() / 15f;
         TextButton btnButton = new TextButton("Back", GdxGame.game.skin, "default");
         btnButton.setSize(colWidth, rowHeight);
         btnButton.setPosition(padding, padding);
@@ -78,17 +78,6 @@ public class GuideScreen implements Screen {
         
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
     @Override
     public void show() {
            Gdx.input.setInputProcessor(stage);
@@ -105,8 +94,7 @@ public class GuideScreen implements Screen {
     }
 
     @Override
-    public void resize(int arg0, int arg1) {
-
+    public void resize(int width, int height) {
     }
 
     @Override
