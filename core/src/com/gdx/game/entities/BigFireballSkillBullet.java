@@ -21,12 +21,6 @@ public class BigFireballSkillBullet extends SkillBullet {
 
     private TextureAtlas atlas;
 
-    /*
-     
-    private Animation<TextureRegion> movingAnimation;
-    private Animation<TextureRegion> explosionAnimation;
-    private float stateTime = 0f;
-     */
     public BigFireballSkillBullet(int damage, float speed, float radius, Vector2 position) {
         super(damage, speed, radius, position);
         defaultAction = new BasicBulletAction();
