@@ -37,10 +37,10 @@ public class PauseScreen implements Screen {
     private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("pause/sfondo.JPG")));
 
 
-    public PauseScreen(GdxGame game, GameScreen previousS) {
+    public PauseScreen(GdxGame game, GameScreen previousScreen) {
         this.game = game;
         this.stage = new Stage(game.vp);
-        previousScreen = previousS;
+        this.previousScreen = previousScreen;
         initUI();
 
     }
