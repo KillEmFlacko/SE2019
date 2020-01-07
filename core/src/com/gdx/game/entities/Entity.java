@@ -106,12 +106,11 @@ public abstract class Entity extends Actor implements Disposable {
 
     @Override
     public void dispose() {
-        defaultAction.reset();
         this.clear();
+        defaultAction.reset();
         Action removeActor = Actions.removeActor(this);
         if (getStage() != null) {
-            
-        getStage().addAction(removeActor);
+            getStage().addAction(removeActor);
         }
     }
 

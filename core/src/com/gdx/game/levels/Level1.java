@@ -57,16 +57,15 @@ public final class Level1 extends Level {
     public void dispose() {
         mapRenderer.dispose();
         mapRenderer = null;
-        for (Enemy enemy : enemies) {
-            enemy.dispose();
-        }
-//        player.dispose();
-        getChildren().begin();
-        for (Actor enemy : getChildren()) {
-            enemy.clear();
-            enemy.remove();
-        }
-        getChildren().end();
+        do{
+            getChildren().begin();
+            for (Actor enemy : getChildren()) {
+                System.out.println("Disposing "+enemy.getName());
+                enemy.clear();
+                enemy.remove();
+            }
+            getChildren().end();
+        }while(getChildren().size > 0);
         GdxGame.game.bodyToRemove.add(mapWalls);
     }
 
