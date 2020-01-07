@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.gdx.game.actions.GameAction;
 import com.gdx.game.contact_listeners.events.HitEvent;
+import com.gdx.game.factories.FilterFactory;
 import com.gdx.game.factories.Weapon;
 
 /**
@@ -14,16 +15,18 @@ import com.gdx.game.factories.Weapon;
  */
 public final class Player extends MortalEntity {
 
-    private float stateTime = 0f;
     private float speed;
 
     private boolean skillSelected = false;
     private DefenseSkill dSkill;
 
-    private float strength = 1.5f;
-    private float attackRate = 3;
-    private float baseSpeed = 9f;
-    private float bulletSpeed = 7f * 1.5f;
+    private Weapon baseWeapon;
+    private Weapon fireWeapon;
+    
+    private float strength;
+    private float attackRate;
+    private float baseSpeed;
+    private float bulletSpeed;
 
     public Player(PlayerDef entityDef) {
         super(entityDef);
@@ -32,12 +35,35 @@ public final class Player extends MortalEntity {
         this.baseSpeed = entityDef.getSpeed();
         this.attackRate = entityDef.getAttackRate();
         this.bulletSpeed = entityDef.getBulletSpeed();
-
+        
+        FilterFactory ff = new FilterFactory();
+        
+        BulletDef bulletDef = new BasicBulletDef();
+        Bullet baseBullet = new Bullet(bulletDef, ff.getPlayerBulletFilter(), bulletSpeed);
+        baseBullet.setDamageMultiplicator(strength);
+        this.baseWeapon = new Weapon(this, baseBullet, attackRate);
+        
+        BulletDef fireballDef = new FireballDef();
+        Bullet fireball = new Bullet(fireballDef, ff.getPlayerBulletFilter(), bulletSpeed);
+        this.fireWeapon = new Weapon(this, fireball, 1f/((SkillDef)fireballDef).getCooldown());
+        
         RepeatAction playerAction = new RepeatAction();
         playerAction.setAction(new PlayerAction());
         playerAction.setCount(RepeatAction.FOREVER);
 
         addAction(playerAction);
+    }
+
+    public float getStrength() {
+        return strength;
+    }
+
+    public float getAttackRate() {
+        return attackRate;
+    }
+
+    public float getBulletSpeed() {
+        return bulletSpeed;
     }
 
     /*
@@ -124,31 +150,31 @@ public final class Player extends MortalEntity {
         if (Gdx.input.isKeyJustPressed(Keys.UP) && Gdx.input.isKeyPressed(Keys.Q)) {
             //skill is a Fireball for instance
             //skillWeapon.fire(new Vector2(0, 1));
-            dmgSkill.cast(new Vector2(0, 1));
+            fireWeapon.fire(new Vector2(0, 1));
 
         } else if (Gdx.input.isKeyPressed(Keys.UP) && !Gdx.input.isKeyPressed(Keys.Q)) {
-            weapon.fire(new Vector2(0, 1));
+            baseWeapon.fire(new Vector2(0, 1));
         }
 
         if (Gdx.input.isKeyPressed(Keys.DOWN) && Gdx.input.isKeyPressed(Keys.Q)) {
 
-            dmgSkill.cast(new Vector2(0, -1));
+            fireWeapon.fire(new Vector2(0, -1));
         } else if (Gdx.input.isKeyPressed(Keys.DOWN) && !Gdx.input.isKeyPressed(Keys.Q)) {
-            weapon.fire(new Vector2(0, -1));
+            baseWeapon.fire(new Vector2(0, -1));
         }
 
         if (Gdx.input.isKeyPressed(Keys.RIGHT) && Gdx.input.isKeyPressed(Keys.Q)) {
 
-            dmgSkill.cast(new Vector2(1, 0));
+            fireWeapon.fire(new Vector2(1, 0));
 
         } else if (Gdx.input.isKeyPressed(Keys.RIGHT) && !Gdx.input.isKeyPressed(Keys.Q)) {
-            weapon.fire(new Vector2(1, 0));
+            baseWeapon.fire(new Vector2(1, 0));
         }
 
         if (Gdx.input.isKeyPressed(Keys.LEFT) && Gdx.input.isKeyPressed(Keys.Q)) {
-            dmgSkill.cast(new Vector2(-1, 0));
+            fireWeapon.fire(new Vector2(-1, 0));
         } else if (Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.Q)) {
-            weapon.fire(new Vector2(-1, 0));
+            baseWeapon.fire(new Vector2(-1, 0));
         }
 
     }
@@ -221,4 +247,5 @@ public final class Player extends MortalEntity {
             return true;
         }
     }
+
 }

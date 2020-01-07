@@ -44,8 +44,8 @@ public class DemoBossBulletDef extends BasicBulletDef {
     private final Texture texture;
 
 
-    public DemoBossBulletDef(MortalEntity caster, Filter filter) {
-        super(caster, filter);
+    public DemoBossBulletDef() {
+        super();
         this.texture = new Texture(Gdx.files.internal("texture/fireball/Small_Fireball_26x10.png"));
     }
 

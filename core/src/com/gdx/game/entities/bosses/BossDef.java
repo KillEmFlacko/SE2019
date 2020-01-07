@@ -6,7 +6,6 @@
 package com.gdx.game.entities.bosses;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,43 +14,30 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gdx.game.entities.EntityDef;
-import com.gdx.game.entities.Player;
-import com.gdx.game.factories.Weapon;
-import com.gdx.game.movements.Movement;
-import com.gdx.game.movements.MovementSet;
-import java.util.Map;
-import java.util.TreeMap;
+import com.gdx.game.entities.MortalEntityDef;
 
 /**
  *
  * @author ammanas
  */
-public class BossDef implements EntityDef {
+public class BossDef implements MortalEntityDef {
 
-    private BodyDef bd;
+    private BodyDef bodyDef;
     private ObjectMap<String, FixtureDef> fixtureDefs = new ObjectMap<>();
     private ObjectMap<String, Animation> animations = new ObjectMap<>();
     private float width;
     private float height;
     private float customScale;
+    
+    private final int LIFE_POINTS = 100;
 
     //per farlo muovere subito senza dover istanziare un movimento
-    private Texture regions;
     private Animation<TextureRegion> movementAnimation;
     private TextureAtlas atlas;
-    
-    private MovementSet movementQ;
-    private BossState bossState;
-    private Player player;
-    private Weapon weapon;
-
 
     public BossDef(BodyDef bd) {
-        this.bd = new BodyDef();
-
-        bd.type = BodyDef.BodyType.DynamicBody;
-        //bd.position.set(getPosition());
+        this.bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width * 0.6f / 2, width / 2);
@@ -66,16 +52,15 @@ public class BossDef implements EntityDef {
         atlas = new TextureAtlas(Gdx.files.internal("texture/enemy/bosses/big_demon/big_demon.atlas"));
         movementAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("run"), Animation.PlayMode.LOOP);
 
-        
-        animations.put("moving", movementAnimation);
-        fixtureDefs.put("sensor", fixtureDef);
-        
+        animations.put("run", movementAnimation);
+        fixtureDefs.put("colliding", fixtureDef);
 
     }
 
     @Override
-    public BodyDef getBodyDef() {
-        return bd;
+    public BodyDef getBodyDef(Vector2 position) {
+        bodyDef.position.set(position);
+        return bodyDef;
     }
 
     @Override
@@ -122,6 +107,11 @@ public class BossDef implements EntityDef {
     @Override
     public void setHeight(float height) {
         this.height = height;
+    }
+
+    @Override
+    public int getBaseHP() {
+        return LIFE_POINTS;
     }
 
 }

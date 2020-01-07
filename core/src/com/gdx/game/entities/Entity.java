@@ -26,12 +26,13 @@ public class Entity extends Actor {
     private TextureRegion textureRegion;
     private EntityDef entityDef;
     private Fixture mainFixture; 
+    protected float stateTime = 0f;
     
     public Entity(EntityDef entityDef) {
         super();
         this.entityDef = entityDef;
 
-        textureRegion = (TextureRegion) entityDef.getAnimations().get("idle").getKeyFrame(0f);
+        textureRegion = (TextureRegion) entityDef.getAnimations().get("run").getKeyFrame(0f);
         addAction(new Init());
     }
 
@@ -134,15 +135,15 @@ public class Entity extends Actor {
     }
 
     // -------------- Physics:Velocity
-    protected void setLinearVelocity(Vector2 velocity) {
+    public void setLinearVelocity(Vector2 velocity) {
         body.setLinearVelocity(velocity);
     }
 
-    protected void setLinearVelocity(float x, float y) {
+    public void setLinearVelocity(float x, float y) {
         body.setLinearVelocity(x, y);
     }
 
-    protected Vector2 getLinearVelocity() {
+    public Vector2 getLinearVelocity() {
         return body.getLinearVelocity();
     }
 

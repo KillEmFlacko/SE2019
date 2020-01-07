@@ -7,11 +7,10 @@ package com.gdx.game.entities;
 
 /**
  *
- * @author ammanas
+ * @author david
  */
-public abstract class PlayerSkill extends Skill {
-
-    public PlayerSkill(MortalEntity caster, float coolDown) {
-        super(caster, coolDown);
-    }
+public interface SkillDef extends EntityDef{
+    
+    public float getCooldown();
+    
 }

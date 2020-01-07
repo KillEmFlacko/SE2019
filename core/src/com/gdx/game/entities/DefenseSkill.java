@@ -14,8 +14,8 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public abstract class DefenseSkill extends PlayerSkill{
 
-    public DefenseSkill(float coolDown, MortalEntity caster) {
-        super(coolDown, caster);
+    public DefenseSkill(MortalEntity caster, float coolDown) {
+        super(caster, coolDown);
     }
 
 }

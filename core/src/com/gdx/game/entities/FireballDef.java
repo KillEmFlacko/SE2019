@@ -6,29 +6,23 @@
 package com.gdx.game.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gdx.game.factories.FilterFactory;
 
 /**
  *
  * @author ammanas
  */
-public class FireballSkillBulletDef implements BulletDef {
-    
-    private BodyDef bd;
+public class FireballDef implements BulletDef, SkillDef{
+
+    private final float COOLDOWN = 5f;
+    private BodyDef bodyDef;
     private ObjectMap<String, FixtureDef> fixtureDefs = new ObjectMap<>();
     private ObjectMap<String, Animation> animations = new ObjectMap<>();
     private float width;
@@ -36,39 +30,32 @@ public class FireballSkillBulletDef implements BulletDef {
     private float customScale;
     private Animation<TextureRegion> movingAnimation;
     private TextureAtlas atlas;
-    private MortalEntity caster;
-    
-    private int damage = 10;
-    private float initialSpeed = 10f;
 
-    public FireballSkillBulletDef(MortalEntity caster, Filter filter) {
-        this.caster = caster;
-        
+    private int damage = 10;
+
+    public FireballDef() {
+
         atlas = new TextureAtlas(Gdx.files.internal("texture/player/skill/fireballSkill/pack.atlas"));
-        movingAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("moving"),Animation.PlayMode.LOOP);
-        
-        animations.put("basic", movingAnimation);
-        
-        bd.type = BodyDef.BodyType.KinematicBody;
+        movingAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("moving"), Animation.PlayMode.LOOP);
+
+        animations.put("run", movingAnimation);
+
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
 
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(width/2);
+        circleShape.setRadius(width / 2);
 
-        FilterFactory ff = new FilterFactory();
         FixtureDef fixtureDef = new FixtureDef();
-        
-        ff.copyFilter(fixtureDef.filter,filter);
+
         fixtureDef.shape = circleShape;
         fixtureDef.isSensor = true;
         fixtureDef.density = 0.1f;
-        
-        fixtureDefs.put("basic", fixtureDef);
+
+        fixtureDefs.put("colliding", fixtureDef);
         circleShape.dispose();
-        
-        
+
     }
 
-    
     /*
      
     private Animation<TextureRegion> movingAnimation;
@@ -216,11 +203,7 @@ public class FireballSkillBulletDef implements BulletDef {
                 body.getLinearVelocity().angle()+180f);
     }
      */
-    @Override
-    public BodyDef getBodyDef() {
-        return bd;
-    }
-
+    
     @Override
     public ObjectMap<String, FixtureDef> getFixtureDefs() {
         return fixtureDefs;
@@ -268,12 +251,18 @@ public class FireballSkillBulletDef implements BulletDef {
     }
 
     @Override
-    public int getDamage() {
+    public int getBaseDamage() {
         return damage;
+    }
+    
+    @Override
+    public float getCooldown(){
+        return COOLDOWN;
     }
 
     @Override
-    public float getInitialSpeed() {
-        return initialSpeed;        
+    public BodyDef getBodyDef(Vector2 position) {
+        bodyDef.position.set(position);
+        return bodyDef;
     }
 }

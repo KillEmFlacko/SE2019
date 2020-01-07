@@ -3,17 +3,11 @@ package com.gdx.game.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.gdx.game.factories.FilterFactory;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gdx.game.GdxGame;
@@ -25,65 +19,49 @@ import com.gdx.game.GdxGame;
 public class BasicBulletDef implements BulletDef {
 
     private final int damage = 1;
-    private final float initialSpeed = 10;
-    
+
     protected Animation<TextureRegion> movingAnimation;
     private Texture texture = new Texture(Gdx.files.internal("texture/fireballV2/Small_Iceball_24x9.png"));
-    private TextureRegion textureRegion;
 
-    private BodyDef bd;
+    private BodyDef bodyDef;
     private ObjectMap<String, FixtureDef> fixtureDefs = new ObjectMap<>();
     private ObjectMap<String, Animation> animations = new ObjectMap<>();
     private float width = 4f / GdxGame.game.SCALE;
     private float height = width;
 
     private float customScale;
-    private Filter filter;
-    
-    
 
-    public BasicBulletDef(MortalEntity caster,Filter filter) {
-        bd = new BodyDef();
+    public BasicBulletDef() {
+        bodyDef = new BodyDef();
 
-        bd.type = BodyDef.BodyType.KinematicBody;
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
 
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(width / 2);
 
-        FilterFactory ff = new FilterFactory();
-
         FixtureDef fixtureDef = new FixtureDef();
-        this.filter = filter;
-
-        ff.copyFilter(fixtureDef.filter, filter);
         fixtureDef.shape = circleShape;
         fixtureDef.isSensor = true;
         fixtureDef.density = 0.1f;
 
         circleShape.dispose();
-        
-        fixtureDefs.put("basic", fixtureDef);
-        
+
+        fixtureDefs.put("colliding", fixtureDef);
+
         TextureRegion[][] animation = TextureRegion.split(texture, 24, 9);
         Array<TextureRegion> array = new Array<>(animation.length * animation[0].length);
         for (TextureRegion[] textureRegions : animation) {
             array.addAll(textureRegions);
         }
         movingAnimation = new Animation<>(0.05f, array, Animation.PlayMode.LOOP);
-        
-        animations.put("basic", movingAnimation);
+
+        animations.put("run", movingAnimation);
     }
 
     @Override
-    public int getDamage() {
+    public int getBaseDamage() {
         return damage;
     }
-
-    @Override
-    public float getInitialSpeed() {
-        return initialSpeed;
-    }
-    
 
     /*
     @Override
@@ -158,11 +136,6 @@ public class BasicBulletDef implements BulletDef {
     }
      */
     @Override
-    public BodyDef getBodyDef() {
-        return bd;
-    }
-
-    @Override
     public ObjectMap<String, FixtureDef> getFixtureDefs() {
         return fixtureDefs;
     }
@@ -206,6 +179,12 @@ public class BasicBulletDef implements BulletDef {
     @Override
     public void setHeight(float height) {
         this.height = height;
+    }
+
+    @Override
+    public BodyDef getBodyDef(Vector2 position) {
+        bodyDef.position.set(position);
+        return bodyDef;
     }
 
 }

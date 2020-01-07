@@ -1,6 +1,7 @@
 package com.gdx.game.factories;
 
 import com.badlogic.gdx.math.Vector2;
+import com.gdx.game.actions.GameAction;
 import com.gdx.game.entities.Entity;
 import com.gdx.game.entities.Bullet;
 import com.gdx.game.entities.Player;
@@ -27,22 +28,29 @@ public class Weapon {
         Date ts = new Date();
         if (lastFireDate == null || ts.getTime() - lastFireDate.getTime() > (1f / shootingRate * 1000)) {
             Vector2 normDir = direction.nor();
-            Vector2 bulletVelocity = new Vector2(normDir.x * bullet.getInitalSpeed(), normDir.y * bullet.getInitalSpeed());
-            bullet.setPosition(shooter.getPosition().add(normDir.x * shooter.getWidth()/2,normDir.y*shooter.getWidth()/2));
-            FilterFactory ff = new FilterFactory();
-            if (shooter instanceof Player) {
-                bullet.setFilter(ff.getPlayerBulletFilter());
-            } else {
-                bullet.setFilter(ff.getEnemyBulletFilter());
-            }
+            Vector2 bulletVelocity = new Vector2(normDir.x * bullet.getSpeed(), normDir.y * bullet.getSpeed());
+            bullet.setPosition(shooter.getPosition().add(normDir.x * shooter.getWidth() / 2, normDir.y * shooter.getWidth() / 2));
 
             Bullet clone = bullet.clone();
-            clone.initPhysics();
-            clone.initGraphics();
+            clone.addAction(new SetVelocityAction(bulletVelocity));
             shooter.getStage().addActor(clone);
-            clone.setLinearVelocity(bulletVelocity);
 
             lastFireDate = new Date();
+        }
+    }
+
+    private class SetVelocityAction extends GameAction {
+
+        private Vector2 velocity;
+
+        public SetVelocityAction(Vector2 velocity) {
+            this.velocity = velocity;
+        }
+
+        @Override
+        public boolean act(float delta) {
+            getEntity().setLinearVelocity(velocity);
+            return true;
         }
     }
 }

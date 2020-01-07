@@ -1,41 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.gdx.game.entities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Filter;
-import com.gdx.game.factories.FilterFactory;
 import java.util.Date;
 
 /**
  *
  * @author ammanas
  */
-public final class LightShieldSkill extends DefenseSkill {
+public final class ShieldSpell extends DefenseSkill {
 
     private Date lastFireDate;
     private Entity lsse;
-    
-  
 
-    public LightShieldSkill(float coolDown, MortalEntity caster) {
-        super(coolDown, caster);
+    public ShieldSpell(MortalEntity caster, float cooldown) {
+        super(caster, cooldown);
         //lsse = new LightShieldSkillEntityDef("shieldSkill", 25, caster.getWorld(), caster.getHeight(), caster.getHeight(), caster.getPosition(), (Player) caster);
 
-        LightShieldSkillEntityDef lssed = new LightShieldSkillEntityDef(this.getCaster(),caster.getFilter());
+        LightShieldDef lssed = new LightShieldDef();
         lsse = new Entity(lssed);
-
-    }
-
-    @Override
-    public void cast(Vector2 direction) {
 
     }
 
@@ -44,10 +26,9 @@ public final class LightShieldSkill extends DefenseSkill {
      * contains as user-data its own instance. So the clone body has a reference
      * to its own instance.
      *
-     * @param toCastOn Who to cast a skill on.
      */
     @Override
-    public void castOn(MortalEntity toCastOn) {
+    public void cast() {
         Date ts = new Date();
 
         if (lastFireDate == null || ts.getTime() - lastFireDate.getTime() > (getCoolDown() * 1000)) {
@@ -58,6 +39,11 @@ public final class LightShieldSkill extends DefenseSkill {
 
             lastFireDate = new Date();
         }
+    }
+
+    @Override
+    public void cast(Vector2 direction) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

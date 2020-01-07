@@ -8,41 +8,28 @@ package com.gdx.game.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.Joint;
-import com.badlogic.gdx.physics.box2d.JointDef;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gdx.game.GdxGame;
-import com.gdx.game.contact_listeners.events.DeathEvent;
-import com.gdx.game.factories.FilterFactory;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- * Inanimate Object representing the light shield that players can cast.
- * Calling the animation getter will yield an Error.
+ * Inanimate Object representing the light shield that players can cast. Calling
+ * the animation getter will yield an Error.
+ *
  * @author ammanas
  */
-public class LightShieldSkillEntityDef implements EntityDef {
+public class LightShieldDef implements SkillDef {
+
+    private final float COOLDOWN = 5f ;
     
     //private RevoluteJoint revoluteJoint =;
     private final RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
-    
 
-    private BodyDef bd;
+    private BodyDef bodyDef;
     private ObjectMap<String, FixtureDef> fixtureDefs = new ObjectMap<>();
     //private ObjectMap<String, Animation> animations = new ObjectMap<>();
     private float width;
@@ -51,33 +38,25 @@ public class LightShieldSkillEntityDef implements EntityDef {
 
     private final Texture texture = new Texture(Gdx.files.internal("texture/player/skill/shield/s420.png"));
     private final TextureRegion textureRegion = new TextureRegion(texture);
-    private Filter filter;
-    
-    
-    public LightShieldSkillEntityDef(MortalEntity caster,Filter filter) {
-        
-        width = caster.getWidth();
-        height = caster.getHeight();
-        
-        bd = new BodyDef();
-        
+
+    public LightShieldDef() {
+
+        bodyDef = new BodyDef();
+
         BodyDef bdDef = new BodyDef();
         bdDef.type = BodyDef.BodyType.DynamicBody;
-        
+
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(width / 2);
 
-        FilterFactory ff = new FilterFactory();
-        this.filter = filter;
         FixtureDef fixtureDef = new FixtureDef();
-        ff.copyFilter(fixtureDef.filter, filter);
-        
+
         fixtureDef.shape = circleShape;
         fixtureDef.isSensor = true;
         fixtureDef.density = 1f;
-        
-        fixtureDefs.put("sensor", fixtureDef);
-        
+
+        fixtureDefs.put("colliding", fixtureDef);
+
         circleShape.dispose();
 
     }
@@ -85,8 +64,7 @@ public class LightShieldSkillEntityDef implements EntityDef {
     public RevoluteJointDef getRevoluteJointDef() {
         return revoluteJointDef;
     }
-    
-    
+
     /*
     @Override
     public void kill() {
@@ -172,8 +150,9 @@ public class LightShieldSkillEntityDef implements EntityDef {
     }
 
     @Override
-    public BodyDef getBodyDef() {
-        return bd;
+    public BodyDef getBodyDef(Vector2 position) {
+        bodyDef.position.set(position);
+        return bodyDef;
     }
 
     @Override
@@ -220,6 +199,11 @@ public class LightShieldSkillEntityDef implements EntityDef {
     @Override
     public void setHeight(float height) {
         this.height = height;
+    }
+    
+    @Override
+    public float getCooldown(){
+        return COOLDOWN;
     }
 
 }

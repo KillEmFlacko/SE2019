@@ -15,11 +15,6 @@ public class MortalEntity extends Entity {
 
     private Stats stats;
     private int hp;
-
-    public MortalEntity(EntityDef entityDef, Stats stats) {
-        super(entityDef);
-        this.stats = stats;
-    }
     
     public MortalEntity(MortalEntityDef entityDef){
         super(entityDef);

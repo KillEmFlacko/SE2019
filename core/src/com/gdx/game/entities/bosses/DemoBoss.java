@@ -1,24 +1,13 @@
 package com.gdx.game.entities.bosses;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.gdx.game.entities.Player;
 import com.gdx.game.movements.MovementSet;
 import java.util.Random;
-import com.gdx.game.entities.*;
 import com.gdx.game.factories.Weapon;
 import com.gdx.game.movements.Movement;
-import java.util.TreeMap;
 
 /**
  *
@@ -28,10 +17,6 @@ public final class DemoBoss extends Boss {
 
     private Float timeAcc = 2f;
     //per farlo muovere subito senza dover istanziare un movimento
-    private float stateTime = 0f;
-    private Texture regions;
-    private Animation<TextureRegion> movementAnimation;
-    private TextureAtlas atlas;
     private MovementSet movementQ;
     private BossState bossState;
     private Player player;
@@ -40,34 +25,14 @@ public final class DemoBoss extends Boss {
 
     private Movement prevMovement;
 
-    public DemoBoss(Stats stats, EntityDef entityDef) {
-        super(stats, entityDef);
-    }
+    public DemoBoss(BossDef entityDef) {
+        super(entityDef);
 
-    private void init() {
+        RepeatAction playerAction = new RepeatAction();
+        playerAction.setAction(new DemoBossAction());
+        playerAction.setCount(RepeatAction.FOREVER);
 
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(getPosition());
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(getWidth() * 0.6f / 2, getWidth() / 2);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.isSensor = false;
-        fixtureDef.restitution = 0f;
-        fixtureDef.density = 0f;
-        shape.dispose();
-
-        atlas = new TextureAtlas(Gdx.files.internal("texture/enemy/bosses/big_demon/big_demon.atlas"));
-        movementAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("run"), PlayMode.LOOP);
-
-        BossDef bd = new BossDef(bodyDef);
-        bd.getAnimations().put("moving", movementAnimation);
-        bd.getFixtureDefs().put("basicHitbox", fixtureDef);
-        this.setEntityDef(bd);
-
+        addAction(playerAction);
     }
 
     private class DemoBossAction extends Action {
@@ -82,7 +47,7 @@ public final class DemoBoss extends Boss {
             timeAcc += delta;
             stateTime += delta;
 
-            DemoBoss.this.setRegionToDraw(movementAnimation.getKeyFrame(stateTime, true));
+            setRegionToDraw(getEntityDef().getAnimations().get("run").getKeyFrame(stateTime));
 
             Vector2 playerPosition = player.getPosition();
             Vector2 newMovePlayer = new Vector2(playerPosition.sub(DemoBoss.this.getPosition()));
