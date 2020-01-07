@@ -35,7 +35,7 @@ public class ScoreScreen implements Screen {
     public ScoreScreen(GdxGame game) throws FileNotFoundException, IOException {
         this.hst = new HighScoreTable();
         this.game = game;
-        this.stage = new Stage();
+        this.stage = new Stage(GdxGame.game.vp);
         this.labelArray = new ArrayList();
         ts = new TitleScreen(game);
         initUI();
@@ -58,13 +58,13 @@ public class ScoreScreen implements Screen {
         lblStyle.font = font;
 
         labelTitle = new Label("Score:", lblStyle);
-        labelTitle.setSize(Gdx.graphics.getWidth(), 30);
+        labelTitle.setSize(stage.getWidth(), 30);
         labelTitle.setAlignment(Align.center);
-        labelTitle.setPosition(0, Gdx.graphics.getHeight() / 2 + 300);
+        labelTitle.setPosition(0, stage.getHeight() / 2 + 300);
         stage.addActor(labelTitle);
 
-        colWidth = Gdx.graphics.getWidth() / 5f;
-        rowHeight = Gdx.graphics.getHeight() / 15f;
+        colWidth = stage.getWidth() / 5f;
+        rowHeight = stage.getHeight() / 15f;
         TextButton btnButton = new TextButton("Back", GdxGame.game.skin, "default");
         btnButton.setSize(colWidth, rowHeight);
         btnButton.setPosition(padding, padding);
@@ -95,7 +95,7 @@ public class ScoreScreen implements Screen {
     }
 
     @Override
-    public void resize(int i, int i1) {
+    public void resize(int width, int height) {
     }
 
     @Override
@@ -119,9 +119,9 @@ public class ScoreScreen implements Screen {
         int i = 0;
         for (HighScoreEntry x : hst) {
             labelArray.add(new Label(x.getNickname() + "..." + x.getScore(), lblStyle));
-            labelArray.get(i).setSize(Gdx.graphics.getWidth(), 30);
+            labelArray.get(i).setSize(stage.getWidth(), 30);
             labelArray.get(i).setAlignment(Align.center);
-            labelArray.get(i).setPosition(0, Gdx.graphics.getHeight() / 2 + 300 - (i + 1) * 50);
+            labelArray.get(i).setPosition(0, stage.getHeight() / 2 + 300 - (i + 1) * 50);
             stage.addActor(labelArray.get(i));
             i++;
         }

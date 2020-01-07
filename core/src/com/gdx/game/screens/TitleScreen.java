@@ -42,7 +42,7 @@ public class TitleScreen implements Screen {
 
     public TitleScreen(GdxGame aGame) {
         this.game = aGame;
-        this.stage = new Stage();
+        this.stage = new Stage(GdxGame.game.vp);
         ss = new SettingsScreen(game, this);
         initUI();
 
@@ -65,19 +65,19 @@ public class TitleScreen implements Screen {
         //REMOVE IMAGE IF YOU DONT LIKE IT
         /*
         Image image = new Image(textureRegion.getTexture());
-        image.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        image.setSize(stage.getWidth(), stage.getHeight());
         image.setPosition(0,0);
         stage.addActor(image);
            */
         label1 = new Label("Doors of Sacrahan", lblStyle);
-        label1.setSize(Gdx.graphics.getWidth(), 30);
+        label1.setSize(stage.getWidth(), 30);
         label1.setAlignment(Align.center);
-        label1.setPosition(0, Gdx.graphics.getHeight() / 2 - 15 + 50);
+        label1.setPosition(0, stage.getHeight() / 2 - 15 + 50);
         stage.addActor(label1);
 
         TextButton btnButton = new TextButton("Play!", game.skin, "default");
-        btnButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
-        btnButton.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - btnButton.getHeight() / 2 - padding);
+        btnButton.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
+        btnButton.setPosition(stage.getWidth() / 2 - btnButton.getWidth() / 2, stage.getHeight() / 2 - btnButton.getHeight() / 2 - padding);
         btnButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -90,8 +90,8 @@ public class TitleScreen implements Screen {
         stage.addActor(btnButton);
 
         TextButton btnButton2 = new TextButton("Score", GdxGame.game.skin, "default");
-        btnButton2.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
-        btnButton2.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - btnButton.getHeight() / 2 - padding * BUTTON_SPACE);
+        btnButton2.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
+        btnButton2.setPosition(stage.getWidth() / 2 - btnButton.getWidth() / 2, stage.getHeight() / 2 - btnButton.getHeight() / 2 - padding * BUTTON_SPACE);
         btnButton2.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -109,8 +109,8 @@ public class TitleScreen implements Screen {
         stage.addActor(btnButton2);
 
         TextButton btnSetting = new TextButton("Options", game.skin, "default");
-        btnSetting.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
-        btnSetting.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 30 - padding * BUTTON_SPACE);
+        btnSetting.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
+        btnSetting.setPosition(stage.getWidth() / 2 - btnButton.getWidth() / 2, stage.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 30 - padding * BUTTON_SPACE);
         btnSetting.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -122,8 +122,8 @@ public class TitleScreen implements Screen {
         stage.addActor(btnSetting);
 
         TextButton quitButton = new TextButton("Quit", game.skin, "default");
-        quitButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
-        quitButton.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 90 - padding * BUTTON_SPACE);
+        quitButton.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
+        quitButton.setPosition(stage.getWidth() / 2 - btnButton.getWidth() / 2, stage.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 90 - padding * BUTTON_SPACE);
         stage.addActor(quitButton);
         quitButton.addListener(new InputListener() {
             @Override
@@ -134,8 +134,8 @@ public class TitleScreen implements Screen {
             }
         });
         TextButton guideButton = new TextButton("Guide", game.skin, "default");
-        guideButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 15);
-        guideButton.setPosition(Gdx.graphics.getWidth() / 2 - btnButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 90 - padding * BUTTON_SPACE);
+        guideButton.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
+        guideButton.setPosition(stage.getWidth() / 2 - btnButton.getWidth() / 2, stage.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 90 - padding * BUTTON_SPACE);
         guideButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -159,10 +159,11 @@ public class TitleScreen implements Screen {
         stage.act();
         /*
         stage.getBatch().begin();
-        stage.getBatch().draw(textureRegion, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        stage.getBatch().draw(textureRegion, stage.getWidth(), stage.getHeight());
         stage.getBatch().end();
          */
 
+        stage.getViewport().apply();
         stage.draw();
     }
 
@@ -172,7 +173,7 @@ public class TitleScreen implements Screen {
     }
 
     @Override
-    public void resize(int i, int i1) {
+    public void resize(int width, int height) {
     }
 
     @Override
