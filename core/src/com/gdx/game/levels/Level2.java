@@ -56,21 +56,6 @@ public final class Level2 extends Level {
     }
 
     @Override
-    public void dispose() {
-        mapRenderer.dispose();
-        mapRenderer = null;
-        do{
-            getChildren().begin();
-            for (Actor enemy : getChildren()) {
-                enemy.clear();
-                enemy.remove();
-            }
-            getChildren().end();
-        }while(getChildren().size > 0);
-        GdxGame.game.bodyToRemove.add(mapWalls);
-    }
-
-    @Override
     public TiledMap getMap() {
         return map;
     }

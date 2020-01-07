@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -64,10 +65,24 @@ public abstract class Level extends Group implements Disposable {
     public abstract void start();
 
     /**
-     * Should do everything is needed to end the level and must fire the
-     * EndLevel event.
+     * Should do everything is needed to dispose the Level as a Group.
      */
-    public abstract void dispose();
+    @Override
+    public void dispose() {
+        if(mapRenderer != null) mapRenderer.dispose();
+        mapRenderer = null;
+        do{
+            getChildren().begin();
+            for (Actor actor : getChildren()) {
+                if(actor != null){
+                    actor.clear();
+                    actor.remove();
+                }
+            }
+            getChildren().end();
+        }while(getChildren().size > 0);
+        GdxGame.game.bodyToRemove.add(mapWalls);
+    }
 
     /**
      * Supposing that every tile is a square, returns the number of pixels of
