@@ -211,8 +211,8 @@ public abstract class Level extends Group implements Disposable {
     public void draw(Batch batch, float parentAlpha) {
         if (mapRenderer != null) {
             batch.end();
-            mapRenderer.render();
             mapRenderer.setView((OrthographicCamera) getStage().getCamera());
+            mapRenderer.render();
             batch.begin();
         }
         super.draw(batch, parentAlpha);

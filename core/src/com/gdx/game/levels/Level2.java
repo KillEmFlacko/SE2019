@@ -21,13 +21,17 @@ import com.gdx.game.movements.MovementSetFactory;
  */
 public final class Level2 extends Level {
 
-    private final TiledMap map;
+    private TiledMap map;
     private Vector2 initPlayerPos;
-    private final Array<Enemy> enemies;
+    private Array<Enemy> enemies;
 
     public Level2(Player p) {
         super(p);
         setName("Level2");
+    }
+
+    @Override
+    public void start() {
         initPlayerPos = new Vector2(11, 4);
 
         //////////// MAP ///////////
@@ -37,14 +41,10 @@ public final class Level2 extends Level {
         //////////// ENTITIES ///////////////
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         Vector2 v = new Vector2(25, 35);
-        DemoBoss db = new DemoBoss("Wandering Demon", 150, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false), p);
+        DemoBoss db = new DemoBoss("Wandering Demon", 150, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false), getPlayer());
         enemies = Array.with((Enemy) db);
         /////////////////////////////////////
 
-    }
-
-    @Override
-    public void start() {
         instantiateStaticObjects("walls");
         mapRenderer = new OrthogonalTiledMapRenderer(getMap(), 1f / (getPixelPerTile() * getTilePerMeter()));
         Gdx.app.log("Level2", "setting player position");

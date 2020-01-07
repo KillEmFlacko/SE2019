@@ -1,6 +1,5 @@
 package com.gdx.game.levels;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -22,29 +21,30 @@ import com.gdx.game.movements.MovementSetFactory;
  */
 public final class Level1 extends Level {
 
-    private final TiledMap map;
-    private final Array<Enemy> enemies;
+    private TiledMap map;
+    private Array<Enemy> enemies = null;
 
     public Level1(Player p) {
         super(p);
         setName("Level1");
+    }
+
+    @Override
+    public void start() {
         //////////// MAP ///////////
         map = new TmxMapLoader().load("maps/level1/map.tmx");
         ////////////////////////////
 
         //////////// ENTITIES ///////////////
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
+        float w = getStage().getWidth();
+        float h = getStage().getHeight();
         player.setPosition(new Vector2(15, 15 * (h / w)));
         Vector2 v = player.getPosition().add(5, 5);
         DemoBoss db = new DemoBoss("Wandering Demon", 150, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false), player);
         enemies = Array.with((Enemy) db);
         /////////////////////////////////////
-    }
 
-    @Override
-    public void start() {
         addListener(new EndLevel1Listener());
         mapRenderer = new OrthogonalTiledMapRenderer(getMap(), 1f / (getPixelPerTile() * getTilePerMeter()));
         instantiateStaticObjects("walls");
