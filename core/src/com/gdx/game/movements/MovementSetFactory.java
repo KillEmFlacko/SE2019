@@ -40,7 +40,7 @@ public class MovementSetFactory {
         Gdx.app.log("Speed", speedModes.get(speed).toString());
         //Gdx.app.log("Shape", shape);
 
-        return selectMoves(speedModes.get(speed),shape, clockwise);
+        return selectMoves(speedModes.get(speed), shape, clockwise);
 
     }
 
