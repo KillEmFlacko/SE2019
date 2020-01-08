@@ -93,7 +93,6 @@ public class ScoreScreen implements Screen {
         });
         stage.addActor(backButton);
         createLabel(lblStyle, hst);
-
     }
 
     @Override
