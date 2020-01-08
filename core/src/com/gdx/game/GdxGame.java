@@ -19,7 +19,7 @@ public class GdxGame extends Game {
     public static GdxGame game;
     public static final float SCALE = 6.0f;
     private Music music;
-    public Settings settings; 
+    public Settings settings;
     // private static final float DEFAULT_VOLUME = 0.5f;
 
     public ObjectSet<Body> bodyToRemove = new ObjectSet<Body>();

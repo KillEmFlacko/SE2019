@@ -100,25 +100,25 @@ public class SettingsScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 game.settings.setVolume(volumeSlider.getValue());
                 game.getMusic().setVolume(game.settings.getVolume());
-                
+
                 //volumeSlider.setValue(volumeSlider.getValue());
                 System.out.println("il volume è VolumeSetValue: " + volumeSlider.getValue());
             }
         });
-        
+
         TextButton defaultButton = new TextButton("Default Settings", GdxGame.game.skin, "default");
         defaultButton.setSize(colWidth, rowHeight);
         defaultButton.setPosition(padding + 600, padding);
-        
+
         stage.addActor(defaultButton);
-        
+
         defaultButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.settings.setDefault();
                 game.getMusic().setVolume(game.settings.getVolume());
                 volumeSlider.setValue(game.settings.getVolume());
-            
+
                 return true;
             }
         });
