@@ -138,8 +138,7 @@ public class TitleScreen implements Screen {
         guideButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                TitleScreen.this.dispose();
-                game.setScreen(new GuideScreen(game));
+                game.setScreen(new GuideScreen(game,TitleScreen.this));
                 return true;
             }
         });
