@@ -58,7 +58,7 @@ public class GuideScreen implements Screen {
 
         colWidth = stage.getWidth() / 5f;
         rowHeight = stage.getHeight() / 15f;
-        TextButton btnButton = new TextButton("Back", GdxGame.game.skin, "default");
+        TextButton btnButton = new TextButton("Back", GdxGame.game.txtBtnStyle);
         btnButton.setSize(colWidth, rowHeight);
         btnButton.setPosition(padding, padding);
         btnButton.addListener(new InputListener() {

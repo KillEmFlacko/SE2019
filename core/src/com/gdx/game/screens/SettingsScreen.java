@@ -5,16 +5,19 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
 
@@ -44,23 +47,17 @@ public class SettingsScreen implements Screen {
     }
 
     private void initUI() {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameters.size = 30;
-        parameters.color = Color.RED;
-        parameters.borderWidth = 1;
-        parameters.borderColor = Color.BLACK;
-        BitmapFont font = generator.generateFont(parameters);
-        generator.dispose();
-
+        /////////////// BACKGROUND IMAGE /////////////////
+        TextureRegion wallTileRegion = GdxGame.game.splittedTiles[2][1];
+        TiledDrawable backgroundDraw = new TiledDrawable(wallTileRegion);
+        Image backgroundImage = new Image(backgroundDraw);
+        backgroundImage.setSize(stage.getWidth(), stage.getHeight());
+        stage.addActor(backgroundImage);
+        //////////////////////////////////////////////////
+        
         Label.LabelStyle lblStyle = new Label.LabelStyle();
-        lblStyle.font = font;
-        /*
-        Image image = new Image(textureRegion.getTexture());
-        image.setSize(stage.getWidth(), stage.getWidth());
-        image.setPosition(0,0);
-        stage.addActor(image);
-         */
+        lblStyle.font = GdxGame.game.buttonFont;
+        
         label1 = new Label("SETTINGS", lblStyle);
         label1.setSize(stage.getWidth(), 30);
         label1.setAlignment(Align.center);
@@ -69,7 +66,7 @@ public class SettingsScreen implements Screen {
 
         colWidth = stage.getWidth() / 5f;
         rowHeight = stage.getWidth() / 15f;
-        TextButton backButton = new TextButton("Back", GdxGame.game.skin, "default");
+        TextButton backButton = new TextButton("Back", GdxGame.game.txtBtnStyle);
         backButton.setSize(colWidth, rowHeight);
         backButton.setPosition(padding, padding);
         backButton.addListener(new InputListener() {
@@ -107,9 +104,9 @@ public class SettingsScreen implements Screen {
             }
         });
 
-        TextButton defaultButton = new TextButton("Default Settings", GdxGame.game.skin, "default");
-        defaultButton.setSize(colWidth, rowHeight);
-        defaultButton.setPosition(padding + 600, padding);
+        TextButton defaultButton = new TextButton("Default Settings", GdxGame.game.txtBtnStyle);
+        defaultButton.setSize(defaultButton.getLabel().getWidth() + padding, rowHeight);
+        defaultButton.setPosition(stage.getWidth() - defaultButton.getWidth() - padding, padding);
 
         stage.addActor(defaultButton);
 

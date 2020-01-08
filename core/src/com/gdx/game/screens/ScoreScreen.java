@@ -5,12 +5,15 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
 import com.gdx.game.score.HighScoreEntry;
@@ -47,30 +50,29 @@ public class ScoreScreen implements Screen {
     }
 
 // a family of related product objects is designed to be used together, and you need to enforce this constraint.   
-    private void initUI() throws IOException {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameters.size = 30;
-        parameters.color = Color.RED;
-        parameters.borderWidth = 3;
-        parameters.borderColor = Color.BLACK;
-        parameters.shadowOffsetX = 1;
-        parameters.shadowColor = Color.BROWN;
-        BitmapFont font = generator.generateFont(parameters);
-        generator.dispose();
+    private void initUI() throws IOException {/////////////// BACKGROUND IMAGE /////////////////
+        TextureRegion wallTileRegion = GdxGame.game.splittedTiles[2][1];
+        TiledDrawable backgroundDraw = new TiledDrawable(wallTileRegion);
+        Image backgroundImage = new Image(backgroundDraw);
+        backgroundImage.setSize(stage.getWidth(), stage.getHeight());
+        stage.addActor(backgroundImage);
+        //////////////////////////////////////////////////
+        
 
+        Label.LabelStyle lblTitleStyle = new Label.LabelStyle();
+        lblTitleStyle.font = GdxGame.game.titleFont;
+        
         Label.LabelStyle lblStyle = new Label.LabelStyle();
-        lblStyle.font = font;
+        lblStyle.font = GdxGame.game.buttonFont;
 
-        labelTitle = new Label("Score:", lblStyle);
-        labelTitle.setSize(stage.getWidth(), 30);
+        labelTitle = new Label("Score", lblTitleStyle);
+        labelTitle.setSize(stage.getWidth(), lblTitleStyle.font.getLineHeight());
         labelTitle.setAlignment(Align.center);
-        labelTitle.setPosition(0, stage.getHeight() / 2 + 300);
-        stage.addActor(labelTitle);
+        labelArray.add(labelTitle);
 
         colWidth = stage.getWidth() / 5f;
         rowHeight = stage.getHeight() / 15f;
-        TextButton backButton = new TextButton("Back", GdxGame.game.skin, "default");
+        TextButton backButton = new TextButton("Back", GdxGame.game.txtBtnStyle);
         backButton.setSize(colWidth, rowHeight);
         backButton.setPosition(padding, padding);
         backButton.addListener(new InputListener() {
@@ -125,11 +127,13 @@ public class ScoreScreen implements Screen {
 
     private void createLabel(Label.LabelStyle lblStyle, HighScoreTable hst) {
         int i = 0;
+        int acc = padding;
         for (HighScoreEntry x : hst) {
             labelArray.add(new Label(x.getNickname() + "..." + x.getScore(), lblStyle));
             labelArray.get(i).setSize(stage.getWidth(), 30);
             labelArray.get(i).setAlignment(Align.center);
-            labelArray.get(i).setPosition(0, stage.getHeight() / 2 + 300 - (i + 1) * 50);
+            acc += labelArray.get(i).getHeight() + padding;
+            labelArray.get(i).setPosition(0, stage.getHeight() - acc);
             stage.addActor(labelArray.get(i));
             i++;
         }

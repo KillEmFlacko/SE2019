@@ -90,7 +90,7 @@ public class PlayerSelectionScreen implements Screen {
         
         colWidth = stage.getWidth() / 5f;
         rowHeight = stage.getHeight() / 15f;
-        TextButton btnButton5 = new TextButton("Back", GdxGame.game.skin, "default");
+        TextButton btnButton5 = new TextButton("Back", GdxGame.game.txtBtnStyle);
         btnButton5.setSize(colWidth, rowHeight);
         btnButton5.setPosition(padding, padding);
         btnButton5.addListener(new InputListener() {
