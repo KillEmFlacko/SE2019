@@ -32,7 +32,7 @@ import com.gdx.game.factories.movement_products.Movement;
  */
 public final class DemoBoss extends Boss {
 
-    private Float timeAcc = 2f;
+    private Float timeAcc = 1f;
     //per farlo muovere subito senza dover istanziare un movimento
     private float stateTime = 0f;
     private Texture regions;
