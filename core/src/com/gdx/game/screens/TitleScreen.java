@@ -9,12 +9,17 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Queue;
 import com.gdx.game.GdxGame;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -35,11 +40,11 @@ public class TitleScreen implements Screen {
     private SettingsScreen ss;
     private SpriteBatch spriteBatch = new SpriteBatch();
     private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("menu/back.jpg")));
+    private Queue<Actor> actQueue = new Queue<>(6);
 
     public TitleScreen(GdxGame aGame) {
         this.game = aGame;
         this.stage = new Stage(GdxGame.game.vp);
-        ss = new SettingsScreen(game, this);
         initUI();
 
     }
@@ -47,33 +52,46 @@ public class TitleScreen implements Screen {
     private void initUI() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameters.size = 30;
+        parameters.size = 20;
+        parameters.borderColor = Color.BLACK;
+        parameters.borderWidth = 1;
+        parameters.color = Color.ORANGE;
+        BitmapFont buttonFont = generator.generateFont(parameters);
+        parameters.size = 50;
         parameters.color = Color.RED;
         parameters.borderWidth = 3;
-        parameters.borderColor = Color.BLACK;
         parameters.shadowOffsetX = 1;
         parameters.shadowColor = Color.BROWN;
-        BitmapFont font = generator.generateFont(parameters);
+        BitmapFont titleFont = generator.generateFont(parameters);
         generator.dispose();
+        
+        Texture tiles = new Texture(Gdx.files.internal("mappa_text_low_res/rogueliketilesx3.png"));
+        TextureRegion[][] splittedTiles = TextureRegion.split(tiles, 25, 25);
+
+        /////////////// BACKGROUND IMAGE /////////////////
+        TextureRegion wallTileRegion = splittedTiles[2][1];
+        TiledDrawable backgroundDraw = new TiledDrawable(wallTileRegion);
+        backgroundDraw.tint(Color.WHITE);
+        Image backgroundImage = new Image(backgroundDraw);
+        backgroundImage.setSize(stage.getWidth(), stage.getHeight());
+        stage.addActor(backgroundImage);
+        //////////////////////////////////////////////////
 
         Label.LabelStyle lblStyle = new Label.LabelStyle();
-        lblStyle.font = font;
-        //REMOVE IMAGE IF YOU DONT LIKE IT
-        /*
-        Image image = new Image(textureRegion.getTexture());
-        image.setSize(stage.getWidth(), stage.getHeight());
-        image.setPosition(0,0);
-        stage.addActor(image);
-         */
-        label1 = new Label("Doors of Sacrahan", lblStyle);
-        label1.setSize(stage.getWidth(), 30);
+        lblStyle.font = titleFont;
+        label1 = new Label("Doors of\nSacrahan", lblStyle);
+        label1.setSize(stage.getWidth(), lblStyle.font.getLineHeight()*2);
         label1.setAlignment(Align.center);
-        label1.setPosition(0, stage.getHeight() / 2 - 15 + 50);
-        stage.addActor(label1);
+        actQueue.addLast(label1);
 
-        TextButton btnButton = new TextButton("Play!", game.skin, "default");
+        TiledDrawable wallBrightDraw = new TiledDrawable(splittedTiles[1][2]);
+        TiledDrawable wallNormalDraw = new TiledDrawable(splittedTiles[1][1]);
+        TiledDrawable wallDarkDraw = new TiledDrawable(splittedTiles[1][3]);
+        TextButton.TextButtonStyle txtStyle = new TextButton.TextButtonStyle(null, null, null, buttonFont);
+        txtStyle.up = wallBrightDraw;
+        txtStyle.over = wallNormalDraw;
+        TextButton btnButton = new TextButton("Play!", txtStyle);
         btnButton.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
-        btnButton.setPosition(stage.getWidth() / 2 - btnButton.getWidth() / 2, stage.getHeight() / 2 - btnButton.getHeight() / 2 - padding);
         btnButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -82,17 +100,15 @@ public class TitleScreen implements Screen {
                 return true;
             }
         });
-        stage.addActor(btnButton);
+        actQueue.addLast(btnButton);
 
-        TextButton btnButton2 = new TextButton("Score", GdxGame.game.skin, "default");
+        TextButton btnButton2 = new TextButton("Score", txtStyle);
         btnButton2.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
-        btnButton2.setPosition(stage.getWidth() / 2 - btnButton.getWidth() / 2, stage.getHeight() / 2 - btnButton.getHeight() / 2 - padding * BUTTON_SPACE);
         btnButton2.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                TitleScreen.this.dispose();
                 try {
-                    game.setScreen(new ScoreScreen(game));
+                    game.setScreen(new ScoreScreen(game, TitleScreen.this));
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
@@ -101,25 +117,33 @@ public class TitleScreen implements Screen {
                 return true;
             }
         });
-        stage.addActor(btnButton2);
+        actQueue.addLast(btnButton2);
 
-        TextButton btnSetting = new TextButton("Options", game.skin, "default");
+        TextButton btnSetting = new TextButton("Options", txtStyle);
         btnSetting.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
-        btnSetting.setPosition(stage.getWidth() / 2 - btnButton.getWidth() / 2, stage.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 30 - padding * BUTTON_SPACE);
         btnSetting.addListener(new InputListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //TitleScreen.this.dispose();
-                game.setScreen(ss);
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) { 
+                game.setScreen(new SettingsScreen(game, TitleScreen.this));
                 return true;
             }
         });
-        stage.addActor(btnSetting);
+        actQueue.addLast(btnSetting);
 
-        TextButton quitButton = new TextButton("Quit", game.skin, "default");
+        
+        TextButton guideButton = new TextButton("Guide", txtStyle);
+        guideButton.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
+        guideButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new GuideScreen(game,TitleScreen.this));
+                return true;
+            }
+        });
+        actQueue.addLast(guideButton);
+
+        TextButton quitButton = new TextButton("Quit", txtStyle);
         quitButton.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
-        quitButton.setPosition(stage.getWidth() / 2 - btnButton.getWidth() / 2, stage.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 90 - padding * BUTTON_SPACE);
-        stage.addActor(quitButton);
         quitButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -128,18 +152,14 @@ public class TitleScreen implements Screen {
                 return true;
             }
         });
-        TextButton guideButton = new TextButton("Guide", game.skin, "default");
-        guideButton.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
-        guideButton.setPosition(stage.getWidth() / 2 - btnButton.getWidth() / 2, stage.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 90 - padding * BUTTON_SPACE);
-        guideButton.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                TitleScreen.this.dispose();
-                game.setScreen(new GuideScreen(game));
-                return true;
-            }
-        });
-        stage.addActor(guideButton);
+        actQueue.addLast(quitButton);
+        
+        int acc = (int) stage.getHeight()/7;
+        for(Actor act : actQueue){
+            acc += (act.getHeight() + padding);
+            act.setPosition(stage.getWidth()/2 - act.getWidth()/2, stage.getHeight() - acc);
+            stage.addActor(act);
+        }
         
         game.setMusic("audio/menu/toccataefuga.mp3", true);
     }
