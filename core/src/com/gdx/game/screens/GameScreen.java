@@ -73,7 +73,8 @@ public class GameScreen implements Screen, EventListener {
     public GameScreen(GdxGame aGame, CharacterClass characterClass) {
         debugRenderer = new Box2DDebugRenderer();
         this.game = aGame;
-
+        
+        aGame.setMusic("audio/game/9symphony.mp3", true);
         /////////// STAGE /////////////
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -251,6 +252,7 @@ public class GameScreen implements Screen, EventListener {
             //label1.setText("GAME LOSE");
             //label1.setPosition(hudStage.getWidth() / 2 - 0.9f*label1.getWidth(), (hudStage.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * hudStage.getHeight());
         } else {
+            this.game.setMusic("audio/game/victory.mp3", false);
             initLabel(Color.GREEN);
             label1.setText("You Win");
             //label1.setPosition(hudStage.getWidth() / 2 - 0.7f*label1.getWidth(), (hudStage.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * hudStage.getHeight());

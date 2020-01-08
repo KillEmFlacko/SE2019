@@ -140,6 +140,8 @@ public class TitleScreen implements Screen {
             }
         });
         stage.addActor(guideButton);
+        
+        game.setMusic("audio/menu/toccataefuga.mp3", true);
     }
 
     @Override
