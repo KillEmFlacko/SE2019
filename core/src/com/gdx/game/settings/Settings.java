@@ -7,7 +7,7 @@ package com.gdx.game.settings;
 public class Settings {
 
     private float volume;
-    private static final float DEFAULT_VOLUME = 0.5f;
+    private static final float DEFAULT_VOLUME = 0.2f;
 
     public Settings() {
         this.volume = DEFAULT_VOLUME;

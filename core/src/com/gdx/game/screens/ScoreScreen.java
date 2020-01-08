@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -50,10 +51,13 @@ public class ScoreScreen implements Screen {
     }
 
 // a family of related product objects is designed to be used together, and you need to enforce this constraint.   
-    private void initUI() throws IOException {/////////////// BACKGROUND IMAGE /////////////////
-        TextureRegion wallTileRegion = GdxGame.game.splittedTiles[2][1];
-        TiledDrawable backgroundDraw = new TiledDrawable(wallTileRegion);
-        Image backgroundImage = new Image(backgroundDraw);
+    private void initUI() throws IOException {
+        /////////////// BACKGROUND IMAGE /////////////////
+        Texture wallTileTexture = new Texture(Gdx.files.internal("mappa_text_low_res/background_tile.png"));
+        wallTileTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        TextureRegion wallTileRegion = new TextureRegion(wallTileTexture);
+        wallTileRegion.setRegion(0, 0, wallTileTexture.getWidth() * 8, wallTileTexture.getHeight() * 6);
+        Image backgroundImage = new Image(wallTileRegion);
         backgroundImage.setSize(stage.getWidth(), stage.getHeight());
         stage.addActor(backgroundImage);
         //////////////////////////////////////////////////

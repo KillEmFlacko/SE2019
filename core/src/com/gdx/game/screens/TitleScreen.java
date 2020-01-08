@@ -61,9 +61,11 @@ public class TitleScreen implements Screen {
         generator.dispose();
 
         /////////////// BACKGROUND IMAGE /////////////////
-        TextureRegion wallTileRegion = GdxGame.game.splittedTiles[2][1];
-        TiledDrawable backgroundDraw = new TiledDrawable(wallTileRegion);
-        Image backgroundImage = new Image(backgroundDraw);
+        Texture wallTileTexture = new Texture(Gdx.files.internal("mappa_text_low_res/background_tile.png"));
+        wallTileTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        TextureRegion wallTileRegion = new TextureRegion(wallTileTexture);
+        wallTileRegion.setRegion(0, 0, wallTileTexture.getWidth() * 8, wallTileTexture.getHeight() * 6);
+        Image backgroundImage = new Image(wallTileRegion);
         backgroundImage.setSize(stage.getWidth(), stage.getHeight());
         stage.addActor(backgroundImage);
         //////////////////////////////////////////////////
@@ -71,7 +73,7 @@ public class TitleScreen implements Screen {
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = titleFont;
         label1 = new Label("Doors of\nSacrahan", lblStyle);
-        label1.setSize(stage.getWidth(), lblStyle.font.getLineHeight()*2);
+        label1.setSize(stage.getWidth(), lblStyle.font.getLineHeight() * 2);
         label1.setAlignment(Align.center);
         actArray.add(label1);
 
@@ -108,20 +110,19 @@ public class TitleScreen implements Screen {
         btnSetting.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
         btnSetting.addListener(new InputListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) { 
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new SettingsScreen(game, TitleScreen.this));
                 return true;
             }
         });
         actArray.add(btnSetting);
 
-        
         TextButton guideButton = new TextButton("Guide", GdxGame.game.txtBtnStyle);
         guideButton.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
         guideButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GuideScreen(game,TitleScreen.this));
+                game.setScreen(new GuideScreen(game, TitleScreen.this));
                 return true;
             }
         });
@@ -138,14 +139,14 @@ public class TitleScreen implements Screen {
             }
         });
         actArray.add(quitButton);
-        
-        int acc = (int) stage.getHeight()/7;
-        for(Actor act : actArray){
+
+        int acc = (int) stage.getHeight() / 7;
+        for (Actor act : actArray) {
             acc += (act.getHeight() + padding);
-            act.setPosition(stage.getWidth()/2 - act.getWidth()/2, stage.getHeight() - acc);
+            act.setPosition(stage.getWidth() / 2 - act.getWidth() / 2, stage.getHeight() - acc);
             stage.addActor(act);
         }
-        
+
         game.setMusic("audio/menu/toccataefuga.mp3", true);
     }
 
@@ -159,13 +160,6 @@ public class TitleScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
-        /*
-        stage.getBatch().begin();
-        stage.getBatch().draw(textureRegion, stage.getWidth(), stage.getHeight());
-        stage.getBatch().end();
-         */
-
-        stage.getViewport().apply();
         stage.draw();
     }
 

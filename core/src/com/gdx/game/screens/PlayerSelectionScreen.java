@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
 import com.gdx.game.entities.Player;
@@ -76,16 +77,21 @@ public class PlayerSelectionScreen implements Screen {
         final Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = font;
 
-        Image image = new Image(textureRegion.getTexture());
-        image.setSize(stage.getWidth(), stage.getHeight());
-        image.setPosition(0, 0);
-        stage.addActor(image);
+        /////////////// BACKGROUND IMAGE /////////////////
+        Texture wallTileTexture = new Texture(Gdx.files.internal("mappa_text_low_res/background_tile.png"));
+        wallTileTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        TextureRegion wallTileRegion = new TextureRegion(wallTileTexture);
+        wallTileRegion.setRegion(0, 0, wallTileTexture.getWidth() * 8, wallTileTexture.getHeight() * 6);
+        Image backgroundImage = new Image(wallTileRegion);
+        backgroundImage.setSize(stage.getWidth(), stage.getHeight());
+        stage.addActor(backgroundImage);
+        //////////////////////////////////////////////////
 
         labelTitle = new Label("Select your character", lblStyle);
         labelTitle.setColor(Color.RED);
         labelTitle.setSize(stage.getWidth(), 30);
         labelTitle.setAlignment(Align.center);
-        labelTitle.setPosition(0, stage.getHeight() - labelTitle.getHeight() * 2);
+        labelTitle.setPosition(0, stage.getHeight() - labelTitle.getHeight() - padding);
         stage.addActor(labelTitle);
         
         colWidth = stage.getWidth() / 5f;
@@ -104,15 +110,15 @@ public class PlayerSelectionScreen implements Screen {
         stage.addActor(btnButton5);
 
         //image
-        float playerWorldWidth = 16 / GdxGame.SCALE * 20;
-        float playerWorldHeight = 28 / GdxGame.SCALE * 20;
+        float playerWorldHeight = 150 ;
+        float playerWorldWidth = playerWorldHeight / 28f * 16f;
         float w = stage.getWidth();
         float h = stage.getHeight();
 
         nca = new NorthernCharacterAnimation();
         stage.addActor(nca);
-        nca.setPosition(stage.getWidth() / 2 - 25, stage.getHeight() / 2 + 150);
         nca.setSize(playerWorldWidth, playerWorldHeight);
+        nca.setPosition(stage.getWidth() / 2 - nca.getWidth()/2, labelTitle.getY() - nca.getHeight());
         //prova.setBounds(player4.getPosition().x - player4.getWidth() / 2, player4.getPosition().y - player4.getHeight() / 2, player.getWidth(), player.getHeight());
         nca.addListener(new InputListener() {
             @Override
@@ -143,8 +149,8 @@ public class PlayerSelectionScreen implements Screen {
 
         sca = new SouthernCharacterAnimation();
         stage.addActor(sca);
-        sca.setPosition(stage.getWidth() / 2 - 25, stage.getHeight() / 2 - 150);
         sca.setSize(playerWorldWidth, playerWorldHeight);
+        sca.setPosition(stage.getWidth() / 2 - sca.getWidth()/2, btnButton5.getTop() + padding);
         //prova.setBounds(player4.getPosition().x - player4.getWidth() / 2, player4.getPosition().y - player4.getHeight() / 2, player.getWidth(), player.getHeight());
         sca.addListener(new InputListener() {
             @Override
@@ -175,8 +181,8 @@ public class PlayerSelectionScreen implements Screen {
 
         wca = new WesternCharacterAnimation();
         stage.addActor(wca);
-        wca.setPosition(stage.getWidth() / 2 - 275, stage.getHeight() / 2);
         wca.setSize(playerWorldWidth, playerWorldHeight);
+        wca.setPosition(padding, labelTitle.getY() / 2);
         //prova.setBounds(player4.getPosition().x - player4.getWidth() / 2, player4.getPosition().y - player4.getHeight() / 2, player.getWidth(), player.getHeight());
         wca.addListener(new InputListener() {
             @Override
@@ -207,8 +213,8 @@ public class PlayerSelectionScreen implements Screen {
 
         eca = new EasternCharacterAnimation();
         stage.addActor(eca);
-        eca.setPosition(stage.getWidth() / 2 + 235, stage.getHeight() / 2);
         eca.setSize(playerWorldWidth, playerWorldHeight);
+        eca.setPosition(stage.getWidth() - eca.getWidth() - padding, labelTitle.getY() / 2);
         //prova.setBounds(player4.getPosition().x - player4.getWidth() / 2, player4.getPosition().y - player4.getHeight() / 2, player.getWidth(), player.getHeight());
         eca.addListener(new InputListener() {
             @Override
@@ -236,7 +242,6 @@ public class PlayerSelectionScreen implements Screen {
                 labelStats.setText("");
             }
         });
-
     }
 
     @Override
