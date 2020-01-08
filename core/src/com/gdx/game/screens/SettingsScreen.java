@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
-import com.gdx.game.settings.Settings;
 
 /**
  *
@@ -90,22 +89,39 @@ public class SettingsScreen implements Screen {
         stage.addActor(audio);
 
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        final Slider volume = new Slider(0.0f, 1.0f, 0.1f, false, skin);
+        final Slider volumeSlider = new Slider(0.0f, 1.0f, 0.1f, false, skin);
 
-        volume.setValue(Settings.getDEFAULT_VOLUME());
-        volume.setPosition(stage.getWidth() / 2 - 140, stage.getWidth() / 2 + 155);
+        volumeSlider.setValue(game.settings.getVolume());
+        volumeSlider.setPosition(stage.getWidth() / 2 - 140, stage.getWidth() / 2 + 155);
 
-        stage.addActor(volume);
+        stage.addActor(volumeSlider);
 
-        volume.addListener(new ChangeListener() {
+        volumeSlider.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                Settings.getMusic().setVolume(volume.getValue());
-                volume.setValue(volume.getValue());
-                System.out.println("il volume è VolumeSetValue: " + volume.getValue());
+                game.settings.setVolume(volumeSlider.getValue());
+                game.getMusic().setVolume(game.settings.getVolume());
 
+                //volumeSlider.setValue(volumeSlider.getValue());
+                System.out.println("il volume è VolumeSetValue: " + volumeSlider.getValue());
             }
         });
 
+        TextButton defaultButton = new TextButton("Default Settings", GdxGame.game.skin, "default");
+        defaultButton.setSize(colWidth, rowHeight);
+        defaultButton.setPosition(padding + 600, padding);
+
+        stage.addActor(defaultButton);
+
+        defaultButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.settings.setDefault();
+                game.getMusic().setVolume(game.settings.getVolume());
+                volumeSlider.setValue(game.settings.getVolume());
+
+                return true;
+            }
+        });
     }
 
     @Override

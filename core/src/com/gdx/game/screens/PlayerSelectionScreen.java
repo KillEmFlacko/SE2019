@@ -21,15 +21,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
 import com.gdx.game.entities.Player;
-import com.gdx.game.entities.classes.animation.PlaybleCharacterAnimation;
-import com.gdx.game.entities.classes.EasternWizard;
-import com.gdx.game.entities.classes.animation.NorthernCharacterAnimation;
-import com.gdx.game.entities.classes.NorthernWizard;
-import com.gdx.game.entities.classes.SouthernWizard;
-import com.gdx.game.entities.classes.WesternWizard;
-import com.gdx.game.entities.classes.animation.EasternCharacterAnimation;
-import com.gdx.game.entities.classes.animation.SouthernCharacterAnimation;
-import com.gdx.game.entities.classes.animation.WesternCharacterAnimation;
+import com.gdx.game.screens.animated_actors.PlaybleCharacterAnimation;
+import com.gdx.game.player_classes.EasternWizard;
+import com.gdx.game.screens.animated_actors.NorthernCharacterAnimation;
+import com.gdx.game.player_classes.NorthernWizard;
+import com.gdx.game.player_classes.SouthernWizard;
+import com.gdx.game.player_classes.WesternWizard;
+import com.gdx.game.screens.animated_actors.EasternCharacterAnimation;
+import com.gdx.game.screens.animated_actors.SouthernCharacterAnimation;
+import com.gdx.game.screens.animated_actors.WesternCharacterAnimation;
 
 /**
  *

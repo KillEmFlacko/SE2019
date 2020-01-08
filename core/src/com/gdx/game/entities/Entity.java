@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.gdx.game.entities.classes.CharacterClass;
+import com.gdx.game.player_classes.CharacterClass;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -27,7 +27,7 @@ public abstract class Entity extends Actor implements Disposable {
 
     protected World world;
     protected CharacterClass characterClass;
-    protected Body body;
+    public Body body;
     protected TextureRegion textureRegion;
     protected Action defaultAction;
 

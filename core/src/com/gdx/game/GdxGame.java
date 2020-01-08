@@ -18,7 +18,8 @@ public class GdxGame extends Game {
     public AssetManager assetManager;
     public static GdxGame game;
     public static final float SCALE = 6.0f;
-    private Music music;
+    private Music music = null;
+    public final Settings settings;
     // private static final float DEFAULT_VOLUME = 0.5f;
 
     public ObjectSet<Body> bodyToRemove = new ObjectSet<Body>();
@@ -27,6 +28,7 @@ public class GdxGame extends Game {
         this.vp = vp;
         assetManager = new AssetManager();
         game = this;
+        this.settings = new Settings();
 
     }
 
@@ -37,7 +39,18 @@ public class GdxGame extends Game {
     public Music getMusic() {
         return music;
     }
-
+    
+    public void setMusic(String file, boolean looping){
+        if(music != null){
+            music.stop();
+            music.dispose();
+        }
+        music = Gdx.audio.newMusic(Gdx.files.internal(file));
+        music.setLooping(looping);
+        music.setVolume(this.settings.getVolume());
+        music.play();
+    }
+    
     @Override
     public void create() {
         //skin = new Skin(Gdx.files.internal("skin/expee-ui.json"));
@@ -45,21 +58,16 @@ public class GdxGame extends Game {
 
         this.setScreen(new TitleScreen(this));
 
-        Settings.initAudio();
-
     }
 
     @Override
     public void render() {
         super.render();
-        vp.apply();
         ////////////////REMOVING BODIES//////////////
-//        bodyToRemove.begin();
         for (Body b : GdxGame.game.bodyToRemove) {
             b.getWorld().destroyBody(b);
         }
         bodyToRemove.clear();
-//        bodyToRemove.end();
         /////////////////////////////////////////////
     }
 

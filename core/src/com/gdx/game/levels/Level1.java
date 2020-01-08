@@ -7,11 +7,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.gdx.game.GdxGame;
-import com.gdx.game.contact_listeners.events.DeathEvent;
-import com.gdx.game.entities.Enemy;
+import com.gdx.game.listeners.event.events.DeathEvent;
+import com.gdx.game.entities.enemies.Enemy;
 import com.gdx.game.entities.Player;
-import com.gdx.game.entities.bosses.DemoBoss;
-import com.gdx.game.movements.MovementSetFactory;
+import com.gdx.game.entities.enemies.DemoBoss;
+import com.gdx.game.factories.MovementSetFactory;
 
 /**
  * The first level of our game. As a level it is final because there are some
