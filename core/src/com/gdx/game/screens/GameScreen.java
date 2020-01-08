@@ -73,7 +73,7 @@ public class GameScreen implements Screen, EventListener {
     public GameScreen(GdxGame aGame, CharacterClass characterClass) {
         debugRenderer = new Box2DDebugRenderer();
         this.game = aGame;
-        
+
         aGame.setMusic("audio/game/9symphony.mp3", true);
         /////////// STAGE /////////////
         float w = Gdx.graphics.getWidth();
@@ -108,26 +108,13 @@ public class GameScreen implements Screen, EventListener {
         scoreCounter = new ScoreCounter();
         IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
         gameStage.addListener(scoreListener);
-//        initLabel();
         //////////////////////////
 
-        //(14.623319,19.27667)  (15, 15 * (h / w))
-        ///////////SET CAMERA///////////
         OrthographicCamera cam = (OrthographicCamera) gameStage.getCamera();
         cam.position.set(player.getPosition(), gameStage.getCamera().position.z);
         cam.update();
-//        ////////////////////////////////
-//        level1.addListener(new EndDemoGameListener(this,player,(DemoBoss) level1.getEnemies().get(0)));
-//
-//        // Gestione dello score IncreaseScoreListener
-//        scoreCounter = new ScoreCounter();
-//        IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
-////        initLabel();
         initHUD();
-//        pauseScreen = new PauseScreen(game, this);
-//        gameStage.getRoot().addListener(scoreListener);
         levels.get(0).start();
-
     }
 
     public void initLabel(Color color) {
@@ -148,7 +135,6 @@ public class GameScreen implements Screen, EventListener {
             label1.setText("You Lost");
             label1.setPosition(hudStage.getWidth() / 2 - 0.9f * label1.getWidth(), (hudStage.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * hudStage.getHeight());
         } else if (color.equals(Color.GREEN)) {
-            //label1.setText("VICTORY");
             label1.setPosition(hudStage.getWidth() / 2 - 0.7f * label1.getWidth(), (hudStage.getHeight() / 2 - label1.getHeight() / 2) + 0.1f * hudStage.getHeight());
         }
         label1.setVisible(true);
@@ -179,10 +165,6 @@ public class GameScreen implements Screen, EventListener {
         hudStage.addActor(label1);
         //text field
         text = new TextField("", GdxGame.game.skin, "default");
-        //text.setScale(1f/GdxGame.SCALE);
-
-        //text.setAlignment(center);
-        //text.setSize();
         text.setAlignment(center);
         text.setMaxLength(10);
         text.setMessageText("Enter your nickname");
@@ -196,7 +178,6 @@ public class GameScreen implements Screen, EventListener {
         btn = new TextButton("OK", GdxGame.game.skin, "default");
         btn.setSize(hudStage.getWidth() / 5, hudStage.getHeight() / 15);
         btn.setPosition(hudStage.getWidth() / 2 - btn.getWidth() / 2, hudStage.getHeight() / 2 - 0.3f * hudStage.getHeight());
-//btn.setPosition(hudStage.getWidth() / 2 - text.getWidth() / 2, hudStage.getHeight() / 2 - text.getHeight() / 2);
         btn.setVisible(false);
         btn.addListener(new InputListener() {
             @Override
@@ -243,7 +224,7 @@ public class GameScreen implements Screen, EventListener {
         //      decommentare per seguire il player
         gameStage.getCamera().position.set(player.getPosition(), gameStage.getCamera().position.z);
         gameStage.getCamera().update();
-        debugRenderer.render(world, gameStage.getCamera().combined);
+//        debugRenderer.render(world, gameStage.getCamera().combined);
     }
 
     public void end(boolean win) {
@@ -300,25 +281,6 @@ public class GameScreen implements Screen, EventListener {
         } catch (IOException ex) {
             game.setScreen(new TitleScreen(game));
         }
-//                Timer.schedule(new Task() {
-//                    
-//
-//                    
-//                    else {
-//                    game.setScreen(new ScoreScreen(game));
-//                    GameScreen.this.dispose();
-//                }
-//                } catch (IOException ex) {
-//                        game.setScreen(new TitleScreen(game));
-//                        }
-//            }
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
-//     , 
-//5);
-
     }
 
     @Override
@@ -380,7 +342,6 @@ public class GameScreen implements Screen, EventListener {
         hudStage.addActor(image);
 
         gameStage.addListener(new UpdateHUDListener(life, image));
-
     }
 
     private void createLifebar() {

@@ -41,12 +41,13 @@ public class ScoreScreen implements Screen {
         this.stage = new Stage(GdxGame.game.vp);
         this.labelArray = new ArrayList();
         this.previousScreen = previousScreen;
-        if (previousScreen == null)
-                game.getMusic().stop();
+        if (previousScreen == null) {
+            game.getMusic().stop();
+        }
         initUI();
     }
-    
-    public ScoreScreen(GdxGame game) throws IOException{
+
+    public ScoreScreen(GdxGame game) throws IOException {
         this(game, null);
     }
 
@@ -61,11 +62,10 @@ public class ScoreScreen implements Screen {
         backgroundImage.setSize(stage.getWidth(), stage.getHeight());
         stage.addActor(backgroundImage);
         //////////////////////////////////////////////////
-        
 
         Label.LabelStyle lblTitleStyle = new Label.LabelStyle();
         lblTitleStyle.font = GdxGame.game.titleFont;
-        
+
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = GdxGame.game.buttonFont;
 
@@ -83,10 +83,11 @@ public class ScoreScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 ScoreScreen.this.dispose();
-                if(previousScreen == null)
+                if (previousScreen == null) {
                     game.setScreen(new TitleScreen(game));
-                else
+                } else {
                     game.setScreen(previousScreen);
+                }
                 return true;
             }
         });

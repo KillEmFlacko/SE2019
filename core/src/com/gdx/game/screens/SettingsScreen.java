@@ -36,7 +36,6 @@ public class SettingsScreen implements Screen {
     private final int padding = 15;
     private Label audio;
     private TitleScreen previousScreen;
-    //private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("menu/back.jpg")));
 
     public SettingsScreen(GdxGame game, TitleScreen previousS) {
         this.game = game;
@@ -56,10 +55,10 @@ public class SettingsScreen implements Screen {
         backgroundImage.setSize(stage.getWidth(), stage.getHeight());
         stage.addActor(backgroundImage);
         //////////////////////////////////////////////////
-        
+
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = GdxGame.game.buttonFont;
-        
+
         label1 = new Label("SETTINGS", lblStyle);
         label1.setSize(stage.getWidth(), 30);
         label1.setAlignment(Align.center);

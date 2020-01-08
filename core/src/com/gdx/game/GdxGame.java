@@ -50,9 +50,9 @@ public class GdxGame extends Game {
     public Music getMusic() {
         return music;
     }
-    
-    public void setMusic(String file, boolean looping){
-        if(music != null){
+
+    public void setMusic(String file, boolean looping) {
+        if (music != null) {
             music.stop();
             music.dispose();
         }
@@ -61,12 +61,12 @@ public class GdxGame extends Game {
         music.setVolume(this.settings.getVolume());
         music.play();
     }
-    
+
     @Override
     public void create() {
         //skin = new Skin(Gdx.files.internal("skin/expee-ui.json"));
         skin = new Skin(Gdx.files.internal("flat/skin/skin.json"));
-         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameters.size = 20;
         parameters.borderColor = Color.BLACK;
@@ -80,10 +80,10 @@ public class GdxGame extends Game {
         parameters.shadowColor = Color.BROWN;
         titleFont = generator.generateFont(parameters);
         generator.dispose();
-        
+
         Texture tiles = new Texture(Gdx.files.internal("mappa_text_low_res/rogueliketilesx3.png"));
         splittedTiles = TextureRegion.split(tiles, 25, 25);
-        
+
         TiledDrawable wallBrightDraw = new TiledDrawable(splittedTiles[1][2]);
         TiledDrawable wallNormalDraw = new TiledDrawable(splittedTiles[1][1]);
         TiledDrawable wallDarkDraw = new TiledDrawable(splittedTiles[1][3]);

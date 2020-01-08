@@ -24,7 +24,7 @@ public final class LightShieldSkill extends DefenseSkill {
 
     @Override
     public void cast(Vector2 direction) {
-        throw  new Error("Not castable in a given direction.");
+        throw new Error("Not castable in a given direction.");
 
     }
 

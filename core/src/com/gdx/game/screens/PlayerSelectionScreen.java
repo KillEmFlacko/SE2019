@@ -93,7 +93,7 @@ public class PlayerSelectionScreen implements Screen {
         labelTitle.setAlignment(Align.center);
         labelTitle.setPosition(0, stage.getHeight() - labelTitle.getHeight() - padding);
         stage.addActor(labelTitle);
-        
+
         colWidth = stage.getWidth() / 5f;
         rowHeight = stage.getHeight() / 15f;
         TextButton btnButton5 = new TextButton("Back", GdxGame.game.txtBtnStyle);
@@ -110,7 +110,7 @@ public class PlayerSelectionScreen implements Screen {
         stage.addActor(btnButton5);
 
         //image
-        float playerWorldHeight = 150 ;
+        float playerWorldHeight = 150;
         float playerWorldWidth = playerWorldHeight / 28f * 16f;
         float w = stage.getWidth();
         float h = stage.getHeight();
@@ -118,7 +118,7 @@ public class PlayerSelectionScreen implements Screen {
         nca = new NorthernCharacterAnimation();
         stage.addActor(nca);
         nca.setSize(playerWorldWidth, playerWorldHeight);
-        nca.setPosition(stage.getWidth() / 2 - nca.getWidth()/2, labelTitle.getY() - nca.getHeight());
+        nca.setPosition(stage.getWidth() / 2 - nca.getWidth() / 2, labelTitle.getY() - nca.getHeight());
         //prova.setBounds(player4.getPosition().x - player4.getWidth() / 2, player4.getPosition().y - player4.getHeight() / 2, player.getWidth(), player.getHeight());
         nca.addListener(new InputListener() {
             @Override
@@ -150,7 +150,7 @@ public class PlayerSelectionScreen implements Screen {
         sca = new SouthernCharacterAnimation();
         stage.addActor(sca);
         sca.setSize(playerWorldWidth, playerWorldHeight);
-        sca.setPosition(stage.getWidth() / 2 - sca.getWidth()/2, btnButton5.getTop() + padding);
+        sca.setPosition(stage.getWidth() / 2 - sca.getWidth() / 2, btnButton5.getTop() + padding);
         //prova.setBounds(player4.getPosition().x - player4.getWidth() / 2, player4.getPosition().y - player4.getHeight() / 2, player.getWidth(), player.getHeight());
         sca.addListener(new InputListener() {
             @Override
