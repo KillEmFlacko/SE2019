@@ -1,7 +1,8 @@
 package com.gdx.game.entities;
 
+import com.gdx.game.entities.bullets.Bullet;
 import com.badlogic.gdx.math.Vector2;
-import com.gdx.game.contact_listeners.events.DeathEvent;
+import com.gdx.game.listeners.event.events.DeathEvent;
 
 /**
  *
@@ -9,8 +10,8 @@ import com.gdx.game.contact_listeners.events.DeathEvent;
  */
 public abstract class MortalEntity extends Entity {
 
-    protected String name;
-    protected Integer life;
+    public String name;
+    public Integer life;
 
     public MortalEntity(String name, Integer life, float width, float height, Vector2 position) {
         super(width, height, position);
@@ -39,15 +40,15 @@ public abstract class MortalEntity extends Entity {
         return life;
     }
 
-    float getBoostSpellMultiplier() {
+    public float getBoostSpellMultiplier() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    float getDamageSpellMultiplier() {
+    public float getDamageSpellMultiplier() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    float getDefenseSpelMultiplier() {
+    public float getDefenseSpelMultiplier() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

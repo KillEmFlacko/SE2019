@@ -1,12 +1,17 @@
 package com.gdx.game.entities;
 
+import com.gdx.game.skills.DamageSkillAdapter;
+import com.gdx.game.skills.DefenseSkill;
+import com.gdx.game.skills.LightShieldSkill;
+import com.gdx.game.entities.bullets.BasicBullet;
+import com.gdx.game.entities.bullets.Bullet;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.gdx.game.GdxGame;
-import com.gdx.game.contact_listeners.events.HitEvent;
-import com.gdx.game.entities.classes.CharacterClass;
+import com.gdx.game.listeners.event.events.HitEvent;
+import com.gdx.game.player_classes.CharacterClass;
 import com.gdx.game.factories.Weapon;
 
 /**

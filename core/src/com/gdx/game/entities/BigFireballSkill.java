@@ -1,5 +1,8 @@
 package com.gdx.game.entities;
 
+import com.gdx.game.skills.DamageSkillAdapter;
+import com.gdx.game.entities.bullets.SkillBullet;
+import com.gdx.game.entities.bullets.BigFireballSkillBullet;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.factories.FilterFactory;

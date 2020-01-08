@@ -1,5 +1,6 @@
 package com.gdx.game.entities;
 
+import com.gdx.game.entities.bullets.Bullet;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -38,7 +39,7 @@ public class LightShieldSkillEntity extends MortalEntity {
     }
 
     @Override
-    protected void initPhysics() {
+    public void initPhysics() {
 
         BodyDef bdDef = new BodyDef();
         bdDef.type = BodyDef.BodyType.DynamicBody;
@@ -70,7 +71,7 @@ public class LightShieldSkillEntity extends MortalEntity {
     }
 
     @Override
-    protected void initGraphics() {
+    public void initGraphics() {
 
         texture = new Texture(Gdx.files.internal("texture/player/skill/shield/s420.png"));
 

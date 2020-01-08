@@ -24,7 +24,7 @@ import com.gdx.game.GameStage;
 import com.gdx.game.GdxGame;
 import com.gdx.game.entities.Enemy;
 import com.gdx.game.entities.Player;
-import com.gdx.game.entities.classes.NorthernWizard;
+import com.gdx.game.player_classes.NorthernWizard;
 import com.gdx.game.factories.FilterFactory;
 
 /**

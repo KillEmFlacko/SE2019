@@ -52,14 +52,11 @@ public class GdxGame extends Game {
     @Override
     public void render() {
         super.render();
-        vp.apply();
         ////////////////REMOVING BODIES//////////////
-//        bodyToRemove.begin();
         for (Body b : GdxGame.game.bodyToRemove) {
             b.getWorld().destroyBody(b);
         }
         bodyToRemove.clear();
-//        bodyToRemove.end();
         /////////////////////////////////////////////
     }
 

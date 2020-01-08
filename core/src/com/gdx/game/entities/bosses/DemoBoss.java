@@ -1,5 +1,6 @@
 package com.gdx.game.entities.bosses;
 
+import com.gdx.game.entities.bullets.DemoBossBullet;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -17,14 +18,14 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.gdx.game.GdxGame;
-import com.gdx.game.contact_listeners.events.HitEvent;
-import com.gdx.game.entities.Bullet;
+import com.gdx.game.listeners.event.events.HitEvent;
+import com.gdx.game.entities.bullets.Bullet;
 import com.gdx.game.entities.Player;
-import com.gdx.game.movements.MovementSet;
+import com.gdx.game.factories.movement_products.MovementSet;
 import java.util.Random;
 import com.gdx.game.entities.*;
 import com.gdx.game.factories.Weapon;
-import com.gdx.game.movements.Movement;
+import com.gdx.game.factories.movement_products.Movement;
 
 /**
  *
