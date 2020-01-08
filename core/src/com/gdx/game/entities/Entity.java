@@ -26,7 +26,6 @@ import com.gdx.game.GdxGame;
 public abstract class Entity extends Actor implements Disposable {
 
     protected World world;
-    protected CharacterClass characterClass;
     public Body body;
     protected TextureRegion textureRegion;
     protected Action defaultAction;
