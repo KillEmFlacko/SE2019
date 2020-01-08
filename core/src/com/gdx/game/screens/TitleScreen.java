@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Queue;
 import com.gdx.game.GdxGame;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -38,6 +40,7 @@ public class TitleScreen implements Screen {
     private SettingsScreen ss;
     private SpriteBatch spriteBatch = new SpriteBatch();
     private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("menu/back.jpg")));
+    private Queue<Actor> actQueue = new Queue<>(6);
 
     public TitleScreen(GdxGame aGame) {
         this.game = aGame;
@@ -77,10 +80,9 @@ public class TitleScreen implements Screen {
         Label.LabelStyle lblStyle = new Label.LabelStyle();
         lblStyle.font = titleFont;
         label1 = new Label("Doors of\nSacrahan", lblStyle);
-        label1.setSize(stage.getWidth(), 30);
+        label1.setSize(stage.getWidth(), lblStyle.font.getLineHeight()*2);
         label1.setAlignment(Align.center);
-        label1.setPosition(0, stage.getHeight() / 2 + 60);
-        stage.addActor(label1);
+        actQueue.addLast(label1);
 
         TiledDrawable wallBrightDraw = new TiledDrawable(splittedTiles[1][2]);
         TiledDrawable wallNormalDraw = new TiledDrawable(splittedTiles[1][1]);
@@ -90,7 +92,6 @@ public class TitleScreen implements Screen {
         txtStyle.over = wallNormalDraw;
         TextButton btnButton = new TextButton("Play!", txtStyle);
         btnButton.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
-        btnButton.setPosition(stage.getWidth() / 2 - btnButton.getWidth() / 2, stage.getHeight() / 2 - btnButton.getHeight() / 2 - padding);
         btnButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -99,11 +100,10 @@ public class TitleScreen implements Screen {
                 return true;
             }
         });
-        stage.addActor(btnButton);
+        actQueue.addLast(btnButton);
 
         TextButton btnButton2 = new TextButton("Score", txtStyle);
         btnButton2.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
-        btnButton2.setPosition(stage.getWidth() / 2 - btnButton.getWidth() / 2, stage.getHeight() / 2 - btnButton.getHeight() / 2 - padding * BUTTON_SPACE);
         btnButton2.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -117,11 +117,10 @@ public class TitleScreen implements Screen {
                 return true;
             }
         });
-        stage.addActor(btnButton2);
+        actQueue.addLast(btnButton2);
 
         TextButton btnSetting = new TextButton("Options", txtStyle);
         btnSetting.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
-        btnSetting.setPosition(stage.getWidth() / 2 - btnButton.getWidth() / 2, stage.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 30 - padding * BUTTON_SPACE);
         btnSetting.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) { 
@@ -129,12 +128,11 @@ public class TitleScreen implements Screen {
                 return true;
             }
         });
-        stage.addActor(btnSetting);
+        actQueue.addLast(btnSetting);
 
         
         TextButton guideButton = new TextButton("Guide", txtStyle);
         guideButton.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
-        guideButton.setPosition(stage.getWidth() / 2 - btnButton.getWidth() / 2, stage.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 90 - padding * BUTTON_SPACE);
         guideButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -142,11 +140,10 @@ public class TitleScreen implements Screen {
                 return true;
             }
         });
-        stage.addActor(guideButton);
+        actQueue.addLast(guideButton);
 
         TextButton quitButton = new TextButton("Quit", txtStyle);
         quitButton.setSize(stage.getWidth() / 5, stage.getHeight() / 15);
-        quitButton.setPosition(stage.getWidth() / 2 - btnButton.getWidth() / 2, stage.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 150 - padding * BUTTON_SPACE);
         quitButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -155,7 +152,14 @@ public class TitleScreen implements Screen {
                 return true;
             }
         });
-        stage.addActor(quitButton);
+        actQueue.addLast(quitButton);
+        
+        int acc = (int) stage.getHeight()/7;
+        for(Actor act : actQueue){
+            acc += (act.getHeight() + padding);
+            act.setPosition(stage.getWidth()/2 - act.getWidth()/2, stage.getHeight() - acc);
+            stage.addActor(act);
+        }
         
         game.setMusic("audio/menu/toccataefuga.mp3", true);
     }
