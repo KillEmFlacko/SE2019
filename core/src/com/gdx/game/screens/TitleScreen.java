@@ -42,7 +42,6 @@ public class TitleScreen implements Screen {
     public TitleScreen(GdxGame aGame) {
         this.game = aGame;
         this.stage = new Stage(GdxGame.game.vp);
-        ss = new SettingsScreen(game, this);
         initUI();
 
     }
@@ -108,9 +107,8 @@ public class TitleScreen implements Screen {
         btnButton2.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                TitleScreen.this.dispose();
                 try {
-                    game.setScreen(new ScoreScreen(game));
+                    game.setScreen(new ScoreScreen(game, TitleScreen.this));
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(TitleScreen.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
@@ -126,9 +124,8 @@ public class TitleScreen implements Screen {
         btnSetting.setPosition(stage.getWidth() / 2 - btnButton.getWidth() / 2, stage.getHeight() / 2 - 30 - btnButton.getHeight() / 2 - 30 - padding * BUTTON_SPACE);
         btnSetting.addListener(new InputListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //TitleScreen.this.dispose();
-                game.setScreen(ss);
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) { 
+                game.setScreen(new SettingsScreen(game, TitleScreen.this));
                 return true;
             }
         });

@@ -29,15 +29,21 @@ public class ScoreScreen implements Screen {
     private final HighScoreTable hst;
     private float colWidth;
     private float rowHeight;
-    private TitleScreen ts;
+    private Screen previousScreen;
 
-    public ScoreScreen(GdxGame game) throws FileNotFoundException, IOException {
+    public ScoreScreen(GdxGame game, Screen previousScreen) throws IOException {
         this.hst = new HighScoreTable();
         this.game = game;
         this.stage = new Stage(GdxGame.game.vp);
         this.labelArray = new ArrayList();
-        ts = new TitleScreen(game);
+        this.previousScreen = previousScreen;
+        if (previousScreen == null)
+                game.getMusic().stop();
         initUI();
+    }
+    
+    public ScoreScreen(GdxGame game) throws IOException{
+        this(game, null);
     }
 
 // a family of related product objects is designed to be used together, and you need to enforce this constraint.   
@@ -64,18 +70,21 @@ public class ScoreScreen implements Screen {
 
         colWidth = stage.getWidth() / 5f;
         rowHeight = stage.getHeight() / 15f;
-        TextButton btnButton = new TextButton("Back", GdxGame.game.skin, "default");
-        btnButton.setSize(colWidth, rowHeight);
-        btnButton.setPosition(padding, padding);
-        btnButton.addListener(new InputListener() {
+        TextButton backButton = new TextButton("Back", GdxGame.game.skin, "default");
+        backButton.setSize(colWidth, rowHeight);
+        backButton.setPosition(padding, padding);
+        backButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 ScoreScreen.this.dispose();
-                game.setScreen(ScoreScreen.this.ts);
+                if(previousScreen == null)
+                    game.setScreen(new TitleScreen(game));
+                else
+                    game.setScreen(previousScreen);
                 return true;
             }
         });
-        stage.addActor(btnButton);
+        stage.addActor(backButton);
         createLabel(lblStyle, hst);
 
     }
