@@ -1,9 +1,11 @@
-package com.gdx.game.entities.bullets;
+package com.gdx.game.skills.entities.bullets;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.gdx.game.entities.bullets.Bullet;
+import com.gdx.game.entities.bullets.Bullet;
 
 /**
  *

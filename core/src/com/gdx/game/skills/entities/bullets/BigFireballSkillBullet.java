@@ -1,4 +1,4 @@
-package com.gdx.game.entities.bullets;
+package com.gdx.game.skills.entities.bullets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;

@@ -1,5 +1,6 @@
 package com.gdx.game.entities;
 
+import com.gdx.game.skills.BigFireballSkill;
 import com.gdx.game.skills.DamageSkillAdapter;
 import com.gdx.game.skills.DefenseSkill;
 import com.gdx.game.skills.LightShieldSkill;

@@ -1,7 +1,7 @@
 package com.gdx.game.skills;
 
 import com.badlogic.gdx.math.Vector2;
-import com.gdx.game.entities.LightShieldSkillEntity;
+import com.gdx.game.skills.entities.LightShieldSkillEntity;
 import com.gdx.game.entities.MortalEntity;
 import com.gdx.game.entities.Player;
 import com.gdx.game.factories.FilterFactory;

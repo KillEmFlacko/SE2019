@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.gdx.game.listeners.event.events.HitEvent;
 import com.gdx.game.entities.Player;
-import com.gdx.game.entities.bosses.DemoBoss;
+import com.gdx.game.entities.enemies.DemoBoss;
 import com.gdx.game.screens.Heart;
 import java.util.ArrayList;
 

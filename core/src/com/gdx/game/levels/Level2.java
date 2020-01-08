@@ -10,9 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.gdx.game.GdxGame;
 import com.gdx.game.listeners.event.events.DeathEvent;
-import com.gdx.game.entities.Enemy;
+import com.gdx.game.entities.enemies.Enemy;
 import com.gdx.game.entities.Player;
-import com.gdx.game.entities.bosses.DemoBoss;
+import com.gdx.game.entities.enemies.DemoBoss;
 import com.gdx.game.factories.MovementSetFactory;
 
 /**

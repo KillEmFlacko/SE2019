@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.gdx.game.entities.bullets.Bullet;
-import com.gdx.game.entities.LightShieldSkillEntity;
+import com.gdx.game.skills.entities.LightShieldSkillEntity;
 import com.gdx.game.entities.MortalEntity;
 
 /**

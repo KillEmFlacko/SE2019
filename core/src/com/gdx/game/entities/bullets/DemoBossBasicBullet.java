@@ -11,10 +11,10 @@ import com.badlogic.gdx.utils.Array;
  *
  * @author Armando
  */
-public class DemoBossBullet extends BasicBullet {
+public class DemoBossBasicBullet extends BasicBullet {
 
     // ASTRAI
-    public DemoBossBullet(float radius, Vector2 position, int damage, float initSpeed) {
+    public DemoBossBasicBullet(float radius, Vector2 position, int damage, float initSpeed) {
         super(radius, position, damage, initSpeed);
     }
 
@@ -32,7 +32,7 @@ public class DemoBossBullet extends BasicBullet {
 
     @Override
     public Bullet clone() {
-        DemoBossBullet clone = new DemoBossBullet(getWidth() / 2, getPosition(), damage, initialSpeed);
+        DemoBossBasicBullet clone = new DemoBossBasicBullet(getWidth() / 2, getPosition(), damage, initialSpeed);
         clone.setFilter(filter);
         return clone;
     }

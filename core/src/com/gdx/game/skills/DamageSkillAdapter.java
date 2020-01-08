@@ -1,7 +1,7 @@
 package com.gdx.game.skills;
 
 import com.gdx.game.entities.MortalEntity;
-import com.gdx.game.entities.bullets.SkillBullet;
+import com.gdx.game.skills.entities.bullets.SkillBullet;
 
 /**
  *
