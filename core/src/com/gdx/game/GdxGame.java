@@ -19,6 +19,7 @@ public class GdxGame extends Game {
     public static GdxGame game;
     public static final float SCALE = 6.0f;
     private Music music;
+    public Settings settings; 
     // private static final float DEFAULT_VOLUME = 0.5f;
 
     public ObjectSet<Body> bodyToRemove = new ObjectSet<Body>();
@@ -27,6 +28,7 @@ public class GdxGame extends Game {
         this.vp = vp;
         assetManager = new AssetManager();
         game = this;
+        this.settings = new Settings();
 
     }
 
@@ -45,8 +47,10 @@ public class GdxGame extends Game {
 
         this.setScreen(new TitleScreen(this));
 
-        Settings.initAudio();
-
+        music = Gdx.audio.newMusic(Gdx.files.internal("audio/menu/AbandonedWindmill.mp3"));
+        music.setLooping(true);
+        music.setVolume(this.settings.getVolume());
+        music.play();
     }
 
     @Override
