@@ -2,6 +2,8 @@ package com.gdx.game.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.gdx.game.factories.FilterFactory;
+import com.gdx.game.skills.DefenseSkill;
+import com.gdx.game.skills.entities.LightShieldSkillEntity;
 import java.util.Date;
 
 /**
