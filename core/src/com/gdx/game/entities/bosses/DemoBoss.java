@@ -23,7 +23,6 @@ import com.gdx.game.entities.bullets.Bullet;
 import com.gdx.game.entities.Player;
 import com.gdx.game.factories.movement_products.MovementSet;
 import java.util.Random;
-import com.gdx.game.entities.*;
 import com.gdx.game.factories.Weapon;
 import com.gdx.game.factories.movement_products.Movement;
 

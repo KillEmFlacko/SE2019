@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
-import com.gdx.game.settings.Settings;
 
 /**
  *

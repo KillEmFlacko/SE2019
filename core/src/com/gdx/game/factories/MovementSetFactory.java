@@ -1,7 +1,6 @@
 package com.gdx.game.factories;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.gdx.game.factories.movement_products.MovementSet;
 import com.gdx.game.factories.movement_products.XMovement;
 import com.gdx.game.factories.movement_products.YMovement;

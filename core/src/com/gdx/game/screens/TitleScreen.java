@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
-import com.gdx.game.settings.Settings;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
