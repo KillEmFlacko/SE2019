@@ -27,12 +27,14 @@ public class GuideScreen implements Screen {
     private float colWidth;
     private float rowHeight;
     private final int padding = 15;
+    private Screen previousScreen;
 
     private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("guida/guida.png")));
 
-    public GuideScreen(GdxGame game) {
+    public GuideScreen(GdxGame game, Screen previousScreen) {
         this.game = game;
         this.stage = new Stage(game.vp);
+        this.previousScreen = previousScreen;
         initUI();
     }
 
@@ -63,7 +65,7 @@ public class GuideScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 GuideScreen.this.dispose();
-                game.setScreen(new TitleScreen(game));
+                game.setScreen(previousScreen);
                 return true;
             }
         });

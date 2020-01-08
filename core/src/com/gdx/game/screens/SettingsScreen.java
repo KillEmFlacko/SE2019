@@ -69,18 +69,19 @@ public class SettingsScreen implements Screen {
 
         colWidth = stage.getWidth() / 5f;
         rowHeight = stage.getWidth() / 15f;
-        TextButton btnButton = new TextButton("Back", GdxGame.game.skin, "default");
-        btnButton.setSize(colWidth, rowHeight);
-        btnButton.setPosition(padding, padding);
-        btnButton.addListener(new InputListener() {
+        TextButton backButton = new TextButton("Back", GdxGame.game.skin, "default");
+        backButton.setSize(colWidth, rowHeight);
+        backButton.setPosition(padding, padding);
+        backButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //   SettingsScreen.this.dispose();
+                SettingsScreen.this.dispose();
                 game.setScreen(previousScreen);
                 return true;
             }
         });
-        stage.addActor(btnButton);
+        stage.addActor(backButton);
 
         audio = new Label("AUDIO", lblStyle);
         audio.setSize(stage.getWidth(), 30);
