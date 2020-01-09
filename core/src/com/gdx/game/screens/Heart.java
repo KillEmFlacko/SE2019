@@ -16,7 +16,6 @@ public class Heart extends Image {
     public Heart() {
         texture = new Texture(Gdx.files.internal("texture/player/hud/heart.png"));
         image = new Image(texture);
-        // image.setSize(Gdx.graphics.getWidth()/15, Gdx.graphics.getHeight()/12);
     }
 
     public Image getImage() {

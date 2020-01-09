@@ -60,14 +60,9 @@ public class GameScreen implements Screen, EventListener {
     private TextButton btn;
     private final GameStage gameStage;
     private final Array<Level> levels;
-    private Button btnButton;
     public Label label1;
-    private boolean isEnded = false;
     private final ScoreCounter scoreCounter;
     private ArrayList<Heart> life;
-
-    private Texture texture, blank;
-    private Image image1;
     private Image image, image2;
 
     public GameScreen(GdxGame aGame, CharacterClass characterClass) {
@@ -102,7 +97,7 @@ public class GameScreen implements Screen, EventListener {
         levels.add(new Level1(player), new Level2(player));
         gameStage.addActor(levels.get(0));
         gameStage.addActor(levels.get(1));
-        ////////////////////////////
+        /////////////////////////////
 
         ////////// SCORE //////////
         scoreCounter = new ScoreCounter();
@@ -327,7 +322,7 @@ public class GameScreen implements Screen, EventListener {
         }
         createLifebar();
 
-        blank = new Texture(Gdx.files.internal("texture/enemy/bosses/red.jpg"));
+        Texture blank = new Texture(Gdx.files.internal("texture/enemy/bosses/red.jpg"));
 
         image2 = new Image(blank);
         image2.setSize(hudStage.getWidth(), 30);

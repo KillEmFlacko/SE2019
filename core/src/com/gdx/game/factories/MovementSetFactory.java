@@ -12,7 +12,6 @@ import java.util.HashMap;
  */
 public class MovementSetFactory {
 
-    private static int nInstances = 1;
     private final static MovementSetFactory msf = new MovementSetFactory();
 
     private MovementSetFactory() {
@@ -27,9 +26,6 @@ public class MovementSetFactory {
      * @param shape Square : Staring from upper right vertex, 4 movements
      * StraightLine : goes in a straight line, 2 movements
      * @param clockwise
-     * @param playerPosition the player position
-     * @param towardsPlayer tells after how many times the boss goes towards the
-     * Player
      * @return
      */
     public MovementSet build(String speed, String shape, boolean clockwise) {
@@ -40,7 +36,6 @@ public class MovementSetFactory {
         speedModes.put("Fast", 8f);
 
         Gdx.app.log("Speed", speedModes.get(speed).toString());
-        //Gdx.app.log("Shape", shape);
 
         return selectMoves(speedModes.get(speed), shape, clockwise);
 

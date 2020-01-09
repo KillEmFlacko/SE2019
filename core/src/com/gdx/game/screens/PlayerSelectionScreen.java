@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.GdxGame;
 import com.gdx.game.entities.Player;
@@ -43,14 +42,8 @@ public class PlayerSelectionScreen implements Screen {
     private final Box2DDebugRenderer debugRenderer;
     private Label labelTitle, labelName, labelStats;
     private final int padding = 15;
-    private final int BUTTON_SPACE = 5;
     private float colWidth;
     private float rowHeight;
-    //private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("menu/back.jpg")));
-    private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("back.png")));
-
-    private Player player, player2, player3, player4;
-
     public Animation<TextureRegion> idleAnimation;
     public TextureAtlas atlas;
     public PlaybleCharacterAnimation nca, sca, wca, eca;
@@ -112,8 +105,6 @@ public class PlayerSelectionScreen implements Screen {
         //image
         float playerWorldHeight = 150;
         float playerWorldWidth = playerWorldHeight / 28f * 16f;
-        float w = stage.getWidth();
-        float h = stage.getHeight();
 
         nca = new NorthernCharacterAnimation();
         stage.addActor(nca);

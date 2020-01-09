@@ -16,10 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Queue;
 import com.gdx.game.GdxGame;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -36,11 +34,7 @@ public class TitleScreen implements Screen {
     private final GdxGame game;
     private Label label1;
     private final int padding = 15;
-    private final int BUTTON_SPACE = 5;
-    private SettingsScreen ss;
-    private SpriteBatch spriteBatch = new SpriteBatch();
-    private TextureRegion textureRegion = new TextureRegion(new Texture(Gdx.files.internal("menu/back.jpg")));
-    private Array<Actor> actArray = new Array<>(6);
+    private final Array<Actor> actArray = new Array<>(6);
 
     public TitleScreen(GdxGame aGame) {
         this.game = aGame;

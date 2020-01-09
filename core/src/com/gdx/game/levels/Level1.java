@@ -83,6 +83,5 @@ public final class Level1 extends Level {
                 fire(new EndLevelEvent(!(arg1 instanceof Player)));
             }
         }
-
     }
 }
