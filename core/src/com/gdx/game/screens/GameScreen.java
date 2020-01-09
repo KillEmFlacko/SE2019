@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -17,12 +18,12 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import static com.badlogic.gdx.utils.Align.center;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
@@ -60,7 +61,7 @@ public class GameScreen implements Screen, EventListener {
     private TextButton btn;
     private final GameStage gameStage;
     private final Array<Level> levels;
-    public Label label1;
+    public Label label1, scoreLabel;
     private final ScoreCounter scoreCounter;
     private ArrayList<Heart> life;
     private Image image, image2;
@@ -322,7 +323,10 @@ public class GameScreen implements Screen, EventListener {
         }
         createLifebar();
 
-        Texture blank = new Texture(Gdx.files.internal("texture/enemy/bosses/red.jpg"));
+        Pixmap pxmp = new Pixmap( 100, 100, Pixmap.Format.RGBA8888 );
+        pxmp.setColor(Color.WHITE);
+        pxmp.fill();
+        Texture blank = new Texture(pxmp);
 
         image2 = new Image(blank);
         image2.setSize(hudStage.getWidth(), 30);
@@ -335,8 +339,14 @@ public class GameScreen implements Screen, EventListener {
         image.setPosition(5, 5);
         image.setColor(Color.RED);
         hudStage.addActor(image);
+        
+        scoreLabel = new Label("0", new Label.LabelStyle(GdxGame.game.buttonFont, Color.WHITE));
+        scoreLabel.setSize(hudStage.getWidth(), GdxGame.game.buttonFont.getLineHeight());
+        scoreLabel.setAlignment(Align.right);
+        scoreLabel.setPosition(0, hudStage.getHeight() - scoreLabel.getHeight());
+        hudStage.addActor(scoreLabel);
 
-        gameStage.addListener(new UpdateHUDListener(life, image));
+        gameStage.addListener(new UpdateHUDListener(life, image,scoreLabel));
     }
 
     private void createLifebar() {

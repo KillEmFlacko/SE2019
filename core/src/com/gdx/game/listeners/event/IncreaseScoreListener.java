@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.gdx.game.listeners.event.events.HitEvent;
 import com.gdx.game.entities.Player;
+import com.gdx.game.listeners.event.events.ScoreChanged;
 import com.gdx.game.score.ScoreCounter;
 
 /**
@@ -31,8 +32,6 @@ public class IncreaseScoreListener extends ChangeListener {
             return;
         }
 
-        HitEvent hit = (HitEvent) event;
-
         // Se il player le ha prese, resettiamo il comboMultiplier
         if (actor instanceof Player) {
             resetCombo();
@@ -54,6 +53,7 @@ public class IncreaseScoreListener extends ChangeListener {
         long delta = BASE_INCR * comboMultiplier;
         score.increaseScore(delta);
         lastHitTime = currentHitTime;
+        actor.getParent().fire(new ScoreChanged(score.getScore()));
         System.out.println("Score incrementato di " + delta + " - Score attuale: " + score.getScore());
 
     }
