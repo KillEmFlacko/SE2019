@@ -112,7 +112,8 @@ public class GameScreen implements Screen {
         MovementSetFactory mvsf = MovementSetFactory.instanceOf();
         Vector2 v = player.getPosition().add(5, 5);
         db = new DemoBoss("Wandering Demon", 150, this.world, 32 / GdxGame.SCALE, 36 / GdxGame.SCALE, v, mvsf.build("Slow", "Square", false, v, 3), player);
-        db.addListener(new EndDemoGameListener(this));
+        
+        db.addListener(new EndDemoGameListener(this));  //QUI L'ATTACCO DEL LISTENER
         // Gestione dello score IncreaseScoreListener
         scoreCounter = new ScoreCounter();
         IncreaseScoreListener scoreListener = new IncreaseScoreListener(scoreCounter);
@@ -281,7 +282,9 @@ public class GameScreen implements Screen {
         hudStage.draw();
         debugRenderer.render(world, gameStage.getCamera().combined);
     }
-
+    
+    //END GAME METHOD change HUD save new high score
+    
     public void end(Actor actor) {
         isEnded=true;
         if (actor instanceof Player) {
